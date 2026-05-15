@@ -86,14 +86,16 @@ We employ a **Hybrid High-Performance Architecture** optimized by **Turborepo** 
 **Turborepo** is the engine behind our monorepo productivity. It handles:
 - **Dependency Graph:** Automatically identifying which packages need to be built or checked based on local changes.
 - **Infrastructure Coupling:** Orchestrating Docker Compose services as pre-requisites for application development (e.g., starting databases before the API).
-- **Caching:** Speeding up builds and linting by skipping unchanged modules.
+- **Caching:** Speeding up builds, type-checking, and linting by skipping unchanged modules.
+- **Unified Outputs:** Standardizing build artifacts into `dist/` (for apps and core) and `build/` (for Docusaurus).
 
 ### 3.2. Web Applications (Build from Source)
 
 Frontend applications utilize a **"Bundling from Source"** strategy.
 
-- **Mechanism:** Vite 8 leverages native `resolve.tsconfigPaths` to resolve aliases directly to the internal packages' src (e.g., `@elo-instance/core` points to `instance/packages/core/src/index.ts`).
+- **Mechanism:** Vite leverages native `resolve.tsconfigPaths` to resolve aliases directly to the internal packages' src (e.g., `@elo-instance/core` points to `instance/packages/core/src/index.ts`).
 - **Benefits:** Maximum tree-shaking efficiency (Vite optimizes the Core code specifically for the app bundle), instant HMR across the monorepo, and simplified build pipelines.
+- **Hosting:** All production artifacts are designed for professional self-hosting on our own infrastructure, with the exception of the Knowledge Base, which is hosted on **GitHub Pages**.
 
 ### 3.2. Backend APIs (Source-to-Package Hybrid)
 
