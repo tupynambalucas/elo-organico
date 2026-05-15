@@ -1,0 +1,87 @@
+---
+title: Cheat Sheet
+description: Fast reference for common commands and project orchestration.
+sidebar_position: 2
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# ⚡ Quick Cheat Sheet
+
+A comprehensive reference for developers to manage the **Elo Orgânico** monorepo, infrastructure, and automation.
+
+---
+
+## 🚀 Running the Platform
+
+We use **Turborepo** to orchestrate applications and their respective infrastructure (databases/cache) in a single command.
+
+<Tabs>
+  <TabItem value="instance" label="Community Instance" default>
+    - **Start Everything:** `pnpm instance:dev` (Up infra + Web + API + Core Watch)
+    - **Web Only:** `pnpm instance:dev:web`
+    - **API Only:** `pnpm instance:dev:api`
+    - **Stop App Processes:** `pnpm instance:dev:stop`
+    - **Stop & Clean Everything:** `pnpm instance:dev:down`
+  </TabItem>
+  <TabItem value="portal" label="Global Portal">
+    - **Start Everything:** `pnpm portal:dev` (Up infra + Web + API + Core Watch)
+    - **Web Only:** `pnpm portal:dev:web`
+    - **API Only:** `pnpm portal:dev:api`
+    - **Stop App Processes:** `pnpm portal:dev:stop`
+    - **Stop & Clean Everything:** `pnpm portal:dev:down`
+  </TabItem>
+  <TabItem value="docs" label="Documentation">
+    - **Start Docusaurus:** `pnpm docs:dev`
+    - **Build Docs:** `pnpm build` (Runs build for all workspaces including docs)
+  </TabItem>
+</Tabs>
+
+---
+
+## 🐳 Infrastructure (Docker)
+
+Direct management of containerized services.
+
+| Scope | Command | Description |
+| :--- | :--- | :--- |
+| **Instance** | `pnpm instance:infra:up` | Starts MongoDB (Replica Set) and Redis for Instance. |
+| **Instance** | `pnpm instance:infra:down` | Stops and removes Instance containers. |
+| **Instance** | `pnpm instance:infra:reset` | Wipes data and restarts Instance infrastructure. |
+| **Portal** | `pnpm portal:infra:up` | Starts MongoDB (Replica Set) and Redis for Portal. |
+| **Portal** | `pnpm portal:infra:down` | Stops and removes Portal containers. |
+| **Portal** | `pnpm portal:infra:reset` | Wipes data and restarts Portal infrastructure. |
+
+---
+
+## 📦 Workspace Management
+
+Handling internal dependencies and catalogs.
+
+- **Add Dependency to Catalog:** `pnpm add <package> --catalog`
+- **Add Dependency to Specific App:** `pnpm add <package>@catalog: --filter @elo-instance/api`
+- **Clean All node_modules:** `pnpm clean:project` (Uses `npkill`)
+- **Typecheck All:** `pnpm typecheck`
+- **Lint All:** `pnpm lint`
+
+---
+
+## 🤖 AI & Studio (MCP)
+
+Orchestrating the Model Context Protocol and design bridge.
+
+- **Penpot Studio:** `pnpm penpot:up` / `pnpm penpot:down`
+- **Aide AI Bridge:** `pnpm penpot:aide:up` / `pnpm penpot:aide:down`
+- **Context7 Search:** (Via AI Agent) Deep research into documentation.
+
+---
+
+## 🏗️ Build Pipelines
+
+- **Full Build:** `pnpm build`
+- **Build Core (Instance):** `pnpm instance:build:core`
+- **Build Core (Portal):** `pnpm portal:build:core`
+
+---
+_Last Updated: May 2026_

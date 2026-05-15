@@ -1,0 +1,36 @@
+# Changelog
+
+Todas as atualizações, melhorias e novos recursos do Elo Orgânico documentados na Base de Conhecimento.
+
+## v0.1.0 - Gênese & Identidade Visual (2026-05-05)
+
+É com muito orgulho que lançamos a versão fundacional do **Elo Orgânico** (v0.1.0)! 🎉
+
+Esta versão não apenas estabelece nossa infraestrutura de conhecimento (Knowledge Base) e identidade visual, mas também consolida a arquitetura técnica robusta necessária para nossa jornada rumo a um ecossistema sustentável.
+
+{/* truncate */}
+
+### ✨ Destaques de Produto
+- **Nova Homepage Interativa**: Uma *landing page* rica com renderização 3D do nosso mascote (o Abacate), utilizando WebGPU via `react-three-fiber` para máxima performance.
+- **Experiência Imersiva**: O modelo 3D agora acompanha o movimento do mouse globalmente e possui um efeito de flutuação orgânica.
+- **Sessão "Do Solo à Mesa"**: Integração fiel ao design do Penpot, com timeline visual responsiva e narrativa focada na transparência real do produtor ao consumidor.
+- **Internacionalização Nativa**: Interface preparada para o mercado global com suporte completo a Inglês e Português.
+- **Minimalismo Moderno**: Navegação otimizada com ícone de marca do GitHub integrado diretamente do nosso sistema de UI.
+
+### 🏗️ Excelência em Engenharia
+- **Arquitetura de Monorepo Escalável**: Estrutura baseada em PNPM Workspaces, segregando domínios entre `instance/` (comunidades locais) e `portal/` (marketplace global).
+- **Bounded Contexts Estritos**: Implementação de isolamento de domínio via ESLint e TypeScript, garantindo que as regras de negócio do Portal e da Instância permaneçam desacopladas.
+- **Performance com Turborepo**: Orquestração de tarefas inteligente com cache remoto e execução paralela, otimizando o ciclo de desenvolvimento.
+- **Gestão de Dependências Unificada**: Adoção de **PNPM Catalogs** para garantir consistência de versões em todo o projeto.
+- **Estilização Atômica**: Uso de **CSS Modules** integrados a tokens de design centralizados no pacote `@elo-organico/studio`.
+
+### 🤖 Ecossistema AI-Native
+- **Design Ops**: Deployment de instância própria do **Penpot** integrada ao fluxo de trabalho.
+- **Model Context Protocol (MCP)**: Integração de servidores de contexto (Context7, GitHub, Penpot) para permitir uma colaboração profunda entre IA e desenvolvedores, garantindo que a IA compreenda a arquitetura do projeto.
+
+Obrigado a todos por participarem do começo da nossa jornada de conectar produtores e consumidores de forma simples e transparente!
+
+---
+
+---
+

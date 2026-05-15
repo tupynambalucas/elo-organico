@@ -1,0 +1,45 @@
+{
+  "name": "@elo-portal/core",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "author": "Tupynambá Lucas Varela Rodrigues <tupynambalucas.dev>",
+  "license": "CC-BY-NC-4.0",
+  "homepage": "https://github.com/tupynambalucas/elo-organico/tree/main/portal/packages/core#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tupynambalucas/elo-organico.git",
+    "directory": "portal/packages/core"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rimraf dist tsconfig.tsbuildinfo",
+    "build": "pnpm clean && tsc -b",
+    "dev": "pnpm clean && tsc -b -w",
+    "portal:dev": "pnpm dev",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "zod": "catalog:shared-stack"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "prettier": "catalog:tooling-stack",
+    "eslint": "catalog:tooling-stack",
+    "typescript": "catalog:",
+    "rimraf": "catalog:"
+  }
+}

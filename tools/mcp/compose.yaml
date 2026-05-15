@@ -1,0 +1,49 @@
+name: tools-mcp
+
+services:
+  mcp-github:
+    build:
+      context: ./infrastructure/github
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - ./config/.env.github
+    networks:
+      - tools-mcp-net
+
+  mcp-context7:
+    build:
+      context: ./infrastructure/context7
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - ./config/.env.context7
+    networks:
+      - tools-mcp-net
+
+  mcp-browser:
+    build:
+      context: ./infrastructure/browser
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - ./config/.env.browser
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    shm_size: '2gb'
+    networks:
+      - tools-mcp-net
+
+  mcp-dockerhub:
+    build:
+      context: ./infrastructure/dockerhub
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - ./config/.env.dockerhub
+    networks:
+      - tools-mcp-net
+
+networks:
+  tools-mcp-net:
+    driver: bridge

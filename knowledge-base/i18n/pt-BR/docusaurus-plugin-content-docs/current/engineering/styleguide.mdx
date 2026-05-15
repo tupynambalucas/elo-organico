@@ -1,0 +1,230 @@
+---
+title: Guia de Estilo e Padrões
+description: Convenções de codificação, regras de TypeScript e requisitos de qualidade para manter um monorepo consistente e sustentável.
+---
+
+# Guia de Estilo e Padrões
+
+Este documento define as convenções estritas de codificação e requisitos de qualidade para o projeto **Elo Orgânico**. Todo o código deve aderir a estes padrões para garantir consistência e manutenibilidade em todo o monorepo.
+
+---
+
+## 1. Formatação de Código (Prettier)
+
+O código deve seguir as regras definidas no `.prettierrc`:
+
+- **Indentação:** 2 espaços.
+- **Ponto e vírgula:** Sempre utilizar (true).
+- **Aspas:** Utilizar aspas simples (true), exceto em JSX.
+- **Vírgula final (Trailing Comma):** Sempre utilizar onde for possível (all).
+- **Largura da linha:** Máximo de 100 caracteres.
+
+## 2. Regras de TypeScript (Modo Estrito)
+
+Priorizamos a máxima segurança de tipos através de uma configuração rigorosa de TypeScript.
+
+- **Definições de Objetos:** Use `interface` para definições de objetos para garantir consistência. Aliases de tipo são permitidos para uniões ou tipos utilitários (ex: `z.infer<>`).
+- **Arrays:** Use a sintaxe `T[]` em vez de `Array<T>`.
+- **Importação de Tipos:** Sempre use `import type` para tipos. Importe tipos separadamente de valores (`style: separate-type-imports`).
+- **Variáveis Não Utilizadas:** Prefixar com um underscore (ex: `_id`) para sinalizar intenção.
+- **Tipagem Estrita:** O uso de `any` é estritamente proibido.
+- **Comparações:** Sempre use igualdade estrita (`===`).
+- **Booleanos Estritos:** Expressões booleanas devem ser explícitas. Use `if (value !== undefined)` em vez de `if (value)`.
+- **Conversões Seguras:** Não use `String(value)` ou `${value}` em tipos genéricos `unknown` ou `object`. Use guards de tipo explícitos para primitivos para evitar bugs do tipo `[object Object]`.
+- **Asserções de Tipo:** Evite asserções de tipo desnecessárias (ex: `value as T` quando `value` já é `T`). O linter sinalizará isso; remova-os para manter o código limpo.
+
+## 3. Gestão de Código Assíncrono (Crítico)
+
+- **No Floating Promises:** Nunca deixe promessas "flutuando" sem tratamento ou await.
+- **O Operador `void`:** Quando uma função assíncrona é chamada por seus efeitos colaterais e NÃO é aguardada (awaited), prefixe-a com `void` (ex: `void startServer()`). Isso sinaliza execução não bloqueante intencional.
+- **Handlers do Fastify:** Handlers de rota devem usar o tipo `FastifyZodHandler` e retornar `Promise<void>`. Use `void reply.send()` quando não retornar a resposta diretamente.
+- **Plugins do Fastify:** Se um `FastifyPluginAsync` não usar `await`, remova a palavra-chave `async` e retorne `Promise.resolve()` para cumprir com o `require-await` mantendo a integridade do tipo.
+- **Tratamento de Erros:** Cada operação `await` deve estar dentro de um bloco `try/catch` ou fazer parte de uma cadeia `.catch()`.
+
+## 4. Padrões Específicos por Pacote
+
+### 4.1. Pacotes Core (`@elo-instance/core` / `@elo-portal/core`)
+
+- **Zero Warnings:** Estes pacotes devem ter zero avisos ou erros de lint.
+- **APIs Públicas:** Todos os membros exportados devem ter tipos de retorno explicitamente definidos.
+
+### 4.2. API (Fastify)
+
+- **Nomenclatura:** Controllers e Services usam `PascalCase` para classes e `camelCase` for métodos.
+- **Mapeamento:** Controllers são responsáveis por mapear modelos de banco de dados para DTOs do Core através de métodos privados.
+
+### 4.3. Web (React)
+
+- **Padrões do React 19:** Use o hook `use()` para consumir promises e contexto quando aplicável, reduzindo o boilerplate de `useEffect`. Prefira **Server Actions** (se aplicável) ou props `action` otimizadas em formulários para uma melhor experiência de usuário.
+- **Estado Global:** Dispare efeitos colaterais assíncronos em Stores ou Effects usando o operador `void` para chamadas não aguardadas.
+- **Refs:** Acessar `ref.current` durante a renderização é estritamente proibido. Ao passar múltiplas refs para um componente filho, passe-as individualmente em vez de em um objeto agrupado para evitar confusão do linter.
+- **Booleanos Estritos na UI:** No JSX, sempre use comparações explícitas: `{isValid === true && <Component />}` para evitar a renderização acidental de `0` ou `NaN` na interface.
+- **Sincronização de Estado:** Evite chamar `setState` de forma síncrona dentro de `useEffect` se a atualização for derivada de props ou outro estado. Em vez disso, sincronize o estado durante a renderização (o padrão "prevProps") ou inicialize o estado com uma função.
+- **Chaves de Lista (Keys):** Sempre use IDs estáveis e únicos (ex: `_id`) como chaves em listas. Evite usar índices de array, a menos que a lista seja estática.
+- **Estilização:** Use **CSS Modules** (`.module.css`). Classes utilitárias do Tailwind são permitidas dentro dos módulos via `@apply`.
+- **Console Logs:** `console.log` é proibido e causará falha no build de produção. Use `console.info/warn/error` com moderação.
+
+## 5. Convenções de Nomenclatura
+
+- **Schemas:** Devem terminar com `Schema` (ex: `ProductSchema`).
+- **Arquivos:** Seguir o padrão `nome.tipo.ts` (ex: `auth.controller.ts`, `apiPlugin.ts`).
+- **Diretórios:** Usar `camelCase` para nomes de diretórios dentro das pastas fonte.
+
+---
+
+## 6. Padrões de Blocos de Código (blocos `live`)
+
+> [!CAUTION]
+> **USO RESTRITO:** O bloco de código `live` do Docusaurus (editor interativo) é reservado EXCLUSIVAMENTE para este Guia de Estilo. Ele NÃO deve ser usado em nenhuma outra página de documentação.
+
+Seu propósito é estritamente demonstrar:
+1.  **Componentes React:** Seguindo padrões rigorosos (booleanos explícitos, tipos estritos, etc.).
+2.  **Estruturas de Domínio da API:** Visualizando como os modelos de domínio devem ser estruturados.
+
+### 6.1. Exemplo de Padrão React Rigoroso
+
+O exemplo abaixo demonstra nosso padrão preferido para componentes interativos. Ele mostra a integração de gestão de estado, memoização e tratamento assíncrono enquanto adere estritamente às nossas regras de TypeScript e lógica booleana.
+
+```jsx live
+/**
+ * Gerenciador Avançado de Produtos do Ciclo
+ * Demonstra: Interfaces, useCallback, operador void, booleanos explícitos e chaves estáveis.
+ */
+
+function AdvancedCycleManager() {
+  // 1. Regra: Inicialização de estado explícita e lógica booleana estrita
+  // interface IProductItem { id: string; name: string; price: number; isValid: boolean; }
+
+  const [products, setProducts] = React.useState([
+    { id: 'uuid-1', name: 'Alface Crespa', price: 4.50, isValid: true },
+    { id: 'uuid-2', name: 'Tomate Cereja', price: 0, isValid: false },
+  ]);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+
+  // 2. Regra: useMemo/useCallback para estado derivado complexo ou handlers
+  const hasErrors = React.useMemo(() => {
+    return products.some((p) => p.isValid === false);
+  }, [products]);
+
+  const updateProductPrice = React.useCallback((id, value) => {
+    const numericValue = parseFloat(value) || 0;
+    setProducts((prev) => 
+      prev.map((p) => 
+        p.id === id 
+          ? { ...p, price: numericValue, isValid: numericValue > 0 } 
+          : p
+      )
+    );
+  }, []);
+
+  // 3. Regra: Gestão de Código Assíncrono (Crítico)
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    try {
+      // Simular chamada de API para demonstração
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      console.info('Produtos enviados:', products);
+      alert('Produtos do ciclo atualizados com sucesso!');
+    } catch (err) {
+      console.error('[Erro de Atualização]:', err);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Handler de evento seguindo o Guia de Estilo
+  const handleAction = () => {
+    // Regra: Prefixar chamadas assíncronas não aguardadas com 'void' para sinalizar execução não bloqueante
+    void handleSubmit();
+  };
+
+  return (
+    <div style={{ 
+      padding: '1.5rem', 
+      border: '1px solid #e2e8f0', 
+      borderRadius: '12px',
+      backgroundColor: '#ffffff',
+      boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
+    }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem', alignItems: 'center' }}>
+        <h3 style={{ margin: 0, color: '#1e293b' }}>Gerenciador de Ciclo</h3>
+        
+        {/* Regra: Comparações Booleanas Explícitas (=== true) */}
+        <span style={{ 
+          fontSize: '0.7rem', 
+          fontWeight: '800',
+          padding: '0.3rem 0.8rem',
+          borderRadius: '20px',
+          letterSpacing: '0.05em',
+          backgroundColor: hasErrors === true ? '#fee2e2' : '#f0fdf4',
+          color: hasErrors === true ? '#991b1b' : '#166534'
+        }}>
+          {hasErrors === true ? '⚠ ITENS INVÁLIDOS' : '✓ PRONTO PARA SALVAR'}
+        </span>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', marginBottom: '1.5rem' }}>
+        {products.map((product) => (
+          <div 
+            key={product.id} // Regra: Sempre use IDs estáveis e únicos como chaves
+            style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'space-between',
+              padding: '0.8rem',
+              borderRadius: '8px',
+              border: `1px solid ${product.isValid === false ? '#fecaca' : '#f1f5f9'}`,
+              backgroundColor: product.isValid === false ? '#fff1f2' : '#fafafa'
+            }}
+          >
+            <div>
+              <div style={{ fontWeight: '700', fontSize: '0.9rem', color: '#334155' }}>{product.name}</div>
+              <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>Identificador: {product.id}</div>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span style={{ fontSize: '0.8rem', fontWeight: '600', color: '#64748b' }}>R$</span>
+              <input 
+                type="number"
+                value={product.price}
+                onChange={(e) => updateProductPrice(product.id, e.target.value)}
+                style={{ 
+                  width: '80px', 
+                  padding: '0.4rem', 
+                  borderRadius: '6px', 
+                  border: '1px solid #cbd5e1',
+                  textAlign: 'right',
+                  fontSize: '0.9rem'
+                }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <button 
+        // Regra: Verificação booleana explícita em props (disabled={... === true})
+        disabled={isSubmitting === true || hasErrors === true}
+        onClick={handleAction}
+        style={{ 
+          width: '100%', 
+          padding: '1rem', 
+          borderRadius: '8px',
+          border: 'none',
+          backgroundColor: '#16a34a',
+          color: 'white',
+          fontWeight: '700',
+          fontSize: '0.95rem',
+          cursor: (isSubmitting === true || hasErrors === true) ? 'not-allowed' : 'pointer',
+          opacity: (isSubmitting === true || hasErrors === true) ? 0.6 : 1,
+          transition: 'background-color 0.2s'
+        }}
+      >
+        {isSubmitting === true ? 'Processando Atualização...' : 'Salvar Alterações do Ciclo'}
+      </button>
+
+      {/* Nota: Console.info é permitido para depuração; console.log é proibido. */}
+    </div>
+  );
+}
+```

@@ -1,0 +1,62 @@
+{
+  "name": "@elo-organico/knowledge-base",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "docusaurus": "docusaurus",
+    "start": "docusaurus start --host 0.0.0.0 --port 3002",
+    "start:pt": "docusaurus start --host 0.0.0.0 --port 3002 --locale pt-BR",
+    "build": "docusaurus build",
+    "swizzle": "docusaurus swizzle",
+    "deploy": "docusaurus deploy",
+    "clear": "docusaurus clear",
+    "serve": "docusaurus serve",
+    "write-translations": "docusaurus write-translations",
+    "write-heading-ids": "docusaurus write-heading-ids",
+    "edit": "npx editsaurus",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@elo-organico/studio": "workspace:*",
+    "@docusaurus/core": "catalog:docs-stack",
+    "@docusaurus/faster": "catalog:docs-stack",
+    "@docusaurus/preset-classic": "catalog:docs-stack",
+    "@docusaurus/theme-live-codeblock": "catalog:docs-stack",
+    "@docusaurus/theme-mermaid": "catalog:docs-stack",
+    "@react-three/drei": "catalog:shared-stack",
+    "@react-three/fiber": "catalog:shared-stack",
+    "@mdx-js/react": "catalog:docs-stack",
+    "clsx": "catalog:docs-stack",
+    "three": "catalog:shared-stack",
+    "prism-react-renderer": "catalog:docs-stack",
+    "react": "catalog:docs-stack",
+    "react-dom": "catalog:docs-stack",
+    "three-stdlib": "catalog:shared-stack",
+    "gsap": "catalog:web-stack",
+    "@gsap/react": "catalog:web-stack"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "catalog:docs-stack",
+    "@docusaurus/tsconfig": "catalog:docs-stack",
+    "@docusaurus/types": "catalog:docs-stack",
+    "@tailwindcss/postcss": "catalog:docs-stack",
+    "@types/react": "catalog:docs-stack",
+    "@types/three": "catalog:shared-stack",
+    "typescript": "catalog:docs-stack"
+  },
+  "browserslist": {
+    "production": [
+      ">0.5%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 3 chrome version",
+      "last 3 firefox version",
+      "last 5 safari version"
+    ]
+  },
+  "engines": {
+    "node": ">=20.0"
+  }
+}

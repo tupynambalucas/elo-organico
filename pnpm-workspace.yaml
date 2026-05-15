@@ -1,0 +1,114 @@
+catalogMode: 'strict'
+
+packages:
+  - 'instance/apps/*'
+  - 'instance/packages/*'
+  - 'portal/apps/*'
+  - 'portal/packages/*'
+  - 'studio'
+  - 'tools'
+  - 'knowledge-base'
+
+catalog:
+  '@types/node': '^25.6.0'
+  'typescript': '^6.0.3'
+  'tsx': '^4.19.3'
+  'rimraf': '^6.1.2'
+  'turbo': '2.9.7'
+  'kill-port': '2.0.1'
+
+catalogs:
+  tooling-stack:
+    '@eslint/js': '9.39.2'
+    '@typescript-eslint/eslint-plugin': '^8.59.0'
+    'eslint': '^9.39.2'
+    'eslint-import-resolver-typescript': '^4.4.4'
+    'eslint-plugin-import': '^2.32.0'
+    'prettier': '^3.8.3'
+    'typescript-eslint': '^8.54.0'
+
+  shared-stack:
+    'zod': '^4.3.6'
+    'dotenv': '^17.2.4'
+    'date-fns': '^4.1.0'
+    'axios': '^1.13.5'
+    '@react-three/fiber': '9.6.1'
+    '@react-three/drei': '10.7.7'
+    'three': '0.184.0'
+    '@types/three': '0.184.0'
+    'three-stdlib': '2.36.1'
+    'tailwindcss': '^4.1.18'
+
+  web-stack:
+    # Dependencies
+    '@gsap/react': '^2.1.2'
+    'gsap': '^3.14.2'
+    'react': '^19.2.4'
+    'react-dom': '^19.2.4'
+    'react-i18next': '^16.5.4'
+    'i18next': '^25.8.4'
+    'react-datepicker': '^9.1.0'
+    'zustand': '^5.0.11'
+    # Dev Dependencies
+    '@vitejs/plugin-react-swc': '^4.2.3'
+    '@tailwindcss/vite': '^4.1.18'
+    '@types/react': '^19.2.13'
+    '@types/react-dom': '^19.2.3'
+    'vite': '^8.0.10'
+    'eslint-plugin-react': '^7.37.5'
+    'eslint-plugin-react-hooks': '^7.1.1'
+    'eslint-plugin-react-refresh': '^0.5.2'
+    'vite-plugin-svgr': '^4.5.0'
+
+  api-stack:
+    # Dependencies
+    '@fastify/cookie': '^11.0.2'
+    '@fastify/cors': '^11.2.0'
+    '@fastify/csrf-protection': '^7.1.0'
+    '@fastify/env': '^5.0.3'
+    '@fastify/jwt': '^10.0.0'
+    '@fastify/one-line-logger': '^2.1.0'
+    '@fastify/session': '^11.1.1'
+    '@sentry/node': '^10.38.0'
+    '@sentry/profiling-node': '^10.38.0'
+    'bcrypt': '^6.0.0'
+    'bullmq': '^5.67.3'
+    'fastify': '^5.7.4'
+    'fastify-metrics': '^12.1.0'
+    'fastify-plugin': '^5.1.0'
+    'fastify-type-provider-zod': '^6.1.0'
+    'ioredis': '^5.9.2'
+    'mongoose': '^9.2.0'
+    'pino-roll': '^4.0.0'
+    'sdk-node-apis-efi': '^1.2.28'
+    # Dev Dependencies
+    '@types/bcrypt': '^6.0.0'
+
+  docs-stack:
+    # Dependencies
+    '@docusaurus/core': '3.10.1'
+    '@docusaurus/faster': '3.10.1'
+    '@docusaurus/preset-classic': '3.10.1'
+    '@mdx-js/react': '^3.0.0'
+    'clsx': '^2.0.0'
+    'prism-react-renderer': '^2.3.0'
+    'react': '^19.0.0'
+    'react-dom': '^19.0.0'
+    # Dev Dependencies
+    '@docusaurus/module-type-aliases': '3.10.1'
+    '@docusaurus/tsconfig': '3.10.1'
+    '@docusaurus/types': '3.10.1'
+    '@types/react': '^19.0.0'
+    'typescript': '~6.0.2'
+    '@docusaurus/theme-live-codeblock': '3.10.1'
+    '@docusaurus/theme-mermaid': '3.10.1'
+    '@tailwindcss/postcss': '^4.1.18'
+
+  studio-stack:
+    '@fontsource-variable/nunito': '^5.2.7'
+    '@fontsource/nunito': '^5.2.7'
+    '@fortawesome/fontawesome-svg-core': '^7.2.0'
+    '@fortawesome/free-brands-svg-icons': '^7.2.0'
+    '@fortawesome/free-regular-svg-icons': '^7.2.0'
+    '@fortawesome/free-solid-svg-icons': '^7.2.0'
+    '@fortawesome/react-fontawesome': '^3.2.0'

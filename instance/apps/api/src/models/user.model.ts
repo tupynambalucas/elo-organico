@@ -1,0 +1,32 @@
+import { Schema, model, type Document } from 'mongoose';
+import bcrypt from 'bcrypt';
+import type { IUser } from '@elo-instance/core';
+
+export interface IUserDocument extends Omit<IUser, '_id'>, Document {
+  password?: string;
+}
+
+export const userSchema = new Schema<IUserDocument>(
+  {
+    email: { type: String, required: true, unique: true, trim: true, lowercase: true },
+    username: { type: String, required: true, unique: true, trim: true },
+    icon: { type: String, required: true, trim: true, lowercase: true },
+    password: { type: String, required: true },
+    role: { type: String, enum: ['user', 'admin'], default: 'user' },
+  },
+  { timestamps: true },
+);
+
+userSchema.pre<IUserDocument>('save', async function () {
+  if (!this.isModified('password') || !this.password) {
+    return;
+  }
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+  } catch (err) {
+    throw err instanceof Error ? err : new Error(String(err));
+  }
+});
+
+export const User = model<IUserDocument>('User', userSchema);

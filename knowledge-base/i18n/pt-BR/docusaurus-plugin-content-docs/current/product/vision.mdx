@@ -1,0 +1,75 @@
+---
+title: Visão e Estratégia de Produto
+description: A missão central, proposta de valor e objetivos de longo prazo da plataforma Elo Orgânico.
+---
+
+# Visão e Estratégia de Produto
+
+## 1. Visão Geral do Produto
+O **Elo Orgânico** é uma plataforma especializada projetada para preencher a lacuna entre produtores orgânicos e consumidores conscientes através de **Ciclos de Compartilhamento Agendados**. Mais do que apenas uma ferramenta de e-commerce, é um sistema de gestão orientado pela comunidade que automatiza a complexa logística de colheitas sazonais e compras em grupo.
+
+O projeto opera através de um modelo de aplicação de camada dupla, garantindo uma separação lógica estrita:
+1.  **Escopo de Plataforma (@elo-portal/web & @elo-portal/api)**: A face pública global e ponto de entrada do SaaS. Esta é uma camada singleton autônoma que lida com descoberta de alto nível, marketing e futuro onboarding.
+2.  **Escopo de Instância (@elo-instance/web & @elo-instance/api)**: Pares de aplicações dedicados implantados para cada comunidade, proporcionando uma experiência personalizada e isolada. Estas instâncias são governadas pela lógica específica de domínio em `@elo-instance/core`.
+
+### A Visão
+*"Tornar a comida local, orgânica e sustentável tão acessível e fácil de comprar quanto qualquer produto industrial comum, sem perder a conexão humana."*
+
+---
+
+## 2. Foco de Desenvolvimento Atual: "Maestria em Instância Única"
+**ESTRATÉGIA CRÍTICA:** Nossa prioridade imediata e absoluta é entregar uma **aplicação de instância única completa, 100% funcional e polida** (`@elo-instance/*`). 
+
+Embora tenhamos uma visão de longo prazo de nos tornarmos uma plataforma SaaS multi-tenant, **complexidades arquiteturais de SaaS não devem ser implementadas nesta fase.** Todo o desenvolvimento atual (base de código, esquemas de banco de dados, UI/UX) deve permanecer focado em produzir a melhor versão possível de um sistema autônomo para uma ecovila. A transição para um modelo SaaS completo (Fase 6 do Plano Mestre) só será considerada após a aplicação de instância única estar estável e totalmente operacional.
+
+---
+
+## 3. O Problema
+Antes do Elo Orgânico, o processo de compartilhamento era dificultado por:
+- **Caos Operacional:** Dependência de planilhas massivas e mensagens de WhatsApp fragmentadas.
+- **Erros Manuais:** Equívocos humanos na consolidação de pedidos e rastreamento de pagamentos.
+- **Atrito de Escalonamento:** Alta sobrecarga administrativa tornava impossível o crescimento da comunidade sem sobrecarga (burnout).
+- **Latência de Pagamento:** Conciliação financeira atrasada devido à verificação manual de transferências bancárias.
+
+---
+
+## 4. A Solução (Proposta de Valor)
+O Elo Orgânico transforma este processo em um fluxo de trabalho profissional e automatizado:
+
+| Para Consumidores | Para Administradores/Fornecedores |
+| :--- | :--- |
+| **Conveniência:** Uma loja limpa e moderna (`@elo-instance/web`) para navegar e comprar. | **Automação:** Ingestão inteligente de listas de produtos em dados estruturados. |
+| **Transparência:** Acesso em tempo real à disponibilidade sazonal e preços. | **Eficiência:** Consolidação automatizada de pedidos e gestão de estoque via `@elo-instance/api`. |
+| **Velocidade:** Pagamentos Pix instantâneos com conciliação bancária automática. | **Controle:** Visibilidade total sobre ciclos, logística e saúde financeira. |
+
+---
+
+## 5. Público-Alvo (Personas)
+1. **O Coordenador de Comunidade (Admin):** Gerencia ciclos e fornecedores através das funcionalidades administrativas do `@elo-instance/web`.
+2. **O Consumidor Consciente:** Compra produtos sazonais através da interface do `@elo-instance/web`.
+3. **O Fornecedor:** Atua como a ponte entre os agricultores e a comunidade, fornecendo o catálogo sazonal.
+
+---
+
+## 6. Diferenciais do Produto
+- **Ingestão Inteligente de Produtos:** Nosso sistema lida com listas de produtos "bagunçadas" de fornecedores via um parser Regex customizado, convertendo texto simples em um catálogo estruturado em segundos.
+- **Economia Pix-First:** Integração profunda com o Banco EFI garante que os pagamentos sejam confirmados em tempo real, eliminando a cultura do "me mande o comprovante".
+- **Vendas Baseadas em Ciclos:** Otimizado para o ritmo natural da agricultura (janelas de Abertura/Fechamento) em vez do modelo "sempre online" do varejo tradicional.
+
+---
+
+## 7. A Jornada do Produto (Experiência do Usuário)
+O Elo Orgânico é projetado em torno de uma jornada fluida e de alta confiança. Para um detalhamento técnico das etapas operacionais, consulte o **[Fluxograma Operacional no Plano Mestre](./masterplan.mdx)**.
+
+1. **Seleção Curada**: Consumidores navegam em um catálogo sazonal verificado.
+2. **Compra em Grupo Comunitária**: Usuários participam do ciclo atual, garantindo volume e sustentabilidade.
+3. **Pagamento sem Atrito**: Checkout Pix instantâneo com confirmação automática.
+4. **Do Solo à Mesa**: A logística automatizada garante a entrega de produtos frescos após o fechamento do ciclo.
+
+---
+
+## 8. Métricas de Sucesso (KPIs)
+- **Tempo de Conclusão do Ciclo:** Redução nas horas gastas pelo Admin preparando um ciclo.
+- **Taxa de Conversão de Pedidos:** Porcentagem de usuários que iniciam um carrinho e completam o pagamento Pix.
+- **Precisão da Conciliação:** 100% de correspondência automatizada entre pedidos e entradas bancárias.
+- **Taxa de Recompra:** Medindo a retenção e confiança da comunidade.

@@ -1,0 +1,57 @@
+{
+  "name": "@elo-instance/api",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "author": "Tupynambá Lucas Varela Rodrigues <tupynambalucas.dev>",
+  "license": "CC-BY-NC-4.0",
+  "homepage": "https://github.com/tupynambalucas/elo-organico/tree/main/instance/apps/api#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tupynambalucas/elo-organico.git",
+    "directory": "instance/apps/api"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "clean": "rimraf dist tsconfig.tsbuildinfo",
+    "dev": "tsx watch src/index.ts",
+    "instance:dev": "pnpm dev",
+    "build": "pnpm run clean && tsc -p tsconfig.build.json",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@elo-instance/core": "workspace:*",
+    "@fastify/cookie": "catalog:api-stack",
+    "@fastify/cors": "catalog:api-stack",
+    "@fastify/csrf-protection": "catalog:api-stack",
+    "@fastify/env": "catalog:api-stack",
+    "@fastify/jwt": "catalog:api-stack",
+    "@fastify/one-line-logger": "catalog:api-stack",
+    "@fastify/session": "catalog:api-stack",
+    "@sentry/node": "catalog:api-stack",
+    "@sentry/profiling-node": "catalog:api-stack",
+    "bcrypt": "catalog:api-stack",
+    "bullmq": "catalog:api-stack",
+    "fastify": "catalog:api-stack",
+    "fastify-metrics": "catalog:api-stack",
+    "fastify-plugin": "catalog:api-stack",
+    "fastify-type-provider-zod": "catalog:api-stack",
+    "ioredis": "catalog:api-stack",
+    "mongoose": "catalog:api-stack",
+    "pino-roll": "catalog:api-stack",
+    "sdk-node-apis-efi": "catalog:api-stack",
+    "zod": "catalog:shared-stack",
+    "dotenv": "catalog:shared-stack"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@types/bcrypt": "catalog:api-stack",
+    "prettier": "catalog:tooling-stack",
+    "eslint": "catalog:tooling-stack",
+    "typescript": "catalog:",
+    "tsx": "catalog:",
+    "rimraf": "catalog:"
+  }
+}

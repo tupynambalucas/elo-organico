@@ -1,0 +1,75 @@
+---
+title: Product Vision & Strategy
+description: The core mission, value proposition, and long-term goals of the Elo Orgânico platform.
+---
+
+# Product Vision & Strategy
+
+## 1. Product Overview
+**Elo Orgânico** is a specialized platform designed to bridge the gap between organic producers and conscious consumers through **Scheduled Sharing Cycles**. More than just an e-commerce tool, it is a community-driven management system that automates the complex logistics of seasonal harvests and group buying.
+
+The project operates through a dual-layered application model, ensuring strict logical separation:
+1.  **Platform Scope (@elo-portal/web & @elo-portal/api)**: The global public face and SaaS entry point. This is a standalone singleton layer that handles high-level discovery, marketing, and future onboarding.
+2.  **Instance Scope (@elo-instance/web & @elo-instance/api)**: Dedicated application pairs deployed for each community, providing a tailored and isolated experience. These instances are governed by the domain-specific logic in `@elo-instance/core`.
+
+### The Vision
+*"To make local, organic, and sustainable food as accessible and easy to purchase as any common industrial product, without losing the human connection."*
+
+---
+
+## 2. Current Development Focus: "Single-Instance Mastery"
+**CRITICAL STRATEGY:** Our immediate and absolute priority is to deliver a **complete, 100% functional, and polished single-instance application** (`@elo-instance/*`). 
+
+While we have a long-term vision of becoming a multi-tenant SaaS platform, **SaaS architectural complexities must not be implemented at this stage.** All current development (codebase, database schemas, UI/UX) must remain focused on producing the best possible version of a standalone system for an ecovillage. The transition to a full SaaS model (Phase 6 of the Master Plan) will only be considered after the single-instance application is stable and fully operational.
+
+---
+
+## 3. The Problem
+Before Elo Orgânico, the sharing process was hindered by:
+- **Operational Chaos:** Reliance on massive spreadsheets and fragmented WhatsApp messages.
+- **Manual Errors:** Human mistakes in order consolidation and payment tracking.
+- **Scaling Friction:** High administrative overhead made it impossible to grow the community without burnout.
+- **Payment Latency:** Delayed financial reconciliation due to manual checking of bank transfers.
+
+---
+
+## 4. The Solution (Value Proposition)
+Elo Orgânico transforms this process into a professional, automated workflow:
+
+| For Consumers | For Administrators/Suppliers |
+| :--- | :--- |
+| **Convenience:** A clean, modern shop (`@elo-instance/web`) to browse and buy. | **Automation:** Intelligent parsing of product lists into structured data. |
+| **Transparency:** Real-time access to seasonal availability and prices. | **Efficiency:** Automated order consolidation and stock management via `@elo-instance/api`. |
+| **Speed:** Instant Pix payments with automatic bank reconciliation. | **Control:** Full visibility over cycles, logistics, and financial health. |
+
+---
+
+## 5. Target Audience (Personas)
+1. **The Community Coordinator (Admin):** Manages cycles and suppliers via the administrative features of `@elo-instance/web`.
+2. **The Conscious Consumer:** Shops seasonal products through the `@elo-instance/web` interface.
+3. **The Supplier (Fornecedor):** Acts as the bridge between farmers and the community, providing the seasonal catalog.
+
+---
+
+## 6. Key Product Differentiators
+- **Intelligent Product Ingestion:** Our system handles "messy" product lists from suppliers via a custom-built Regex parser, converting plain text into a structured catalog in seconds.
+- **Pix-First Economy:** Deep integration with EFI Bank ensures that payments are confirmed in real-time, eliminating the "send me the receipt" culture.
+- **Cycle-Based Sales:** Optimized for the natural rhythm of agriculture (Open/Close windows) rather than the "always-on" model of traditional retail.
+
+---
+
+## 7. The Product Journey (User Experience)
+Elo Orgânico is designed around a seamless, high-trust journey. For a detailed technical breakdown of the operational stages, refer to the **[Operational Flowchart in the Master Plan](./masterplan.mdx)**.
+
+1. **Curated Selection**: Consumers browse a seasonal, verified catalog.
+2. **Community Group Buy**: Users join the current cycle, ensuring volume and sustainability.
+3. **Frictionless Payment**: Instant Pix checkout with automated confirmation.
+4. **Soil to Table**: Automated logistics ensure fresh delivery after cycle closure.
+
+---
+
+## 8. Success Metrics (KPIs)
+- **Cycle Completion Time:** Reduction in hours spent by the Admin preparing a cycle.
+- **Order Conversion Rate:** Percentage of users who start a cart and complete the Pix payment.
+- **Reconciliation Accuracy:** 100% automated match between orders and bank entries.
+- **Repeat Purchase Rate:** Measuring community retention and trust.

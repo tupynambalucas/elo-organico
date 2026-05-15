@@ -1,0 +1,83 @@
+---
+title: Strategic Roadmap
+description: Completed milestones, current architectural focus, and the trajectory towards "Feirinha" and SaaS evolution for Elo Orgânico.
+---
+
+# Strategic Roadmap
+
+This document outlines the development trajectory of the Elo Orgânico platform, categorizing goals into immediate implementation milestones and long-term architectural evolutions.
+
+---
+
+## Completed Milestones
+
+### 1. Foundation & Monorepo Setup
+
+- [x] Initial monorepo architecture with PNPM Workspaces (`instance/`, `portal/`, `studio/`).
+- [x] Tech stack defined and configured (Fastify, React 19, MongoDB Replica Set).
+- [x] Infrastructure orchestration via Docker Compose.
+- [x] **Naming Convention**: Implementation of the `portal-` vs `instance-` semantic structure for SaaS readiness.
+- [x] **Official Portal Hub**: Initial setup of `@elo-instance/web` and `@elo-portal/api` as the platform's global gatekeeper.
+- [x] **Community Core**: Migration of the main application to `@elo-instance/api`, `@elo-instance/web`, and `@elo-instance/core`.
+- [x] **Centralized Dependency Management**: Implementation of **PNPM Catalogs** to unify versions across the workspace.
+
+### 2. Design Studio & AI Orchestration (MCP)
+
+- [x] **Self-hosted Design Hub**: Deployment of a containerized Penpot instance.
+- [x] **AI Contextual Layer**: Integration of Model Context Protocol (MCP) servers (Context7, GitHub, Penpot).
+- [x] **Operational Framework**: Standardized CLI/script ecosystem for studio management.
+
+---
+
+## Current Architectural Focus: Bounded Contexts & Performance
+
+**Status:** In Progress  
+**Objective:** Optimize the monorepo structure for scale and developer experience.
+
+### Structural Refactor
+
+- [x] **Context-Driven Root Layout**: Transition to a domain-centric root structure (`instance/`, `portal/`).
+- [x] **Semantic Namespacing**: Update all `package.json` names to follow the `@elo-[context]/[name]` pattern.
+- [x] **Inherited Configuration**: Centralize ESLint and TSConfig at the root with localized extensions.
+- [x] **High-Performance Task Orchestration**: Integrate **Turborepo** for optimized caching and parallel execution.
+- [x] **Strict Domain Isolation**: Enforce bounded contexts using cross-package import restrictions via ESLint.
+
+---
+
+## Next Milestone: "Feirinha" (Farmer's Market)
+
+**Status:** Planned / Next Up  
+**Objective:** Expand the platform's utility beyond scheduled cycles to manage physical, real-time sales events within the community instances.
+
+### Core Requirements
+
+- **Data Isolation:** Dedicated database models for "Feirinha" events within the instance domain.
+- **Pay-as-you-go Model:** Mandatory immediate payment processing (Pix) via `@elo-instance/api`.
+- **Administrative Control:** Dedicated management features in `@elo-instance/web` for event creation and financial reconciliation.
+
+---
+
+## Long-Term Vision (SaaS Evolution)
+
+**Focus:** Transitioning from **"Single-Instance Mastery"** to a **"Multi-Tenant Marketplace."**
+
+### 1. SaaS Transition & Multi-Tenancy
+
+- **Multi-Instance Orchestration**: Automate the deployment of dedicated `@elo-instance/api` and `@elo-instance/web` pairs.
+- **Logical Isolation**: Ensure the Portal (`@elo-portal/*`) and Instances (`@elo-instance/*`) remain strictly separated.
+- **Tenant Management**: Implement centralized billing and onboarding via the singleton `@elo-portal/api`.
+- **Core SSOT**: Maintain absolute domain isolation using `@elo-portal/core` and `@elo-instance/core` as the respective sources of truth.
+
+### 2. Specialized Portals
+
+- **Supplier Portal**: Empower producers to manage inventory directly across relevant community instances.
+- **Logistics Dashboard**: Advanced reporting for harvest planning.
+
+### 3. Advanced Features
+
+- **Subscription Model**: Automated recurring baskets managed via the platform layer.
+- **Smart Routing**: Geolocation-based optimization for community discovery.
+
+---
+
+_Last Updated: May 2026_

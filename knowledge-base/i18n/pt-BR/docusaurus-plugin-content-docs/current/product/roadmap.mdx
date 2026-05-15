@@ -1,0 +1,83 @@
+---
+title: Roadmap Estratégico
+description: Marcos concluídos, foco arquitetural atual e a trajetória rumo à "Feirinha" e evolução SaaS para o Elo Orgânico.
+---
+
+# Roadmap Estratégico
+
+Este documento descreve a trajetória de desenvolvimento da plataforma Elo Orgânico, categorizando as metas em marcos de implementação imediata e evoluções arquiteturais de longo prazo.
+
+---
+
+## Marcos Concluídos
+
+### 1. Fundação & Configuração do Monorepo
+
+- [x] Arquitetura inicial do monorepo com PNPM Workspaces (`instance/`, `portal/`, `studio/`).
+- [x] Stack tecnológica definida e configurada (Fastify, React 19, MongoDB Replica Set).
+- [x] Orquestração de infraestrutura via Docker Compose.
+- [x] **Convenção de Nomenclatura**: Implementação da estrutura semântica `portal-` vs `instance-` para prontidão SaaS.
+- [x] **Hub do Portal Oficial**: Configuração inicial do `@elo-instance/web` e `@elo-portal/api` como o gatekeeper global da plataforma.
+- [x] **Core da Comunidade**: Migração da aplicação principal para `@elo-instance/api`, `@elo-instance/web` e `@elo-instance/core`.
+- [x] **Gestão Centralizada de Dependências**: Implementação do **PNPM Catalogs** para unificar versões em todo o workspace.
+
+### 2. Design Studio & Orquestração de IA (MCP)
+
+- [x] **Hub de Design Self-hosted**: Implantação de uma instância conteinerizada do Penpot.
+- [x] **Camada Contextual de IA**: Integração de servidores Model Context Protocol (MCP) (Context7, GitHub, Penpot).
+- [x] **Framework Operacional**: Ecossistema padronizado de CLI/scripts para gestão do studio.
+
+---
+
+## Foco Arquitetural Atual: Contextos Delimitados & Performance
+
+**Status:** Em Andamento  
+**Objetivo:** Otimizar a estrutura do monorepo para escala e experiência do desenvolvedor.
+
+### Refatoração Estrutural
+
+- [x] **Layout de Raiz Orientado a Contexto**: Transição para uma estrutura de raiz centrada em domínio (`instance/`, `portal/`).
+- [x] **Namespacing Semântico**: Atualização de todos os nomes em `package.json` para seguir o padrão `@elo-[contexto]/[nome]`.
+- [x] **Configuração Herdada**: Centralização de ESLint e TSConfig na raiz com extensões localizadas.
+- [x] **Orquestração de Tarefas de Alta Performance**: Integração do **Turborepo** para cache otimizado e execução paralela.
+- [x] **Isolamento Estrito de Domínio**: Aplicação de contextos delimitados usando restrições de importação entre pacotes via ESLint.
+
+---
+
+## Próximo Marco: "Feirinha"
+
+**Status:** Planejado / Próximo Passo  
+**Objetivo:** Expandir a utilidade da plataforma além dos ciclos agendados para gerenciar eventos de vendas físicas em tempo real dentro das instâncias de comunidade.
+
+### Requisitos Principais
+
+- **Isolamento de Dados:** Modelos de banco de dados dedicados para eventos de "Feirinha" dentro do domínio da instância.
+- **Modelo "Pague e Leve":** Processamento obrigatório de pagamento imediato (Pix) via `@elo-instance/api`.
+- **Controle Administrativo:** Funcionalidades de gestão dedicadas no `@elo-instance/web` para criação de eventos e conciliação financeira.
+
+---
+
+## Visão de Longo Prazo (Evolução SaaS)
+
+**Foco:** Transição da **"Maestria em Instância Única"** para um **"Marketplace Multi-Tenant."**
+
+### 1. Transição SaaS & Multi-Tenancy
+
+- **Orquestração Multi-Instância**: Automatizar a implantação de pares dedicados de `@elo-instance/api` e `@elo-instance/web`.
+- **Isolamento Lógico**: Garantir que o Portal (`@elo-portal/*`) e as Instâncias (`@elo-instance/*`) permaneçam estritamente separados.
+- **Gestão de Tenants**: Implementar cobrança e onboarding centralizados via a API singleton `@elo-portal/api`.
+- **Core SSOT**: Manter isolamento absoluto de domínio usando `@elo-portal/core` e `@elo-instance/core` como as respectivas fontes de verdade.
+
+### 2. Portais Especializados
+
+- **Portal do Fornecedor**: Capacitar produtores a gerenciar estoque diretamente em instâncias de comunidade relevantes.
+- **Dashboard de Logística**: Relatórios avançados para planejamento de colheita.
+
+### 3. Funcionalidades Avançadas
+
+- **Modelo de Assinatura**: Cestas recorrentes automatizadas gerenciadas via camada de plataforma.
+- **Roteamento Inteligente**: Otimização baseada em geolocalização para descoberta de comunidades.
+
+---
+
+_Última Atualização: Maio de 2026_

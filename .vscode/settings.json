@@ -1,0 +1,98 @@
+{
+  "files.exclude": {
+    "**/.git": false,
+    "**/.eslintcache": false,
+    "**/node_modules": false,
+    "**/dist": false
+  },
+
+  /* --- Eslint Config --- */
+  "eslint.useFlatConfig": true,
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "eslint.options": {
+    "cache": true,
+    "cacheLocation": ".eslintcache"
+  },
+
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "never",
+    "source.organizeImports": "never"
+  },
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": true
+  },
+  "[javascript]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit"
+    }
+  },
+  "[typescript]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "never"
+    }
+  },
+  "[typescriptreact]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "never"
+    }
+  },
+  "[mdx]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file"
+  },
+  "mdx.checkMdx": false,
+  "mdx.server.enable": true,
+  "[markdown_latex_combined]": {
+    "editor.formatOnSave": true
+  },
+
+  /* --- TypeScript Core --- */
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "js/ts.tsdk.promptToUseWorkspaceVersion": true,
+  "js/ts.tsserver.maxMemory": 8192,
+  "js/ts.tsserver.log": "off",
+
+  /* --- IntelliSense & Auto Imports --- */
+  "js/ts.suggest.autoImports": true,
+  "js/ts.preferences.includePackageJsonAutoImports": "on",
+  "js/ts.updateImportsOnFileMove.enabled": "always",
+
+  /* --- Performance vs Diagnostics --- */
+  "js/ts.tsserver.experimental.enableProjectDiagnostics": false,
+
+  /* --- Styles (TailwindCSS v4 compatibility) --- */
+  "css.validate": false,
+  "scss.validate": false,
+  "less.validate": false,
+
+  /* --- Misc --- */
+  "json.schemaDownload.enable": true,
+  "yaml.schemaStore.enable": true,
+  "yaml.kubernetesCRDStore.enable": false,
+
+  /* --- Schemas --- */
+  "yaml.schemas": {
+    ".vscode/schemas/schema-docker-compose.json": [
+      "**/compose.yml",
+      "**/compose.yaml",
+      "**/*compose*.yml",
+      "**/*compose*.yaml"
+    ],
+    ".vscode/schemas/schema-pnpm-workspace.json": ["pnpm-workspace.yaml"]
+  },
+
+  /* --- Editor YAML specific --- */
+
+  "json.schemas": [
+    {
+      "fileMatch": ["/.gemini/settings.json"],
+      "url": "./.vscode/schemas/schema-gemini.json"
+    }
+  ]
+}

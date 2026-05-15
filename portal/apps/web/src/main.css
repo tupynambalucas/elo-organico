@@ -1,0 +1,12 @@
+@import "tailwindcss";
+@import "@elo-organico/studio/theme.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  /* Add package-specific base styles here if needed */
+}
+
+@layer components {
+  /* Add package-specific components here */
+}

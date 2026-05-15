@@ -1,0 +1,94 @@
+---
+title: Workspace de Ferramentas (Tools)
+description: Infraestrutura técnica de automação, ecossistemas Model Context Protocol (MCP) e diretrizes de engenharia nativa de IA.
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<head>
+  <body className="workspace-page no-footer" />
+</head>
+
+<div className="container margin-vert--lg">
+  <h1>Workspace de Ferramentas (Tools)</h1>
+
+  <p>O workspace Tools fornece a espinha dorsal de automação para o projeto Elo Orgânico. Ele centraliza servidores especializados de Model Context Protocol (MCP) e scripts de infraestrutura projetados para aumentar a produtividade do desenvolvedor, garantir a paridade de ambiente através de builds Docker multi-estágio e permitir fluxos de trabalho de engenharia nativa de IA seguros e de alto contexto.</p>
+
+  <Tabs>
+    <TabItem value="mcp" label="Ecossistema MCP" default>
+      <h3>Infraestrutura Model Context Protocol</h3>
+      <p>O projeto utiliza uma rede de servidores MCP especializados. Esses servidores atuam como provedores de contexto estruturado, permitindo que agentes de IA (como Gemini CLI ou Aide) interajam de forma segura e precisa com as camadas de dados do projeto, documentação externa e APIs de infraestrutura.</p>
+
+      <h4>Servidores de Contexto Integrados</h4>
+
+      - **GitHub MCP:** Gerencia a orquestração avançada do repositório. Automatiza a gestão do ciclo de vida de branches, ciclos de commit (aderindo ao Conventional Commits) e análise profunda de Pull Requests.
+        - *Capacidades:* Criação/atualização de arquivos, revisões de PR, gestão de issues e busca de código.
+      - **Context7 MCP:** Uma ponte de pesquisa de alta performance. Garante que o código gerado por IA esteja alinhado com as especificações mais recentes de Fastify v5, React 19 e Three.js através da consulta de documentação atualizada de bibliotecas.
+        - *Capacidades:* Busca de documentação em tempo real, resolução de pacotes e descoberta de padrões de implementação.
+      - **Browser MCP (Playwright):** Fornece contexto visual e de runtime. Permite testes automatizados de regressão visual, análise de UI e web scraping dentro da rede conteinerizada.
+        - *Capacidades:* Screenshots de viewport, snapshots de acessibilidade e monitoramento de requisições de rede.
+      - **Docker Hub MCP:** Gerencia a descoberta e sincronização de imagens de container, garantindo a consistência da infraestrutura em todos os ambientes.
+        - *Capacidades:* Busca de imagens, gestão de repositórios e verificação de tags.
+    </TabItem>
+
+    <TabItem value="network" label="Segurança de IA & Rede">
+      <h3>Arquitetura de Infraestrutura Isolada</h3>
+      <p>A segurança é mantida através de um modelo de rede zero-trust para agentes de IA. As ferramentas de automação operam dentro de um ambiente Docker isolado (<code>tools-mcp-net</code>), impedindo o movimento lateral dentro da infraestrutura hospedeira.</p>
+
+      <h4>Topologia de Rede & Conectividade</h4>
+
+      - **Ponte Privada (Private Bridge):** Todos os serviços MCP comunicam-se através de uma rede bridge dedicada. Esta rede é isolada das interfaces primárias do host, exigindo mapeamento explícito de portas para qualquer acesso externo.
+      - **Comunicação Cross-Boundary:**
+        - **Host-para-Container:** Servidores de desenvolvimento local (Vite, Docusaurus) são acessados via `http://host.docker.internal:[PORT]`.
+        - **Requisitos de Vinculação:** Para aceitar conexões da rede isolada, os serviços do lado do host **devem** vincular-se ao endereço `0.0.0.0` (ex: `docusaurus start --host 0.0.0.0`).
+      - **Segurança de Recursos:** Dockerfiles multi-estágio garantem que apenas os binários de runtime necessários sejam incluídos nas imagens finais, reduzindo significativamente a superfície de ataque.
+    </TabItem>
+
+    <TabItem value="guidelines" label="Diretrizes de Engenharia">
+      <h3>Regras de Engajamento para Agentes de IA</h3>
+      <p>O workspace define a lógica comportamental estrita para agentes de IA através de arquivos de contexto estruturados. Estas diretrizes garantem que todas as alterações automatizadas sigam os padrões arquiteturais de todo o projeto e mantenham a integridade técnica.</p>
+
+      <h4>Convenções Operacionais</h4>
+
+      - **Domain Core First:** A modificação de esquemas compartilhados ou modelos de dados deve originar-se nos pacotes `core` (Fonte Única de Verdade) antes de ser propagada para as camadas de aplicação.
+      - **Tipagem Estrita & Linting:** Os agentes estão estritamente proibidos de usar `any` ou ignorar as rigorosas configurações de TypeScript/ESLint do projeto. A validação via `typecheck` é um passo obrigatório após a modificação do código.
+      - **Minimalismo Tecnológico:** Evite sugerir dependências externas, a menos que não exista uma solução nativa ou já implementada dentro do stack atual (Fastify, React, Zustand, Zod).
+      - **Documentação Convencional:** As atualizações de documentação devem seguir um tom profissional e sênior, utilizando recursos de MDX como Tabs para gestão de informações de alta densidade.
+    </TabItem>
+
+    <TabItem value="scripts" label="Manutenção & Lógica">
+      <h3>Lógica Operacional e Manutenção</h3>
+      <p>Comandos padronizados são fornecidos para a manutenção da camada de automação e verificação da saúde do workspace em todo o monorepo.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Comando</th>
+            <th>Responsabilidade de Engenharia</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>pnpm typecheck</code></td>
+            <td>Valida a integridade do TypeScript nos scripts e no código-fonte do MCP.</td>
+          </tr>
+          <tr>
+            <td><code>infra:keygen</code></td>
+            <td>Geração criptograficamente segura de chaves de ambiente (ex: keyfile do MongoDB).</td>
+          </tr>
+          <tr>
+            <td><code>clean:project</code></td>
+            <td>Manutenção agressiva do workspace usando <code>npkill</code> para podar dependências legadas.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Estrutura do Workspace</h4>
+
+      - `src/mcp/`: Lógica de origem para provedores de contexto customizados.
+      - `mcp/infrastructure/`: Configurações de Docker/Runtime para a rede de IA.
+      - `mcp/config/`: Segredos específicos do ambiente e variáveis de orquestração (arquivos `.env`).
+    </TabItem>
+  </Tabs>
+</div>

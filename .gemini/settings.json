@@ -1,0 +1,56 @@
+{
+  "context": {
+    "fileName": ["GEMINI.md"],
+    "discoveryMaxDirs": 200,
+    "loadMemoryFromIncludeDirectories": true,
+    "fileFiltering": {
+      "enableRecursiveFileSearch": true,
+      "respectGitIgnore": false,
+      "respectGeminiIgnore": true,
+      "enableFuzzySearch": true
+    }
+  },
+  "advanced": {
+    "excludedEnvVars": []
+  },
+  "ide": {
+    "hasSeenNudge": true,
+    "enabled": true
+  },
+  "ui": {
+    "footer": {
+      "hideContextPercentage": false
+    },
+    "showMemoryUsage": true,
+    "showModelInfoInChat": true,
+    "showUserIdentity": true,
+    "incrementalRendering": false
+  },
+  // Ensure studio/.env file contains the rescpective keys:
+  // GITHUB_TOKEN, CONTEXT7_API_KEY
+  "mcpServers": {
+    "github": {
+      "command": "docker",
+      "args": ["compose", "-f", "tools/mcp/compose.yaml", "run", "--rm", "-i", "mcp-github"]
+    },
+    "context7": {
+      "command": "docker",
+      "args": ["compose", "-f", "tools/mcp/compose.yaml", "run", "--rm", "-i", "mcp-context7"]
+    },
+    "browser": {
+      "command": "docker",
+      "args": ["compose", "-f", "tools/mcp/compose.yaml", "run", "--rm", "-i", "mcp-browser"]
+    },
+    "dockerhub": {
+      "command": "docker",
+      "args": ["compose", "-f", "tools/mcp/compose.yaml", "run", "--rm", "-i", "mcp-dockerhub"]
+    },
+    "penpot": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "http://localhost:4401/mcp", "--allow-http"]
+    }
+  },
+  "experimental": {
+    "modelSteering": true
+  }
+}

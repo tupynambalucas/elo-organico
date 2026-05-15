@@ -1,0 +1,16 @@
+{
+  "recommendations": [
+    "naumovs.color-highlight",
+    "dbaeumer.vscode-eslint",
+    "google.gemini-cli-vscode-ide-companion",
+    "shd101wyy.markdown-preview-enhanced",
+    "shd101wyy.markdown-preview-enhanced",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "actboy168.tasks",
+    "redhat.vscode-yaml",
+    "ggfincke.vsc-mdx-preview",
+    "unifiedjs.vscode-mdx"
+  ],
+  "unwantedRecommendations": []
+}

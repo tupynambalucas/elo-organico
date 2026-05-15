@@ -1,0 +1,8 @@
+node_modules/
+dist/
+out/
+
+mongo-keyfile
+_.p12
+_.pem
+\*.key

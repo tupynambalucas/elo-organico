@@ -1,0 +1,87 @@
+---
+title: Cheat Sheet
+description: Referência rápida para comandos comuns e orquestração do projeto.
+sidebar_position: 2
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# ⚡ Cheat Sheet Rápido
+
+Uma referência abrangente para desenvolvedores gerenciarem o monorepo **Elo Orgânico**, infraestrutura e automação.
+
+---
+
+## 🚀 Executando a Plataforma
+
+Utilizamos o **Turborepo** para orquestrar as aplicações e suas respectivas infraestruturas (bancos de dados/cache) em um único comando.
+
+<Tabs>
+  <TabItem value="instance" label="Instância de Comunidade" default>
+    - **Iniciar Tudo:** `pnpm instance:dev` (Sobe infra + Web + API + Core Watch)
+    - **Apenas Web:** `pnpm instance:dev:web`
+    - **Apenas API:** `pnpm instance:dev:api`
+    - **Parar Processos de App:** `pnpm instance:dev:stop`
+    - **Parar e Limpar Tudo:** `pnpm instance:dev:down`
+  </TabItem>
+  <TabItem value="portal" label="Portal Global">
+    - **Iniciar Tudo:** `pnpm portal:dev` (Sobe infra + Web + API + Core Watch)
+    - **Apenas Web:** `pnpm portal:dev:web`
+    - **Apenas API:** `pnpm portal:dev:api`
+    - **Parar Processos de App:** `pnpm portal:dev:stop`
+    - **Parar e Limpar Tudo:** `pnpm portal:dev:down`
+  </TabItem>
+  <TabItem value="docs" label="Documentação">
+    - **Iniciar Docusaurus:** `pnpm docs:dev`
+    - **Build da Docs:** `pnpm build` (Executa build para todos os workspaces, incluindo docs)
+  </TabItem>
+</Tabs>
+
+---
+
+## 🐳 Infraestrutura (Docker)
+
+Gestão direta dos serviços conteinerizados.
+
+| Escopo | Comando | Descrição |
+| :--- | :--- | :--- |
+| **Instância** | `pnpm instance:infra:up` | Inicia MongoDB (Replica Set) e Redis para Instância. |
+| **Instância** | `pnpm instance:infra:down` | Para e remove os containers da Instância. |
+| **Instância** | `pnpm instance:infra:reset` | Apaga os dados e reinicia a infraestrutura da Instância. |
+| **Portal** | `pnpm portal:infra:up` | Inicia MongoDB (Replica Set) e Redis para o Portal. |
+| **Portal** | `pnpm portal:infra:down` | Para e remove os containers do Portal. |
+| **Portal** | `pnpm portal:infra:reset` | Apaga os dados e reinicia a infraestrutura do Portal. |
+
+---
+
+## 📦 Gestão de Workspace
+
+Lidando com dependências internas e catálogos.
+
+- **Adicionar Dependência ao Catálogo:** `pnpm add <package> --catalog`
+- **Adicionar Dependência a App Específica:** `pnpm add <package>@catalog: --filter @elo-instance/api`
+- **Limpar node_modules:** `pnpm clean:project` (Usa `npkill`)
+- **Validar Tipagem (Typecheck):** `pnpm typecheck`
+- **Lint:** `pnpm lint`
+
+---
+
+## 🤖 IA & Studio (MCP)
+
+Orquestrando o Model Context Protocol e a ponte de design.
+
+- **Penpot Studio:** `pnpm penpot:up` / `pnpm penpot:down`
+- **Aide AI Bridge:** `pnpm penpot:aide:up` / `pnpm penpot:aide:down`
+- **Busca Context7:** (Via Agente de IA) Pesquisa profunda em documentação técnica.
+
+---
+
+## 🏗️ Pipelines de Build
+
+- **Build Completo:** `pnpm build`
+- **Build Core (Instância):** `pnpm instance:build:core`
+- **Build Core (Portal):** `pnpm portal:build:core`
+
+---
+_Última Atualização: Maio de 2026_

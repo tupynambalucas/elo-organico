@@ -1,0 +1,18 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.node.json" },
+
+    { "path": "./studio" },
+
+    // Instance References
+    { "path": "./instance/apps/web/tsconfig.build.json" },
+    { "path": "./instance/apps/api/tsconfig.build.json" },
+    { "path": "./instance/packages/core" },
+
+    // Portal References
+    { "path": "./portal/apps/web/tsconfig.build.json" },
+    { "path": "./portal/apps/api/tsconfig.build.json" },
+    { "path": "./portal/packages/core" }
+  ]
+}
