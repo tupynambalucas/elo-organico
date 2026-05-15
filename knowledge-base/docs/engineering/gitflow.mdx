@@ -1,0 +1,125 @@
+---
+title: Git Workflow & Standards
+description: Professional branching, commit, and release strategy for the Elo Orgânico monorepo.
+sidebar_position: 5
+---
+
+# Git Workflow Guide 🌊
+
+This document outlines the professional branching and release strategy for **Elo Orgânico**, combining the structural discipline of **Git Flow** with the collaboration power of the **GitHub CLI (`gh`)**.
+
+---
+
+## 🏗️ Branching Model
+
+We follow the standard Git Flow model to ensure the stability of our production code, adapted for our monorepo structure.
+
+| Branch | Purpose | Stability |
+| :--- | :--- | :--- |
+| **`main`** | Production-ready code. Every commit is a tagged release. | **Ultra Stable** |
+| **`develop`** | Integration branch for features. The "working" version. | **Stable** |
+| **`feature/*`** | New features or UI changes. Branch off `develop`. | Experimental |
+| **`bugfix/*`** | New bug fixes for the next development cycle. | Experimental |
+| **`release/*`** | Preparation for a new production release. | Final Polish |
+| **`hotfix/*`** | Critical bug fixes for the current production version. | Urgent |
+
+---
+
+## 🛠️ Tooling Requirements
+
+To follow this workflow efficiently, we recommend:
+1.  **Git Flow CLI (AVH Edition)**: Usually included in Git for Windows or available via `gitflow` package.
+2.  **GitHub CLI (`gh`)**: Used for Pull Requests, status monitoring, and official releases.
+
+---
+
+## 📝 Commit Standards (Conventional Commits)
+
+To maintain a clean and automated history, all commits must follow the **[Conventional Commits](https://www.conventionalcommits.org/)** specification.
+
+**Format:** `<type>(<scope>): <description>`
+
+### Types
+- **feat**: A new feature (correlates with `MINOR` in SemVer).
+- **fix**: A bug fix (correlates with `PATCH` in SemVer).
+- **docs**: Documentation only changes.
+- **style**: Changes that do not affect the meaning of the code (white-space, formatting, etc).
+- **refactor**: A code change that neither fixes a bug nor adds a feature.
+- **perf**: A code change that improves performance.
+- **test**: Adding missing tests or correcting existing tests.
+- **chore**: Changes to the build process or auxiliary tools/libraries.
+
+### Monorepo Scopes
+Use the context or package name as the scope:
+- **`instance`**: Changes to the Community Instance apps or core.
+- **`portal`**: Changes to the Global Portal apps or core.
+- **`core`**: Changes to shared domain logic.
+- **`studio`**: Design tokens, assets, or Penpot configuration.
+- **`tools`**: MCP servers, scripts, or infrastructure.
+- **`deps`**: Dependency updates (managed via catalogs).
+
+**Example:** `feat(instance): add Pix payment reconciliation to checkout`
+
+---
+
+## 🚀 Contribution Workflow
+
+### 1. Starting a New Feature
+Always branch off from `develop`.
+```powershell
+git flow feature start my-awesome-feature
+```
+
+### 2. Collaborating and Proposing Changes
+Instead of merging locally, we use **Pull Requests** for code review and CI validation.
+
+1.  **Push your branch**: `git push -u origin feature/my-awesome-feature`
+2.  **Create a Pull Request**: 
+    ```powershell
+    gh pr create --base develop --fill --web
+    ```
+    *Use `--fill` to automatically use your commit messages for the PR description.*
+
+### 3. Senior Merge Strategy (Squash & Merge)
+To keep the `develop` history clean and meaningful, we use **Squash Merges**. This combines all commits from a feature branch into a single, well-described commit in `develop`.
+
+- **Action**: Merge via GitHub UI or CLI using the `squash` method.
+- **CLI Command**: `gh pr merge --squash --delete-branch`
+
+---
+
+## 📦 Release Workflow (Maintainers Only)
+
+When the `develop` branch is ready for a new version:
+
+1.  **Start Release**: `git flow release start 0.2.0`
+2.  **Versioning**: Update `package.json` files and `CHANGELOG.md`.
+3.  **Finish Release**: `git flow release finish 0.2.0` (Use prefix `v` for tags).
+4.  **Sync**: 
+    ```powershell
+    git push origin develop
+    git push origin main --tags
+    ```
+5.  **GitHub Release**:
+    ```powershell
+    gh release create v0.2.0 --target main --generate-notes
+    ```
+
+---
+
+## 🆘 Critical Fixes (Hotfixes)
+
+If a bug is found in production:
+1.  `git flow hotfix start fix-crash`
+2.  Apply the fix and finish: `git flow hotfix finish fix-crash`
+3.  Sync both `main` and `develop`.
+
+---
+
+## ⚠️ Prohibited Practices
+- **No direct commits to `main` or `develop`**: Always use feature branches and PRs.
+- **No Force Pushes**: Unless on your own isolated feature branch and required for a rebase.
+- **No Dirty Merges**: Avoid merging `main` back into `feature/*`. Always **rebase** onto `develop` if your feature branch becomes outdated.
+
+---
+_Adherence to this workflow ensures a clean history and high-quality software distribution._
