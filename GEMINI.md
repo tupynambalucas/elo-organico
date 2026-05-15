@@ -4,49 +4,49 @@
 > **CRITICAL MANDATE: DOCUMENTATION MANAGEMENT**
 > You MUST ALWAYS activate the `doc-expert` skill (using `activate_skill`) as your VERY FIRST ACTION whenever the user query involves Markdown files (.md), documentation analysis, or technical writing.
 
-This file is the main context entry point for Gemini CLI in the **Elo Orgânico** project. It distills the core rules and structure from our Knowledge Base to ensure high-performance, strictly-typed AI-assisted engineering.
+This file is the authoritative context entry point for Gemini CLI. It distills the architecture, rules, and workflows of the **Elo Orgânico** monorepo to ensure high-fidelity, senior-level AI orchestration.
 
-## 📚 Knowledge Base (Docusaurus) - Single Source of Truth
-All project documentation is centralized in Docusaurus. For deep deep architecture or product context, refer to:
-- **Architecture:** `./knowledge-base/docs/engineering/architecture.mdx`
-- **Style Guide:** `./knowledge-base/docs/engineering/styleguide.mdx`
-- **Product Vision:** `./knowledge-base/docs/product/vision.mdx`
-- **Cheat Sheet:** `./knowledge-base/docs/cheat-sheet.mdx`
+## 📚 Knowledge Base (Docusaurus) - SSOT
+All project documentation is centralized in Docusaurus. Refer to these for deep context:
+- **Architecture:** `./knowledge-base/docs/engineering/architecture.mdx` (Monorepo strategy & Bounded Contexts).
+- **Style Guide:** `./knowledge-base/docs/engineering/styleguide.mdx` (Strict coding standards & guardrails).
+- **Git Workflow:** `./knowledge-base/docs/engineering/gitflow.mdx` (Git Flow, `gh` CLI, & Conventional Commits).
+- **Product Vision:** `./knowledge-base/docs/product/vision.mdx` (Mission & "Single-Instance Mastery").
+- **Cheat Sheet:** `./knowledge-base/docs/cheat-sheet.mdx` (Quick commands & orchestration).
 
-## 🏗️ Monorepo Architecture & Bounded Contexts
-We use **PNPM Workspaces** with a **Context-Driven Root** layout. **Cross-context imports are strictly prohibited** via ESLint.
-- **`instance/`**: Community-specific operations ("Community Shop"). **Current primary development focus.**
-  - `@elo-instance/web`: React SPA (Admin & Shop).
-  - `@elo-instance/api`: Fastify REST API.
-  - `@elo-instance/core`: Domain-specific logic, SSOT for instance scope.
-- **`portal/`**: Global platform face and SaaS onboarding.
-  - `@elo-portal/web`: Official landing page.
-  - `@elo-portal/api`: Global orchestration and tenant management.
-  - `@elo-portal/core`: Platform-specific logic, SSOT for portal scope.
-- **`studio/`**: Design assets (Penpot), brand tokens, icons, and global styling.
-- **`tools/`**: Infrastructure, MCP servers, and technical automation scripts.
+## 🏗️ Monorepo Architecture: Context-Driven Root
+We use **PNPM Workspaces** with a strict **Bounded Context** isolation. Cross-context imports (e.g., Portal importing from Instance) are prohibited.
 
-## 🚀 Technology Stack
-- **Runtime & Orchestration:** Node.js 22+, PNPM v10 (Catalogs), Turborepo.
-- **Backend (API):** Fastify v5, MongoDB (Replica Set `rs0`), Mongoose, BullMQ, Redis.
-- **Frontend (UI):** React 19, Zustand, TailwindCSS v4 (CSS Modules), GSAP, React Three Fiber (WebGPU).
-- **Quality & Safety:** TypeScript 6 (Strict), ESLint 9 (Flat Config), Prettier 3, Zod (Validation).
+- **`instance/`**: Community-specific operations ("Community Shop"). **Primary development focus.**
+  - `@elo-instance/web` (React 19), `@elo-instance/api` (Fastify 5), `@elo-instance/core` (SSOT).
+- **`portal/`**: Global platform and SaaS onboarding singleton.
+  - `@elo-portal/web`, `@elo-portal/api`, `@elo-portal/core`.
+- **`studio/`**: Design tokens, brand assets (Penpot), and global styling.
+- **`tools/`**: MCP servers, infrastructure (Docker), and automation scripts.
+- **`knowledge-base/`**: Docusaurus-based technical and product documentation.
 
-## 🛡️ Strict Engineering Directives (Guardrails)
-1.  **Domain Core First:** All shared models, DTOs, and schemas MUST be defined in the context's `packages/core` before being used in `apps/api` or `apps/web`.
-2.  **No Floating Promises:** Never leave promises floating. Use the `void` operator for intentional non-blocking side-effects.
-3.  **Strict Boolean Logic:** Expressions must be explicit. Use `if (value !== undefined)` or `=== true` rather than implicit truthiness.
-4.  **Single-Instance Mastery:** Current priority is a polished single-instance community system. Avoid SaaS complexity in `@elo-instance/*`.
-5.  **Context7 Research:** Before implementing logic for Fastify, React 19, or Three.js, ALWAYS use `mcp_context7_query-docs` to fetch up-to-date documentation.
+## 🚀 Technology Stack & Standards
+- **Runtime:** Node.js 22 (LTS), PNPM v10 (using **Catalogs** for unified versions).
+- **Orchestration:** **Turborepo** for caching, parallel execution, and infra-app coupling.
+- **Backend:** Fastify v5, MongoDB (Replica Set `rs0` for ACID), Mongoose, Redis, BullMQ.
+- **Frontend:** React 19, Zustand, TailwindCSS v4 (CSS Modules), GSAP, Three.js (WebGPU).
+- **Quality:** TypeScript 6 (Strict), ESLint 9 (Flat Config), Prettier 3, Zod (Validation).
 
-## ⚡ Quick Development Commands
-- `pnpm instance:dev`: Orchestrate Community (Infra + Web + API + Core Watch).
-- `pnpm portal:dev`: Orchestrate Platform (Infra + Web + API + Core Watch).
-- `pnpm docs:dev`: Start the Docusaurus knowledge base (English).
-- `pnpm docs:dev:pt`: Start the Docusaurus knowledge base (Brazilian Portuguese).
+## 🛡️ Strict Engineering Guardrails (Non-Negotiable)
+1.  **Domain Core First:** Shared models/schemas MUST be in `packages/core` before usage in apps.
+2.  **No Floating Promises:** Use the `void` operator for intentional unawaited async calls.
+3.  **Strict Boolean Logic:** Expressions must be explicit (`if (value === true)`, `if (value !== undefined)`).
+4.  **Single-Instance Mastery:** Focus on a polished `@elo-instance/*`. Do not introduce SaaS complexity prematurely.
+5.  **Git Integrity:** Follow Git Flow. Use Conventional Commits with monorepo scopes (e.g., `feat(instance): ...`).
+6.  **Context7 Research:** ALWAYS use `mcp_context7_query-docs` before implementing logic for core libraries (Fastify, React 19, Three.js).
+
+## ⚡ Key Commands
+- `pnpm instance:dev`: Orchestrate Community (Infra + Apps + Core).
+- `pnpm portal:dev`: Orchestrate Platform (Infra + Apps + Core).
+- `pnpm docs:dev`: Start Knowledge Base.
 - `pnpm typecheck`: Validate TypeScript across all workspaces.
 - `pnpm lint`: Run linting for the entire monorepo.
-- `pnpm build`: Perform a full production build of all packages.
+- `pnpm build`: Perform a full production build.
 
 ---
-_Professional entry point for the Elo Orgânico development environment. High-fidelity docs live in `./knowledge-base`._
+_High-fidelity operational context for Elo Orgânico. Adhere to the Style Guide at all times._
