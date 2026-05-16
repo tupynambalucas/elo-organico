@@ -38,7 +38,9 @@ const CycleCreate: React.FC = () => {
   return (
     <div className={styles.container}>
       {/* Exibir erro global se houver */}
-      {state.storeError && <div className={styles.errorMessage}>{state.storeError}</div>}
+      {state.storeError !== null && state.storeError !== '' && (
+        <div className={styles.errorMessage}>{state.storeError}</div>
+      )}
 
       {/* Passo 1: Input */}
       {state.step === 'input-list' && (

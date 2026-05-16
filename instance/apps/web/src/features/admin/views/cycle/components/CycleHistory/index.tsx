@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  Icon,
   faTimes,
   faCalendarAlt,
   faChevronLeft,
   faChevronRight,
-} from '@fortawesome/free-solid-svg-icons';
+} from '@elo-organico/studio/icons';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import type { IProduct } from '@elo-instance/core';
@@ -31,7 +31,7 @@ const CyclesHistory = () => {
   }, [page, fetchHistory]);
 
   const handleSelectCycle = (id: string | undefined) => {
-    if (id) {
+    if (id !== undefined && id !== '') {
       void fetchCycleDetails(id);
     }
   };
@@ -53,7 +53,7 @@ const CyclesHistory = () => {
       <div className={styles.container}>
         <header className={styles.detailHeader}>
           <button type="button" onClick={clearSelectedCycle} className={styles.closeBtn}>
-            <FontAwesomeIcon icon={faTimes} />
+            <Icon icon={faTimes} />
           </button>
           <h3>Detalhes do Ciclo</h3>
         </header>
@@ -103,7 +103,7 @@ const CyclesHistory = () => {
         <div className={styles.loading}>Carregando...</div>
       ) : historyCycles.length === 0 ? (
         <div className={styles.emptyState}>
-          <FontAwesomeIcon icon={faCalendarAlt} size="2x" />
+          <Icon icon={faCalendarAlt} size="2x" />
           <p>Nenhum ciclo anterior encontrado.</p>
         </div>
       ) : (
@@ -131,7 +131,7 @@ const CyclesHistory = () => {
           {historyPagination && historyPagination.pages > 1 && (
             <footer>
               <button type="button" onClick={handlePrevPage} disabled={page === 1}>
-                <FontAwesomeIcon icon={faChevronLeft} />
+                <Icon icon={faChevronLeft} />
               </button>
               <span>
                 {page} de {historyPagination.pages}
@@ -141,7 +141,7 @@ const CyclesHistory = () => {
                 onClick={handleNextPage}
                 disabled={page === historyPagination.pages}
               >
-                <FontAwesomeIcon icon={faChevronRight} />
+                <Icon icon={faChevronRight} />
               </button>
             </footer>
           )}

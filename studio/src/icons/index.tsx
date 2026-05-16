@@ -32,6 +32,8 @@ import {
   faTriangleExclamation
 } from '@fortawesome/free-solid-svg-icons';
 
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
+
 /**
  * Canonical Icon component for Elo Organico.
  * Wraps FontAwesomeIcon using forwardRef to maintain full compatibility 
@@ -75,4 +77,3 @@ export {
 export * as SolidIcons from '@fortawesome/free-solid-svg-icons';
 export * as RegularIcons from '@fortawesome/free-regular-svg-icons';
 export * as BrandIcons from '@fortawesome/free-brands-svg-icons';
-andIcons from '@fortawesome/free-brands-svg-icons';

@@ -19,18 +19,16 @@ We use **Turborepo** to orchestrate applications and their respective infrastruc
 
 <Tabs>
   <TabItem value="instance" label="Community Instance" default>
-    - **Start Everything:** `pnpm instance:dev` (Up infra + Web + API + Core Watch)
-    - **Web Only:** `pnpm instance:dev:web`
-    - **API Only:** `pnpm instance:dev:api`
-    - **Stop App Processes:** `pnpm instance:dev:stop`
-    - **Stop & Clean Everything:** `pnpm instance:dev:down`
+    - **Start Everything:** `pnpm instance:dev` (Up infra + Web + API)
+    - **Web Only:** `pnpm instance:web`
+    - **API Only:** `pnpm instance:api`
+    - **Stop & Clean Everything:** `pnpm instance:down`
   </TabItem>
   <TabItem value="portal" label="Global Portal">
-    - **Start Everything:** `pnpm portal:dev` (Up infra + Web + API + Core Watch)
-    - **Web Only:** `pnpm portal:dev:web`
-    - **API Only:** `pnpm portal:dev:api`
-    - **Stop App Processes:** `pnpm portal:dev:stop`
-    - **Stop & Clean Everything:** `pnpm portal:dev:down`
+    - **Start Everything:** `pnpm portal:dev` (Up infra + Web + API)
+    - **Web Only:** `pnpm portal:web`
+    - **API Only:** `pnpm portal:api`
+    - **Stop & Clean Everything:** `pnpm portal:down`
   </TabItem>
   <TabItem value="docs" label="Documentation">
     - **Start Docusaurus:** `pnpm docs:dev`
@@ -46,12 +44,12 @@ Direct management of containerized services.
 
 | Scope | Command | Description |
 | :--- | :--- | :--- |
-| **Instance** | `pnpm instance:infra:up` | Starts MongoDB (Replica Set) and Redis for Instance. |
-| **Instance** | `pnpm instance:infra:down` | Stops and removes Instance containers. |
-| **Instance** | `pnpm instance:infra:reset` | Wipes data and restarts Instance infrastructure. |
-| **Portal** | `pnpm portal:infra:up` | Starts MongoDB (Replica Set) and Redis for Portal. |
-| **Portal** | `pnpm portal:infra:down` | Stops and removes Portal containers. |
-| **Portal** | `pnpm portal:infra:reset` | Wipes data and restarts Portal infrastructure. |
+| **Instance** | `pnpm instance:up` | Starts MongoDB (Replica Set) and Redis for Instance. |
+| **Instance** | `pnpm instance:down` | Stops and removes Instance containers and local processes. |
+| **Instance** | `pnpm instance:reset` | Wipes data and restarts Instance infrastructure. |
+| **Portal** | `pnpm portal:up` | Starts MongoDB (Replica Set) and Redis for Portal. |
+| **Portal** | `pnpm portal:down` | Stops and removes Portal containers and local processes. |
+| **Portal** | `pnpm portal:reset` | Wipes data and restarts Portal infrastructure. |
 
 ---
 
@@ -61,7 +59,7 @@ Handling internal dependencies and catalogs.
 
 - **Add Dependency to Catalog:** `pnpm add <package> --catalog`
 - **Add Dependency to Specific App:** `pnpm add <package>@catalog: --filter @elo-instance/api`
-- **Clean All node_modules:** `pnpm clean:project` (Uses `npkill`)
+- **Clean All node_modules:** `pnpm clean` (Uses `npkill`)
 - **Typecheck All:** `pnpm typecheck`
 - **Lint All:** `pnpm lint`
 
@@ -80,8 +78,8 @@ Orchestrating the Model Context Protocol and design bridge.
 ## 🏗️ Build Pipelines
 
 - **Full Build:** `pnpm build`
-- **Build Core (Instance):** `pnpm instance:build:core`
-- **Build Core (Portal):** `pnpm portal:build:core`
+- **Build Core (Instance):** `pnpm --filter @elo-instance/core build`
+- **Build Core (Portal):** `pnpm --filter @elo-portal/core build`
 
 ---
 _Last Updated: May 2026_

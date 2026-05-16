@@ -15,10 +15,21 @@ export default defineConfig(({ mode }) => {
 
     resolve: {
       tsconfigPaths: true,
+      dedupe: ['react', 'react-dom'],
     },
 
     optimizeDeps: {
-      exclude: ['@elo-instance/core'],
+      include: [
+        'react',
+        'react-dom',
+        'react/jsx-runtime',
+        '@fortawesome/react-fontawesome',
+        '@fortawesome/fontawesome-svg-core',
+        '@fortawesome/free-solid-svg-icons',
+        '@fortawesome/free-regular-svg-icons',
+        '@fortawesome/free-brands-svg-icons',
+      ],
+      exclude: ['@elo-instance/core', '@elo-organico/studio'],
     },
 
     base: './',

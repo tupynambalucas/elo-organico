@@ -102,7 +102,7 @@ export const useAdminCycleStore = create<AdminCycleState>((set) => ({
 
   updateActiveCycleProducts: async (updatedProducts) => {
     const currentPublicCycle = usePublicCycleStore.getState().activeCycle;
-    if (!currentPublicCycle?._id) return false;
+    if (currentPublicCycle?._id === undefined || currentPublicCycle._id === '') return false;
 
     set({ isSubmitting: true, error: null });
     try {

@@ -16,11 +16,15 @@ Manages community-specific operations (the "Community Shop").
 
 ### 🌐 Portal Context (`portal/`)
 
-Manages the global platform and SaaS onboarding.
+Future SaaS hub foundation. Currently a skeleton for global orchestration and platform management.
 
-- **`@elo-portal/web`**: Official landing page and gatekeeper hub.
-- **`@elo-portal/api`**: Global orchestration and tenant management API.
+- **`@elo-portal/web`**: Future product landing page and SaaS gatekeeper (Foundation).
+- **`@elo-portal/api`**: Global orchestration and tenant management API foundation.
 - **`@elo-portal/core`**: Platform-specific logic and schemas.
+
+### 📖 Knowledge Base (`knowledge-base/`)
+
+The project's central **Documentation Hub (EloDocs)**. A professional Docusaurus-based site for technical and product knowledge.
 
 ### 🛠️ Studio & Tools
 
@@ -37,7 +41,7 @@ While architected for a future Multi-tenant SaaS model, our current priority is 
 
 ## 🚀 Quick Start
 
-Ensure you have **Node.js 22+** and **PNPM 10+** installed.
+Ensure you have **Node.js 22+** and **PNPM 11+** installed.
 
 1.  **Install Dependencies:**
 
@@ -51,12 +55,12 @@ Ensure you have **Node.js 22+** and **PNPM 10+** installed.
 3.  **Run Development Environment:**
     We recommend using our namespaced scripts for clarity:
     ```bash
-    pnpm instance:dev:web   # Start community shop/admin
-    pnpm instance:dev:api   # Start community API
-    pnpm portal:dev:web     # Start official portal
-    pnpm portal:dev:api     # Start portal API
-    pnpm docs:dev           # Start documentation (English)
-    pnpm docs:dev:pt        # Start documentation (Brazilian Portuguese)
+    pnpm instance:web   # Start community shop/admin
+    pnpm instance:api   # Start community API
+    pnpm portal:web     # Start future portal (foundation)
+    pnpm portal:api     # Start portal API foundation
+    pnpm docs:dev           # Start Documentation Hub (English)
+    pnpm docs:dev:pt        # Start Documentation Hub (Brazilian Portuguese)
     ```
 
 ---

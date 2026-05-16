@@ -4,8 +4,7 @@ import { useAdminCycleStore } from '../../../../domains/cycle/cycle.store';
 import styles from './styles.module.css';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBoxOpen, faArrowLeft, faSave, faTrash, faPen } from '@fortawesome/free-solid-svg-icons';
+import { Icon, faBoxOpen, faArrowLeft, faSave, faTrash, faPen } from '@elo-organico/studio/icons';
 import type { IProduct } from '@elo-instance/core';
 
 const ActiveCycle = () => {
@@ -57,7 +56,7 @@ const ActiveCycle = () => {
             </div>
 
             <button type="button" className={styles.actionBtn} onClick={handleOpenProducts}>
-              <FontAwesomeIcon icon={faBoxOpen} size="2x" />
+              <Icon icon={faBoxOpen} size="2x" />
               <span>Gerenciar Produtos</span>
             </button>
           </div>
@@ -76,7 +75,7 @@ const ActiveCycle = () => {
             onClick={() => setViewMode('dashboard')}
             disabled={isSubmitting}
           >
-            <FontAwesomeIcon icon={faArrowLeft} /> Voltar
+            <Icon icon={faArrowLeft} /> Voltar
           </button>
           <h3>Gerenciar Produtos do Ciclo</h3>
         </div>
@@ -87,7 +86,7 @@ const ActiveCycle = () => {
           onClick={() => void handleSaveChanges()}
           disabled={isSubmitting}
         >
-          <FontAwesomeIcon icon={faSave} />
+          <Icon icon={faSave} />
           {isSubmitting ? ' Salvando...' : ' Salvar Alterações'}
         </button>
       </header>
@@ -102,7 +101,7 @@ const ActiveCycle = () => {
             </div>
             <div className={styles.pActions}>
               <button type="button" className={styles.iconBtn} title="Editar">
-                <FontAwesomeIcon icon={faPen} />
+                <Icon icon={faPen} />
               </button>
               <button
                 type="button"
@@ -110,7 +109,7 @@ const ActiveCycle = () => {
                 onClick={() => handleRemoveProduct(idx)}
                 title="Remover do Ciclo"
               >
-                <FontAwesomeIcon icon={faTrash} />
+                <Icon icon={faTrash} />
               </button>
             </div>
           </div>

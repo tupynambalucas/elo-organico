@@ -30,7 +30,7 @@ services:
       dockerfile: Dockerfile
     container_name: elo-instance-db-seed
     # Sobrescreve o entrypoint para rodar o script de seed
-    entrypoint: ["./seed.sh"]
+    entrypoint: ['./seed.sh']
     depends_on:
       instance-db:
         condition: service_healthy

@@ -253,11 +253,11 @@ export default defineConfig([
       'react/no-array-index-key': 'warn',
       'react/jsx-no-target-blank': 'error',
       'react/jsx-key': ['error', { checkFragmentShorthand: true }],
-      'react-refresh/only-export-components': ['warn', { allow_constantExport: true }],
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
-      '@typescript-eslint/strict-boolean-expressions': 'warn',
-      },
-      },
+      '@typescript-eslint/strict-boolean-expressions': 'error',
+    },
+  },
 
   // ========================================================================
   // 6. TEST FILES - Regras Relaxadas para Testes

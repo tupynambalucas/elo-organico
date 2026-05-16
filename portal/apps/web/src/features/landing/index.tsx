@@ -2,7 +2,7 @@ import { lazy, Suspense, useRef } from 'react';
 import { useAuthStore } from '@/domains/auth';
 import { useCycleStore } from '@/domains/cycle';
 import { useGSAP } from '@gsap/react';
-import BannerNegative from '@/assets/svg/identity/banner-negative.svg?react';
+import { LogoHorizontalNegative } from '@elo-organico/studio/logos';
 import { animateLandingIntro } from './animations';
 import styles from './styles.module.css';
 
@@ -56,7 +56,7 @@ const LandingLayout = () => {
               alignItems: 'center',
             }}
           >
-            <BannerNegative />
+            <LogoHorizontalNegative />
           </div>
         </div>
       </div>

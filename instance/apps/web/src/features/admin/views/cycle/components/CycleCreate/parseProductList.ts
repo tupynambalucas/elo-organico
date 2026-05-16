@@ -90,13 +90,13 @@ export const parseProductList = (text: string): ParseResult => {
         }
       }
 
-      if (!detectedCategory && headerCheckRegex.test(headerText) && headerText.length > 3) {
+      if (detectedCategory === null && headerCheckRegex.test(headerText) && headerText.length > 3) {
         detectedCategory =
           cleanedLine.charAt(0).toUpperCase() +
           cleanedLine.slice(1).toLowerCase().replace(/[;:]$/, '');
       }
 
-      if (detectedCategory) {
+      if (detectedCategory !== null) {
         currentCategory = detectedCategory;
         continue;
       }

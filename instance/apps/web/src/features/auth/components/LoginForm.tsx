@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { Icon, faEye, faEyeSlash } from '@elo-organico/studio/icons';
 import type { AuthFormData, AuthFieldErrors, AuthFormRefs } from '../types';
 import styles from '../styles.module.css';
 
@@ -25,11 +24,13 @@ export const LoginForm = ({ data, errors, onChange, inputRefs, disabled }: Login
           placeholder="Usuário ou E-mail"
           value={data.identifier}
           onChange={(e) => onChange('identifier', e.target.value)}
-          className={errors.identifier ? styles.inputError : ''}
+          className={errors.identifier !== undefined && errors.identifier !== '' ? styles.inputError : ''}
           disabled={disabled}
           required
         />
-        {errors.identifier && <span className={styles.fieldErrorMessage}>{errors.identifier}</span>}
+        {errors.identifier !== undefined && errors.identifier !== '' && (
+          <span className={styles.fieldErrorMessage}>{errors.identifier}</span>
+        )}
       </div>
 
       <div className={styles.inputWrapper}>
@@ -40,20 +41,22 @@ export const LoginForm = ({ data, errors, onChange, inputRefs, disabled }: Login
             placeholder="Senha"
             value={data.password}
             onChange={(e) => onChange('password', e.target.value)}
-            className={errors.password ? styles.inputError : ''}
+            className={errors.password !== undefined && errors.password !== '' ? styles.inputError : ''}
             disabled={disabled}
             required
           />
           <button
             type="button"
             className={styles.eyeIcon}
-            onClick={() => setShowPassword(!showPassword)}
+            onClick={() => setShowPassword(showPassword === false)}
             tabIndex={-1}
           >
-            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+            <Icon icon={showPassword ? faEyeSlash : faEye} />
           </button>
         </div>
-        {errors.password && <span className={styles.fieldErrorMessage}>{errors.password}</span>}
+        {errors.password !== undefined && errors.password !== '' && (
+          <span className={styles.fieldErrorMessage}>{errors.password}</span>
+        )}
       </div>
     </div>
   );

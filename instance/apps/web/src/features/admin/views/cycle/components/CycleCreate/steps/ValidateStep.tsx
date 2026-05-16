@@ -1,6 +1,5 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { Icon, faExclamationTriangle } from '@elo-organico/studio/icons';
 import styles from '../styles.module.css';
 import type { IProduct } from '@elo-instance/core';
 import type { FailedLine } from '../parseProductList';
@@ -72,7 +71,7 @@ export const ValidateStep: React.FC<ValidateStepProps> = ({
       {hasErrors ? (
         <div className={styles.dangerZone}>
           <div className={styles.dangerHeader}>
-            <FontAwesomeIcon icon={faExclamationTriangle} />
+            <Icon icon={faExclamationTriangle} />
             Atenção: {failedLines.length} produtos da lista não puderam ser lidos
           </div>
           <div className={styles.dangerContent}>

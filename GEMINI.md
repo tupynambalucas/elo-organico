@@ -14,14 +14,14 @@ Deep context is maintained in our Docusaurus Knowledge Base. Refer to these file
 - **Tech Stack:** Defined in `pnpm-workspace.yaml` via **Catalogs**.
 
 ## 🏗️ Monorepo Architecture
-We use **PNPM Workspaces (v10)** and **Turborepo** with a strict **Bounded Context** isolation strategy. Cross-context imports (e.g., Portal importing from Instance) are prohibited.
+We use **PNPM Workspaces (v11)** and **Turborepo** with a strict **Bounded Context** isolation strategy. Cross-context imports (e.g., Portal importing from Instance) are prohibited.
 
 - **`instance/`**: Community-specific operations ("Community Shop"). **Primary focus.**
   - `@elo-instance/web` (React 19), `@elo-instance/api` (Fastify 5), `@elo-instance/core` (Domain SSOT).
-- **`portal/`**: Global SaaS onboarding and platform management singleton.
+- **`portal/`**: Future Global SaaS Hub and platform management foundation (Skeleton stage).
 - **`studio/`**: Design tokens, brand assets (Penpot), and global styling.
 - **`tools/`**: MCP servers, infrastructure (Docker), and automation scripts.
-- **`knowledge-base/`**: Docusaurus-based technical and product documentation.
+- **`knowledge-base/`**: Authoritative Documentation Hub (EloDocs) and technical landing page.
 
 ## 🛡️ Senior Engineering Guardrails (Non-Negotiable)
 1.  **Domain Core First:** Models, schemas, and contracts MUST be defined in `packages/core` before usage.
@@ -34,7 +34,9 @@ We use **PNPM Workspaces (v10)** and **Turborepo** with a strict **Bounded Conte
 
 ## ⚡ Key Orchestration Commands
 - `pnpm instance:dev`: Start Community Stack (Infra + API + Web).
+- `pnpm instance:down`: Stop Community Stack (Infra + Apps).
 - `pnpm portal:dev`: Start Platform Stack (Infra + API + Web).
+- `pnpm portal:down`: Stop Platform Stack (Infra + Apps).
 - `pnpm docs:dev`: Start Knowledge Base.
 - `pnpm typecheck`: Validate TypeScript across the entire monorepo.
 - `pnpm lint`: Run linting for all workspaces.

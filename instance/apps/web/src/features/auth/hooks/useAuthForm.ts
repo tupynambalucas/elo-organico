@@ -31,7 +31,7 @@ export const useAuthForm = (isLogin: boolean, onSuccess: () => void) => {
 
   // Sync backend error to field errors via effect
   useEffect(() => {
-    if (errorCode) {
+    if (errorCode !== null && errorCode !== '') {
       const refs: AuthFormRefs = {
         identifier: identifierRef,
         passwordLogin: passwordLoginRef,
@@ -42,7 +42,7 @@ export const useAuthForm = (isLogin: boolean, onSuccess: () => void) => {
       };
 
       const errorUI = mapBackendErrorToUI(errorCode, refs, t, isLogin);
-      if (errorUI) {
+      if (errorUI !== null) {
         setFieldErrors(errorUI.errors);
         shakeElement(errorUI.ref.current);
       }
@@ -51,10 +51,10 @@ export const useAuthForm = (isLogin: boolean, onSuccess: () => void) => {
 
   const handleInputChange = (field: keyof AuthFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
-    if (fieldErrors[field]) {
+    if (fieldErrors[field] !== undefined && fieldErrors[field] !== null && fieldErrors[field] !== '') {
       setFieldErrors((prev) => ({ ...prev, [field]: null }));
     }
-    if (errorCode) {
+    if (errorCode !== null && errorCode !== '') {
       clearErrors();
     }
   };

@@ -1,6 +1,5 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSync } from '@fortawesome/free-solid-svg-icons';
+import { Icon, faSync } from '@elo-organico/studio/icons';
 import styles from '../styles.module.css';
 import type { FixingItem } from '../types';
 
@@ -89,7 +88,7 @@ export const FixErrorsStep: React.FC<FixErrorsStepProps> = ({
 
       <footer className={styles.actions}>
         <button type="button" className={styles.primaryBtn} onClick={onProcessFixed}>
-          <FontAwesomeIcon icon={faSync} style={{ marginRight: 8 }} />
+          <Icon icon={faSync} style={{ marginRight: 8 }} />
           Atualizar Produtos
         </button>
       </footer>

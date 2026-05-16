@@ -17,7 +17,7 @@ export const getErrorMessage = (err: unknown): string => {
     }
 
     const data = err.response?.data as ApiErrorData | undefined;
-    if (data?.code) {
+    if (data?.code !== undefined && data.code !== '') {
       return i18n.t(`errors.${data.code}`);
     }
   }
