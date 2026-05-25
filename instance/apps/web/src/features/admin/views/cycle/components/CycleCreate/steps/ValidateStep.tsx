@@ -2,7 +2,7 @@ import React from 'react';
 import { Icon, faExclamationTriangle } from '@elo-organico/studio/icons';
 import styles from '../styles.module.css';
 import type { IProduct } from '@elo-instance/core';
-import type { FailedLine } from '../parseProductList';
+import type { FailedLine } from '../parseList';
 
 interface ValidateStepProps {
   products: IProduct[];

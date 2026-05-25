@@ -1,5 +1,5 @@
 import type { IProduct } from '@elo-instance/core';
-import type { FailedLine } from './parseProductList';
+import type { FailedLine } from './parseList';
 
 export interface FixingItem {
   id: string;

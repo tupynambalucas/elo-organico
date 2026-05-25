@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useAdminCycleStore } from '../../../../domains/cycle/cycle.store';
 import { useCyclesNavigation } from '../../cycle.navigation';
-import { parseProductList, type FailedLine } from './parseProductList';
+import { parseProductList, type FailedLine } from './parseList';
 import type { FixingItem } from './types';
 import type { IProduct } from '@elo-instance/core';
 
