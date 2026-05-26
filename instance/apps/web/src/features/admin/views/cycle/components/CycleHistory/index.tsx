@@ -8,7 +8,7 @@ import {
 } from '@elo-organico/studio/icons';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import type { IProduct } from '@elo-instance/core';
+import type { IProduct, CycleResponse } from '@elo-instance/core';
 import { useAdminCycleStore } from '../../../../domains/cycle/cycle.store';
 import styles from './styles.module.css';
 
@@ -46,6 +46,28 @@ const CyclesHistory = () => {
     if (historyPagination && page < historyPagination.pages) {
       setPage((p) => p + 1);
     }
+  };
+
+  const getStatusInfo = (cycle: CycleResponse) => {
+    if (cycle.status) {
+      switch (cycle.status) {
+        case 'OPEN':
+          return { label: 'Aberto', className: styles.open };
+        case 'CLOSED':
+          return { label: 'Encerrado', className: styles.closed };
+        case 'PENDING':
+          return { label: 'Agendado', className: styles.pending };
+      }
+    }
+
+    // Fallback based on dates
+    const now = new Date();
+    const start = new Date(cycle.openingDate);
+    const end = new Date(cycle.closingDate);
+
+    if (now < start) return { label: 'Agendado', className: styles.pending };
+    if (now > end) return { label: 'Encerrado', className: styles.closed };
+    return { label: 'Aberto', className: styles.open };
   };
 
   if (selectedCycle) {
@@ -122,7 +144,12 @@ const CyclesHistory = () => {
                 </div>
                 <div className={styles.cardInfo}>
                   <span>{cycle.description}</span>
-                  <small>Encerrado</small>
+                  {(() => {
+                    const info = getStatusInfo(cycle);
+                    return (
+                      <span className={`${styles.statusTag} ${info.className}`}>{info.label}</span>
+                    );
+                  })()}
                 </div>
               </button>
             ))}

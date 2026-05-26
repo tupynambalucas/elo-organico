@@ -8,6 +8,10 @@ export interface FixingItem {
   name: string;
   price: string;
   unit: string;
+  contentValue?: string;
+  contentUnit?: string;
+  minOrderType?: string;
+  minOrderValue?: string;
 }
 
 export interface CycleCreateState {

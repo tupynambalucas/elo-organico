@@ -84,7 +84,34 @@
 }
 
 .cardInfo span { font-weight: 500; color: #444; }
-.cardInfo small { color: #999; font-size: 0.8rem; }
+
+.statusTag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-top: 4px;
+    width: fit-content;
+    text-transform: uppercase;
+}
+
+.statusTag.open {
+    background: #e6fffa;
+    color: #2c7a7b;
+    border: 1px solid #b2f5ea;
+}
+
+.statusTag.closed {
+    background: #edf2f7;
+    color: #4a5568;
+    border: 1px solid #e2e8f0;
+}
+
+.statusTag.pending {
+    background: #fffaf0;
+    color: #9c4221;
+    border: 1px solid #feebc8;
+}
 
 /* Detalhes */
 .detailContent {

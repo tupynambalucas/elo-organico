@@ -53,15 +53,44 @@ export const useCycleCreate = () => {
 
   // Lógica original: converte TODAS as falhas em itens editáveis de uma vez
   const handleStartFixing = useCallback(() => {
-    const priceRegex = /(?:[R$]\s*)?(\d+[.,]?\d*)\s*(\/.*)?$/i;
+    const PRICE_REGEX = /(?:[R$]\s*)?(\d+[.,]?\d*)\b/i;
+    const CONTENT_REGEX = /(\d+(?:[.,]\d+)?)\s*(g|gr|kg|ml|l|lt|litros?)/i;
+    const UNIT_SUFFIX_REGEX = /\s(kg|un|uni|unidade|pct|pcte|pacote|maço|maco|bandeja|bdj|litro|l|lt|pote|pt|garrafa|garrafão|saca|fardo)\s*$/i;
+    const MIN_ORDER_REGEX = /\/\s*(cx|saca|fardo)\s*([\d.,]+)\s*(kg|un|uni|unidade)?/i;
 
     const itemsToFix = failedLines.map((fail, idx) => {
-      const cleanText = fail.text.replace(/[\-*•]/g, '').trim();
+      const cleanText = fail.text.replace(/[\-*•]/g, '').replace(/^\*+|\*+$/g, '').trim();
       let estimatedName = cleanText;
+      let estimatedPrice = '';
+      let estimatedUnit = 'unidade';
+      let estimatedContentValue = '';
+      let estimatedContentUnit = 'g';
+      let estimatedMinOrderType = '';
+      let estimatedMinOrderValue = '';
 
-      const priceMatch = priceRegex.exec(cleanText);
+      const priceMatch = PRICE_REGEX.exec(cleanText);
       if (priceMatch) {
+        estimatedPrice = priceMatch[1].replace(',', '.');
         estimatedName = cleanText.substring(0, priceMatch.index).trim();
+      }
+
+      const unitMatch = UNIT_SUFFIX_REGEX.exec(estimatedName);
+      if (unitMatch) {
+        estimatedUnit = unitMatch[1].toLowerCase();
+        estimatedName = estimatedName.substring(0, unitMatch.index).trim();
+      }
+
+      const contentMatch = CONTENT_REGEX.exec(estimatedName);
+      if (contentMatch) {
+        estimatedContentValue = contentMatch[1].replace(',', '.');
+        estimatedContentUnit = contentMatch[2].toLowerCase();
+        estimatedName = estimatedName.replace(contentMatch[0], '').trim();
+      }
+
+      const minOrderMatch = MIN_ORDER_REGEX.exec(cleanText);
+      if (minOrderMatch) {
+        estimatedMinOrderType = (minOrderMatch[3] || minOrderMatch[1]).toLowerCase();
+        estimatedMinOrderValue = minOrderMatch[2].replace(',', '.');
       }
 
       return {
@@ -69,8 +98,12 @@ export const useCycleCreate = () => {
         originalText: fail.text,
         category: fail.category || '',
         name: estimatedName,
-        price: '', // O usuário deve preencher
-        unit: 'unidade',
+        price: estimatedPrice,
+        unit: estimatedUnit,
+        contentValue: estimatedContentValue,
+        contentUnit: estimatedContentUnit,
+        minOrderType: estimatedMinOrderType,
+        minOrderValue: estimatedMinOrderValue,
       };
     });
 
@@ -94,8 +127,30 @@ export const useCycleCreate = () => {
 
     fixingItems.forEach((item) => {
       const priceNum = parseFloat(item.price.replace(',', '.'));
+      const contentValNum = item.contentValue !== undefined && item.contentValue !== '' ? parseFloat(item.contentValue.replace(',', '.')) : NaN;
+      const minOrderValNum = item.minOrderValue !== undefined && item.minOrderValue !== '' ? parseFloat(item.minOrderValue.replace(',', '.')) : NaN;
 
       if (item.name.trim().length > 2 && !isNaN(priceNum) && priceNum > 0) {
+        let contentData = undefined;
+        if (!isNaN(contentValNum)) {
+          let unit: 'g' | 'kg' | 'ml' | 'L' = 'g';
+          const u = (item.contentUnit ?? 'g').toLowerCase();
+          if (['g', 'gr'].includes(u)) unit = 'g';
+          else if (['kg'].includes(u)) unit = 'kg';
+          else if (['ml'].includes(u)) unit = 'ml';
+          else if (['l', 'lt', 'litro'].includes(u)) unit = 'L';
+
+          contentData = { value: contentValNum, unit };
+        }
+
+        let minimumOrder = undefined;
+        if (item.minOrderType !== undefined && item.minOrderType !== '' && !isNaN(minOrderValNum)) {
+          minimumOrder = {
+            type: item.minOrderType,
+            value: minOrderValNum,
+          };
+        }
+
         validNewProducts.push({
           name: item.name.trim(),
           category: item.category,
@@ -103,7 +158,9 @@ export const useCycleCreate = () => {
           measure: {
             type: item.unit,
             value: priceNum,
+            minimumOrder,
           },
+          content: contentData,
         });
       } else {
         stillInvalid.push(item);

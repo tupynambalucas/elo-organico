@@ -86,51 +86,124 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.75rem;
+    padding: 1rem;
     background: #fff;
-    border-bottom: 1px solid #eee;
-    margin-bottom: 0.5rem;
-    border-radius: 4px;
+    border: 1px solid #edf2f7;
+    margin-bottom: 0.75rem;
+    border-radius: 8px;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.productRow:hover {
+    border-color: #cbd5e0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.removeBtn {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 24px;
+    height: 24px;
+    background: #fff;
+    border: 1px solid #feb2b2;
+    border-radius: 50%;
+    color: #e53e3e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.removeBtn:hover {
+    background: #fff5f5;
+    color: #c53030;
+    transform: scale(1.1);
+    border-color: #fc8181;
 }
 
 .pInfo {
     display: flex;
     flex-direction: column;
+    gap: 0.25rem;
+}
+
+.pSubInfo {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.categoryTag {
+    color: #718096;
+    font-size: 0.75rem;
+    background: #f7fafc;
+    padding: 1px 6px;
+    border-radius: 4px;
+    border: 1px solid #e2e8f0;
 }
 
 .pInfo strong {
-    font-size: 0.95rem;
-    color: #333;
-}
-
-.pInfo small {
-    color: #666;
-    font-size: 0.8rem;
+    font-size: 1rem;
+    color: #2d3748;
+    font-weight: 600;
 }
 
 .pMeta {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 0.2rem;
+    gap: 0.5rem;
+}
+
+.priceContainer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .price {
-    font-weight: 600;
-    color: #2e7d32;
-    font-size: 0.9rem;
+    font-weight: 700;
+    color: #2f855a;
+    font-size: 1.1rem;
 }
 
-.productRow:last-child { margin-bottom: 0; border-bottom: none; }
-
-.badge {
-    background: #e0f2fe;
-    color: #0369a1;
+.unitBadge {
+    background: #ebf8ff;
+    color: #2b6cb0;
     padding: 2px 8px;
-    border-radius: 10px;
-    font-size: 0.75rem;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 700;
     text-transform: uppercase;
+    border: 1px solid #bee3f8;
 }
+
+.contentBadge {
+    background: #edf2f7;
+    color: #4a5568;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.minOrderBadge {
+    background: #fffaf0;
+    color: #9c4221;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border: 1px solid #feebc8;
+}
+
+.productRow:last-child { margin-bottom: 0; }
 
 .dangerZone {
     margin-top: auto;

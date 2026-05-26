@@ -1,4 +1,3 @@
-import { Queue } from 'bullmq';
 import { Redis } from 'ioredis';
 
 const getRedisConfig = () => ({
@@ -8,7 +7,3 @@ const getRedisConfig = () => ({
 });
 
 export const connection = new Redis(getRedisConfig());
-
-export const CYCLE_QUEUE_NAME = 'cycle-management-queue';
-
-export const cycleQueue = new Queue(CYCLE_QUEUE_NAME, { connection });
