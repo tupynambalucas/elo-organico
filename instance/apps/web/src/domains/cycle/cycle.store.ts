@@ -7,7 +7,7 @@ interface PublicCycleState {
   activeCycle: CycleResponse | null;
   isLoading: boolean;
   error: string | null;
-  fetchActiveCycle: () => Promise<void>;
+  fetchActiveCycle: (options?: { silent?: boolean }) => Promise<void>;
 }
 
 export const useCycleStore = create<PublicCycleState>((set) => ({
@@ -15,8 +15,12 @@ export const useCycleStore = create<PublicCycleState>((set) => ({
   isLoading: false,
   error: null,
 
-  fetchActiveCycle: async () => {
-    set({ isLoading: true, error: null });
+  fetchActiveCycle: async (options) => {
+    const isSilent = options?.silent === true;
+    if (isSilent === false) {
+      set({ isLoading: true, error: null });
+    }
+    
     try {
       const data = await cycleApi.getActive();
       const validated = data ? CycleResponseSchema.parse(data) : null;
@@ -24,7 +28,9 @@ export const useCycleStore = create<PublicCycleState>((set) => ({
     } catch (err: unknown) {
       set({ activeCycle: null, error: getErrorMessage(err) });
     } finally {
-      set({ isLoading: false });
+      if (isSilent === false) {
+        set({ isLoading: false });
+      }
     }
   },
 }));

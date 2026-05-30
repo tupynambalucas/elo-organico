@@ -23,7 +23,7 @@ export const mapBackendErrorToUI = (
   };
 
   const config = errorMap[code];
-  if (!config) return null;
+  if (config === undefined) return null;
 
   return {
     errors: { [config.field]: t(`auth.errors.${code}`) },

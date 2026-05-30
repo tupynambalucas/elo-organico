@@ -26,7 +26,7 @@ const CycleTimer = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
 
   const calculateTime = useCallback(() => {
-    if (!activeCycle?.openingDate || activeCycle.status === 'CLOSED') {
+    if (activeCycle?.openingDate === undefined || activeCycle.status === 'CLOSED') {
       return null;
     }
 
@@ -54,11 +54,11 @@ const CycleTimer = () => {
   if (activeCycle !== prevCycle) {
     setPrevCycle(activeCycle);
     const updated = calculateTime();
-    if (updated) setTime(updated);
+    if (updated !== null) setTime(updated);
   }
 
   useEffect(() => {
-    if (activeCycle && containerRef.current) {
+    if (activeCycle !== null && containerRef.current !== null) {
       animateTimerEntrance(containerRef.current);
     }
   }, [activeCycle]);
@@ -66,7 +66,7 @@ const CycleTimer = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       const newTime = calculateTime();
-      if (newTime) {
+      if (newTime !== null) {
         setTime(newTime);
         animateSecondsTick(`.${styles.secondsRef}`);
       }
@@ -76,17 +76,17 @@ const CycleTimer = () => {
   }, [calculateTime]);
 
   const isClosed = activeCycle?.status === 'CLOSED';
-  const displayDate = activeCycle?.openingDate ? new Date(activeCycle.openingDate) : new Date();
+  const displayDate = activeCycle?.openingDate !== undefined ? new Date(activeCycle.openingDate) : new Date();
   const formattedDate = format(displayDate, "EEEE, dd 'de' MMMM", { locale: ptBR });
 
   return (
     <div className={styles.timerContainer}>
       <h2 className={styles.title} ref={titleRef}>
-        {isClosed ? 'Ciclo Encerrado em ' : 'Próximo ciclo abre em '}
+        {isClosed === true ? 'Ciclo Encerrado em ' : 'Próximo ciclo abre em '}
         <span className={styles.dateHighlight}>{formattedDate}</span>
       </h2>
 
-      {isClosed ? (
+      {isClosed === true ? (
         <div className={styles.closedMessage}>
           <p className={styles.subtitle}>
             Este ciclo já foi finalizado. Aguarde a divulgação das datas para a próxima feira.

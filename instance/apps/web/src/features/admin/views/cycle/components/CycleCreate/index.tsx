@@ -6,6 +6,7 @@ import { InputStep } from './steps/InputStep';
 import { FixErrorsStep } from './steps/FixErrorsStep';
 import { ValidateStep } from './steps/ValidateStep';
 import { ScheduleStep } from './steps/ScheduleStep';
+import { AdminContainer } from '../../../../components';
 
 const CycleCreate: React.FC = () => {
   const { state, actions } = useCycleCreate();
@@ -36,9 +37,11 @@ const CycleCreate: React.FC = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <AdminContainer title="Criar Novo Ciclo" level="h3">
       {/* Exibir erro global se houver */}
-      {state.storeError && <div className={styles.errorMessage}>{state.storeError}</div>}
+      {state.storeError !== null && state.storeError !== '' && (
+        <div className={styles.errorMessage}>{state.storeError}</div>
+      )}
 
       {/* Passo 1: Input */}
       {state.step === 'input-list' && (
@@ -70,7 +73,7 @@ const CycleCreate: React.FC = () => {
           }}
         />
       )}
-    </div>
+    </AdminContainer>
   );
 };
 

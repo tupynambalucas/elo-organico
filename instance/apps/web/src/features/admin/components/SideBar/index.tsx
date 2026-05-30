@@ -1,13 +1,13 @@
 import {
+  Icon,
   faArrowRightFromBracket,
   faList,
   faUsers,
   faCarrot,
   faChartSimple,
   faGear,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { LogoPositive } from '@/components/Icons';
+} from '@elo-organico/studio/icons';
+import { LogoMarkPositive } from '@elo-organico/studio/logos';
 import { useAuthStore } from '@/domains/auth';
 import { useAdminNavigation } from '../../admin.navigation';
 import type { AdminViewType } from '../../admin.navigation';
@@ -28,7 +28,7 @@ const SideBar = () => {
   return (
     <div className={styles.sidebar}>
       <div className={styles.logo}>
-        <LogoPositive />
+        <LogoMarkPositive />
       </div>
       <div className={styles.menu}>
         <button
@@ -36,7 +36,7 @@ const SideBar = () => {
           onClick={() => handleNavigation('cycles')}
           className={getButtonClass('cycles')}
         >
-          <FontAwesomeIcon icon={faList} size="xl" />
+          <Icon icon={faList} size="xl" />
           <span className={styles.tooltip}>Ciclos</span>
         </button>
 
@@ -45,7 +45,7 @@ const SideBar = () => {
           onClick={() => handleNavigation('users')}
           className={getButtonClass('users')}
         >
-          <FontAwesomeIcon icon={faUsers} size="xl" />
+          <Icon icon={faUsers} size="xl" />
           <span className={styles.tooltip}>Usuários</span>
         </button>
 
@@ -54,7 +54,7 @@ const SideBar = () => {
           onClick={() => handleNavigation('products')}
           className={getButtonClass('products')}
         >
-          <FontAwesomeIcon icon={faCarrot} size="xl" />
+          <Icon icon={faCarrot} size="xl" />
           <span className={styles.tooltip}>Produtos</span>
         </button>
 
@@ -63,7 +63,7 @@ const SideBar = () => {
           onClick={() => handleNavigation('reports')}
           className={getButtonClass('reports')}
         >
-          <FontAwesomeIcon icon={faChartSimple} size="xl" />
+          <Icon icon={faChartSimple} size="xl" />
           <span className={styles.tooltip}>Relatórios</span>
         </button>
 
@@ -72,14 +72,14 @@ const SideBar = () => {
           onClick={() => handleNavigation('configurations')}
           className={getButtonClass('configurations')}
         >
-          <FontAwesomeIcon icon={faGear} size="xl" />
+          <Icon icon={faGear} size="xl" />
           <span className={styles.tooltip}>Configurações</span>
         </button>
       </div>
 
       <div className={styles.footer}>
         <button type="button" onClick={() => void logout()} title="Sair do sistema">
-          <FontAwesomeIcon icon={faArrowRightFromBracket} size="xl" flip="horizontal" />
+          <Icon icon={faArrowRightFromBracket} size="xl" flip="horizontal" />
         </button>
       </div>
     </div>

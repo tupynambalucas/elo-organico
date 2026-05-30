@@ -1,6 +1,5 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSync } from '@fortawesome/free-solid-svg-icons';
+import { Icon, faSync } from '@elo-organico/studio/icons';
 import styles from '../styles.module.css';
 import type { FixingItem } from '../types';
 
@@ -68,7 +67,62 @@ export const FixErrorsStep: React.FC<FixErrorsStepProps> = ({
                   <option value="maço">Maço</option>
                   <option value="bandeja">Bandeja</option>
                   <option value="garrafão">Garrafão</option>
+                  <option value="pote">Pote</option>
+                  <option value="saca">Saca</option>
+                  <option value="fardo">Fardo</option>
                 </select>
+              </div>
+
+              {/* Campo Conteúdo */}
+              <div className={styles.fixField} style={{ flex: '1 1 120px' }}>
+                <label>Peso/Vol (Opcional)</label>
+                <div style={{ display: 'flex', gap: '4px' }}>
+                  <input
+                    className={styles.fixInput}
+                    value={item.contentValue}
+                    onChange={(e) => onUpdateItem(item.id, 'contentValue', e.target.value)}
+                    placeholder="Ex: 500"
+                    type="number"
+                  />
+                  <select
+                    className={styles.fixInput}
+                    value={item.contentUnit}
+                    onChange={(e) => onUpdateItem(item.id, 'contentUnit', e.target.value)}
+                    style={{ width: '60px', padding: '0.4rem' }}
+                  >
+                    <option value="g">g</option>
+                    <option value="kg">kg</option>
+                    <option value="ml">ml</option>
+                    <option value="L">L</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Campo Pedido Mínimo */}
+              <div className={styles.fixField} style={{ flex: '1 1 120px' }}>
+                <label>Min. Pedido (Opcional)</label>
+                <div style={{ display: 'flex', gap: '4px' }}>
+                  <select
+                    className={styles.fixInput}
+                    value={item.minOrderType}
+                    onChange={(e) => onUpdateItem(item.id, 'minOrderType', e.target.value)}
+                    style={{ width: '85px', padding: '0.4rem' }}
+                  >
+                    <option value="">Nenhum</option>
+                    <option value="kg">Kg</option>
+                    <option value="unidade">Uni</option>
+                    <option value="cx">Cx</option>
+                    <option value="saca">Saca</option>
+                    <option value="fardo">Fardo</option>
+                  </select>
+                  <input
+                    className={styles.fixInput}
+                    value={item.minOrderValue}
+                    onChange={(e) => onUpdateItem(item.id, 'minOrderValue', e.target.value)}
+                    placeholder="Qtd"
+                    type="number"
+                  />
+                </div>
               </div>
 
               {/* Campo Categoria */}
@@ -89,7 +143,7 @@ export const FixErrorsStep: React.FC<FixErrorsStepProps> = ({
 
       <footer className={styles.actions}>
         <button type="button" className={styles.primaryBtn} onClick={onProcessFixed}>
-          <FontAwesomeIcon icon={faSync} style={{ marginRight: 8 }} />
+          <Icon icon={faSync} style={{ marginRight: 8 }} />
           Atualizar Produtos
         </button>
       </footer>

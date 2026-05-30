@@ -29,23 +29,23 @@
   // Ensure studio/.env file contains the rescpective keys:
   // GITHUB_TOKEN, CONTEXT7_API_KEY
   "mcpServers": {
-    "github": {
+    "mcp/github": {
       "command": "docker",
-      "args": ["compose", "-f", "tools/mcp/compose.yaml", "run", "--rm", "-i", "mcp-github"]
+      "args": ["compose", "-f", "tools/mcp/compose.yaml", "-p", "elo-mcp", "run", "--rm", "-i", "github"]
     },
-    "context7": {
+    "mcp/context7": {
       "command": "docker",
-      "args": ["compose", "-f", "tools/mcp/compose.yaml", "run", "--rm", "-i", "mcp-context7"]
+      "args": ["compose", "-f", "tools/mcp/compose.yaml", "-p", "elo-mcp", "run", "--rm", "-i", "context7"]
     },
-    "browser": {
+    "mcp/browser": {
       "command": "docker",
-      "args": ["compose", "-f", "tools/mcp/compose.yaml", "run", "--rm", "-i", "mcp-browser"]
+      "args": ["compose", "-f", "tools/mcp/compose.yaml", "-p", "elo-mcp", "run", "--rm", "-i", "browser"]
     },
-    "dockerhub": {
+    "mcp/dockerhub": {
       "command": "docker",
-      "args": ["compose", "-f", "tools/mcp/compose.yaml", "run", "--rm", "-i", "mcp-dockerhub"]
+      "args": ["compose", "-f", "tools/mcp/compose.yaml", "-p", "elo-mcp", "run", "--rm", "-i", "dockerhub"]
     },
-    "penpot": {
+    "mcp/penpot": {
       "command": "npx",
       "args": ["-y", "mcp-remote", "http://localhost:4401/mcp", "--allow-http"]
     }

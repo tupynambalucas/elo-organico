@@ -16,9 +16,9 @@ let failedQueue: FailedRequestQueueItem[] = [];
 
 const processQueue = (error: Error | null, token: string | null = null) => {
   failedQueue.forEach((prom) => {
-    if (error) {
+    if (error !== null) {
       prom.reject(error);
-    } else if (token) {
+    } else if (token !== null) {
       prom.resolve(token);
     }
   });
@@ -39,8 +39,8 @@ export function setCsrfToken(token: string) {
 
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   if (
-    csrfToken &&
-    config.method &&
+    csrfToken !== null &&
+    config.method !== undefined &&
     !['get', 'head', 'options'].includes(config.method.toLowerCase())
   ) {
     config.headers.set('x-csrf-token', csrfToken);
@@ -53,8 +53,8 @@ api.interceptors.response.use(
   async (error: AxiosError) => {
     const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
 
-    if (error.response?.status === 403 && !originalRequest._retry) {
-      if (isRefreshing) {
+    if (error.response?.status === 403 && originalRequest._retry !== true) {
+      if (isRefreshing === true) {
         return new Promise<AxiosResponse>((resolve, reject) => {
           failedQueue.push({
             resolve: (token: string) => {

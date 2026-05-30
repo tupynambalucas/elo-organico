@@ -9,8 +9,11 @@ description: The core mission, value proposition, and long-term goals of the Elo
 **Elo Orgânico** is a specialized platform designed to bridge the gap between organic producers and conscious consumers through **Scheduled Sharing Cycles**. More than just an e-commerce tool, it is a community-driven management system that automates the complex logistics of seasonal harvests and group buying.
 
 The project operates through a dual-layered application model, ensuring strict logical separation:
-1.  **Platform Scope (@elo-portal/web & @elo-portal/api)**: The global public face and SaaS entry point. This is a standalone singleton layer that handles high-level discovery, marketing, and future onboarding.
+1.  **Platform Scope (@elo-portal/web & @elo-portal/api)**: The future global product hub and SaaS entry point. This is a standalone singleton layer that will handle high-level discovery and onboarding (currently in foundation stage).
 2.  **Instance Scope (@elo-instance/web & @elo-instance/api)**: Dedicated application pairs deployed for each community, providing a tailored and isolated experience. These instances are governed by the domain-specific logic in `@elo-instance/core`.
+
+> [!NOTE]
+> **Technical Hub**: The current authoritative landing page and technical center for the project is the **Knowledge Base** (EloDocs).
 
 ### The Vision
 *"To make local, organic, and sustainable food as accessible and easy to purchase as any common industrial product, without losing the human connection."*

@@ -19,7 +19,11 @@
   padding: 2rem;
   position: relative;
   overflow: hidden;
-  background-image: radial-gradient(circle at 2vh 2vh, rgba(2, 89, 15, 0.1) 0.2vh, transparent 0);
+  background-image: radial-gradient(
+    circle at 2vh 2vh,
+    color-mix(in srgb, var(--color-background-shade) 10%, transparent) 0.2vh,
+    transparent 0
+  );
   background-size: 24px 24px;
 }
 
@@ -53,7 +57,7 @@
   align-items: center;
   background-color: var(--color-background-tint);
   position: relative;
-  box-shadow: -5px 0 15px rgba(2, 38, 1, 0.2);
+  box-shadow: -5px 0 15px color-mix(in srgb, var(--color-identity-tertiary) 20%, transparent);
 }
 
 @media (max-width: 599px) {

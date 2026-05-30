@@ -7,11 +7,10 @@
     "allowArbitraryExtensions": true,
     "paths": {
       "@/*": ["./src/*"],
-      "@assets/*": ["./src/assets/*"],
       "@components/*": ["./src/components/*"],
       "@features/*": ["./src/features/*"],
       "@domains/*": ["./src/domains/*"],
-      /* Desenvolvimento instantâneo: lê a fonte do core */
+      /* Desenvolvimento instantÃ¢neo: lÃª a fonte do core */
       "@elo-portal/core": ["../../packages/core/src/index.ts"]
     }
   },

@@ -2,7 +2,7 @@ import { lazy, Suspense, useRef } from 'react';
 import { useAuthStore } from '@/domains/auth';
 import { useCycleStore } from '@/domains/cycle';
 import { useGSAP } from '@gsap/react';
-import BannerNegative from '@/assets/svg/identity/banner-negative.svg?react';
+import { LogoHorizontalNegative } from '@elo-organico/studio/logos';
 import { animateLandingIntro } from './animations';
 import styles from './styles.module.css';
 
@@ -20,7 +20,7 @@ const LandingLayout = () => {
 
   useGSAP(
     () => {
-      if (!leftPanelRef.current || !logoWrapperRef.current || !rightPanelRef.current) {
+      if (leftPanelRef.current === null || logoWrapperRef.current === null || rightPanelRef.current === null) {
         return;
       }
 
@@ -30,10 +30,10 @@ const LandingLayout = () => {
   );
 
   const renderContent = () => {
-    if (!isAuthenticated) {
+    if (isAuthenticated === false) {
       return <AuthForm />;
     }
-    if (isCycleLoading) {
+    if (isCycleLoading === true) {
       return null;
     }
     if (activeCycle?.status !== 'OPEN') {
@@ -56,7 +56,7 @@ const LandingLayout = () => {
               alignItems: 'center',
             }}
           >
-            <BannerNegative />
+            <LogoHorizontalNegative />
           </div>
         </div>
       </div>

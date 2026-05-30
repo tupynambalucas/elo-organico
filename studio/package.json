@@ -25,11 +25,7 @@
   },
   "dependencies": {
     "@fontsource-variable/nunito": "catalog:studio-stack",
-    "@fortawesome/fontawesome-svg-core": "catalog:studio-stack",
-    "@fortawesome/free-brands-svg-icons": "catalog:studio-stack",
-    "@fortawesome/free-regular-svg-icons": "catalog:studio-stack",
-    "@fortawesome/free-solid-svg-icons": "catalog:studio-stack",
-    "@fortawesome/react-fontawesome": "catalog:studio-stack",
+    "react-icons": "catalog:studio-stack",
     "react": "catalog:web-stack",
     "react-dom": "catalog:web-stack"
   },

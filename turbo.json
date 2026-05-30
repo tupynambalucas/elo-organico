@@ -1,10 +1,10 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalEnv": ["NODE_ENV", "VERCEL_ENV", "VERCEL_URL"],
+  "globalEnv": ["NODE_ENV"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**", "build/**"],
+      "outputs": ["dist/**", "build/**"],
       "env": ["VITE_*", "DOCUSAURUS_*"]
     },
     "lint": {
@@ -14,23 +14,24 @@
       "dependsOn": ["^typecheck"]
     },
     "dev": {
+      "dependsOn": ["//#instance:up", "//#portal:up"],
       "cache": false,
       "persistent": true
     },
     "instance:dev": {
-      "dependsOn": ["//#instance:infra:up"],
+      "dependsOn": ["//#instance:up"],
       "cache": false,
       "persistent": true
     },
-    "//#instance:infra:up": {
+    "//#instance:up": {
       "cache": false
     },
     "portal:dev": {
-      "dependsOn": ["//#portal:infra:up"],
+      "dependsOn": ["//#portal:up"],
       "cache": false,
       "persistent": true
     },
-    "//#portal:infra:up": {
+    "//#portal:up": {
       "cache": false
     },
     "start": {

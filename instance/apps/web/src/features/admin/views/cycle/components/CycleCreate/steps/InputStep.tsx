@@ -12,7 +12,7 @@ export const InputStep: React.FC<InputStepProps> = ({ value, onChange, onParse, 
   return (
     <div className={styles.stepContainer}>
       <h3>Novo Ciclo - Colar Lista</h3>
-      <p>Cole a lista do WhatsApp ou Excel abaixo.</p>
+      <p>Cole a lista do WhatsApp enviada pelo distribuidor abaixo.</p>
 
       <textarea
         className={styles.listInput}

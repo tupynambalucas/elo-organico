@@ -21,7 +21,7 @@ export const IconSelector = ({
         <div
           key={item.name}
           className={`${styles.iconOption} ${selectedIcon === item.name ? styles.selectedIcon : ''}`}
-          onClick={() => !disabled && onSelect(item.name)}
+          onClick={() => disabled !== true && onSelect(item.name)}
         >
           <img src={item.base64} alt={item.name} />
         </div>

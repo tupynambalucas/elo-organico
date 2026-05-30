@@ -34,7 +34,7 @@ import TabItem from '@theme/TabItem';
 
     <TabItem value="network" label="Segurança de IA & Rede">
       <h3>Arquitetura de Infraestrutura Isolada</h3>
-      <p>A segurança é mantida através de um modelo de rede zero-trust para agentes de IA. As ferramentas de automação operam dentro de um ambiente Docker isolado (<code>tools-mcp-net</code>), impedindo o movimento lateral dentro da infraestrutura hospedeira.</p>
+      <p>A segurança é mantida através de um modelo de rede zero-trust para agentes de IA. As ferramentas de automação operam dentro de um ambiente Docker isolado (<code>elo-mcp-net</code>), impedindo o movimento lateral dentro da infraestrutura hospedeira.</p>
 
       <h4>Topologia de Rede & Conectividade</h4>
 
@@ -74,11 +74,11 @@ import TabItem from '@theme/TabItem';
             <td>Valida a integridade do TypeScript nos scripts e no código-fonte do MCP.</td>
           </tr>
           <tr>
-            <td><code>infra:keygen</code></td>
-            <td>Geração criptograficamente segura de chaves de ambiente (ex: keyfile do MongoDB).</td>
+            <td><code>pnpm build</code></td>
+            <td>Build completo de produção incluindo servidores MCP e ferramentas de automação.</td>
           </tr>
           <tr>
-            <td><code>clean:project</code></td>
+            <td><code>pnpm clean</code></td>
             <td>Manutenção agressiva do workspace usando <code>npkill</code> para podar dependências legadas.</td>
           </tr>
         </tbody>

@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { adminCycleApi } from './cycle.api';
 import { useCycleStore as usePublicCycleStore } from '@/domains/cycle';
+import { useProductStore } from '@/domains/product';
 import { getErrorMessage } from '@/utils/errorHelper';
 import { type IProduct, type CycleResponse, CycleResponseSchema } from '@elo-instance/core';
 
@@ -35,6 +36,8 @@ interface AdminCycleState {
   updateActiveCycleProducts: (products: IProduct[]) => Promise<boolean>;
   resetStatus: () => void;
   clearSelectedCycle: () => void;
+  activeCycleViewMode: 'dashboard' | 'products';
+  setActiveCycleViewMode: (mode: 'dashboard' | 'products') => void;
 }
 
 export const useAdminCycleStore = create<AdminCycleState>((set) => ({
@@ -46,6 +49,9 @@ export const useAdminCycleStore = create<AdminCycleState>((set) => ({
   isLoadingHistory: false,
   selectedCycle: null,
   isLoadingDetails: false,
+  activeCycleViewMode: 'dashboard',
+
+  setActiveCycleViewMode: (mode) => set({ activeCycleViewMode: mode }),
 
   fetchHistory: async (filters) => {
     set({ isLoadingHistory: true, error: null });
@@ -79,7 +85,7 @@ export const useAdminCycleStore = create<AdminCycleState>((set) => ({
   createCycle: async (data) => {
     set({ isSubmitting: true, error: null, success: false });
     try {
-      if (!data.openingDate || !data.closingDate) {
+      if (data.openingDate === null || data.closingDate === null) {
         throw new Error('Datas inválidas');
       }
 
@@ -102,7 +108,7 @@ export const useAdminCycleStore = create<AdminCycleState>((set) => ({
 
   updateActiveCycleProducts: async (updatedProducts) => {
     const currentPublicCycle = usePublicCycleStore.getState().activeCycle;
-    if (!currentPublicCycle?._id) return false;
+    if (currentPublicCycle?._id === undefined || currentPublicCycle._id === '') return false;
 
     set({ isSubmitting: true, error: null });
     try {
@@ -113,7 +119,8 @@ export const useAdminCycleStore = create<AdminCycleState>((set) => ({
       CycleResponseSchema.parse(updatedCycle);
       console.info('Updated Cycle:', updatedCycle);
       set({ isSubmitting: false, success: true });
-      void usePublicCycleStore.getState().fetchActiveCycle();
+      void usePublicCycleStore.getState().fetchActiveCycle({ silent: true });
+      void useProductStore.getState().fetchProducts();
       return true;
     } catch (err: unknown) {
       set({ isSubmitting: false, error: getErrorMessage(err) });

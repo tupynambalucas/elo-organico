@@ -1,9 +1,8 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { Icon, faExclamationTriangle } from '@elo-organico/studio/icons';
 import styles from '../styles.module.css';
 import type { IProduct } from '@elo-instance/core';
-import type { FailedLine } from '../parseProductList';
+import type { FailedLine } from '../parseList';
 
 interface ValidateStepProps {
   products: IProduct[];
@@ -39,31 +38,39 @@ export const ValidateStep: React.FC<ValidateStepProps> = ({
           const productKey = p._id ?? `${p.name}-${p.category}-${idx}`;
           return (
             <div key={productKey} className={styles.productRow}>
-              <div className={styles.pInfo}>
-                <strong>{p.name}</strong>
-                <small>{p.category}</small>
-              </div>
-
-              <div className={styles.pMeta}>
-                <span className={styles.badge}>{p.measure.type}</span>
-                <span className={styles.price}>R$ {Number(p.measure.value).toFixed(2)}</span>
-              </div>
-
               <button
                 type="button"
                 className={styles.removeBtn}
                 onClick={() => onRemoveProduct(idx)}
-                style={{
-                  marginLeft: '1rem',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  color: '#999',
-                  fontSize: '1.2rem',
-                }}
+                title="Remover produto"
               >
                 ×
               </button>
+
+              <div className={styles.pInfo}>
+                <strong>{p.name}</strong>
+                <div className={styles.pSubInfo}>
+                  <small className={styles.categoryTag}>{p.category}</small>
+                  {p.content && (
+                    <span className={styles.contentBadge}>
+                      {p.content.value}
+                      {p.content.unit}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <div className={styles.pMeta}>
+                {p.measure.minimumOrder && (
+                  <span className={styles.minOrderBadge}>
+                    Min: {p.measure.minimumOrder.value} {p.measure.minimumOrder.type}
+                  </span>
+                )}
+                <div className={styles.priceContainer}>
+                  <span className={styles.unitBadge}>{p.measure.type}</span>
+                  <span className={styles.price}>R$ {Number(p.measure.value).toFixed(2)}</span>
+                </div>
+              </div>
             </div>
           );
         })}
@@ -72,7 +79,7 @@ export const ValidateStep: React.FC<ValidateStepProps> = ({
       {hasErrors ? (
         <div className={styles.dangerZone}>
           <div className={styles.dangerHeader}>
-            <FontAwesomeIcon icon={faExclamationTriangle} />
+            <Icon icon={faExclamationTriangle} />
             Atenção: {failedLines.length} produtos da lista não puderam ser lidos
           </div>
           <div className={styles.dangerContent}>

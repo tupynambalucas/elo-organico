@@ -107,8 +107,13 @@ catalogs:
   studio-stack:
     '@fontsource-variable/nunito': '^5.2.7'
     '@fontsource/nunito': '^5.2.7'
-    '@fortawesome/fontawesome-svg-core': '^7.2.0'
-    '@fortawesome/free-brands-svg-icons': '^7.2.0'
-    '@fortawesome/free-regular-svg-icons': '^7.2.0'
-    '@fortawesome/free-solid-svg-icons': '^7.2.0'
-    '@fortawesome/react-fontawesome': '^3.2.0'
+    'react-icons': '^5.5.0'
+
+allowBuilds:
+  '@sentry-internal/node-cpu-profiler': true
+  '@swc/core': true
+  'bcrypt': true
+  'core-js': true
+  'esbuild': true
+  'msgpackr-extract': true
+  'unrs-resolver': true

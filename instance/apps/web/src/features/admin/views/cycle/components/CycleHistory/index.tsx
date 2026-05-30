@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  Icon,
   faTimes,
   faCalendarAlt,
   faChevronLeft,
   faChevronRight,
-} from '@fortawesome/free-solid-svg-icons';
+} from '@elo-organico/studio/icons';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import type { IProduct } from '@elo-instance/core';
+import type { IProduct, CycleResponse } from '@elo-instance/core';
 import { useAdminCycleStore } from '../../../../domains/cycle/cycle.store';
 import styles from './styles.module.css';
+import { AdminContainer } from '../../../../components';
 
 const CyclesHistory = () => {
   const {
@@ -31,7 +32,7 @@ const CyclesHistory = () => {
   }, [page, fetchHistory]);
 
   const handleSelectCycle = (id: string | undefined) => {
-    if (id) {
+    if (id !== undefined && id !== '') {
       void fetchCycleDetails(id);
     }
   };
@@ -48,16 +49,39 @@ const CyclesHistory = () => {
     }
   };
 
+  const getStatusInfo = (cycle: CycleResponse) => {
+    if (cycle.status) {
+      switch (cycle.status) {
+        case 'OPEN':
+          return { label: 'Aberto', className: styles.open };
+        case 'CLOSED':
+          return { label: 'Encerrado', className: styles.closed };
+        case 'PENDING':
+          return { label: 'Agendado', className: styles.pending };
+      }
+    }
+
+    // Fallback based on dates
+    const now = new Date();
+    const start = new Date(cycle.openingDate);
+    const end = new Date(cycle.closingDate);
+
+    if (now < start) return { label: 'Agendado', className: styles.pending };
+    if (now > end) return { label: 'Encerrado', className: styles.closed };
+    return { label: 'Aberto', className: styles.open };
+  };
+
   if (selectedCycle) {
     return (
-      <div className={styles.container}>
-        <header className={styles.detailHeader}>
+      <AdminContainer
+        title="Detalhes do Ciclo"
+        level="h3"
+        headerActions={
           <button type="button" onClick={clearSelectedCycle} className={styles.closeBtn}>
-            <FontAwesomeIcon icon={faTimes} />
+            <Icon icon={faTimes} />
           </button>
-          <h3>Detalhes do Ciclo</h3>
-        </header>
-
+        }
+      >
         {isLoadingDetails ? (
           <div className={styles.loading}>Carregando...</div>
         ) : (
@@ -89,21 +113,17 @@ const CyclesHistory = () => {
             </div>
           </div>
         )}
-      </div>
+      </AdminContainer>
     );
   }
 
   return (
-    <div className={styles.container}>
-      <header className={styles.listHeader}>
-        <h3>Histórico</h3>
-      </header>
-
+    <AdminContainer title="Histórico" level="h3">
       {isLoadingHistory ? (
         <div className={styles.loading}>Carregando...</div>
       ) : historyCycles.length === 0 ? (
         <div className={styles.emptyState}>
-          <FontAwesomeIcon icon={faCalendarAlt} size="2x" />
+          <Icon icon={faCalendarAlt} size="2x" />
           <p>Nenhum ciclo anterior encontrado.</p>
         </div>
       ) : (
@@ -122,7 +142,12 @@ const CyclesHistory = () => {
                 </div>
                 <div className={styles.cardInfo}>
                   <span>{cycle.description}</span>
-                  <small>Encerrado</small>
+                  {(() => {
+                    const info = getStatusInfo(cycle);
+                    return (
+                      <span className={`${styles.statusTag} ${info.className}`}>{info.label}</span>
+                    );
+                  })()}
                 </div>
               </button>
             ))}
@@ -131,7 +156,7 @@ const CyclesHistory = () => {
           {historyPagination && historyPagination.pages > 1 && (
             <footer>
               <button type="button" onClick={handlePrevPage} disabled={page === 1}>
-                <FontAwesomeIcon icon={faChevronLeft} />
+                <Icon icon={faChevronLeft} />
               </button>
               <span>
                 {page} de {historyPagination.pages}
@@ -141,13 +166,13 @@ const CyclesHistory = () => {
                 onClick={handleNextPage}
                 disabled={page === historyPagination.pages}
               >
-                <FontAwesomeIcon icon={faChevronRight} />
+                <Icon icon={faChevronRight} />
               </button>
             </footer>
           )}
         </>
       )}
-    </div>
+    </AdminContainer>
   );
 };
 

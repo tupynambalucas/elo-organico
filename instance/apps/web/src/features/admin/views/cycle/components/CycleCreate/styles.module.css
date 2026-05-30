@@ -1,7 +1,7 @@
 .container {
     height: 100%;
     width: 100%;
-    background: #fff;
+    background: white;
     border-radius: 8px;
     padding: 1.5rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
@@ -10,13 +10,13 @@
 }
 
 .errorMessage {
-    background-color: #fee2e2;
-    color: #991b1b;
+    background-color: color-mix(in srgb, var(--color-error) 10%, white);
+    color: var(--color-error);
     padding: 0.75rem;
     border-radius: 6px;
     margin-bottom: 1rem;
     font-size: 0.9rem;
-    border: 1px solid #fecaca;
+    border: 1px solid color-mix(in srgb, var(--color-error) 20%, white);
 }
 
 .stepContainer {
@@ -35,29 +35,30 @@
 
 .container h3 {
     font-size: 1.2rem;
-    color: #333;
+    color: var(--color-title-dark);
     margin-bottom: 0.2rem;
 }
 
 .container p {
     font-size: 0.9rem;
-    color: #777;
+    color: var(--color-subtitle-dark);
 }
 
 .listInput, .descriptionInput {
     flex: 1;
     width: 100%;
     padding: 1rem;
-    border: 1px solid #ddd;
+    border: 1px solid var(--color-border-light);
     border-radius: 6px;
     font-family: inherit;
     resize: none;
     font-size: 0.9rem;
+    background-color: var(--color-background-tint);
 }
 
 .listInput:focus, .descriptionInput:focus {
     outline: none;
-    border-color: #4CAF50;
+    border-color: var(--color-success);
 }
 
 .formGroup {
@@ -75,10 +76,10 @@
 .previewList {
     flex: 1; 
     overflow-y: auto; 
-    border: 1px solid #eee;
+    border: 1px solid var(--color-border-light);
     border-radius: 6px;
     padding: 0.5rem;
-    background: #fafafa;
+    background: var(--color-background-tint);
     min-height: 0;
 }
 
@@ -86,64 +87,136 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.75rem;
-    background: #fff;
-    border-bottom: 1px solid #eee;
-    margin-bottom: 0.5rem;
-    border-radius: 4px;
+    padding: 1rem;
+    background: white;
+    border: 1px solid var(--color-border-light);
+    margin-bottom: 0.75rem;
+    border-radius: 8px;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.productRow:hover {
+    border-color: var(--color-success);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.removeBtn {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 24px;
+    height: 24px;
+    background: white;
+    border: 1px solid color-mix(in srgb, var(--color-error) 30%, white);
+    border-radius: 50%;
+    color: var(--color-error);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.removeBtn:hover {
+    background: color-mix(in srgb, var(--color-error) 5%, white);
+    transform: scale(1.1);
+    border-color: var(--color-error);
 }
 
 .pInfo {
     display: flex;
     flex-direction: column;
+    gap: 0.25rem;
+}
+
+.pSubInfo {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.categoryTag {
+    color: var(--color-subtitle-dark);
+    font-size: 0.75rem;
+    background: var(--color-background-tint);
+    padding: 1px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--color-border-light);
 }
 
 .pInfo strong {
-    font-size: 0.95rem;
-    color: #333;
-}
-
-.pInfo small {
-    color: #666;
-    font-size: 0.8rem;
+    font-size: 1rem;
+    color: var(--color-title-dark);
+    font-weight: 600;
 }
 
 .pMeta {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 0.2rem;
+    gap: 0.5rem;
+}
+
+.priceContainer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .price {
-    font-weight: 600;
-    color: #2e7d32;
-    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-success);
+    font-size: 1.1rem;
 }
 
-.productRow:last-child { margin-bottom: 0; border-bottom: none; }
-
-.badge {
-    background: #e0f2fe;
-    color: #0369a1;
+.unitBadge {
+    background: color-mix(in srgb, var(--color-info) 10%, white);
+    color: var(--color-info);
     padding: 2px 8px;
-    border-radius: 10px;
-    font-size: 0.75rem;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 700;
     text-transform: uppercase;
+    border: 1px solid color-mix(in srgb, var(--color-info) 20%, white);
 }
+
+.contentBadge {
+    background: var(--color-background-light);
+    color: var(--color-subtitle-dark);
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.minOrderBadge {
+    background: color-mix(in srgb, var(--color-warning) 10%, white);
+    color: color-mix(in srgb, var(--color-warning) 70%, black);
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border: 1px solid color-mix(in srgb, var(--color-warning) 20%, white);
+}
+
+.productRow:last-child { margin-bottom: 0; }
 
 .dangerZone {
     margin-top: auto;
-    border: 1px solid #fecaca;
+    border: 1px solid color-mix(in srgb, var(--color-error) 20%, white);
     border-radius: 8px;
     overflow: hidden;
-    background-color: #fff1f2;
+    background-color: color-mix(in srgb, var(--color-error) 5%, white);
 }
 
 .dangerHeader {
-    background-color: #fee2e2;
+    background-color: color-mix(in srgb, var(--color-error) 10%, white);
     padding: 0.8rem 1rem;
-    color: #991b1b;
+    color: var(--color-error);
     font-weight: 600;
     display: flex;
     align-items: center;
@@ -161,7 +234,7 @@
 .failedPreview {
     font-family: monospace;
     font-size: 0.85rem;
-    color: #7f1d1d;
+    color: var(--color-error);
     background: rgba(255,255,255,0.6);
     padding: 0.5rem;
     border-radius: 4px;
@@ -173,11 +246,11 @@
 
 .dangerFooter {
     font-size: 0.85rem;
-    color: #991b1b;
+    color: var(--color-error);
 }
 
 .fixButton {
-    background-color: #dc2626;
+    background-color: var(--color-error);
     color: white;
     padding: 0.8rem;
     border: none;
@@ -189,7 +262,7 @@
 }
 
 .fixButton:hover {
-    background-color: #b91c1c;
+    background-color: color-mix(in srgb, var(--color-error) 80%, black);
 }
 
 .fixList {
@@ -202,9 +275,9 @@
 }
 
 .fixCard {
-    background: #fff;
-    border: 1px solid #e5e7eb;
-    border-left: 4px solid #dc2626;
+    background: white;
+    border: 1px solid var(--color-border-light);
+    border-left: 4px solid var(--color-error);
     border-radius: 6px;
     padding: 1rem;
     display: flex;
@@ -215,9 +288,9 @@
 
 .fixCardTitle {
     font-size: 0.85rem;
-    color: #6b7280;
+    color: var(--color-subtitle-dark);
     font-family: monospace;
-    background: #f3f4f6;
+    background: var(--color-background-tint);
     padding: 0.4rem;
     border-radius: 4px;
     word-break: break-all;
@@ -240,19 +313,20 @@
 .fixField label {
     font-size: 0.75rem;
     font-weight: 600;
-    color: #374151;
+    color: var(--color-title-dark);
 }
 
 .fixInput {
     padding: 0.6rem;
-    border: 1px solid #d1d5db;
+    border: 1px solid var(--color-border-light);
     border-radius: 4px;
     font-size: 0.9rem;
     width: 100%;
+    background-color: var(--color-background-tint);
 }
 
 .fixInput:focus {
-    border-color: #4CAF50;
+    border-color: var(--color-success);
     outline: none;
 }
 
@@ -270,17 +344,18 @@
     font-size: 0.8rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    color: #555;
+    color: var(--color-title-dark);
 }
 
 .dataPicker {
     width: 100%;
     padding: 0.8rem;
-    background: #f8f9fa;
-    border: 1px solid #ddd;
+    background: var(--color-background-tint);
+    border: 1px solid var(--color-border-light);
     border-radius: 6px;
     cursor: pointer;
     text-align: left;
+    color: var(--color-body-dark);
 }
 
 .actions {
@@ -301,25 +376,25 @@
 }
 
 .primaryBtn {
-    background: #4CAF50;
+    background: var(--color-success);
     color: white;
     flex: 1;
 }
 
 .primaryBtn:hover {
-    background: #43a047;
+    background: color-mix(in srgb, var(--color-success) 80%, black);
 }
 
 .primaryBtn:disabled {
-    background: #a5d6a7;
+    background: var(--color-disabled);
     cursor: not-allowed;
 }
 
 .secondaryBtn {
-    background: #f1f1f1;
-    color: #333;
+    background: var(--color-background-light);
+    color: var(--color-title-dark);
 }
 
 .secondaryBtn:hover {
-    background: #e0e0e0;
+    background: var(--color-border-light);
 }

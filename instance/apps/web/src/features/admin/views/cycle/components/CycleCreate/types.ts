@@ -1,5 +1,5 @@
 import type { IProduct } from '@elo-instance/core';
-import type { FailedLine } from './parseProductList';
+import type { FailedLine } from './parseList';
 
 export interface FixingItem {
   id: string;
@@ -8,6 +8,10 @@ export interface FixingItem {
   name: string;
   price: string;
   unit: string;
+  contentValue?: string;
+  contentUnit?: string;
+  minOrderType?: string;
+  minOrderValue?: string;
 }
 
 export interface CycleCreateState {

@@ -21,20 +21,20 @@ function App() {
   }, [verifyAuth]);
 
   useEffect(() => {
-    if (isAuthenticated && user && user.role !== 'admin') {
+    if (isAuthenticated === true && user !== null && user.role !== 'admin') {
       void fetchActiveCycle();
     }
   }, [isAuthenticated, user, fetchActiveCycle]);
 
-  if (isAuthLoading) {
+  if (isAuthLoading === true) {
     return null;
   }
 
   return (
     <Suspense fallback={null}>
-      {isAuthenticated && user?.role === 'admin' ? (
+      {isAuthenticated === true && user?.role === 'admin' ? (
         <AdminLayout />
-      ) : isAuthenticated && activeCycle?.status === 'OPEN' ? (
+      ) : isAuthenticated === true && activeCycle?.status === 'OPEN' ? (
         <ShopLayout />
       ) : (
         <LandingLayout />

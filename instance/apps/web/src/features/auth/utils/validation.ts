@@ -8,8 +8,8 @@ export const validateAuthForm = (
   refs: AuthFormRefs,
   t: TFunction,
 ): ValidationResult => {
-  const schema = isLogin ? LoginDTOSchema : RegisterDTOSchema;
-  const dataToValidate = isLogin
+  const schema = isLogin === true ? LoginDTOSchema : RegisterDTOSchema;
+  const dataToValidate = isLogin === true
     ? { identifier: data.identifier, password: data.password }
     : {
         email: data.email,
@@ -21,13 +21,13 @@ export const validateAuthForm = (
   const result = schema.safeParse(dataToValidate);
   const errorRefs: Record<string, React.RefObject<HTMLInputElement | null>> = {
     identifier: refs.identifier,
-    password: isLogin ? refs.passwordLogin : refs.passwordRegister,
+    password: isLogin === true ? refs.passwordLogin : refs.passwordRegister,
     username: refs.username,
     email: refs.email,
     confirmPassword: refs.confirmPassword,
   };
 
-  if (!result.success) {
+  if (result.success === false) {
     const firstError = result.error.issues[0];
     const field = firstError.path[0] as keyof AuthFormData;
     const minVal = field === 'username' ? AUTH_RULES.USERNAME.MIN : AUTH_RULES.PASSWORD.MIN;
@@ -44,7 +44,7 @@ export const validateAuthForm = (
     };
   }
 
-  if (!isLogin && data.password !== data.confirmPassword) {
+  if (isLogin === false && data.password !== data.confirmPassword) {
     return {
       isValid: false,
       errors: { confirmPassword: t('auth.errors.passwords_dont_match') },

@@ -25,7 +25,7 @@ export const animateTimerEntrance = (container: HTMLElement): void => {
 export const animateSecondsTick = (targetSelector: string): void => {
   gsap.fromTo(
     targetSelector,
-    { scale: 1.15, color: '#27ae60' },
-    { scale: 1, color: '#2ecc71', duration: 0.4, ease: 'power1.out' },
+    { scale: 1.15, color: 'var(--color-success)' },
+    { scale: 1, color: 'var(--color-success)', duration: 0.4, ease: 'power1.out' },
   );
 };

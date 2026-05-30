@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { Icon, faEye, faEyeSlash } from '@elo-organico/studio/icons';
 import { AUTH_RULES } from '@elo-instance/core';
 import { IconSelector } from '@/components/UserIcon';
 import type { AuthFormData, AuthFieldErrors, AuthFormRefs } from '../types';
@@ -15,7 +14,7 @@ interface RegisterFormProps {
 }
 
 const ErrorBox = ({ message }: { message?: string | null }) => {
-  if (!message) return null;
+  if (message === null || message === undefined || message === '') return null;
   return (
     <div className={styles.localErrorBox} role="alert">
       <p>{message}</p>
@@ -43,7 +42,7 @@ export const RegisterForm = ({
           placeholder="Nome de usuário"
           value={data.username}
           onChange={(e) => onChange('username', e.target.value)}
-          className={errors.username ? styles.inputError : ''}
+          className={errors.username !== undefined && errors.username !== '' ? styles.inputError : ''}
           disabled={disabled}
           required
         />
@@ -57,7 +56,7 @@ export const RegisterForm = ({
           placeholder="E-mail"
           value={data.email}
           onChange={(e) => onChange('email', e.target.value)}
-          className={errors.email ? styles.inputError : ''}
+          className={errors.email !== undefined && errors.email !== '' ? styles.inputError : ''}
           disabled={disabled}
           required
         />
@@ -80,17 +79,17 @@ export const RegisterForm = ({
             placeholder={`Crie uma senha (mín. ${AUTH_RULES.PASSWORD.MIN} carac.)`}
             value={data.password}
             onChange={(e) => onChange('password', e.target.value)}
-            className={errors.password ? styles.inputError : ''}
+            className={errors.password !== undefined && errors.password !== '' ? styles.inputError : ''}
             disabled={disabled}
             required
           />
           <button
             type="button"
             className={styles.eyeIcon}
-            onClick={() => setShowPassword(!showPassword)}
+            onClick={() => setShowPassword(showPassword === false)}
             tabIndex={-1}
           >
-            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+            <Icon icon={showPassword ? faEyeSlash : faEye} />
           </button>
         </div>
         <ErrorBox message={errors.password} />
@@ -104,17 +103,17 @@ export const RegisterForm = ({
             placeholder="Digite a senha novamente para confirmar"
             value={data.confirmPassword}
             onChange={(e) => onChange('confirmPassword', e.target.value)}
-            className={errors.confirmPassword ? styles.inputError : ''}
+            className={errors.confirmPassword !== undefined && errors.confirmPassword !== '' ? styles.inputError : ''}
             disabled={disabled}
             required
           />
           <button
             type="button"
             className={styles.eyeIcon}
-            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            onClick={() => setShowConfirmPassword(showConfirmPassword === false)}
             tabIndex={-1}
           >
-            <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
+            <Icon icon={showConfirmPassword ? faEyeSlash : faEye} />
           </button>
         </div>
         <ErrorBox message={errors.confirmPassword} />

@@ -15,10 +15,16 @@ export default defineConfig(({ mode }) => {
 
     resolve: {
       tsconfigPaths: true,
+      dedupe: ['react', 'react-dom'],
     },
 
     optimizeDeps: {
-      exclude: ['@elo-instance/core'],
+      include: [
+        'react',
+        'react-dom',
+        'react/jsx-runtime',
+      ],
+      exclude: ['@elo-instance/core', '@elo-organico/studio'],
     },
 
     base: './',
@@ -26,6 +32,7 @@ export default defineConfig(({ mode }) => {
     server: {
       host: true,
       port: 5173,
+      allowedHosts: ['elo.internal'],
       open: true,
       cors: true,
       proxy: {

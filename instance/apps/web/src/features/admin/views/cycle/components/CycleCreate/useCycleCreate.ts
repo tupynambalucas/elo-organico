@@ -1,7 +1,8 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useAdminCycleStore } from '../../../../domains/cycle/cycle.store';
 import { useCyclesNavigation } from '../../cycle.navigation';
-import { parseProductList, type FailedLine } from './parseProductList';
+import { parseProductList, type FailedLine } from './parseList';
+import { createFixingItems, processFixedItems } from './fixErrors';
 import type { FixingItem } from './types';
 import type { IProduct } from '@elo-instance/core';
 
@@ -51,29 +52,8 @@ export const useCycleCreate = () => {
     setIsFixingErrors(false);
   }, [textInput, setStep]);
 
-  // Lógica original: converte TODAS as falhas em itens editáveis de uma vez
   const handleStartFixing = useCallback(() => {
-    const priceRegex = /(?:[R$]\s*)?(\d+[.,]?\d*)\s*(\/.*)?$/i;
-
-    const itemsToFix = failedLines.map((fail, idx) => {
-      const cleanText = fail.text.replace(/[\-*•]/g, '').trim();
-      let estimatedName = cleanText;
-
-      const priceMatch = priceRegex.exec(cleanText);
-      if (priceMatch) {
-        estimatedName = cleanText.substring(0, priceMatch.index).trim();
-      }
-
-      return {
-        id: `fix-${idx}-${fail.text.length}`,
-        originalText: fail.text,
-        category: fail.category || '',
-        name: estimatedName,
-        price: '', // O usuário deve preencher
-        unit: 'unidade',
-      };
-    });
-
+    const itemsToFix = createFixingItems(failedLines);
     setFixingItems(itemsToFix);
     setIsFixingErrors(true);
   }, [failedLines]);
@@ -87,28 +67,8 @@ export const useCycleCreate = () => {
     [],
   );
 
-  // Processa todos os itens corrigidos
   const handleProcessFixedItems = useCallback(() => {
-    const stillInvalid: FixingItem[] = [];
-    const validNewProducts: IProduct[] = [];
-
-    fixingItems.forEach((item) => {
-      const priceNum = parseFloat(item.price.replace(',', '.'));
-
-      if (item.name.trim().length > 2 && !isNaN(priceNum) && priceNum > 0) {
-        validNewProducts.push({
-          name: item.name.trim(),
-          category: item.category,
-          available: true,
-          measure: {
-            type: item.unit,
-            value: priceNum,
-          },
-        });
-      } else {
-        stillInvalid.push(item);
-      }
-    });
+    const { stillInvalid, validNewProducts } = processFixedItems(fixingItems);
 
     if (validNewProducts.length > 0) {
       setProducts((prev) => [...prev, ...validNewProducts]);
@@ -119,9 +79,6 @@ export const useCycleCreate = () => {
     if (stillInvalid.length === 0) {
       setIsFixingErrors(false);
       setFailedLines([]); // Limpa as falhas pois foram todas resolvidas
-    } else {
-      // Opcional: Feedback visual de que ainda faltam itens
-      // alert(`Atenção: ${stillInvalid.length} itens ainda estão incorretos.`);
     }
   }, [fixingItems]);
 
@@ -130,7 +87,7 @@ export const useCycleCreate = () => {
   }, []);
 
   const handleSubmit = useCallback(async () => {
-    if (!openingDate || !closingDate) return;
+    if (openingDate === null || closingDate === null) return;
 
     const finalDescription = description.trim()
       ? description
