@@ -7,6 +7,7 @@ import type {
   mongo,
 } from 'mongoose';
 import type { IProductDocument } from '../../models/product.model.js';
+import type { IProduct } from '@elo-instance/core';
 
 export interface ProductKey {
   name: string;
@@ -18,6 +19,8 @@ export interface ProductKey {
 
 export interface IProductRepository {
   findAll(queryFilters: QueryFilter<IProductDocument>): Promise<IProductDocument[]>;
+  findById(id: string): Promise<IProductDocument | null>;
+  update(id: string, data: Partial<IProduct>): Promise<IProductDocument | null>;
   bulkUpsert(
     ops: Array<AnyBulkWriteOperation<IProductDocument>>,
     session: ClientSession,

@@ -21,7 +21,7 @@ function App() {
   }, [verifyAuth]);
 
   useEffect(() => {
-    if (isAuthenticated === true && user !== null && user !== undefined && user.role !== 'admin') {
+    if (isAuthenticated === true && user !== null && user.role !== 'admin') {
       void fetchActiveCycle();
     }
   }, [isAuthenticated, user, fetchActiveCycle]);

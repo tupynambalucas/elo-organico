@@ -24,7 +24,7 @@ const CATEGORY_NORMALIZATION: Record<string, string> = {
 };
 
 const normalizeMeasureType = (unitString: string) => {
-  if (!unitString) return 'unidade';
+  if (unitString === '') return 'unidade';
   const type = unitString.toLowerCase().trim().replace('.', '');
 
   if (['pct', 'pcte', 'pacote'].includes(type)) return 'pacote';
@@ -84,7 +84,7 @@ export const parseProductList = (text: string): ParseResult => {
     cleanedLine = cleanedLine.replace(/^[\-*•]\s*/, '').trim();
     cleanedLine = cleanedLine.replace(/^\*+|\*+$/g, '').trim(); // Remove **negrito**
 
-    if (!cleanedLine) continue;
+    if (cleanedLine === '') continue;
 
     // 2. Detecção de Categorias / Cabeçalhos
     const upperLine = cleanedLine.toUpperCase();
@@ -101,7 +101,7 @@ export const parseProductList = (text: string): ParseResult => {
     }
 
     // Se for cabeçalho (sem preço e em caixa alta ou curto)
-    if (!isCategory && !PRICE_REGEX.test(cleanedLine)) {
+    if (isCategory === false && PRICE_REGEX.test(cleanedLine) === false) {
       const numbersCount = (cleanedLine.match(/\d/g) ?? []).length;
       if (numbersCount < 4 && cleanedLine.length < 50) {
         // Pode ser uma categoria nova ou sub-cabeçalho

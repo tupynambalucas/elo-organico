@@ -5,7 +5,7 @@ import React from 'react';
 const loaderStyle: React.CSSProperties = {
   position: 'fixed',
   inset: 0,
-  backgroundColor: '#1a1a1a', // Mesma cor de fundo do seu tema
+  backgroundColor: 'var(--color-identity-tertiary)',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -13,9 +13,9 @@ const loaderStyle: React.CSSProperties = {
 };
 
 const spinnerStyle: React.CSSProperties = {
-  border: '4px solid rgba(255, 255, 255, 0.3)',
+  border: '4px solid color-mix(in srgb, var(--color-background-light) 30%, transparent)',
   borderRadius: '50%',
-  borderTop: '4px solid #ffffff',
+  borderTop: '4px solid var(--color-background-light)',
   width: '50px',
   height: '50px',
   animation: 'spin 1s linear infinite',

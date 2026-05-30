@@ -11,6 +11,7 @@ import { ptBR } from 'date-fns/locale';
 import type { IProduct, CycleResponse } from '@elo-instance/core';
 import { useAdminCycleStore } from '../../../../domains/cycle/cycle.store';
 import styles from './styles.module.css';
+import { AdminContainer } from '../../../../components';
 
 const CyclesHistory = () => {
   const {
@@ -72,14 +73,15 @@ const CyclesHistory = () => {
 
   if (selectedCycle) {
     return (
-      <div className={styles.container}>
-        <header className={styles.detailHeader}>
+      <AdminContainer
+        title="Detalhes do Ciclo"
+        level="h3"
+        headerActions={
           <button type="button" onClick={clearSelectedCycle} className={styles.closeBtn}>
             <Icon icon={faTimes} />
           </button>
-          <h3>Detalhes do Ciclo</h3>
-        </header>
-
+        }
+      >
         {isLoadingDetails ? (
           <div className={styles.loading}>Carregando...</div>
         ) : (
@@ -111,16 +113,12 @@ const CyclesHistory = () => {
             </div>
           </div>
         )}
-      </div>
+      </AdminContainer>
     );
   }
 
   return (
-    <div className={styles.container}>
-      <header className={styles.listHeader}>
-        <h3>Histórico</h3>
-      </header>
-
+    <AdminContainer title="Histórico" level="h3">
       {isLoadingHistory ? (
         <div className={styles.loading}>Carregando...</div>
       ) : historyCycles.length === 0 ? (
@@ -174,7 +172,7 @@ const CyclesHistory = () => {
           )}
         </>
       )}
-    </div>
+    </AdminContainer>
   );
 };
 

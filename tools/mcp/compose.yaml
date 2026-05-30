@@ -1,49 +1,54 @@
-name: tools-mcp
+name: elo-mcp
 
 services:
-  mcp-github:
+  github:
     build:
       context: ./infrastructure/github
       dockerfile: Dockerfile
+    container_name: elo-mcp-github
     restart: always
     env_file:
       - ./config/.env.github
     networks:
-      - tools-mcp-net
+      - elo-mcp-net
 
-  mcp-context7:
+  context7:
     build:
       context: ./infrastructure/context7
       dockerfile: Dockerfile
+    container_name: elo-mcp-context7
     restart: always
     env_file:
       - ./config/.env.context7
     networks:
-      - tools-mcp-net
+      - elo-mcp-net
 
-  mcp-browser:
+  browser:
     build:
       context: ./infrastructure/browser
       dockerfile: Dockerfile
+    container_name: elo-mcp-browser
     restart: always
     env_file:
       - ./config/.env.browser
     extra_hosts:
       - 'host.docker.internal:host-gateway'
+      - 'elo.internal:host-gateway'
     shm_size: '2gb'
     networks:
-      - tools-mcp-net
+      - elo-mcp-net
 
-  mcp-dockerhub:
+  dockerhub:
     build:
       context: ./infrastructure/dockerhub
       dockerfile: Dockerfile
+    container_name: elo-mcp-dockerhub
     restart: always
     env_file:
       - ./config/.env.dockerhub
     networks:
-      - tools-mcp-net
+      - elo-mcp-net
 
 networks:
-  tools-mcp-net:
+  elo-mcp-net:
     driver: bridge

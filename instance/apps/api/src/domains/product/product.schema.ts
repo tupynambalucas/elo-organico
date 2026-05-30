@@ -4,6 +4,7 @@ import { ProductResponseSchema } from '@elo-instance/core';
 const ListProductsQuerySchema = z.object({
   search: z.string().optional(),
   category: z.string().optional(),
+  type: z.string().optional(),
   availableOnly: z.coerce.boolean().optional(),
 });
 
@@ -18,5 +19,27 @@ export interface ListProductsRoute {
   querystring: typeof ListProductsQuerySchema;
   response: {
     200: z.ZodArray<typeof ProductResponseSchema>;
+  };
+}
+
+const UpdateProductParamsSchema = z.object({
+  id: z.string(),
+});
+
+const UpdateProductBodySchema = ProductResponseSchema.partial();
+
+export const updateProductSchema = {
+  params: UpdateProductParamsSchema,
+  body: UpdateProductBodySchema,
+  response: {
+    200: ProductResponseSchema,
+  },
+} as const;
+
+export interface UpdateProductRoute {
+  params: typeof UpdateProductParamsSchema;
+  body: typeof UpdateProductBodySchema;
+  response: {
+    200: typeof ProductResponseSchema;
   };
 }

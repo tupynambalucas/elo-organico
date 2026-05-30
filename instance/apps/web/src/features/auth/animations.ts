@@ -1,7 +1,7 @@
 import gsap from 'gsap';
 
 export const shakeElement = (element: HTMLElement | null): void => {
-  if (!element) return;
+  if (element === null) return;
 
   gsap.killTweensOf(element);
   gsap.set(element, { x: 0 });
@@ -24,7 +24,7 @@ export const shakeElement = (element: HTMLElement | null): void => {
 };
 
 export const animateFormEntrance = (element: HTMLElement | null): void => {
-  if (!element) return;
+  if (element === null) return;
 
   gsap.fromTo(
     element,

@@ -9,12 +9,21 @@ import type {
 } from 'mongoose';
 import type { IProductDocument } from '../../models/product.model.js';
 import type { IProductRepository, ProductKey } from './product.repository.interface.js';
+import type { IProduct } from '@elo-instance/core';
 
 export class ProductRepository implements IProductRepository {
   constructor(private readonly model: Model<IProductDocument>) {}
 
   public async findAll(queryFilters: QueryFilter<IProductDocument>): Promise<IProductDocument[]> {
     return this.model.find(queryFilters).sort({ category: 1, name: 1 }).exec();
+  }
+
+  public async findById(id: string): Promise<IProductDocument | null> {
+    return this.model.findById(id).exec();
+  }
+
+  public async update(id: string, data: Partial<IProduct>): Promise<IProductDocument | null> {
+    return this.model.findByIdAndUpdate(id, { $set: data }, { new: true }).exec();
   }
 
   public async bulkUpsert(

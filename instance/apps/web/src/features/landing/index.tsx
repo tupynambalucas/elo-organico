@@ -20,7 +20,7 @@ const LandingLayout = () => {
 
   useGSAP(
     () => {
-      if (!leftPanelRef.current || !logoWrapperRef.current || !rightPanelRef.current) {
+      if (leftPanelRef.current === null || logoWrapperRef.current === null || rightPanelRef.current === null) {
         return;
       }
 
@@ -30,10 +30,10 @@ const LandingLayout = () => {
   );
 
   const renderContent = () => {
-    if (!isAuthenticated) {
+    if (isAuthenticated === false) {
       return <AuthForm />;
     }
-    if (isCycleLoading) {
+    if (isCycleLoading === true) {
       return null;
     }
     if (activeCycle?.status !== 'OPEN') {

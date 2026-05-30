@@ -1,49 +1,23 @@
-.container {
-    height: 100%;
-    width: 100%;
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 2rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+.content {
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
 }
 
-.container header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 1rem;
-}
-
-.container header h2 {
-    color: #2ecc71;
-    font-size: 1.5rem;
-}
-
-.dates {
-    font-size: 0.9rem;
-    color: #666;
-    background: #f0fdf4;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-}
-
-.content {
-    flex: 1;
-}
-
 .description {
     color: #555;
     font-style: italic;
-    margin-bottom: 2rem;
+    background: #f9fafb;
+    padding: 1rem;
+    border-radius: 6px;
+    border-left: 4px solid #e5e7eb;
 }
 
 .stats {
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
+    align-items: stretch;
 }
 
 .card {
@@ -51,13 +25,17 @@
     padding: 1.5rem;
     border-radius: 8px;
     text-align: center;
-    min-width: 120px;
+    min-width: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid #eee;
 }
 
 .card strong {
     display: block;
     font-size: 2rem;
-    color: #333;
+    color: var(--color-success);
 }
 
 .card span {
@@ -68,66 +46,47 @@
 }
 
 .actionBtn {
-    background: #e0f2fe;
-    color: #0284c7;
-    border: 2px dashed #0284c7;
+    background: #f0fdf4;
+    color: var(--color-success);
+    border: 2px dashed var(--color-success);
     border-radius: 8px;
-    padding: 1rem;
+    padding: 1rem 2rem;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     transition: all 0.2s;
 }
 
 .actionBtn:hover {
-    background: #bae6fd;
-}
-
-.editHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 1rem;
-}
-
-.headerLeft {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+    background: #dcfce7;
+    transform: translateY(-2px);
 }
 
 .backBtn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-    color: #666;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.backBtn:hover { color: #333; }
-
-.saveBtn {
-    background: #2ecc71;
-    color: white;
-    border: none;
-    padding: 0.6rem 1.2rem;
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
     border-radius: 6px;
-    font-weight: 600;
+    padding: 0.4rem 0.8rem;
     cursor: pointer;
+    font-size: 0.9rem;
+    color: #4b5563;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    transition: all 0.2s;
 }
 
-.saveBtn:hover:not(:disabled) { background: #27ae60; }
-.saveBtn:disabled { opacity: 0.7; cursor: not-allowed; }
+.backBtn:hover {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+.filterSection {
+    padding: 0.5rem 0;
+}
 
 .productsList {
     flex: 1;
@@ -145,7 +104,9 @@
     transition: background 0.1s;
 }
 
-.productRow:hover { background: #fafafa; }
+.productRow:hover {
+    background: #fafafa;
+}
 
 .pInfo {
     display: flex;
@@ -153,13 +114,25 @@
     gap: 1rem;
 }
 
-.price {
-    font-weight: 600;
-    color: #27ae60;
-    background: #e8f5e9;
+.pInfo strong {
+    color: #333;
+}
+
+.pInfo span {
+    font-size: 0.8rem;
+    color: #888;
+    background: #f3f4f6;
     padding: 2px 6px;
     border-radius: 4px;
-    font-size: 0.9rem;
+}
+
+.price {
+    font-weight: 600;
+    color: var(--color-success);
+    background: #e8f5e9;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.95rem;
 }
 
 .pActions {
@@ -178,12 +151,86 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.2s;
 }
 
-.iconBtn:hover { border-color: #aaa; color: #333; }
+.iconBtn:hover {
+    border-color: #aaa;
+    color: #333;
+}
 
 .iconBtn.danger:hover {
-    border-color: #ff6b6b;
-    color: #ff6b6b;
-    background: #fff5f5;
+    border-color: #ef4444;
+    color: #ef4444;
+    background: #fef2f2;
+}
+
+.editInlineContainer {
+    padding: 1.5rem;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-left: 4px solid #3b82f6;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.fixGrid {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.fixField {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.fixField label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.fixInput {
+    padding: 0.6rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    width: 100%;
+}
+
+.fixInput:focus {
+    border-color: #3b82f6;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.editActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.saveInlineBtn {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.cancelInlineBtn {
+    background: #f1f1f1;
+    color: #4b5563;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
 }

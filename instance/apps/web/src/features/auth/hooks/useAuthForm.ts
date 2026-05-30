@@ -75,7 +75,7 @@ export const useAuthForm = (isLogin: boolean, onSuccess: () => void) => {
     };
 
     const validation = validateAuthForm(isLogin, formData, refs, t);
-    if (!validation.isValid) {
+    if (validation.isValid === false) {
       setFieldErrors(validation.errors);
       shakeElement(validation.firstErrorRef?.current ?? null);
       return;

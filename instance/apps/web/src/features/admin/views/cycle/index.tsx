@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './styles.module.css';
 import CreateCycle from './components/CycleCreate';
-import ActiveCycle from './components/ActiveCycle';
+import { ActiveCycleDashboard, ActiveCycleFilters, ActiveCycleProductsList } from './components/ActiveCycle';
 import CyclesHistory from './components/CycleHistory';
 import ContainerLoader from '@/components/loaders/ContainerLoader';
 import { useCycleStore } from '@/domains/cycle';
@@ -9,7 +9,11 @@ import { useAdminCycleStore } from '@/features/admin/domains/cycle';
 
 const CyclesView = () => {
   const { activeCycle, fetchActiveCycle, isLoading: isLoadingActive } = useCycleStore();
-  const { success, resetStatus } = useAdminCycleStore();
+  const { success, resetStatus, activeCycleViewMode } = useAdminCycleStore();
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedType, setSelectedType] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   useEffect(() => {
     void fetchActiveCycle();
@@ -23,10 +27,35 @@ const CyclesView = () => {
     return undefined;
   }, [success, resetStatus]);
 
+  if (activeCycleViewMode === 'products' && activeCycle) {
+    return (
+      <div className={styles.container}>
+        <section>
+          <ActiveCycleFilters
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            selectedType={selectedType}
+            setSelectedType={setSelectedType}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+          />
+        </section>
+
+        <section>
+          <ActiveCycleProductsList
+            searchTerm={searchTerm}
+            selectedType={selectedType}
+            selectedCategory={selectedCategory}
+          />
+        </section>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.container}>
       <section>
-        {isLoadingActive ? <ContainerLoader /> : activeCycle ? <ActiveCycle /> : <CreateCycle />}
+        {isLoadingActive ? <ContainerLoader /> : activeCycle ? <ActiveCycleDashboard /> : <CreateCycle />}
       </section>
 
       <section>

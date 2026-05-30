@@ -23,11 +23,6 @@ export default defineConfig(({ mode }) => {
         'react',
         'react-dom',
         'react/jsx-runtime',
-        '@fortawesome/react-fontawesome',
-        '@fortawesome/fontawesome-svg-core',
-        '@fortawesome/free-solid-svg-icons',
-        '@fortawesome/free-regular-svg-icons',
-        '@fortawesome/free-brands-svg-icons',
       ],
       exclude: ['@elo-instance/core', '@elo-organico/studio'],
     },
@@ -37,6 +32,7 @@ export default defineConfig(({ mode }) => {
     server: {
       host: true,
       port: 5173,
+      allowedHosts: ['elo.internal'],
       open: true,
       cors: true,
       proxy: {

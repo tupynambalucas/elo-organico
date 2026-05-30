@@ -21,6 +21,7 @@ services:
       - penpot-net
     extra_hosts:
       - 'host.docker.internal:host-gateway'
+      - 'elo.internal:host-gateway'
 
   backend:
     build:
@@ -37,6 +38,7 @@ services:
       - config/.env.backend
     extra_hosts:
       - 'host.docker.internal:host-gateway'
+      - 'elo.internal:host-gateway'
 
   exporter:
     build:
@@ -53,6 +55,7 @@ services:
       - penpot-net
     extra_hosts:
       - 'host.docker.internal:host-gateway'
+      - 'elo.internal:host-gateway'
 
   valkey:
     build:

@@ -1,7 +1,7 @@
 import type { z } from 'zod';
 import type { ProductResponseSchema } from '@elo-instance/core';
 import type { FastifyZodHandler } from '../../types/fastify.js';
-import type { ListProductsRoute } from './product.schema.js';
+import type { ListProductsRoute, UpdateProductRoute } from './product.schema.js';
 import type { IProductDocument } from '../../models/product.model.js';
 import type { ProductService } from './product.service.js';
 
@@ -38,6 +38,15 @@ export class ProductController {
   ): Promise<void> => {
     const products = await this.service.listProducts(request.query);
     const response = products.map((p) => this.mapToResponse(p));
+    void reply.send(response);
+  };
+
+  public updateHandler: FastifyZodHandler<UpdateProductRoute> = async (
+    request,
+    reply,
+  ): Promise<void> => {
+    const product = await this.service.updateProduct(request.params.id, request.body);
+    const response = this.mapToResponse(product);
     void reply.send(response);
   };
 }

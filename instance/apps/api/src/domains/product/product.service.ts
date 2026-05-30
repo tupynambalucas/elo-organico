@@ -22,11 +22,23 @@ export class ProductService {
       query.category = filters.category;
     }
 
+    if (filters.type) {
+      query['measure.type'] = filters.type;
+    }
+
     if (filters.search) {
       query.name = { $regex: filters.search, $options: 'i' };
     }
 
     return this.repo.findAll(query);
+  }
+
+  public async updateProduct(id: string, data: Partial<IProduct>): Promise<IProductDocument> {
+    const updated = await this.repo.update(id, data);
+    if (!updated) {
+      throw new AppError('PRODUCT_NOT_FOUND', 404);
+    }
+    return updated;
   }
 
   public async syncCycleProducts(products: IProduct[], session: ClientSession): Promise<string[]> {

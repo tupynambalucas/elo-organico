@@ -1,79 +1,138 @@
 /**
  * Elo Organico - Canonical Icon System
- * Powered by FontAwesome, managed by @studio.
+ * Powered by react-icons, managed by @studio.
  */
 
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import type { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
+import type { IconType } from 'react-icons';
 import { 
-  faList, 
-  faUsers, 
-  faCarrot, 
-  faChartSimple, 
-  faGear, 
-  faArrowRightFromBracket,
-  faBoxOpen,
-  faArrowLeft,
-  faSave,
-  faPen,
-  faTrash,
-  faSync,
-  faExclamationTriangle,
-  faTimes,
-  faCalendarAlt,
-  faChevronLeft,
-  faChevronRight,
-  faEye,
-  faEyeSlash,
-  faCircleCheck,
-  faCircleExclamation,
-  faCircleInfo,
-  faTriangleExclamation
-} from '@fortawesome/free-solid-svg-icons';
+  FaList, 
+  FaUsers, 
+  FaCarrot, 
+  FaBoxOpen,
+  FaArrowLeft,
+  FaSave,
+  FaPen,
+  FaTrash,
+  FaSync,
+  FaExclamationTriangle,
+  FaTimes,
+  FaCalendarAlt,
+  FaChevronLeft,
+  FaChevronRight,
+  FaEye,
+  FaEyeSlash,
+  FaSearch,
+  FaGithub,
+  FaCircle
+} from 'react-icons/fa';
 
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import {
+  FaChartSimple,
+  FaGear,
+  FaArrowRightFromBracket,
+  FaCircleCheck,
+  FaCircleExclamation,
+  FaCircleInfo,
+  FaTriangleExclamation
+} from 'react-icons/fa6';
+
+export type { IconType };
+
+/**
+ * Prop types for the Canonical Icon component.
+ */
+export interface IconProps extends React.SVGAttributes<SVGElement> {
+  icon: IconType;
+  size?: string | number;
+  color?: string;
+  title?: string;
+  flip?: 'horizontal' | 'vertical' | 'both';
+}
 
 /**
  * Canonical Icon component for Elo Organico.
- * Wraps FontAwesomeIcon using forwardRef to maintain full compatibility 
- * with React refs and ensure maximum type safety.
+ * Wraps react-icons to maintain a consistent interface across the monorepo.
  */
-export const Icon = React.forwardRef<SVGSVGElement, FontAwesomeIconProps>((props, ref) => {
-  return <FontAwesomeIcon {...props} ref={ref} />;
-});
+export const Icon = React.forwardRef<HTMLSpanElement, IconProps>(
+  ({ icon: IconComponent, size, color, title, flip, style, ...props }, ref) => {
+    // Map FontAwesome sizes to react-icons sizes
+    const sizeMap: Record<string, string> = {
+      'xs': '0.75em',
+      'sm': '0.875em',
+      'lg': '1.25em',
+      'xl': '1.5em',
+      '2xl': '2em',
+      '1x': '1em',
+      '2x': '2em',
+      '3x': '3em',
+      '4x': '4em',
+      '5x': '5em',
+    };
+
+    const finalSize = typeof size === 'string' ? (sizeMap[size] ?? size) : size;
+
+    // Handle flip
+    const transform = flip === 'horizontal' ? 'scaleX(-1)' : 
+                      flip === 'vertical' ? 'scaleY(-1)' : 
+                      flip === 'both' ? 'scale(-1, -1)' : undefined;
+
+    const finalStyle: React.CSSProperties = {
+      ...style,
+      transform: transform ?? style?.transform,
+      display: 'inline-flex',
+    };
+
+    return (
+      <span ref={ref} style={finalStyle} className="elo-icon-wrapper">
+        <IconComponent
+          {...props}
+          size={finalSize}
+          color={color}
+        >
+          {title !== undefined && <title>{title}</title>}
+        </IconComponent>
+      </span>
+    );
+  }
+);
 
 Icon.displayName = 'Icon';
 
-// Re-export specific icons to avoid multiple FontAwesome dependencies in apps
+// Re-export specific icons as "fa" compatible names if needed, 
+// but it's better to use the react-icons naming convention.
+// To minimize changes in instance/web, we'll map them to the old names for now.
 export {
-  faList, 
-  faUsers, 
-  faCarrot, 
-  faChartSimple, 
-  faGear, 
-  faArrowRightFromBracket,
-  faBoxOpen,
-  faArrowLeft,
-  faSave,
-  faPen,
-  faTrash,
-  faSync,
-  faExclamationTriangle,
-  faTimes,
-  faCalendarAlt,
-  faChevronLeft,
-  faChevronRight,
-  faEye,
-  faEyeSlash,
-  faCircleCheck,
-  faCircleExclamation,
-  faCircleInfo,
-  faTriangleExclamation,
-  faGithub
+  FaList as faList, 
+  FaUsers as faUsers, 
+  FaCarrot as faCarrot, 
+  FaChartSimple as faChartSimple, 
+  FaGear as faGear, 
+  FaArrowRightFromBracket as faArrowRightFromBracket,
+  FaBoxOpen as faBoxOpen,
+  FaArrowLeft as faArrowLeft,
+  FaSave as faSave,
+  FaPen as faPen,
+  FaTrash as faTrash,
+  FaSync as faSync,
+  FaExclamationTriangle as faExclamationTriangle,
+  FaTimes as faTimes,
+  FaCalendarAlt as faCalendarAlt,
+  FaChevronLeft as faChevronLeft,
+  FaChevronRight as faChevronRight,
+  FaEye as faEye,
+  FaEyeSlash as faEyeSlash,
+  FaCircleCheck as faCircleCheck,
+  FaCircleExclamation as faCircleExclamation,
+  FaCircleInfo as faCircleInfo,
+  FaTriangleExclamation as faTriangleExclamation,
+  FaSearch as faSearch,
+  FaGithub as faGithub,
+  FaCircle as faCircle
 };
 
-// Export entire sets if the user needs more flexibility (optional but recommended for hub)
-export * as SolidIcons from '@fortawesome/free-solid-svg-icons';
-export * as RegularIcons from '@fortawesome/free-regular-svg-icons';
-export * as BrandIcons from '@fortawesome/free-brands-svg-icons';
+// Export entire sets if needed
+export * as FaIcons from 'react-icons/fa';
+export * as Fa6Icons from 'react-icons/fa6';
+export * as MdIcons from 'react-icons/md';
+export * as IoIcons from 'react-icons/io5';
