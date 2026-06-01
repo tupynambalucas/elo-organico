@@ -8,7 +8,7 @@
       "env": ["VITE_*", "DOCUSAURUS_*"]
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": []
     },
     "typecheck": {
       "dependsOn": ["^typecheck"]
@@ -32,6 +32,12 @@
       "persistent": true
     },
     "//#portal:up": {
+      "cache": false
+    },
+    "//#mcp:up": {
+      "cache": false
+    },
+    "//#penpot:up": {
       "cache": false
     },
     "start": {

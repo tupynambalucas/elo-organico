@@ -85,55 +85,6 @@ catalogs:
     typescript:
       specifier: ^6.0.3
       version: 6.0.3
-  docs-stack:
-    '@docusaurus/core':
-      specifier: 3.10.1
-      version: 3.10.1
-    '@docusaurus/faster':
-      specifier: 3.10.1
-      version: 3.10.1
-    '@docusaurus/module-type-aliases':
-      specifier: 3.10.1
-      version: 3.10.1
-    '@docusaurus/preset-classic':
-      specifier: 3.10.1
-      version: 3.10.1
-    '@docusaurus/theme-live-codeblock':
-      specifier: 3.10.1
-      version: 3.10.1
-    '@docusaurus/theme-mermaid':
-      specifier: 3.10.1
-      version: 3.10.1
-    '@docusaurus/tsconfig':
-      specifier: 3.10.1
-      version: 3.10.1
-    '@docusaurus/types':
-      specifier: 3.10.1
-      version: 3.10.1
-    '@mdx-js/react':
-      specifier: ^3.0.0
-      version: 3.1.1
-    '@tailwindcss/postcss':
-      specifier: ^4.1.18
-      version: 4.3.0
-    '@types/react':
-      specifier: ^19.0.0
-      version: 19.2.14
-    clsx:
-      specifier: ^2.0.0
-      version: 2.1.1
-    prism-react-renderer:
-      specifier: ^2.3.0
-      version: 2.4.1
-    react:
-      specifier: ^19.0.0
-      version: 19.2.6
-    react-dom:
-      specifier: ^19.0.0
-      version: 19.2.6
-    typescript:
-      specifier: ~6.0.2
-      version: 6.0.3
   shared-stack:
     '@react-three/drei':
       specifier: 10.7.7
@@ -195,9 +146,39 @@ catalogs:
       specifier: ^8.54.0
       version: 8.59.3
   web-stack:
+    '@docusaurus/core':
+      specifier: 3.10.1
+      version: 3.10.1
+    '@docusaurus/faster':
+      specifier: 3.10.1
+      version: 3.10.1
+    '@docusaurus/module-type-aliases':
+      specifier: 3.10.1
+      version: 3.10.1
+    '@docusaurus/preset-classic':
+      specifier: 3.10.1
+      version: 3.10.1
+    '@docusaurus/theme-live-codeblock':
+      specifier: 3.10.1
+      version: 3.10.1
+    '@docusaurus/theme-mermaid':
+      specifier: 3.10.1
+      version: 3.10.1
+    '@docusaurus/tsconfig':
+      specifier: 3.10.1
+      version: 3.10.1
+    '@docusaurus/types':
+      specifier: 3.10.1
+      version: 3.10.1
     '@gsap/react':
       specifier: ^2.1.2
       version: 2.1.2
+    '@mdx-js/react':
+      specifier: ^3.0.0
+      version: 3.1.1
+    '@tailwindcss/postcss':
+      specifier: ^4.1.18
+      version: 4.3.0
     '@tailwindcss/vite':
       specifier: ^4.1.18
       version: 4.3.0
@@ -210,6 +191,9 @@ catalogs:
     '@vitejs/plugin-react-swc':
       specifier: ^4.2.3
       version: 4.3.1
+    clsx:
+      specifier: ^2.0.0
+      version: 2.1.1
     eslint-plugin-react:
       specifier: ^7.37.5
       version: 7.37.5
@@ -225,6 +209,9 @@ catalogs:
     i18next:
       specifier: ^25.8.4
       version: 25.10.10
+    prism-react-renderer:
+      specifier: ^2.3.0
+      version: 2.4.1
     react:
       specifier: ^19.2.4
       version: 19.2.6
@@ -489,19 +476,19 @@ importers:
   knowledge-base:
     dependencies:
       '@docusaurus/core':
-        specifier: catalog:docs-stack
+        specifier: catalog:web-stack
         version: 3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(postcss@8.5.14))(@mdx-js/react@3.1.1(@types/react@19.2.14)(react@19.2.6))(@rspack/core@1.7.11)(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)
       '@docusaurus/faster':
-        specifier: catalog:docs-stack
+        specifier: catalog:web-stack
         version: 3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(postcss@8.5.14)
       '@docusaurus/preset-classic':
-        specifier: catalog:docs-stack
+        specifier: catalog:web-stack
         version: 3.10.1(@algolia/client-search@5.52.1)(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(postcss@8.5.14))(@mdx-js/react@3.1.1(@types/react@19.2.14)(react@19.2.6))(@rspack/core@1.7.11)(@swc/core@1.15.33)(@types/react@19.2.14)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(search-insights@2.17.3)(typescript@6.0.3)
       '@docusaurus/theme-live-codeblock':
-        specifier: catalog:docs-stack
+        specifier: catalog:web-stack
         version: 3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(postcss@8.5.14))(@docusaurus/plugin-content-docs@3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(postcss@8.5.14))(@mdx-js/react@3.1.1(@types/react@19.2.14)(react@19.2.6))(@rspack/core@1.7.11)(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3))(@mdx-js/react@3.1.1(@types/react@19.2.14)(react@19.2.6))(@rspack/core@1.7.11)(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)
       '@docusaurus/theme-mermaid':
-        specifier: catalog:docs-stack
+        specifier: catalog:web-stack
         version: 3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(postcss@8.5.14))(@docusaurus/plugin-content-docs@3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(postcss@8.5.14))(@mdx-js/react@3.1.1(@types/react@19.2.14)(react@19.2.6))(@rspack/core@1.7.11)(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3))(@mdx-js/react@3.1.1(@types/react@19.2.14)(react@19.2.6))(@rspack/core@1.7.11)(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)
       '@elo-organico/studio':
         specifier: workspace:*
@@ -510,7 +497,7 @@ importers:
         specifier: catalog:web-stack
         version: 2.1.2(gsap@3.15.0)(react@19.2.6)
       '@mdx-js/react':
-        specifier: catalog:docs-stack
+        specifier: catalog:web-stack
         version: 3.1.1(@types/react@19.2.14)(react@19.2.6)
       '@react-three/drei':
         specifier: catalog:shared-stack
@@ -519,19 +506,19 @@ importers:
         specifier: catalog:shared-stack
         version: 9.6.1(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(three@0.184.0)
       clsx:
-        specifier: catalog:docs-stack
+        specifier: catalog:web-stack
         version: 2.1.1
       gsap:
         specifier: catalog:web-stack
         version: 3.15.0
       prism-react-renderer:
-        specifier: catalog:docs-stack
+        specifier: catalog:web-stack
         version: 2.4.1(react@19.2.6)
       react:
-        specifier: catalog:docs-stack
+        specifier: catalog:web-stack
         version: 19.2.6
       react-dom:
-        specifier: catalog:docs-stack
+        specifier: catalog:web-stack
         version: 19.2.6(react@19.2.6)
       three:
         specifier: catalog:shared-stack
@@ -541,25 +528,25 @@ importers:
         version: 2.36.1(three@0.184.0)
     devDependencies:
       '@docusaurus/module-type-aliases':
-        specifier: catalog:docs-stack
+        specifier: catalog:web-stack
         version: 3.10.1(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@docusaurus/tsconfig':
-        specifier: catalog:docs-stack
+        specifier: catalog:web-stack
         version: 3.10.1
       '@docusaurus/types':
-        specifier: catalog:docs-stack
+        specifier: catalog:web-stack
         version: 3.10.1(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@tailwindcss/postcss':
-        specifier: catalog:docs-stack
+        specifier: catalog:web-stack
         version: 4.3.0
       '@types/react':
-        specifier: catalog:docs-stack
+        specifier: catalog:web-stack
         version: 19.2.14
       '@types/three':
         specifier: catalog:shared-stack
         version: 0.184.0
       typescript:
-        specifier: catalog:docs-stack
+        specifier: 'catalog:'
         version: 6.0.3
 
   portal/apps/api:
@@ -13467,7 +13454,7 @@ snapshots:
 
   '@types/sax@1.2.7':
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 25.8.0
 
   '@types/send@0.17.6':
     dependencies:

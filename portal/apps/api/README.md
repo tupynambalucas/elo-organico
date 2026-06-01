@@ -10,7 +10,10 @@ As the central authority for the multi-tenant SaaS model, the Portal API handles
 - **SaaS Orchestration**: Integrating with billing systems (e.g., subscription management) and managing the global marketplace registry.
 - **Cross-Instance Data**: Aggregating high-level metrics and global product/producer information for the main portal.
 
-Refer to the **[Architecture Overview](../../../knowledge-base/docs/engineering/architecture.mdx)** for technical decisions and global domain modeling.
+### 📖 Documentation
+Detailed technical documentation is available in our **[Knowledge Base](https://tupynambalucas.github.io/elo-organico)**:
+- **[Architecture Overview](https://tupynambalucas.github.io/elo-organico/docs/engineering/architecture)**: Technical decisions and global domain modeling.
+- **[Style Guide](https://tupynambalucas.github.io/elo-organico/docs/engineering/styleguide)**: Coding standards and Fastify 5 architecture.
 
 ---
 

@@ -9,7 +9,10 @@ While the project currently focuses on **"Single-Instance Mastery"**, the backen
 - **Portability**: Designed to be containerized and scaled independently per tenant.
 - **Contract-Driven**: Strictly follows the data contracts defined in `@elo-instance/core`.
 
-Refer to the **[Architecture Overview](../../../knowledge-base/docs/engineering/architecture.mdx)** for technical decisions and domain modeling details.
+### 📖 Documentation
+Detailed technical documentation is available in our **[Knowledge Base](https://tupynambalucas.github.io/elo-organico)**:
+- **[Architecture Overview](https://tupynambalucas.github.io/elo-organico/docs/engineering/architecture)**: Technical decisions and domain modeling details.
+- **[Style Guide](https://tupynambalucas.github.io/elo-organico/docs/engineering/styleguide)**: Coding standards and conventions.
 
 ---
 
@@ -35,7 +38,7 @@ src/
 
 ## ⚙️ Environment Configuration
 
-Create a `.env` file in this directory with the variables defined in the root `.env` template. Key backend-specific variables include:
+Create a `.env` file in this directory with the variables defined in the root `.env.example` template. Key backend-specific variables include:
 
 ```properties
 # Server

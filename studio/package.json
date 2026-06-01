@@ -16,9 +16,13 @@
     "src"
   ],
   "exports": {
+    "./package.json": "./package.json",
     "./icons": "./src/icons/index.tsx",
     "./logos": "./src/logos/index.ts",
+    "./logos/*": "./src/logos/*",
     "./images/*": "./src/images/*",
+    "./three/*": "./src/three/*",
+    "./tupynamba/*": "./src/tupynamba/*",
     "./tokens": "./src/tokens/index.ts",
     "./tokens.css": "./src/tokens/tokens.css",
     "./theme.css": "./src/tokens/theme.css"

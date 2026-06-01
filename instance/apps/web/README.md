@@ -9,7 +9,10 @@ While the project currently focuses on **"Single-Instance Mastery"**, the fronte
 - **Client-Side Isolation**: Manages the state, authentication, and interactions for a single tenant instance.
 - **Contract-Driven**: Strictly follows the data contracts and UI tokens defined in `@elo-instance/core` and the design system.
 
-Refer to the **[Architecture Overview](../../../knowledge-base/docs/engineering/architecture.mdx)** for technical decisions and stack details.
+### 📖 Documentation
+Detailed technical documentation is available in our **[Knowledge Base](https://tupynambalucas.github.io/elo-organico)**:
+- **[Architecture Overview](https://tupynambalucas.github.io/elo-organico/docs/engineering/architecture)**: Technical decisions and stack details.
+- **[Style Guide](https://tupynambalucas.github.io/elo-organico/docs/engineering/styleguide)**: UI patterns and React 19 standards.
 
 ---
 

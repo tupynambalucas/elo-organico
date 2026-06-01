@@ -1,43 +1,44 @@
-# Elo Orgânico Knowledge Base
+# 📖 @elo-organico/knowledge-base - Documentation Hub (EloDocs)
 
-This is the central documentation hub for the **Elo Orgânico** project, built with Docusaurus.
+This is the central, authoritative documentation hub for the **Elo Orgânico** project. Built with **Docusaurus v3**, it provides a high-performance, strictly-typed technical and product knowledge base.
 
-## Structure
+## 🏗️ Structure & Content
 
-- `docs/`: Core project documentation (Architecture, Master Plan, Product Vision, etc.).
-- `src/pages/`: Custom landing pages for workspace contexts (Studio, Tools).
-- `releases/`: Project Changelog and release notes.
+- **`docs/`**: Core project documentation (Architecture, Master Plan, Product Vision, Style Guide).
+- **`src/pages/`**: Custom interactive landing pages for workspace contexts (Studio, Tools).
+- **`releases/`**: Official project Changelog and versioned release notes.
+- **`i18n/`**: Full internationalization support (English and Brazilian Portuguese).
 
-## Local Development
+## 🚀 Local Development
 
-From the project root:
+Manage the documentation from the project root or this directory:
 
+### From Monorepo Root
 ```bash
-pnpm docs:dev     # Start in English (default)
+pnpm docs:dev     # Start in English (default) - http://localhost:3002
 pnpm docs:dev:pt  # Start in Brazilian Portuguese (pt-BR)
 ```
 
-Or within this directory:
-
+### Within this Workspace
 ```bash
 pnpm start     # Start in English
 pnpm start:pt  # Start in Brazilian Portuguese (pt-BR)
 ```
 
-## Build
+## 🏗️ Build Pipelines
 
 ```bash
 pnpm build
 ```
 
-The static site will be generated in the `build/` directory.
+The static site will be generated in the `build/` directory using an optimized SSG pipeline.
 
-## Deployment
+## 🌐 Deployment
 
-The documentation is automatically deployed to **GitHub Pages** via GitHub Actions whenever changes are pushed to the `main` branch.
+The documentation is automatically deployed to **GitHub Pages** via GitHub Actions on every push to `main`.
 
-- **Workflow:** `.github/workflows/deploy-docs.yml`
-- **URL:** [https://tupynambalucas.github.io/elo-organico](https://tupynambalucas.github.io/elo-organico)
+- **Workflow:** `.github/workflows/deploy-docs.yaml`
+- **Authoritative URL:** [https://tupynambalucas.github.io/elo-organico](https://tupynambalucas.github.io/elo-organico)
 
 ---
 _Professional documentation for a sustainable organic economy._

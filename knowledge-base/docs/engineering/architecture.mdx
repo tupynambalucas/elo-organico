@@ -87,29 +87,30 @@ We employ a **Hybrid High-Performance Architecture** optimized by **Turborepo** 
 
 **Turborepo** is the engine behind our monorepo productivity. It handles:
 - **Dependency Graph:** Automatically identifying which packages need to be built or checked based on local changes.
-- **Infrastructure Coupling:** Orchestrating Docker Compose services as pre-requisites for application development (e.g., starting databases before the API).
+- **Infrastructure Coupling:** Orchestrating Docker Compose services as pre-requisites for application development (e.g., `pnpm instance:up` starts databases before the API).
 - **Caching:** Speeding up builds, type-checking, and linting by skipping unchanged modules.
 - **Unified Outputs:** Standardizing build artifacts into `dist/` (for apps and core) and `build/` (for Docusaurus).
 
-### 3.2. Web Applications (Build from Source)
+---
 
-Frontend applications utilize a **"Bundling from Source"** strategy.
+## 4. Operational Commands
 
-- **Mechanism:** Vite leverages native `resolve.tsconfigPaths` to resolve aliases directly to the internal packages' src (e.g., `@elo-instance/core` points to `instance/packages/core/src/index.ts`).
-- **Benefits:** Maximum tree-shaking efficiency (Vite optimizes the Core code specifically for the app bundle), instant HMR across the monorepo, and simplified build pipelines.
-- **Hosting:** All production artifacts are designed for professional self-hosting on our own infrastructure, with the exception of the Knowledge Base, which is hosted on **GitHub Pages**.
+We use a unified interface in the root `package.json` to manage the entire monorepo.
 
-### 3.2. Backend APIs (Source-to-Package Hybrid)
-
-APIs use a two-tier resolution strategy to maintain Node.js runtime compatibility.
-
-- **Development:** tsx resolves aliases to the Core src for real-time feedback without pre-compilation.
-- **Production:** The `tsconfig.build.json` explicitly clears paths, forcing the TypeScript compiler and Node.js to resolve dependencies via `node_modules` (symlinked by PNPM).
-- **Requirement:** Core packages must be built (`pnpm build`) before starting the API in production mode.
+| Command             | Description                                           | Orchestration          |
+| :------------------ | :---------------------------------------------------- | :--------------------- |
+| `pnpm instance:dev` | Full Community Stack (Infra + API + Web)              | Turbo + Docker Compose |
+| `pnpm instance:up`  | Community Infrastructure only (MongoDB + Redis)       | Docker Compose         |
+| `pnpm instance:down`| Stop Community Stack and cleanup ports                | Docker Compose + Shell |
+| `pnpm portal:dev`   | Full Platform Stack (Foundation)                      | Turbo + Docker Compose |
+| `pnpm mcp:up`       | Start AI Tooling infrastructure (MCP Servers)         | Docker Compose         |
+| `pnpm docs:dev`     | Start Knowledge Base (Development Mode)               | PNPM Filter            |
+| `pnpm typecheck`    | Validate TypeScript across the entire monorepo        | Turbo                  |
+| `pnpm lint`         | Run linting for all workspaces                        | Turbo                  |
 
 ---
 
-## 4. Architectural Principles
+## 5. Architectural Principles
 
 - **Single Source of Truth (SSOT):** Community data structures must be defined in `@elo-instance/core`. Platform rules are in `@elo-portal/core`.
 - **Inherited Configuration:** ESLint and TSConfig are centralized at the root, with localized extensions providing context-specific refinements without duplicating the base rigor.

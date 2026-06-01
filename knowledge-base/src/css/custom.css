@@ -183,8 +183,7 @@ body {
   width: 100%;
   margin-top: 5rem;
   padding: 4rem 2rem;
-  background-color: rgba(0, 0, 0, 0.2); /* Solid-ish darkening for contrast */
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .footer__banner {
@@ -192,12 +191,11 @@ body {
   height: auto;
   object-fit: contain;
   transition: all 0.5s var(--ifm-transition-fast);
-  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
+  opacity: 1 !important;
 }
 
 .footer__banner:hover {
   transform: translateY(-5px) scale(1.02);
-  filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.4));
 }
 
 .footer__copyright {

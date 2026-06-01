@@ -3,7 +3,7 @@
 The **Portal Web** is the skeleton for the future public-facing product interface and SaaS hub. While currently in its foundation stage, it is designed to eventually become the primary entry point for discovery and community onboarding for the Elo Orgânico ecosystem.
 
 > [!NOTE]
-> **Authoritative Landing Page**: The current official landing page and technical hub for the project is the **[Knowledge Base](../../../knowledge-base)**.
+> **Authoritative Landing Page**: The current official landing page and technical hub for the project is the **[Knowledge Base](https://tupynambalucas.github.io/elo-organico)**.
 
 ## 🏗️ Architectural Role: Singleton (Unique)
 
@@ -12,7 +12,10 @@ In our multi-tenant SaaS model, this application is designed to operate as a **S
 - **Onboarding Interface**: The planned UI for new ecovillages and producers to register and launch their own instances.
 - **SaaS Gateway**: Designed to manage the user journey from curiosity to platform subscription.
 
-Refer to the **[Architecture Overview](../../../knowledge-base/docs/engineering/architecture.mdx)** for technical decisions and monorepo structure.
+### 📖 Documentation
+Detailed technical documentation is available in our **[Knowledge Base](https://tupynambalucas.github.io/elo-organico)**:
+- **[Architecture Overview](https://tupynambalucas.github.io/elo-organico/docs/engineering/architecture)**: Technical decisions and monorepo structure.
+- **[Style Guide](https://tupynambalucas.github.io/elo-organico/docs/engineering/styleguide)**: UI patterns and React 19 standards.
 
 ---
 

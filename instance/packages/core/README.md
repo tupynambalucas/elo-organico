@@ -9,7 +9,10 @@ The shared library ensures architectural consistency within each community insta
 - **Type Safety**: Inferred TypeScript types prevent model drift between the community's API (`@elo-instance/api`) and its management/shop portal (`@elo-instance/web`).
 - **Logical Separation**: This package is **not** shared with the global portal (`www`). Any shared logic required by the portal or future global services will be housed in dedicated packages to ensure strict separation of concerns.
 
-Refer to the **[Architecture Overview](../../../knowledge-base/docs/engineering/architecture.mdx)** for SSOT principles and monorepo structure.
+### 📖 Documentation
+Detailed technical documentation is available in our **[Knowledge Base](https://tupynambalucas.github.io/elo-organico)**:
+- **[Architecture Overview](https://tupynambalucas.github.io/elo-organico/docs/engineering/architecture)**: SSOT principles and monorepo structure.
+- **[Style Guide](https://tupynambalucas.github.io/elo-organico/docs/engineering/styleguide)**: Coding standards and naming conventions.
 
 ---
 
