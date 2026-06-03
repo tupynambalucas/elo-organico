@@ -101,25 +101,21 @@ const ProductsView: FC = () => {
                     <select
                       className={styles.fixInput}
                       value={editForm.measure?.type ?? 'unidade'}
-                      onChange={(e) => setEditForm(prev => ({ 
-                        ...prev, 
-                        measure: { 
-                          type: e.target.value,
-                          value: prev.measure?.value ?? 0,
-                          minimumOrder: prev.measure?.minimumOrder
-                        } 
-                      }))}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setEditForm(prev => ({ 
+                          ...prev, 
+                          measure: { 
+                            type: val,
+                            label: undefined,
+                            value: prev.measure?.value ?? 0,
+                            minimumOrder: prev.measure?.minimumOrder
+                          } 
+                        }));
+                      }}
                     >
                       <option value="unidade">Unidade</option>
-                      <option value="pacote">Pacote</option>
                       <option value="kg">Kg</option>
-                      <option value="litro">Litro</option>
-                      <option value="maço">Maço</option>
-                      <option value="bandeja">Bandeja</option>
-                      <option value="garrafão">Garrafão</option>
-                      <option value="pote">Pote</option>
-                      <option value="saca">Saca</option>
-                      <option value="fardo">Fardo</option>
                     </select>
                   </div>
                   <div className={styles.fixField} style={{ flex: '1 1 120px' }}>
@@ -157,6 +153,50 @@ const ProductsView: FC = () => {
                       </select>
                     </div>
                   </div>
+                  <div className={styles.fixField} style={{ flex: '1 1 120px' }}>
+                    <label>Pedido Mín. (Opcional)</label>
+                    <div style={{ display: 'flex', gap: '4px' }}>
+                      <select
+                        className={styles.fixInput}
+                        value={editForm.measure?.minimumOrder?.type ?? ''}
+                        onChange={(e) => {
+                          const type = e.target.value;
+                          setEditForm(prev => ({
+                            ...prev,
+                            measure: {
+                              ...prev.measure!,
+                              type: prev.measure?.type ?? 'unidade',
+                              value: prev.measure?.value ?? 0,
+                              minimumOrder: type ? { type, value: prev.measure?.minimumOrder?.value ?? 1 } : undefined
+                            }
+                          }));
+                        }}
+                        style={{ width: '85px', padding: '0.4rem' }}
+                      >
+                        <option value="">Nenhum</option>
+                        <option value="caixa">Caixa</option>
+                        <option value="saca">Saca</option>
+                      </select>
+                      <input
+                        className={styles.fixInput}
+                        value={editForm.measure?.minimumOrder?.value ?? ''}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setEditForm(prev => ({
+                            ...prev,
+                            measure: {
+                              ...prev.measure!,
+                              type: prev.measure?.type ?? 'unidade',
+                              value: prev.measure?.value ?? 0,
+                              minimumOrder: prev.measure?.minimumOrder?.type ? { type: prev.measure.minimumOrder.type, value: val !== '' ? Number(val) : 0 } : undefined
+                            }
+                          }));
+                        }}
+                        placeholder="Qtd"
+                        type="number"
+                      />
+                    </div>
+                  </div>
                 </div>
                 <div className={styles.editActions}>
                   <button type="button" className={styles.cancelInlineBtn} onClick={handleCancelInlineEdit} disabled={isSubmitting}>
@@ -173,6 +213,9 @@ const ProductsView: FC = () => {
                   <strong>{p.name}</strong>
                   <div className={styles.pSubInfo}>
                     <span className={styles.categoryTag}>{p.category}</span>
+                    {p.measure.label !== undefined && (
+                      <span className={styles.labelTag}>{p.measure.label}</span>
+                    )}
                     {p.content !== null && p.content !== undefined && (
                       <span className={styles.contentBadge}>{p.content.value}{p.content.unit}</span>
                     )}

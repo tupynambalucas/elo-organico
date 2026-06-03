@@ -49,7 +49,6 @@ const CycleCreate: React.FC = () => {
           value={state.textInput}
           onChange={actions.setTextInput}
           onParse={actions.handleParse}
-          onCancel={actions.handleReset}
         />
       )}
 

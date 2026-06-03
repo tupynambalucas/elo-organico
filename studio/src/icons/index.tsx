@@ -24,7 +24,11 @@ import {
   FaEyeSlash,
   FaSearch,
   FaGithub,
-  FaCircle
+  FaCircle,
+  FaUserCircle,
+  FaShoppingCart,
+  FaPlus,
+  FaMinus
 } from 'react-icons/fa';
 
 import {
@@ -128,7 +132,11 @@ export {
   FaTriangleExclamation as faTriangleExclamation,
   FaSearch as faSearch,
   FaGithub as faGithub,
-  FaCircle as faCircle
+  FaCircle as faCircle,
+  FaUserCircle as faUser,
+  FaShoppingCart as faShoppingCart,
+  FaPlus as faPlus,
+  FaMinus as faMinus
 };
 
 // Export entire sets if needed

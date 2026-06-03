@@ -125,9 +125,9 @@ We use a unified interface in the root `package.json` to manage the entire monor
 
 ---
 
-## 5. Technology Stack
+## 6. Technology Stack
 
-### 5.1. Package Management & Orchestration
+### 6.1. Package Management & Orchestration
 
 - **Runtime**: Node.js 22+ (LTS).
 - **Package Manager**: PNPM v11 (Strict dependency management via symlinks and hard-link content storage).
@@ -135,14 +135,14 @@ We use a unified interface in the root `package.json` to manage the entire monor
 - **Task Orchestrator**: **Turborepo** (Optimized caching and parallel execution).
 - **Tooling**: TypeScript 6, ESLint 9 (Flat Config), Prettier 3, Vite 8.
 
-### 5.2. Backend (API Layer)
+### 6.2. Backend (API Layer)
 
 - **Framework**: Fastify v5 (Optimized for high throughput).
 - **ORM/ODM**: Mongoose with MongoDB (Replica Set enabled for ACID transactions).
 - **Validation**: Zod (Integrated via domain-specific core packages).
 - **Processing**: BullMQ + Redis for asynchronous tasks.
 
-### 5.3. Frontend (UI Layer)
+### 6.3. Frontend (UI Layer)
 
 - **Framework**: React 19.
 - **State Management**: Zustand (Atomic and performant state).
@@ -151,9 +151,9 @@ We use a unified interface in the root `package.json` to manage the entire monor
 
 ---
 
-## 6. Architectural Patterns
+## 7. Architectural Patterns
 
-### 6.1. Layered Responsibilities (Backend)
+### 7.1. Layered Responsibilities (Backend)
 
 Each domain follows a strict hierarchy to isolate concerns:
 Controller -> Service -> Repository -> Model
@@ -185,13 +185,13 @@ export class AuthRepository {
 }
 ```
 
-### 6.2. Dependency Injection
+### 7.2. Dependency Injection
 
 Modular management through Fastify decorators and a centralized registry to decouple components and facilitate testing.
 
 ---
 
-## 7. Infrastructure & Deployment
+## 8. Infrastructure & Deployment
 
 Designed for **Self-Hosted Excellence** on Hetzner Cloud.
 
@@ -206,7 +206,7 @@ All components reside in a private Docker network for sub-millisecond latency be
 
 ---
 
-## 8. Studio & Automation (Architecture)
+## 9. Studio & Automation (Architecture)
 
 The studio workspace provides the infrastructure for design-to-code alignment and AI-assisted engineering.
 
@@ -215,7 +215,7 @@ The studio workspace provides the infrastructure for design-to-code alignment an
 
 ---
 
-## 9. Security Standards
+## 10. Security Standards
 
 - **Strict Typing**: TypeScript Strict Mode enabled project-wide.
 - **Build Integrity**: Automated build script approvals via `pnpm.onlyBuiltDependencies`.

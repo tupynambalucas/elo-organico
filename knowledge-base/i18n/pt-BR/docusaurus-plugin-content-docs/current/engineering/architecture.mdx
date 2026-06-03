@@ -59,21 +59,22 @@ graph LR
 
 | Diretório              | Nome do Pacote       | Papel         | Responsabilidade                                               |
 | :--------------------- | :------------------- | :------------ | :------------------------------------------------------------- |
-| portal/apps/web        | @elo-portal/web      | **Singleton** | Futuro hub de onboarding do SaaS e interface de gestão da plataforma. |
-| portal/apps/api        | @elo-portal/api      | **Singleton** | API de gestão global, orquestração de tenants e cobrança.      |
-| portal/packages/core   | @elo-portal/core     | **Library**   | SSOT para a plataforma global (Portal API & Web).               |
+| portal/apps/web        | @elo-portal/web      | **Singleton** | Esqueleto do futuro hub de onboarding SaaS e fundação da plataforma. |
+| portal/apps/api        | @elo-portal/api      | **Singleton** | Fundação da API de gestão global, orquestração de tenants.     |
+| portal/packages/core   | @elo-portal/core     | **Library**   | SSOT para a fundação da plataforma global.                     |
 | instance/apps/api      | @elo-instance/api    | **Instância** | API REST Fastify para uma instância de comunidade específica.  |
 | instance/apps/web      | @elo-instance/web    | **Instância** | React SPA (Admin/Loja) para uma instância de comunidade específica. |
 | instance/packages/core | @elo-instance/core   | **Library**   | SSOT para instâncias de comunidade (API & Web App).            |
 | studio/                | @elo-organico/studio | **Tooling**   | Tokens de marca, ativos de design e estilização global.        |
 | tools/                 | @elo-organico/tools  | **Tooling**   | Infraestrutura MCP, scripts de automação e utilitários de projeto. |
-| knowledge-base/        | @elo-organico/docs   | **Docs**      | Landing page de documentação do projeto e base de conhecimento técnica. |
+| knowledge-base/        | @elo-organico/docs   | **Docs Hub**  | Hub oficial de documentação do projeto e landing page técnica. |
 
 ### 2.1. Filosofia de Contexto Delimitado (Bounded Context)
 
 - **Isolamento de Contexto**: Cada diretório raiz (`instance/`, `portal/`) representa um Bounded Context. Lógica e modelos são duplicados quando necessário para manter a independência, seguindo princípios de DDD.
 - **Implantação (Deployment)**:
-  - **Portal**: Existe apenas **uma** instância global da plataforma. Ela servirá como o futuro hub de onboarding SaaS para o ecossistema, enquanto a face pública e landing page do projeto é a Base de Conhecimento (Knowledge Base).
+  - **Portal**: Projetado como uma camada **singleton** para futuro onboarding SaaS. Atualmente em estágio de fundação/esqueleto.
+  - **Base de Conhecimento**: O **hub oficial do projeto** para documentação (EloDocs) e especificações técnicas.
   - **Instância**: Múltiplos pares de API/Web serão instanciados no futuro modelo SaaS, um para cada comunidade.
 
 ---
@@ -86,27 +87,30 @@ Empregamos uma **Arquitetura Híbrida de Alta Performance** otimizada pelo **Tur
 
 O **Turborepo** é o motor por trás da nossa produtividade no monorepo. Ele lida com:
 - **Grafo de Dependências:** Identifica automaticamente quais pacotes precisam de build ou validação com base em alterações locais.
-- **Acoplamento de Infraestrutura:** Orquestra serviços do Docker Compose como pré-requisitos para o desenvolvimento das aplicações (ex: iniciar bancos de dados antes da API).
-- **Caching:** Acelera builds e lints ao ignorar módulos que não foram alterados.
-
-### 3.2. Aplicações Web (Build do Código-Fonte)
-
-As aplicações frontend utilizam uma estratégia de **"Bundling from Source"**.
-
-- **Mecanismo:** O Vite 8 aproveita o `resolve.tsconfigPaths` nativo para resolver aliases diretamente para o `src` dos pacotes internos (ex: `@elo-instance/core` aponta para `instance/packages/core/src/index.ts`).
-- **Benefícios:** Máxima eficiência de tree-shaking (o Vite otimiza o código do Core especificamente para o bundle da app), HMR instantâneo em todo o monorepo e pipelines de build simplificados.
-
-### 3.2. APIs Backend (Híbrido Source-to-Package)
-
-As APIs utilizam uma estratégia de resolução em dois níveis para manter a compatibilidade com o runtime do Node.js.
-
-- **Desenvolvimento:** O `tsx` resolve aliases para o `src` do Core para feedback em tempo real sem pré-compilação.
-- **Produção:** O `tsconfig.build.json` limpa explicitamente os paths, forçando o compilador TypeScript e o Node.js a resolver dependências via `node_modules` (simbolicamente vinculados pelo PNPM).
-- **Requisito:** Pacotes Core devem ter o build concluído (`pnpm build`) antes de iniciar a API em modo de produção.
+- **Acoplamento de Infraestrutura:** Orquestra serviços do Docker Compose como pré-requisitos para o desenvolvimento das aplicações (ex: `pnpm instance:up` inicia bancos de dados antes da API).
+- **Caching:** Acelera builds, type-checking e lints ao ignorar módulos que não foram alterados.
+- **Outputs Unificados:** Padroniza artefatos de build em `dist/` (para apps e core) e `build/` (para Docusaurus).
 
 ---
 
-## 4. Princípios Arquiteturais
+## 4. Comandos Operacionais
+
+Utilizamos uma interface unificada no `package.json` raiz para gerenciar todo o monorepo.
+
+| Comando             | Descrição                                             | Orquestração           |
+| :------------------ | :---------------------------------------------------- | :--------------------- |
+| `pnpm instance:dev` | Stack de Comunidade Completo (Infra + API + Web)      | Turbo + Docker Compose |
+| `pnpm instance:up`  | Apenas Infraestrutura de Comunidade (MongoDB + Redis) | Docker Compose         |
+| `pnpm instance:down`| Para o Stack de Comunidade e limpa as portas          | Docker Compose + Shell |
+| `pnpm portal:dev`   | Stack de Plataforma Completo (Fundação)               | Turbo + Docker Compose |
+| `pnpm mcp:up`       | Inicia a infraestrutura de ferramentas de IA (MCP)    | Docker Compose         |
+| `pnpm docs:dev`     | Inicia a Base de Conhecimento (Modo Desenvolvimento)   | PNPM Filter            |
+| `pnpm typecheck`    | Valida o TypeScript em todo o monorepo                | Turbo                  |
+| `pnpm lint`         | Executa a lintagem para todos os workspaces           | Turbo                  |
+
+---
+
+## 5. Princípios Arquiteturais
 
 - **Fonte Única de Verdade (SSOT):** Estruturas de dados da comunidade devem ser definidas em `@elo-instance/core`. Regras da plataforma estão em `@elo-portal/core`.
 - **Configuração Herdada:** ESLint e TSConfig são centralizados na raiz, com extensões localizadas fornecendo refinamentos específicos de contexto sem duplicar o rigor base.
@@ -121,24 +125,24 @@ As APIs utilizam uma estratégia de resolução em dois níveis para manter a co
 
 ---
 
-## 5. Stack Tecnológica
+## 6. Stack Tecnológica
 
-### 5.1. Gestão de Pacotes & Orquestração
+### 6.1. Gestão de Pacotes & Orquestração
 
 - **Runtime**: Node.js 22+ (LTS).
-- **Gerenciador de Pacotes**: PNPM v10 (Gestão estrita de dependências).
+- **Gerenciador de Pacotes**: PNPM v11 (Gestão estrita de dependências via symlinks e armazenamento de conteúdo via hard-link).
 - **Gestão de Dependências**: **PNPM Catalogs** (Controle de versão centralizado para dependências compartilhadas usando o protocolo `catalog:`).
 - **Orquestrador de Tarefas**: **Turborepo** (Cache otimizado e execução paralela).
 - **Tooling**: TypeScript 6, ESLint 9 (Flat Config), Prettier 3, Vite 8.
 
-### 5.2. Backend (Camada de API)
+### 6.2. Backend (Camada de API)
 
 - **Framework**: Fastify v5 (Otimizado para alto throughput).
 - **ORM/ODM**: Mongoose com MongoDB (Replica Set ativado para transações ACID).
 - **Validação**: Zod (Integrado via pacotes core específicos de domínio).
 - **Processamento**: BullMQ + Redis para tarefas assíncronas.
 
-### 5.3. Frontend (Camada de UI)
+### 6.3. Frontend (Camada de UI)
 
 - **Framework**: React 19.
 - **Gestão de Estado**: Zustand (Estado atômico e performático).
@@ -147,9 +151,9 @@ As APIs utilizam uma estratégia de resolução em dois níveis para manter a co
 
 ---
 
-## 6. Padrões Arquiteturais
+## 7. Padrões Arquiteturais
 
-### 6.1. Camadas de Responsabilidade (Backend)
+### 7.1. Camadas de Responsabilidade (Backend)
 
 Cada domínio segue uma hierarquia estrita para isolar preocupações:
 Controller -> Service -> Repository -> Model
@@ -181,13 +185,13 @@ export class AuthRepository {
 }
 ```
 
-### 6.2. Injeção de Dependência
+### 7.2. Injeção de Dependência
 
 Gestão modular através de decoradores do Fastify e um registro centralizado para desacoplar componentes e facilitar testes.
 
 ---
 
-## 7. Infraestrutura & Implantação
+## 8. Infraestrutura & Implantação
 
 Projetado para **Excelência Self-Hosted** na Hetzner Cloud.
 
@@ -202,7 +206,7 @@ Todos os componentes residem em uma rede privada do Docker para latência sub-mi
 
 ---
 
-## 8. Studio & Automação (Arquitetura)
+## 9. Studio & Automação (Arquitetura)
 
 O workspace de studio fornece a infraestrutura para o alinhamento entre design e código e engenharia assistida por IA.
 
@@ -211,7 +215,7 @@ O workspace de studio fornece a infraestrutura para o alinhamento entre design e
 
 ---
 
-## 9. Padrões de Segurança
+## 10. Padrões de Segurança
 
 - **Tipagem Estrita**: Modo Estrito do TypeScript ativado em todo o projeto.
 - **Integridade de Build**: Aprovações automatizadas de scripts de build via `pnpm.onlyBuiltDependencies`.

@@ -1,0 +1,125 @@
+---
+title: Fluxo de Trabalho Git & Padrões
+description: Estratégia profissional de ramificação (branching), commits e releases para o monorepo Elo Orgânico.
+sidebar_position: 5
+---
+
+# Guia de Fluxo de Trabalho Git 🌊
+
+Este documento descreve a estratégia profissional de ramificação e lançamento para o **Elo Orgânico**, combinando a disciplina estrutural do **Git Flow** com o poder de colaboração da **GitHub CLI (`gh`)**.
+
+---
+
+## 🏗️ Modelo de Ramificação (Branching)
+
+Seguimos o modelo padrão Git Flow para garantir a estabilidade do nosso código de produção, adaptado para nossa estrutura de monorepo.
+
+| Branch | Propósito | Estabilidade |
+| :--- | :--- | :--- |
+| **`main`** | Código pronto para produção. Cada commit é uma release tagueada. | **Ultra Estável** |
+| **`develop`** | Branch de integração para funcionalidades. A versão de "trabalho". | **Estável** |
+| **`feature/*`** | Novas funcionalidades ou mudanças de UI. Ramifica de `develop`. | Experimental |
+| **`bugfix/*`** | Novas correções de bugs para o próximo ciclo de desenvolvimento. | Experimental |
+| **`release/*`** | Preparação para uma nova release de produção. | Polimento Final |
+| **`hotfix/*`** | Correções de bugs críticos para a versão de produção atual. | Urgente |
+
+---
+
+## 🛠️ Requisitos de Ferramental
+
+Para seguir este fluxo de trabalho de forma eficiente, recomendamos:
+1.  **Git Flow CLI (Edição AVH)**: Geralmente incluído no Git for Windows ou disponível via pacote `gitflow`.
+2.  **GitHub CLI (`gh`)**: Utilizada para Pull Requests, monitoramento de status e releases oficiais.
+
+---
+
+## 📝 Padrões de Commit (Conventional Commits)
+
+Para manter um histórico limpo e automatizado, todos os commits devem seguir a especificação **[Conventional Commits](https://www.conventionalcommits.org/)**.
+
+**Formato:** `<tipo>(<escopo>): <descrição>`
+
+### Tipos
+- **feat**: Uma nova funcionalidade (correlaciona-se com `MINOR` no SemVer).
+- **fix**: Uma correção de bug (correlaciona-se com `PATCH` no SemVer).
+- **docs**: Mudanças apenas na documentação.
+- **style**: Mudanças que não afetam o significado do código (espaço em branco, formatação, etc).
+- **refactor**: Uma alteração de código que não corrige um bug nem adiciona uma funcionalidade.
+- **perf**: Uma alteração de código que melhora a performance.
+- **test**: Adição de testes ausentes ou correção de testes existentes.
+- **chore**: Mudanças no processo de build ou ferramentas/bibliotecas auxiliares.
+
+### Escopos do Monorepo
+Use o contexto ou nome do pacote como escopo:
+- **`instance`**: Mudanças nos apps ou core da Instância da Comunidade.
+- **`portal`**: Mudanças nos apps ou core do Portal Global.
+- **`core`**: Mudanças na lógica de domínio compartilhada.
+- **`studio`**: Tokens de design, ativos ou configuração do Penpot.
+- **`tools`**: Servidores MCP, scripts ou infraestrutura.
+- **`deps`**: Atualizações de dependências (gerenciadas via catalogs).
+
+**Exemplo:** `feat(instance): add Pix payment reconciliation to checkout`
+
+---
+
+## 🚀 Fluxo de Contribuição
+
+### 1. Iniciando uma Nova Funcionalidade
+Sempre ramifique a partir de `develop`.
+```powershell
+git flow feature start minha-funcionalidade-incrivel
+```
+
+### 2. Colaborando e Propondo Mudanças
+Em vez de realizar o merge localmente, usamos **Pull Requests** para revisão de código e validação de CI.
+
+1.  **Envie sua branch**: `git push -u origin feature/minha-funcionalidade-incrivel`
+2.  **Crie um Pull Request**: 
+    ```powershell
+    gh pr create --base develop --fill --web
+    ```
+    *Use `--fill` para usar automaticamente suas mensagens de commit para a descrição do PR.*
+
+### 3. Estratégia de Merge Sênior (Squash & Merge)
+Para manter o histórico da `develop` limpo e significativo, usamos **Squash Merges**. Isso combina todos os commits de uma branch de funcionalidade em um único commit bem descrito na `develop`.
+
+- **Ação**: Merge via interface do GitHub ou CLI usando o método `squash`.
+- **Comando CLI**: `gh pr merge --squash --delete-branch`
+
+---
+
+## 📦 Fluxo de Release (Apenas Mantenedores)
+
+Quando a branch `develop` estiver pronta para uma nova versão:
+
+1.  **Iniciar Release**: `git flow release start 0.2.0`
+2.  **Versão**: Atualize os arquivos `package.json` e o `CHANGELOG.md`.
+3.  **Finalizar Release**: `git flow release finish 0.2.0` (Use o prefixo `v` para as tags).
+4.  **Sincronizar**: 
+    ```powershell
+    git push origin develop
+    git push origin main --tags
+    ```
+5.  **GitHub Release**:
+    ```powershell
+    gh release create v0.2.0 --target main --generate-notes
+    ```
+
+---
+
+## 🆘 Correções Críticas (Hotfixes)
+
+Se um bug for encontrado em produção:
+1.  `git flow hotfix start fix-crash`
+2.  Aplique a correção e finalize: `git flow hotfix finish fix-crash`
+3.  Sincronize tanto a `main` quanto a `develop`.
+
+---
+
+## ⚠️ Práticas Proibidas
+- **Sem commits diretos na `main` ou `develop`**: Sempre use branches de funcionalidade e PRs.
+- **Sem Force Pushes**: A menos que seja em sua própria branch de funcionalidade isolada e necessário para um rebase.
+- **Sem Dirty Merges**: Evite fazer merge da `main` de volta para `feature/*`. Sempre faça **rebase** sobre a `develop` se sua branch de funcionalidade ficar desatualizada.
+
+---
+_A adesão a este fluxo de trabalho garante um histórico limpo e uma distribuição de software de alta qualidade._

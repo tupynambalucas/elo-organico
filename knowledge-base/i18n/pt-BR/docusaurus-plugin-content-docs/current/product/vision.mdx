@@ -9,8 +9,11 @@ description: A missão central, proposta de valor e objetivos de longo prazo da 
 O **Elo Orgânico** é uma plataforma especializada projetada para preencher a lacuna entre produtores orgânicos e consumidores conscientes através de **Ciclos de Compartilhamento Agendados**. Mais do que apenas uma ferramenta de e-commerce, é um sistema de gestão orientado pela comunidade que automatiza a complexa logística de colheitas sazonais e compras em grupo.
 
 O projeto opera através de um modelo de aplicação de camada dupla, garantindo uma separação lógica estrita:
-1.  **Escopo de Plataforma (@elo-portal/web & @elo-portal/api)**: A face pública global e ponto de entrada do SaaS. Esta é uma camada singleton autônoma que lida com descoberta de alto nível, marketing e futuro onboarding.
+1.  **Escopo de Plataforma (@elo-portal/web & @elo-portal/api)**: O futuro hub de produtos global e ponto de entrada SaaS. Esta é uma camada singleton autônoma que lida com descoberta de alto nível e onboarding (atualmente em estágio de fundação).
 2.  **Escopo de Instância (@elo-instance/web & @elo-instance/api)**: Pares de aplicações dedicados implantados para cada comunidade, proporcionando uma experiência personalizada e isolada. Estas instâncias são governadas pela lógica específica de domínio em `@elo-instance/core`.
+
+> [!NOTE]
+> **Hub Técnico**: A página de destino (landing page) autoritativa e o centro técnico atual do projeto é a **Base de Conhecimento** (EloDocs).
 
 ### A Visão
 *"Tornar a comida local, orgânica e sustentável tão acessível e fácil de comprar quanto qualquer produto industrial comum, sem perder a conexão humana."*

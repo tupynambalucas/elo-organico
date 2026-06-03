@@ -61,15 +61,7 @@ export const FixErrorsStep: React.FC<FixErrorsStepProps> = ({
                   onChange={(e) => onUpdateItem(item.id, 'unit', e.target.value)}
                 >
                   <option value="unidade">Unidade</option>
-                  <option value="pacote">Pacote</option>
                   <option value="kg">Kg</option>
-                  <option value="litro">Litro</option>
-                  <option value="maço">Maço</option>
-                  <option value="bandeja">Bandeja</option>
-                  <option value="garrafão">Garrafão</option>
-                  <option value="pote">Pote</option>
-                  <option value="saca">Saca</option>
-                  <option value="fardo">Fardo</option>
                 </select>
               </div>
 
@@ -109,11 +101,8 @@ export const FixErrorsStep: React.FC<FixErrorsStepProps> = ({
                     style={{ width: '85px', padding: '0.4rem' }}
                   >
                     <option value="">Nenhum</option>
-                    <option value="kg">Kg</option>
-                    <option value="unidade">Uni</option>
-                    <option value="cx">Cx</option>
+                    <option value="caixa">Caixa</option>
                     <option value="saca">Saca</option>
-                    <option value="fardo">Fardo</option>
                   </select>
                   <input
                     className={styles.fixInput}

@@ -1,11 +1,11 @@
 import type { IProduct } from '@elo-instance/core';
-import { type FailedLine } from './parseList';
+import { type FailedLine, resolveIntelligentMeasure } from './parseList';
 import type { FixingItem } from './types';
 
 const PRICE_REGEX = /(?:[R$]\s*)?(\d+[.,]?\d*)\b/i;
 const CONTENT_REGEX = /(\d+(?:[.,]\d+)?)\s*(g|gr|kg|ml|l|lt|litros?)/i;
 const UNIT_SUFFIX_REGEX = /\s(kg|un|uni|unidade|pct|pcte|pacote|maço|maco|bandeja|bdj|litro|l|lt|pote|pt|garrafa|garrafão|saca|fardo)\s*$/i;
-const MIN_ORDER_REGEX = /\/\s*(cx|saca|fardo)\s*([\d.,]+)\s*(kg|un|uni|unidade)?/i;
+const MIN_ORDER_REGEX = /\/\s*(cx|caixa|saca)\s*([\d.,]+)\s*(kg|un|uni|unidade)?/i;
 
 export const createFixingItems = (failedLines: FailedLine[]): FixingItem[] => {
   return failedLines.map((fail, idx) => {
@@ -39,7 +39,10 @@ export const createFixingItems = (failedLines: FailedLine[]): FixingItem[] => {
 
     const minOrderMatch = MIN_ORDER_REGEX.exec(cleanText);
     if (minOrderMatch) {
-      estimatedMinOrderType = (minOrderMatch[3] || minOrderMatch[1]).toLowerCase();
+      let inputType = minOrderMatch[1].toLowerCase();
+      if (['cx', 'caixa'].includes(inputType)) inputType = 'caixa';
+      if (inputType === 'saca') inputType = 'saca';
+      estimatedMinOrderType = inputType;
       estimatedMinOrderValue = minOrderMatch[2].replace(',', '.');
     }
 
@@ -88,12 +91,15 @@ export const processFixedItems = (fixingItems: FixingItem[]) => {
         };
       }
 
+      const resolvedMeasure = resolveIntelligentMeasure(item.unit);
+
       validNewProducts.push({
         name: item.name.trim(),
         category: item.category,
         available: true,
         measure: {
-          type: item.unit,
+          type: resolvedMeasure.type,
+          label: resolvedMeasure.label,
           value: priceNum,
           minimumOrder,
         },

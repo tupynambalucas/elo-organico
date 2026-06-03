@@ -47,6 +47,16 @@
   border: 0.0625rem solid var(--color-border-light);
 }
 
+.labelTag {
+  font-size: 0.75rem;
+  background: var(--color-background-light);
+  color: var(--color-subtitle-dark);
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.25rem;
+  text-transform: capitalize;
+  border: 0.0625rem solid var(--color-border-light);
+}
+
 .contentBadge {
   font-size: 0.75rem;
   color: var(--color-subtitle-dark);
