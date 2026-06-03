@@ -166,6 +166,12 @@
   margin-top: 1vh;
 }
 
+.turnstileWrapper {
+  margin-bottom: 2vh;
+  display: flex;
+  justify-content: center;
+}
+
 .formContainer button:hover:not(:disabled) {
   background-color: var(--color-accent);
   color: var(--color-body-light);

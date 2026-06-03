@@ -4,6 +4,9 @@ import type { IUser } from '@elo-instance/core';
 
 export interface IUserDocument extends Omit<IUser, '_id'>, Document {
   password?: string;
+  loginAttempts: number;
+  lockUntil?: number;
+  isLocked: boolean;
 }
 
 export const userSchema = new Schema<IUserDocument>(
@@ -13,9 +16,15 @@ export const userSchema = new Schema<IUserDocument>(
     icon: { type: String, required: true, trim: true, lowercase: true },
     password: { type: String, required: true },
     role: { type: String, enum: ['user', 'admin'], default: 'user' },
+    loginAttempts: { type: Number, required: true, default: 0 },
+    lockUntil: { type: Number },
   },
   { timestamps: true },
 );
+
+userSchema.virtual('isLocked').get(function () {
+  return !!(this.lockUntil && this.lockUntil > Date.now());
+});
 
 userSchema.pre<IUserDocument>('save', async function () {
   if (!this.isModified('password') || !this.password) {

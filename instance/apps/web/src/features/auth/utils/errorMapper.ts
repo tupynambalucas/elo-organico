@@ -14,6 +14,9 @@ export const mapBackendErrorToUI = (
 ): ErrorUIMapping | null => {
   const errorMap: Record<string, ErrorConfig | undefined> = {
     USER_NOT_FOUND: { field: 'identifier', getRef: (r) => r.identifier },
+    INVALID_CREDENTIALS: { field: 'identifier', getRef: (r) => r.identifier },
+    ACCOUNT_LOCKED: { field: 'identifier', getRef: (r) => r.identifier },
+    BOT_DETECTION_FAILED: { field: 'identifier', getRef: (r) => r.identifier },
     INVALID_PASSWORD: {
       field: 'password',
       getRef: (r) => (isLogin ? r.passwordLogin : r.passwordRegister),

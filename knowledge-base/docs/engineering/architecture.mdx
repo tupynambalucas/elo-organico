@@ -217,6 +217,10 @@ The studio workspace provides the infrastructure for design-to-code alignment an
 
 ## 10. Security Standards
 
+Elo Orgânico follows a multi-layered security strategy. For detailed implementation details, refer to the **[Security Architecture](./security.mdx)** document.
+
+- **Bot Protection**: Integration with Cloudflare Turnstile for all authentication entry points.
+- **Brute-Force Mitigation**: IP-based rate limiting and account lockout logic.
 - **Strict Typing**: TypeScript Strict Mode enabled project-wide.
 - **Build Integrity**: Automated build script approvals via `pnpm.onlyBuiltDependencies`.
 - **Data Integrity**: MongoDB Replica Set (`rs0`) for transactional reliability and ACID compliance.
@@ -224,4 +228,4 @@ The studio workspace provides the infrastructure for design-to-code alignment an
 
 ---
 
-_Last Updated: April 2026_
+_Last Updated: June 2026_

@@ -22,6 +22,7 @@ const schema = {
     'ADMIN_PASS_SEED',
     'USER_SESSION_KEY',
     'NODE_ENV',
+    'TURNSTILE_SECRET_KEY',
   ],
   properties: {
     SERVER_PORT: { type: 'number' },
@@ -40,6 +41,7 @@ const schema = {
     SESSION_SECRET: { type: 'string' },
     USER_SESSION_KEY: { type: 'string' },
     SENTRY_DSN: { type: 'string' },
+    TURNSTILE_SECRET_KEY: { type: 'string' },
   },
 };
 

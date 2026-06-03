@@ -3,6 +3,7 @@ import { useCycleStore } from '@/domains/cycle';
 import { useCart } from './hooks/useCart';
 import styles from './styles.module.css';
 import { Icon, faUser, faShoppingCart, faCalendarAlt } from '@elo-organico/studio/icons';
+import { LogoHorizontalNegative } from '@elo-organico/studio/logos';
 import { ProductSearchFilter } from '../admin/components';
 import ProductCard from './components/Product/ProductCard';
 import CartDrawer from './components/Cart/CartDrawer';
@@ -71,7 +72,7 @@ const Shop: FC = () => {
         <header className={styles.header}>
           <div className={styles.headerContent}>
             <div className={styles.logo}>
-              <span className={styles.logoText}>Elo Orgânico</span>
+              <LogoHorizontalNegative className={styles.logoSvg} />
             </div>
             
             <div className={styles.actions}>

@@ -254,7 +254,7 @@ export const ActiveCycleProductsList = ({
                           ...prev,
                           measure: {
                             ...prev.measure!,
-                            minimumOrder: prev.measure?.minimumOrder?.type ? { type: prev.measure.minimumOrder.type, value: val !== '' ? Number(val) : 0 } : undefined
+                            minimumOrder: prev.measure?.minimumOrder?.type !== undefined && prev.measure?.minimumOrder?.type !== '' ? { type: prev.measure.minimumOrder.type, value: val !== '' ? Number(val) : 0 } : undefined
                           }
                         }));
                       }}

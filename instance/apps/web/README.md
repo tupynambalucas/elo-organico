@@ -39,6 +39,16 @@ src/
 
 ---
 
+## ⚙️ Environment Configuration
+
+Create a `.env` file in this directory:
+
+```properties
+VITE_TURNSTILE_SITE_KEY=your_cloudflare_site_key
+```
+
+---
+
 ## 💻 Local Development
 
 To run the frontend in isolation:

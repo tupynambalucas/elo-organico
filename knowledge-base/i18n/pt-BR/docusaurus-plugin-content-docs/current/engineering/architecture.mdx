@@ -217,6 +217,10 @@ O workspace de studio fornece a infraestrutura para o alinhamento entre design e
 
 ## 10. Padrões de Segurança
 
+O Elo Orgânico segue uma estratégia de segurança em múltiplas camadas. Para detalhes detalhados de implementação, consulte o documento de **[Arquitetura de Segurança](./security.mdx)**.
+
+- **Proteção contra Bots**: Integração com Cloudflare Turnstile para todos os pontos de entrada de autenticação.
+- **Mitigação de Brute-Force**: Limitação de taxa baseada em IP e lógica de bloqueio de conta.
 - **Tipagem Estrita**: Modo Estrito do TypeScript ativado em todo o projeto.
 - **Integridade de Build**: Aprovações automatizadas de scripts de build via `pnpm.onlyBuiltDependencies`.
 - **Integridade de Dados**: MongoDB Replica Set (`rs0`) para confiabilidade transacional e conformidade ACID.
@@ -224,4 +228,4 @@ O workspace de studio fornece a infraestrutura para o alinhamento entre design e
 
 ---
 
-_Última Atualização: Abril de 2026_
+_Última Atualização: Junho de 2026_

@@ -188,7 +188,7 @@ const ProductsView: FC = () => {
                               ...prev.measure!,
                               type: prev.measure?.type ?? 'unidade',
                               value: prev.measure?.value ?? 0,
-                              minimumOrder: prev.measure?.minimumOrder?.type ? { type: prev.measure.minimumOrder.type, value: val !== '' ? Number(val) : 0 } : undefined
+                              minimumOrder: prev.measure?.minimumOrder?.type !== undefined && prev.measure?.minimumOrder?.type !== '' ? { type: prev.measure.minimumOrder.type, value: val !== '' ? Number(val) : 0 } : undefined
                             }
                           }));
                         }}

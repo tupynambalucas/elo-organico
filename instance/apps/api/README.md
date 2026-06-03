@@ -53,6 +53,7 @@ REDIS_PORT=6379
 # Security
 JWT_SECRET=your_jwt_secret
 SESSION_SECRET=your_session_secret
+TURNSTILE_SECRET_KEY=your_cloudflare_secret_key
 
 # Integrations
 EFI_CLIENT_ID=your_efi_id

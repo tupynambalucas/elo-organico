@@ -10,6 +10,10 @@ export const translations = {
   auth: {
     errors: {
       USER_NOT_FOUND: 'Usuário incorreto.',
+      INVALID_CREDENTIALS: 'Usuário ou senha inválidos.',
+      ACCOUNT_LOCKED: 'Conta temporariamente bloqueada por excesso de tentativas. Tente novamente mais tarde.',
+      BOT_DETECTION_FAILED: 'Falha na verificação de bot. Tente novamente.',
+      BOT_DETECTION_ERROR: 'Erro ao verificar bot. Tente novamente mais tarde.',
       INVALID_PASSWORD: 'Senha incorreta.',
       EMAIL_ALREADY_EXISTS: 'E-mail já cadastrado.',
       USERNAME_ALREADY_EXISTS: 'Nome de usuário já existe.',
