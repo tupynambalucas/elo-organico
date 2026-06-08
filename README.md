@@ -49,18 +49,21 @@ Ensure you have **Node.js 22+** and **PNPM 11+** installed.
     pnpm install
     ```
 
-2.  **Set Up Environment:**
-    Copy the `.env.example` to `.env` and configure your local variables.
+2.  **Infrastructure Orchestration:**
+    Our development environment is orchestrated by **Turborepo** and **Docker Compose**.
+    ```bash
+    pnpm instance:up   # Start Instance infrastructure (MongoDB, Redis)
+    pnpm portal:up     # Start Portal infrastructure (Future use)
+    pnpm mcp:up        # Start AI Tooling infrastructure
+    ```
 
 3.  **Run Development Environment:**
-    We recommend using our namespaced scripts for clarity:
+    We recommend using orchestrated scripts which automatically manage infrastructure dependencies:
     ```bash
-    pnpm instance:web   # Start community shop/admin
-    pnpm instance:api   # Start community API
-    pnpm portal:web     # Start future portal (foundation)
-    pnpm portal:api     # Start portal API foundation
-    pnpm docs:dev           # Start Documentation Hub (English)
-    pnpm docs:dev:pt        # Start Documentation Hub (Brazilian Portuguese)
+    pnpm instance:dev  # Full community shop (Infra + API + Web)
+    pnpm portal:dev    # Full portal stack (Infra + API + Web)
+    pnpm docs:dev      # Documentation Hub (English)
+    pnpm docs:dev:pt   # Documentation Hub (Portuguese)
     ```
 
 ---

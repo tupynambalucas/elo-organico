@@ -9,7 +9,10 @@ The portal core ensures architectural consistency and **Logical Isolation** for 
 - **Type Safety**: Inferred TypeScript types prevent model drift between the platform's API (`@elo-portal/api`) and its web interface (`@elo-portal/web`).
 - **Domain Isolation**: This package is **strictly isolated** from community-specific logic (`@elo-instance/core`). This prevents community-level changes from affecting the stability and integrity of the global platform gateway.
 
-Refer to the **[Architecture Overview](../../../knowledge-base/docs/engineering/architecture.mdx)** for SSOT principles and isolation rules.
+### 📖 Documentation
+Detailed technical documentation is available in our **[Knowledge Base](https://tupynambalucas.github.io/elo-organico)**:
+- **[Architecture Overview](https://tupynambalucas.github.io/elo-organico/docs/engineering/architecture)**: SSOT principles and isolation rules.
+- **[Style Guide](https://tupynambalucas.github.io/elo-organico/docs/engineering/styleguide)**: Coding standards and quality requirements.
 
 ---
 
@@ -37,7 +40,7 @@ To update platform contracts:
 1.  **Modify**: Edit schemas in `src/schemas`.
 2.  **Build**: Run compilation to propagate types:
     ```bash
-    npm run build
+    pnpm build
     ```
 3.  **Verify**: TypeScript will ensure both `@elo-portal/api` and `@elo-portal/web` are aligned with the new contracts.
 

@@ -79,9 +79,9 @@
   /* --- Schemas --- */
   "yaml.schemas": {
     ".vscode/schemas/schema-docker-compose.json": [
-      "**/compose.yml",
       "**/compose.yaml",
-      "**/*compose*.yml",
+      "**/compose.yaml",
+      "**/*compose*.yaml",
       "**/*compose*.yaml"
     ],
     ".vscode/schemas/schema-pnpm-workspace.json": ["pnpm-workspace.yaml"]

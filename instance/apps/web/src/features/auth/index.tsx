@@ -1,5 +1,6 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useMemo } from 'react';
 import { useGSAP } from '@gsap/react';
+import { Turnstile } from '@marsidev/react-turnstile';
 import { useAuthStore } from '@/domains/auth';
 import styles from './styles.module.css';
 import { animateFormEntrance } from './animations';
@@ -12,9 +13,23 @@ const AuthFeature = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { clearErrors } = useAuthStore();
 
-  const { formData, fieldErrors, handleInputChange, handleSubmit, isLoading, refs } = useAuthForm(
-    isLogin,
-    () => setIsLogin(true),
+  const {
+    formData,
+    fieldErrors,
+    handleInputChange,
+    handleSubmit,
+    setTurnstileToken,
+    turnstileToken,
+    isLoading,
+    refs,
+  } = useAuthForm(isLogin, () => setIsLogin(true));
+
+  const turnstileOptions = useMemo(
+    () => ({
+      theme: 'light' as const,
+      appearance: 'always' as const,
+    }),
+    [],
   );
 
   useGSAP(
@@ -27,6 +42,7 @@ const AuthFeature = () => {
   const toggleMode = () => {
     setIsLogin(!isLogin);
     clearErrors();
+    setTurnstileToken(null);
   };
 
   return (
@@ -55,7 +71,18 @@ const AuthFeature = () => {
           />
         )}
 
-        <button type="submit" disabled={isLoading}>
+        <div className={styles.turnstileWrapper}>
+          <Turnstile
+            key={isLogin ? 'login' : 'register'}
+            siteKey={String(import.meta.env.VITE_TURNSTILE_SITE_KEY)}
+            options={turnstileOptions}
+            onSuccess={setTurnstileToken}
+            onExpire={() => setTurnstileToken(null)}
+            onError={() => setTurnstileToken(null)}
+          />
+        </div>
+
+        <button type="submit" disabled={isLoading || turnstileToken === null}>
           {isLoading ? 'Carregando...' : isLogin ? 'Entrar' : 'Registrar'}
         </button>
       </form>

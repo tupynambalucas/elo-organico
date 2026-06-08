@@ -29,6 +29,7 @@
     "@fastify/env": "catalog:api-stack",
     "@fastify/jwt": "catalog:api-stack",
     "@fastify/one-line-logger": "catalog:api-stack",
+    "@fastify/rate-limit": "catalog:api-stack",
     "@fastify/session": "catalog:api-stack",
     "@sentry/node": "catalog:api-stack",
     "@sentry/profiling-node": "catalog:api-stack",

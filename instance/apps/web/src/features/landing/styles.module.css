@@ -24,7 +24,7 @@
     color-mix(in srgb, var(--color-background-shade) 10%, transparent) 0.2vh,
     transparent 0
   );
-  background-size: 24px 24px;
+  background-size: 1.5rem 1.5rem;
 }
 
 .contentWrapper {
@@ -57,10 +57,10 @@
   align-items: center;
   background-color: var(--color-background-tint);
   position: relative;
-  box-shadow: -5px 0 15px color-mix(in srgb, var(--color-identity-tertiary) 20%, transparent);
+  box-shadow: -0.3125rem 0 0.9375rem color-mix(in srgb, var(--color-identity-tertiary) 20%, transparent);
 }
 
-@media (max-width: 599px) {
+@media (max-width: 37.4375rem) {
   .container {
     height: 100%;
     width: 100%;

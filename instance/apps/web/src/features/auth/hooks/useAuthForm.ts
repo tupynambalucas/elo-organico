@@ -28,6 +28,7 @@ export const useAuthForm = (isLogin: boolean, onSuccess: () => void) => {
   });
 
   const [fieldErrors, setFieldErrors] = useState<AuthFieldErrors>({});
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
   // Sync backend error to field errors via effect
   useEffect(() => {
@@ -61,7 +62,7 @@ export const useAuthForm = (isLogin: boolean, onSuccess: () => void) => {
 
   const handleSubmit = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
-    if (status === 'LOADING') {
+    if (status === 'LOADING' || turnstileToken === null) {
       return;
     }
 
@@ -74,7 +75,7 @@ export const useAuthForm = (isLogin: boolean, onSuccess: () => void) => {
       confirmPassword: confirmPasswordRef,
     };
 
-    const validation = validateAuthForm(isLogin, formData, refs, t);
+    const validation = validateAuthForm(isLogin, formData, turnstileToken, refs, t);
     if (validation.isValid === false) {
       setFieldErrors(validation.errors);
       shakeElement(validation.firstErrorRef?.current ?? null);
@@ -82,13 +83,18 @@ export const useAuthForm = (isLogin: boolean, onSuccess: () => void) => {
     }
 
     if (isLogin) {
-      await login({ identifier: formData.identifier, password: formData.password });
+      await login({ 
+        identifier: formData.identifier, 
+        password: formData.password,
+        turnstileToken 
+      });
     } else {
       const success = await register({
         username: formData.username,
         email: formData.email,
         password: formData.password,
         icon: formData.icon,
+        turnstileToken
       });
       if (success) {
         onSuccess();
@@ -101,6 +107,8 @@ export const useAuthForm = (isLogin: boolean, onSuccess: () => void) => {
     fieldErrors,
     handleInputChange,
     handleSubmit,
+    setTurnstileToken,
+    turnstileToken,
     isLoading: status === 'LOADING',
     refs: {
       identifier: identifierRef,

@@ -1,6 +1,12 @@
 {
   "context": {
-    "fileName": ["GEMINI.md"],
+    "fileName": [
+      "CONTEXT.md",
+      "SKILL.md"
+    ],
+    "includeDirectories": [
+      "tools/ai-skills"
+    ],
     "discoveryMaxDirs": 200,
     "loadMemoryFromIncludeDirectories": true,
     "fileFiltering": {

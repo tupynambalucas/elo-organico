@@ -42,12 +42,12 @@ export class AuthController {
   }
 
   public registerHandler: FastifyZodHandler<RegisterRoute> = async (req, reply): Promise<void> => {
-    await this.authService.register(req.body);
+    await this.authService.register(req.body, req.ip);
     void reply.status(201).send({ message: 'USER_CREATED_SUCCESSFULLY' });
   };
 
   public loginHandler: FastifyZodHandler<LoginRoute> = async (req, reply): Promise<void> => {
-    const result = await this.authService.login(req.body);
+    const result = await this.authService.login(req.body, req.ip);
 
     req.session.token = result.token;
 

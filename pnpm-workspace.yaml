@@ -49,6 +49,16 @@ catalogs:
     'i18next': '^25.8.4'
     'react-datepicker': '^9.1.0'
     'zustand': '^5.0.11'
+    '@marsidev/react-turnstile': '^1.5.2'
+    # Docusaurus
+    '@docusaurus/core': '3.10.1'
+    '@docusaurus/faster': '3.10.1'
+    '@docusaurus/preset-classic': '3.10.1'
+    '@docusaurus/theme-live-codeblock': '3.10.1'
+    '@docusaurus/theme-mermaid': '3.10.1'
+    '@mdx-js/react': '^3.0.0'
+    'clsx': '^2.0.0'
+    'prism-react-renderer': '^2.3.0'
     # Dev Dependencies
     '@vitejs/plugin-react-swc': '^4.2.3'
     '@tailwindcss/vite': '^4.1.18'
@@ -59,15 +69,20 @@ catalogs:
     'eslint-plugin-react-hooks': '^7.1.1'
     'eslint-plugin-react-refresh': '^0.5.2'
     'vite-plugin-svgr': '^4.5.0'
+    '@docusaurus/module-type-aliases': '3.10.1'
+    '@docusaurus/tsconfig': '3.10.1'
+    '@docusaurus/types': '3.10.1'
+    '@tailwindcss/postcss': '^4.1.18'
 
   api-stack:
     # Dependencies
     '@fastify/cookie': '^11.0.2'
     '@fastify/cors': '^11.2.0'
     '@fastify/csrf-protection': '^7.1.0'
-    '@fastify/env': '^5.0.3'
+    '@fastify/env': '^6.0.0'
     '@fastify/jwt': '^10.0.0'
     '@fastify/one-line-logger': '^2.1.0'
+    '@fastify/rate-limit': '^10.3.0'
     '@fastify/session': '^11.1.1'
     '@sentry/node': '^10.38.0'
     '@sentry/profiling-node': '^10.38.0'
@@ -83,26 +98,6 @@ catalogs:
     'sdk-node-apis-efi': '^1.2.28'
     # Dev Dependencies
     '@types/bcrypt': '^6.0.0'
-
-  docs-stack:
-    # Dependencies
-    '@docusaurus/core': '3.10.1'
-    '@docusaurus/faster': '3.10.1'
-    '@docusaurus/preset-classic': '3.10.1'
-    '@mdx-js/react': '^3.0.0'
-    'clsx': '^2.0.0'
-    'prism-react-renderer': '^2.3.0'
-    'react': '^19.0.0'
-    'react-dom': '^19.0.0'
-    # Dev Dependencies
-    '@docusaurus/module-type-aliases': '3.10.1'
-    '@docusaurus/tsconfig': '3.10.1'
-    '@docusaurus/types': '3.10.1'
-    '@types/react': '^19.0.0'
-    'typescript': '~6.0.2'
-    '@docusaurus/theme-live-codeblock': '3.10.1'
-    '@docusaurus/theme-mermaid': '3.10.1'
-    '@tailwindcss/postcss': '^4.1.18'
 
   studio-stack:
     '@fontsource-variable/nunito': '^5.2.7'

@@ -51,6 +51,9 @@ export const ValidateStep: React.FC<ValidateStepProps> = ({
                 <strong>{p.name}</strong>
                 <div className={styles.pSubInfo}>
                   <small className={styles.categoryTag}>{p.category}</small>
+                  {p.measure.label !== undefined && (
+                    <small className={styles.labelTag}>{p.measure.label}</small>
+                  )}
                   {p.content && (
                     <span className={styles.contentBadge}>
                       {p.content.value}

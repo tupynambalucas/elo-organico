@@ -166,7 +166,7 @@ export const ActiveCycleProductsList = ({
           editingId !== null && p._id !== undefined && editingId === p._id ? (
             <div key={`edit-${p._id}`} className={styles.editInlineContainer}>
               <div className={styles.fixGrid}>
-                <div className={styles.fixField} style={{ flex: '2 1 200px' }}>
+                <div className={styles.fixField} style={{ flex: '2 1 12.5rem' }}>
                   <label>Nome do Produto</label>
                   <input
                     className={styles.fixInput}
@@ -175,7 +175,7 @@ export const ActiveCycleProductsList = ({
                     placeholder="Nome..."
                   />
                 </div>
-                <div className={styles.fixField} style={{ flex: '1 1 80px' }}>
+                <div className={styles.fixField} style={{ flex: '1 1 5rem' }}>
                   <label>Preço (R$)</label>
                   <input
                     className={styles.fixInput}
@@ -186,7 +186,7 @@ export const ActiveCycleProductsList = ({
                     step="0.01"
                   />
                 </div>
-                <div className={styles.fixField} style={{ flex: '1 1 100px' }}>
+                <div className={styles.fixField} style={{ flex: '1 1 6.25rem' }}>
                   <label>Unidade</label>
                   <select
                     className={styles.fixInput}
@@ -194,20 +194,12 @@ export const ActiveCycleProductsList = ({
                     onChange={(e) => setEditForm(prev => ({ ...prev, measure: { type: e.target.value, value: prev.measure?.value ?? 0, minimumOrder: prev.measure?.minimumOrder } }))}
                   >
                     <option value="unidade">Unidade</option>
-                    <option value="pacote">Pacote</option>
                     <option value="kg">Kg</option>
-                    <option value="litro">Litro</option>
-                    <option value="maço">Maço</option>
-                    <option value="bandeja">Bandeja</option>
-                    <option value="garrafão">Garrafão</option>
-                    <option value="pote">Pote</option>
-                    <option value="saca">Saca</option>
-                    <option value="fardo">Fardo</option>
                   </select>
                 </div>
-                <div className={styles.fixField} style={{ flex: '1 1 120px' }}>
+                <div className={styles.fixField} style={{ flex: '1 1 7.5rem' }}>
                   <label>Peso/Vol (Opcional)</label>
-                  <div style={{ display: 'flex', gap: '4px' }}>
+                  <div style={{ display: 'flex', gap: '0.25rem' }}>
                     <input
                       className={styles.fixInput}
                       value={editForm.content?.value ?? ''}
@@ -222,13 +214,53 @@ export const ActiveCycleProductsList = ({
                       className={styles.fixInput}
                       value={editForm.content?.unit ?? 'g'}
                       onChange={(e) => setEditForm(prev => ({ ...prev, content: { unit: e.target.value as 'g' | 'kg' | 'ml' | 'L', value: prev.content?.value ?? 0 } }))}
-                      style={{ width: '60px', padding: '0.4rem' }}
+                      style={{ width: '3.75rem', padding: '0.4rem' }}
                     >
                       <option value="g">g</option>
                       <option value="kg">kg</option>
                       <option value="ml">ml</option>
                       <option value="L">L</option>
                     </select>
+                  </div>
+                </div>
+                <div className={styles.fixField} style={{ flex: '1 1 7.5rem' }}>
+                  <label>Pedido Mín. (Opcional)</label>
+                  <div style={{ display: 'flex', gap: '0.25rem' }}>
+                    <select
+                      className={styles.fixInput}
+                      value={editForm.measure?.minimumOrder?.type ?? ''}
+                      onChange={(e) => {
+                        const type = e.target.value;
+                        setEditForm(prev => ({
+                          ...prev,
+                          measure: {
+                            ...prev.measure!,
+                            minimumOrder: type ? { type, value: prev.measure?.minimumOrder?.value ?? 1 } : undefined
+                          }
+                        }));
+                      }}
+                      style={{ width: '5.3125rem', padding: '0.4rem' }}
+                    >
+                      <option value="">Nenhum</option>
+                      <option value="caixa">Caixa</option>
+                      <option value="saca">Saca</option>
+                    </select>
+                    <input
+                      className={styles.fixInput}
+                      value={editForm.measure?.minimumOrder?.value ?? ''}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setEditForm(prev => ({
+                          ...prev,
+                          measure: {
+                            ...prev.measure!,
+                            minimumOrder: prev.measure?.minimumOrder?.type !== undefined && prev.measure?.minimumOrder?.type !== '' ? { type: prev.measure.minimumOrder.type, value: val !== '' ? Number(val) : 0 } : undefined
+                          }
+                        }));
+                      }}
+                      placeholder="Qtd"
+                      type="number"
+                    />
                   </div>
                 </div>
               </div>
@@ -245,8 +277,18 @@ export const ActiveCycleProductsList = ({
             <div key={p._id ?? `draft-${p.name}-${idx}`} className={styles.productRow}>
               <div className={styles.pInfo}>
                 <strong>{p.name}</strong>
-                <span>{p.measure.type}</span>
-                <span className={styles.price}>R$ {Number(p.measure.value).toFixed(2)}</span>
+                <div className={styles.pSubInfo}>
+                  <span className={styles.categoryTag}>{p.category}</span>
+                  {p.measure.label !== undefined && (
+                    <span className={styles.labelTag}>{p.measure.label}</span>
+                  )}
+                </div>
+              </div>
+              <div className={styles.pMeta}>
+                <div className={styles.priceContainer}>
+                  <span className={styles.unitBadge}>{p.measure.type}</span>
+                  <span className={styles.price}>R$ {Number(p.measure.value).toFixed(2)}</span>
+                </div>
               </div>
               <div className={styles.pActions}>
                 <button type="button" className={styles.iconBtn} onClick={() => handleEditClick(p)} title="Editar" disabled={isSubmitting}>

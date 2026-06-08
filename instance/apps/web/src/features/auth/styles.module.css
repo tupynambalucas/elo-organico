@@ -61,7 +61,7 @@
   padding: clamp(0.8rem, 1vh, 1.2rem) 1vw;
   border: 0.2vh solid var(--color-border-light);
   border-radius: 0.8vh;
-  font-size: clamp(14px, 1.1vw, 20px);
+  font-size: clamp(0.875rem, 1.1vw, 1.25rem);
   outline: none;
   transition: all 0.2s;
   background-color: var(--color-background-tint);
@@ -83,7 +83,7 @@
 
 .fieldErrorMessage {
   color: var(--color-error);
-  font-size: clamp(10px, 0.9vw, 14px);
+  font-size: clamp(0.625rem, 0.9vw, 0.875rem);
   margin-top: 0.5vh;
   margin-left: 0.5vw;
   display: block;
@@ -100,7 +100,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: clamp(14px, 1.2vw, 20px);
+  font-size: clamp(0.875rem, 1.2vw, 1.25rem);
   transition: color 0.2s;
 }
 
@@ -160,10 +160,16 @@
   color: var(--color-body-light);
   border: none;
   border-radius: 0.8vh;
-  font-size: clamp(14px, 1.2vw, 18px);
+  font-size: clamp(0.875rem, 1.2vw, 1.125rem);
   cursor: pointer;
   transition: background-color 0.2s;
   margin-top: 1vh;
+}
+
+.turnstileWrapper {
+  margin-bottom: 2vh;
+  display: flex;
+  justify-content: center;
 }
 
 .formContainer button:hover:not(:disabled) {
@@ -183,7 +189,7 @@
 
 .toggleLink {
   color: var(--color-identity-primary);
-  font-size: clamp(12px, 1vw, 16px);
+  font-size: clamp(0.75rem, 1vw, 1rem);
   text-decoration: none;
   cursor: pointer;
   transition: color 0.2s;
@@ -224,7 +230,7 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(-5px);
+    transform: translateY(-0.3125rem);
   }
   to {
     opacity: 1;
@@ -232,7 +238,7 @@
   }
 }
 
-@media (max-width: 599px) {
+@media (max-width: 37.4375rem) {
   .container {
     height: 100%;
     width: 100%;

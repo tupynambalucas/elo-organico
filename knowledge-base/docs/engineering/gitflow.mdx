@@ -4,13 +4,13 @@ description: Professional branching, commit, and release strategy for the Elo Or
 sidebar_position: 5
 ---
 
-# Git Workflow Guide 🌊
+# Git Workflow Guide
 
 This document outlines the professional branching and release strategy for **Elo Orgânico**, combining the structural discipline of **Git Flow** with the collaboration power of the **GitHub CLI (`gh`)**.
 
 ---
 
-## 🏗️ Branching Model
+## Branching Model
 
 We follow the standard Git Flow model to ensure the stability of our production code, adapted for our monorepo structure.
 
@@ -25,7 +25,7 @@ We follow the standard Git Flow model to ensure the stability of our production 
 
 ---
 
-## 🛠️ Tooling Requirements
+## Tooling Requirements
 
 To follow this workflow efficiently, we recommend:
 1.  **Git Flow CLI (AVH Edition)**: Usually included in Git for Windows or available via `gitflow` package.
@@ -33,7 +33,7 @@ To follow this workflow efficiently, we recommend:
 
 ---
 
-## 📝 Commit Standards (Conventional Commits)
+## Commit Standards (Conventional Commits)
 
 To maintain a clean and automated history, all commits must follow the **[Conventional Commits](https://www.conventionalcommits.org/)** specification.
 
@@ -62,7 +62,7 @@ Use the context or package name as the scope:
 
 ---
 
-## 🚀 Contribution Workflow
+## Contribution Workflow
 
 ### 1. Starting a New Feature
 Always branch off from `develop`.
@@ -88,7 +88,7 @@ To keep the `develop` history clean and meaningful, we use **Squash Merges**. Th
 
 ---
 
-## 📦 Release Workflow (Maintainers Only)
+## Release Workflow (Maintainers Only)
 
 When the `develop` branch is ready for a new version:
 
@@ -107,7 +107,7 @@ When the `develop` branch is ready for a new version:
 
 ---
 
-## 🆘 Critical Fixes (Hotfixes)
+## Critical Fixes (Hotfixes)
 
 If a bug is found in production:
 1.  `git flow hotfix start fix-crash`
@@ -116,7 +116,7 @@ If a bug is found in production:
 
 ---
 
-## ⚠️ Prohibited Practices
+## Prohibited Practices
 - **No direct commits to `main` or `develop`**: Always use feature branches and PRs.
 - **No Force Pushes**: Unless on your own isolated feature branch and required for a rebase.
 - **No Dirty Merges**: Avoid merging `main` back into `feature/*`. Always **rebase** onto `develop` if your feature branch becomes outdated.

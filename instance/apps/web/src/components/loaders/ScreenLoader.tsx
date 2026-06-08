@@ -13,11 +13,11 @@ const loaderStyle: React.CSSProperties = {
 };
 
 const spinnerStyle: React.CSSProperties = {
-  border: '4px solid color-mix(in srgb, var(--color-background-light) 30%, transparent)',
+  border: '0.25rem solid color-mix(in srgb, var(--color-background-light) 30%, transparent)',
   borderRadius: '50%',
-  borderTop: '4px solid var(--color-background-light)',
-  width: '50px',
-  height: '50px',
+  borderTop: '0.25rem solid var(--color-background-light)',
+  width: '3.125rem',
+  height: '3.125rem',
   animation: 'spin 1s linear infinite',
 };
 

@@ -5,17 +5,23 @@ import type { AuthFormData, AuthFormRefs, ValidationResult } from '../types';
 export const validateAuthForm = (
   isLogin: boolean,
   data: AuthFormData,
+  turnstileToken: string | null,
   refs: AuthFormRefs,
   t: TFunction,
 ): ValidationResult => {
   const schema = isLogin === true ? LoginDTOSchema : RegisterDTOSchema;
   const dataToValidate = isLogin === true
-    ? { identifier: data.identifier, password: data.password }
+    ? { 
+        identifier: data.identifier, 
+        password: data.password,
+        turnstileToken 
+      }
     : {
         email: data.email,
         username: data.username,
         icon: data.icon,
         password: data.password,
+        turnstileToken
       };
 
   const result = schema.safeParse(dataToValidate);

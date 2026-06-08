@@ -45,49 +45,51 @@ const ProductSearchFilter: FC<ProductSearchFilterProps> = ({
         )}
       </div>
 
-      <div className={styles.filterGroup}>
-        <span className={styles.filterLabel}>Categorias:</span>
-        <div className={styles.typeFilters}>
-          <button
-            type="button"
-            className={`${styles.typeBtn} ${selectedCategory === '' ? styles.active : ''}`}
-            onClick={() => onCategoryChange('')}
-          >
-            Todas
-          </button>
-          {PRODUCT_CATEGORIES.map((cat) => (
+      <div className={styles.filtersWrapper}>
+        <div className={styles.filterGroup}>
+          <span className={styles.filterLabel}>Categorias:</span>
+          <div className={styles.typeFilters}>
             <button
-              key={cat}
               type="button"
-              className={`${styles.typeBtn} ${selectedCategory === cat ? styles.active : ''}`}
-              onClick={() => onCategoryChange(cat)}
+              className={`${styles.typeBtn} ${selectedCategory === '' ? styles.active : ''}`}
+              onClick={() => onCategoryChange('')}
             >
-              {cat}
+              Todas
             </button>
-          ))}
+            {PRODUCT_CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                className={`${styles.typeBtn} ${selectedCategory === cat ? styles.active : ''}`}
+                onClick={() => onCategoryChange(cat)}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div className={styles.filterGroup}>
-        <span className={styles.filterLabel}>Unidades:</span>
-        <div className={styles.typeFilters}>
-          <button
-            type="button"
-            className={`${styles.typeBtn} ${selectedType === '' ? styles.active : ''}`}
-            onClick={() => onTypeChange('')}
-          >
-            Todas
-          </button>
-          {PRODUCT_MEASURE_TYPES.map((type) => (
+        <div className={styles.filterGroup}>
+          <span className={styles.filterLabel}>Unidades:</span>
+          <div className={styles.typeFilters}>
             <button
-              key={type}
               type="button"
-              className={`${styles.typeBtn} ${selectedType === type ? styles.active : ''}`}
-              onClick={() => onTypeChange(type)}
+              className={`${styles.typeBtn} ${selectedType === '' ? styles.active : ''}`}
+              onClick={() => onTypeChange('')}
             >
-              {type.charAt(0).toUpperCase() + type.slice(1)}
+              Todas
             </button>
-          ))}
+            {PRODUCT_MEASURE_TYPES.map((type) => (
+              <button
+                key={type}
+                type="button"
+                className={`${styles.typeBtn} ${selectedType === type ? styles.active : ''}`}
+                onClick={() => onTypeChange(type)}
+              >
+                {type.charAt(0).toUpperCase() + type.slice(1)}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>

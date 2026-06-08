@@ -2,15 +2,7 @@ import { z } from 'zod';
 
 export const PRODUCT_MEASURE_TYPES = [
   'unidade',
-  'pacote',
   'kg',
-  'litro',
-  'maço',
-  'bandeja',
-  'garrafão',
-  'pote',
-  'saca',
-  'fardo',
 ] as const;
 
 export type ProductMeasureType = (typeof PRODUCT_MEASURE_TYPES)[number];
@@ -30,6 +22,7 @@ export type ProductCategory = (typeof PRODUCT_CATEGORIES)[number];
 export const MeasureSchema = z.object({
   value: z.union([z.string(), z.number()]),
   type: z.string(),
+  label: z.string().optional(), // Descriptive tag (ex: 'garrafão', 'pacote')
   minimumOrder: z.object({
     type: z.string(),
     value: z.union([z.string(), z.number()])

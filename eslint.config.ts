@@ -297,7 +297,7 @@ export default defineConfig([
       '**/*.less',
       '**/*.styl',
       'mongo-keyfile',
-      'docker-compose*.yml',
+      'docker-compose*.yaml',
       '**/types/**/*.d.ts',
       '**/*.d.ts',
       '**/vite-env.d.ts',

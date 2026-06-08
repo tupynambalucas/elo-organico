@@ -23,22 +23,24 @@ const CATEGORY_NORMALIZATION: Record<string, string> = {
   'VINHOS EM GARRAFAS': 'Bebidas e Vinhos',
 };
 
-const normalizeMeasureType = (unitString: string) => {
-  if (unitString === '') return 'unidade';
-  const type = unitString.toLowerCase().trim().replace('.', '');
+export const resolveIntelligentMeasure = (unitString: string): { type: string; label?: string } => {
+  if (unitString === '') return { type: 'unidade' };
+  const input = unitString.toLowerCase().trim().replace('.', '');
 
-  if (['pct', 'pcte', 'pacote'].includes(type)) return 'pacote';
-  if (['uni', 'un', 'unidade'].includes(type)) return 'unidade';
-  if (['l', 'litro', 'lt', 'garrafa', 'garrafas'].includes(type)) return 'litro';
-  if (['garrafão', 'garrafao'].includes(type)) return 'garrafão';
-  if (['kg', 'quilo', 'kilo'].includes(type)) return 'kg';
-  if (['maço', 'maco'].includes(type)) return 'maço';
-  if (['bandeja', 'bdj'].includes(type)) return 'bandeja';
-  if (['pote', 'pt'].includes(type)) return 'pote';
-  if (['saca'].includes(type)) return 'saca';
-  if (['fardo'].includes(type)) return 'fardo';
+  if (['kg', 'quilo', 'kilo'].includes(input)) return { type: 'kg' };
+  
+  // All other units are mapped to 'unidade' with an optional label
+  if (['pct', 'pcte', 'pacote'].includes(input)) return { type: 'unidade', label: 'pacote' };
+  if (['l', 'litro', 'lt', 'garrafa', 'garrafas'].includes(input)) return { type: 'unidade', label: 'garrafa' };
+  if (['garrafão', 'garrafao'].includes(input)) return { type: 'unidade', label: 'garrafão' };
+  if (['maço', 'maco'].includes(input)) return { type: 'unidade', label: 'maço' };
+  if (['bandeja', 'bdj'].includes(input)) return { type: 'unidade', label: 'bandeja' };
+  if (['pote', 'pt'].includes(input)) return { type: 'unidade', label: 'pote' };
+  if (['fardo'].includes(input)) return { type: 'unidade', label: 'fardo' };
+  if (['saca'].includes(input)) return { type: 'unidade', label: 'saca' };
+  if (['cx', 'caixa'].includes(input)) return { type: 'unidade', label: 'caixa' };
 
-  return type;
+  return { type: 'unidade' };
 };
 
 const normalizeContentUnit = (unit: string): 'g' | 'kg' | 'ml' | 'L' => {
@@ -73,7 +75,7 @@ export const parseProductList = (text: string): ParseResult => {
   const CONTENT_REGEX = /(?:^|\s|\()(\d+(?:[.,]\d+)?)\s*(g|gr|gramas|kg|quilo|kilo|ml|l|lt|litros?)(?:\s|\)|\/|$)/i;
   const PRICE_REGEX = /(?:[R$]\s*)?(\d+[.,]\d{2})\b(?:\s*ao\s*kg)?(?:\s*\/.*)?(?:\s*\(.*\))?$/i;
   const BULLET_REGEX = /^[\-*•]/;
-  const MIN_ORDER_REGEX = /\/\s*(cx|saca|fardo)\s*([\d.,]+)\s*(kg|un|uni|unidade)?/i;
+  const MIN_ORDER_REGEX = /\/\s*(cx|caixa|saca)\s*([\d.,]+)\s*(kg|un|uni|unidade)?/i;
   const FLAVOR_HEADER_REGEX = /^(.*),\s*disponível nos seguintes sabores:$/i;
 
   for (const line of lines) {
@@ -198,23 +200,7 @@ function parseLineData(
 
   let namePart = line.substring(0, priceMatch.index).trim();
 
-  // Tentar extrair unidade de venda do final do nome (ex: "Alface americana uni")
-  let saleUnit = 'unidade';
-  const unitSuffixRegex = /\s(kg|un|uni|unidade|pct|pcte|pacote|maço|maco|bandeja|bdj|litro|l|lt|pote|pt|garrafa|garrafão|saca|fardo)\s*$/i;
-  const unitMatch = unitSuffixRegex.exec(namePart);
-
-  if (unitMatch) {
-    saleUnit = normalizeMeasureType(unitMatch[1]);
-    namePart = namePart.substring(0, unitMatch.index).trim();
-  } else {
-    // Heurísticas baseadas em palavras-chave no nome
-    const lowerName = namePart.toLowerCase();
-    if (lowerName.includes('garrafão')) saleUnit = 'garrafão';
-    else if (lowerName.includes('vinho')) saleUnit = 'garrafa';
-    else if (lowerName.includes('suco')) saleUnit = 'litro';
-  }
-
-  // Tentar extrair conteúdo (peso/volume)
+  // Tentar extrair conteúdo (peso/volume) PRIMEIRO, para que a unidade fique no final do nome
   let contentData = inheritedContent;
   const contentMatch = contentRegex.exec(namePart);
 
@@ -231,6 +217,32 @@ function parseLineData(
     namePart = namePart.replace(contentMatch[0], '').trim();
   }
 
+  // Tentar extrair unidade de venda do final do nome (ex: "Alface americana uni")
+  let saleType = 'unidade';
+  let saleLabel: string | undefined = undefined;
+  const unitSuffixRegex = /\s(kg|un|uni|unidade|pct|pcte|pacote|maço|maco|bandeja|bdj|litro|l|lt|pote|pt|garrafa|garrafão|saca|fardo)\s*$/i;
+  const unitMatch = unitSuffixRegex.exec(namePart);
+
+  if (unitMatch) {
+    const resolved = resolveIntelligentMeasure(unitMatch[1]);
+    saleType = resolved.type;
+    saleLabel = resolved.label;
+    namePart = namePart.substring(0, unitMatch.index).trim();
+  } else {
+    // Heurísticas baseadas em palavras-chave no nome
+    const lowerName = namePart.toLowerCase();
+    if (lowerName.includes('garrafão')) {
+      saleType = 'unidade';
+      saleLabel = 'garrafão';
+    } else if (lowerName.includes('vinho')) {
+      saleType = 'unidade';
+      saleLabel = 'garrafa';
+    } else if (lowerName.includes('suco')) {
+      saleType = 'unidade';
+      saleLabel = 'garrafa';
+    }
+  }
+
   // Limpeza final do nome
   let finalName = namePart
     .replace(/[;.,-]$/, '')
@@ -244,10 +256,12 @@ function parseLineData(
   let minimumOrder = undefined;
   const minOrderMatch = minOrderRegex.exec(line); // Procura na linha inteira
   if (minOrderMatch) {
-    // Se tiver uma unidade específica (kg, uni), usa ela. Caso contrário, usa o tipo do container (cx, saca).
-    const type = (minOrderMatch[3] || minOrderMatch[1]).toLowerCase();
+    let inputType = minOrderMatch[1].toLowerCase();
+    if (['cx', 'caixa'].includes(inputType)) inputType = 'caixa';
+    if (inputType === 'saca') inputType = 'saca';
+    
     minimumOrder = {
-      type: normalizeMeasureType(type),
+      type: inputType,
       value: parseFloat(minOrderMatch[2].replace(',', '.')),
     };
   }
@@ -257,7 +271,8 @@ function parseLineData(
     category: category,
     available: true,
     measure: {
-      type: saleUnit,
+      type: saleType,
+      label: saleLabel,
       value: priceValue,
       minimumOrder,
     },

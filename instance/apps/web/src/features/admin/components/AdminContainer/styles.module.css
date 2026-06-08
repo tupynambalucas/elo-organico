@@ -70,7 +70,7 @@
   min-height: 0;
 }
 
-@media (max-width: 1400px) {
+@media (max-width: 87.5rem) {
     .container {
         padding: 1.5rem;
     }

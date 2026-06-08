@@ -5,11 +5,11 @@ import styles from './styles.module.css';
 
 interface IconDisplayProps {
   className?: string;
-  size?: number;
+  size?: string; // Alterado para string para aceitar unidades
   forceIcon?: string;
 }
 
-export const IconDisplay = ({ className = '', size = 40, forceIcon }: IconDisplayProps) => {
+export const IconDisplay = ({ className = '', size = '2.5rem', forceIcon }: IconDisplayProps) => {
   const { user } = useAuthStore();
   const iconName = forceIcon ?? user?.icon ?? userIconList[0].name;
 

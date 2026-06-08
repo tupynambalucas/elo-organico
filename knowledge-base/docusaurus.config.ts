@@ -1,13 +1,18 @@
 import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import path from 'node:path';
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
+const studioPath = path.dirname(require.resolve('@elo-organico/studio/package.json'));
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
   title: 'Elo Orgânico',
   tagline: 'Professional management for a sustainable organic economy.',
-  favicon: 'favicon.ico',
+  favicon: 'logos/logo-mark-positive-favicon.ico',
 
   // Set the production url of your site here
   url: 'https://elo-organico.com',
@@ -25,6 +30,14 @@ const config: Config = {
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
+  },
+
+  staticDirectories: [
+    path.join(studioPath, 'src'),
+  ],
+
+  customFields: {
+    studioPath,
   },
 
   themes: ['@docusaurus/theme-live-codeblock', '@docusaurus/theme-mermaid'],
@@ -75,6 +88,16 @@ const config: Config = {
           onInlineAuthors: 'warn',
           onUntruncatedBlogPosts: 'warn',
         },
+        pages: {
+          exclude: [
+            '**/_*/**',
+            '**/*.test.{js,jsx,ts,tsx}',
+            '**/__tests__/**',
+            '**/components/**',
+            '**/data.ts',
+            '**/*.material.ts',
+          ],
+        },
         theme: {
           customCss: ['./src/css/custom.css'],
         },
@@ -84,7 +107,7 @@ const config: Config = {
 
   themeConfig: {
     // Replace with your project's social card
-    image: 'eloornico/svg/logo-negative.svg',
+    image: 'logos/logo-mark-negative.svg',
     colorMode: {
       defaultMode: 'light',
       disableSwitch: true,
@@ -94,7 +117,7 @@ const config: Config = {
       title: 'EloDocs',
       logo: {
         alt: 'Elo Orgânico Logo',
-        src: 'eloornico/svg/logo-negative.svg',
+        src: 'logos/logo-mark-negative.svg',
       },
       items: [
         {
@@ -182,7 +205,7 @@ const config: Config = {
       ],
       copyright: `
         <div class="footer__banner-container">
-          <img src="/elo-organico/eloornico/svg/banner-negative.svg" alt="Elo Orgânico" class="footer__banner" />
+          <img src="/elo-organico/logos/logo-horizontal-positive.svg" alt="Elo Orgânico" class="footer__banner" />
         </div>
         <p>Copyright © ${new Date().getFullYear()} Elo Orgânico. Professional management for a sustainable organic economy. Built with Docusaurus.</p>
       `,

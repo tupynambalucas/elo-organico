@@ -13,6 +13,8 @@
     "directory": "tools"
   },
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "build": "tsc"
   }
 }

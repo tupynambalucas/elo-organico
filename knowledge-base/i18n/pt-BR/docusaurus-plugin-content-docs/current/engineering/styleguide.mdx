@@ -3,7 +3,7 @@ title: Guia de Estilo e Padrões
 description: Convenções de codificação, regras de TypeScript e requisitos de qualidade para manter um monorepo consistente e sustentável.
 ---
 
-# Guia de Estilo e Padrões
+# Style Guide and Standards
 
 Este documento define as convenções estritas de codificação e requisitos de qualidade para o projeto **Elo Orgânico**. Todo o código deve aderir a estes padrões para garantir consistência e manutenibilidade em todo o monorepo.
 
@@ -11,17 +11,17 @@ Este documento define as convenções estritas de codificação e requisitos de 
 
 ## 1. Formatação de Código (Prettier)
 
-O código deve seguir as regras definidas no `.prettierrc`:
+Code must follow the rules defined in `.prettierrc`:
 
 - **Indentação:** 2 espaços.
 - **Ponto e vírgula:** Sempre utilizar (true).
 - **Aspas:** Utilizar aspas simples (true), exceto em JSX.
-- **Vírgula final (Trailing Comma):** Sempre utilizar onde for possível (all).
-- **Largura da linha:** Máximo de 100 caracteres.
+- **Trailing Comma:** Sempre utilizar onde for possível (all).
+- **Line Width:** Máximo de 100 caracteres.
 
 ## 2. Regras de TypeScript (Modo Estrito)
 
-Priorizamos a máxima segurança de tipos através de uma configuração rigorosa de TypeScript.
+We prioritize maximum type safety through a rigorous TypeScript configuration.
 
 - **Definições de Objetos:** Use `interface` para definições de objetos para garantir consistência. Aliases de tipo são permitidos para uniões ou tipos utilitários (ex: `z.infer<>`).
 - **Arrays:** Use a sintaxe `T[]` em vez de `Array<T>`.
@@ -29,8 +29,8 @@ Priorizamos a máxima segurança de tipos através de uma configuração rigoros
 - **Variáveis Não Utilizadas:** Prefixar com um underscore (ex: `_id`) para sinalizar intenção.
 - **Tipagem Estrita:** O uso de `any` é estritamente proibido.
 - **Comparações:** Sempre use igualdade estrita (`===`).
-- **Booleanos Estritos:** Expressões booleanas devem ser explícitas. Use `if (value !== undefined)` em vez de `if (value)`.
-- **Conversões Seguras:** Não use `String(value)` ou `${value}` em tipos genéricos `unknown` ou `object`. Use guards de tipo explícitos para primitivos para evitar bugs do tipo `[object Object]`.
+- **Strict Booleans:** Booleanas devem ser explícitas. Use `if (value !== undefined)` em vez de `if (value)`.
+- **Conversões Seguras:** Não use `String(value)` or `${value}` em tipos genéricos `unknown` ou `object`. Use guards de tipo explícitos para primitivos para evitar bugs do tipo `[object Object]`.
 - **Asserções de Tipo:** Evite asserções de tipo desnecessárias (ex: `value as T` quando `value` já é `T`). O linter sinalizará isso; remova-os para manter o código limpo.
 
 ## 3. Gestão de Código Assíncrono (Crítico)
@@ -39,36 +39,36 @@ Priorizamos a máxima segurança de tipos através de uma configuração rigoros
 - **O Operador `void`:** Quando uma função assíncrona é chamada por seus efeitos colaterais e NÃO é aguardada (awaited), prefixe-a com `void` (ex: `void startServer()`). Isso sinaliza execução não bloqueante intencional.
 - **Handlers do Fastify:** Handlers de rota devem usar o tipo `FastifyZodHandler` e retornar `Promise<void>`. Use `void reply.send()` quando não retornar a resposta diretamente.
 - **Plugins do Fastify:** Se um `FastifyPluginAsync` não usar `await`, remova a palavra-chave `async` e retorne `Promise.resolve()` para cumprir com o `require-await` mantendo a integridade do tipo.
-- **Tratamento de Erros:** Cada operação `await` deve estar dentro de um bloco `try/catch` ou fazer parte de uma cadeia `.catch()`.
+- **Error Handling:** Cada operação `await` deve estar dentro de um bloco `try/catch` ou fazer parte de uma cadeia `.catch()`.
 
 ## 4. Padrões Específicos por Pacote
 
 ### 4.1. Pacotes Core (`@elo-instance/core` / `@elo-portal/core`)
 
 - **Zero Warnings:** Estes pacotes devem ter zero avisos ou erros de lint.
-- **APIs Públicas:** Todos os membros exportados devem ter tipos de retorno explicitamente definidos.
+- **Public APIs:** All exported members must have explicitly defined return types.
 
 ### 4.2. API (Fastify)
 
-- **Nomenclatura:** Controllers e Services usam `PascalCase` para classes e `camelCase` for métodos.
-- **Mapeamento:** Controllers são responsáveis por mapear modelos de banco de dados para DTOs do Core através de métodos privados.
+- **Naming:** Controllers e Services usam `PascalCase` para classes e `camelCase` for métodos.
+- **Mapping:** Controllers são responsáveis por mapear modelos de banco de dados para DTOs do Core através de métodos privados.
 
 ### 4.3. Web (React)
 
 - **Padrões do React 19:** Use o hook `use()` para consumir promises e contexto quando aplicável, reduzindo o boilerplate de `useEffect`. Prefira **Server Actions** (se aplicável) ou props `action` otimizadas em formulários para uma melhor experiência de usuário.
-- **Estado Global:** Dispare efeitos colaterais assíncronos em Stores ou Effects usando o operador `void` para chamadas não aguardadas.
+- **Global State:** Dispare efeitos colaterais assíncronos em Stores ou Effects usando o operador `void` para chamadas não aguardadas.
 - **Refs:** Acessar `ref.current` durante a renderização é estritamente proibido. Ao passar múltiplas refs para um componente filho, passe-as individualmente em vez de em um objeto agrupado para evitar confusão do linter.
-- **Booleanos Estritos na UI:** No JSX, sempre use comparações explícitas: `{isValid === true && <Component />}` para evitar a renderização acidental de `0` ou `NaN` na interface.
+- **Strict Booleans na UI:** No JSX, sempre use comparações explícitas: `{isValid === true && <Component />}` para evitar a renderização acidental de `0` ou `NaN` na interface.
 - **Sincronização de Estado:** Evite chamar `setState` de forma síncrona dentro de `useEffect` se a atualização for derivada de props ou outro estado. Em vez disso, sincronize o estado durante a renderização (o padrão "prevProps") ou inicialize o estado com uma função.
 - **Chaves de Lista (Keys):** Sempre use IDs estáveis e únicos (ex: `_id`) como chaves em listas. Evite usar índices de array, a menos que a lista seja estática.
-- **Estilização:** Use **CSS Modules** (`.module.css`). Classes utilitárias do Tailwind são permitidas dentro dos módulos via `@apply`.
+- **Estilização e Medidas Responsivas:** Use **CSS Modules** (`.module.css`). Classes utilitárias do Tailwind são permitidas dentro dos módulos via `@apply`. **Crucialmente, o uso de medidas fixas (ex: `px`) é estritamente proibido** para garantir um layout fluido e acessível. Sempre use unidades responsivas: `rem` para tipografia e espaçamento (onde `1rem = 16px`), `%`, `vh`/`vw` para layouts estruturais, e funções CSS como `clamp()` para escalonamento fluido.
 - **Console Logs:** `console.log` é proibido e causará falha no build de produção. Use `console.info/warn/error` com moderação.
 
-## 5. Convenções de Nomenclatura
+## 5. Naming Conventions
 
 - **Schemas:** Devem terminar com `Schema` (ex: `ProductSchema`).
 - **Arquivos:** Seguir o padrão `nome.tipo.ts` (ex: `auth.controller.ts`, `apiPlugin.ts`).
-- **Diretórios:** Usar `camelCase` para nomes de diretórios dentro das pastas fonte.
+- **Directories:** Usar `camelCase` para nomes de diretórios dentro das pastas fonte.
 
 ---
 
@@ -228,3 +228,6 @@ function AdvancedCycleManager() {
   );
 }
 ```
+
+---
+_Última Atualização: Junho de 2026_

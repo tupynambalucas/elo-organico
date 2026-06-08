@@ -32,7 +32,8 @@
     "react-datepicker": "catalog:web-stack",
     "date-fns": "catalog:shared-stack",
     "axios": "catalog:shared-stack",
-    "zustand": "catalog:web-stack"
+    "zustand": "catalog:web-stack",
+    "@marsidev/react-turnstile": "catalog:web-stack"
   },
   "devDependencies": {
     "prettier": "catalog:tooling-stack",

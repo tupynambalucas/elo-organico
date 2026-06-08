@@ -4,15 +4,15 @@ This workspace centralizes brand identity management, design assets, and AI auto
 
 ## 📖 Detailed Documentation
 
-Technical documentation is centralized in our **[Knowledge Base](https://elo-organico.com/studio)**:
+Technical documentation is centralized in our **[Knowledge Base](https://tupynambalucas.github.io/elo-organico)**:
 
-- **Brand Strategy & Design Tokens**: Strategy, visual language, and coded constants.
-- **Design Studio (Penpot)**: Infrastructure, S3 configuration, and design workflows.
-- **AI Automation (MCP)**: Specifications for the isolated AI network and context servers.
+- **[Studio Workspace Overview](https://tupynambalucas.github.io/elo-organico/studio)**: Strategy, visual language, and coded constants.
+- **[Design System & Tokens](https://tupynambalucas.github.io/elo-organico/docs/engineering/styleguide)**: Detailed specifications for colors, typography, and UI patterns.
+- **[Design Engineering](https://tupynambalucas.github.io/elo-organico/studio)**: Infrastructure, S3 configuration, and design workflows with Penpot.
 
 ## ⚙️ Configuration
 
-Before running the services, you must create a `.env` file in the `studio` directory:
+Before running the services, you must create a `.env` file in the `studio` directory (see `.env.example` if available):
 
 ```bash
 # Path: studio/.env
@@ -38,7 +38,7 @@ PENPOT_BUCKET_SECRET_KEY=your_secret_access_key
 Manage the Studio environment using standardized scripts from the project root or this directory:
 
 ### Core Studio Services (Penpot)
-```powershell
+```bash
 pnpm penpot:up      # Launch the studio at http://localhost:9005
 pnpm penpot:down    # Shutdown core services
 pnpm penpot:update  # Pull latest images and restart
@@ -46,9 +46,9 @@ pnpm penpot:reset   # Force container recreation
 ```
 
 ### AI Automation & Helpers
-```powershell
-pnpm aide:up        # Launch Penpot AI assistant (aide)
-pnpm aide:down      # Stop the AI assistant
+```bash
+pnpm penpot:aide:up # Launch Penpot AI assistant (aide)
+pnpm penpot:aide:down # Stop the AI assistant
 ```
 
 ## 🏗️ Directory Structure

@@ -86,6 +86,7 @@ declare module 'fastify' {
       SENTRY_DSN?: string;
       REDIS_HOST?: string;
       REDIS_PORT?: number;
+      TURNSTILE_SECRET_KEY: string;
     };
   }
 }
