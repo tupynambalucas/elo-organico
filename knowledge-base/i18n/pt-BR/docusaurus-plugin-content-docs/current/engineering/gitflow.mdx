@@ -4,13 +4,13 @@ description: Estratégia profissional de ramificação (branching), commits e re
 sidebar_position: 5
 ---
 
-# Guia de Fluxo de Trabalho Git 🌊
+# Guia de Fluxo de Trabalho Git
 
 Este documento descreve a estratégia profissional de ramificação e lançamento para o **Elo Orgânico**, combinando a disciplina estrutural do **Git Flow** com o poder de colaboração da **GitHub CLI (`gh`)**.
 
 ---
 
-## 🏗️ Modelo de Ramificação (Branching)
+## Modelo de Ramificação (Branching)
 
 Seguimos o modelo padrão Git Flow para garantir a estabilidade do nosso código de produção, adaptado para nossa estrutura de monorepo.
 
@@ -25,7 +25,7 @@ Seguimos o modelo padrão Git Flow para garantir a estabilidade do nosso código
 
 ---
 
-## 🛠️ Requisitos de Ferramental
+## Requisitos de Ferramental
 
 Para seguir este fluxo de trabalho de forma eficiente, recomendamos:
 1.  **Git Flow CLI (Edição AVH)**: Geralmente incluído no Git for Windows ou disponível via pacote `gitflow`.
@@ -33,7 +33,7 @@ Para seguir este fluxo de trabalho de forma eficiente, recomendamos:
 
 ---
 
-## 📝 Padrões de Commit (Conventional Commits)
+## Padrões de Commit (Conventional Commits)
 
 Para manter um histórico limpo e automatizado, todos os commits devem seguir a especificação **[Conventional Commits](https://www.conventionalcommits.org/)**.
 
@@ -62,7 +62,7 @@ Use o contexto ou nome do pacote como escopo:
 
 ---
 
-## 🚀 Fluxo de Contribuição
+## Fluxo de Contribuição
 
 ### 1. Iniciando uma Nova Funcionalidade
 Sempre ramifique a partir de `develop`.
@@ -88,7 +88,7 @@ Para manter o histórico da `develop` limpo e significativo, usamos **Squash Mer
 
 ---
 
-## 📦 Fluxo de Release (Apenas Mantenedores)
+## Fluxo de Release (Apenas Mantenedores)
 
 Quando a branch `develop` estiver pronta para uma nova versão:
 
@@ -107,7 +107,7 @@ Quando a branch `develop` estiver pronta para uma nova versão:
 
 ---
 
-## 🆘 Correções Críticas (Hotfixes)
+## Correções Críticas (Hotfixes)
 
 Se um bug for encontrado em produção:
 1.  `git flow hotfix start fix-crash`
@@ -116,7 +116,7 @@ Se um bug for encontrado em produção:
 
 ---
 
-## ⚠️ Práticas Proibidas
+## Práticas Proibidas
 - **Sem commits diretos na `main` ou `develop`**: Sempre use branches de funcionalidade e PRs.
 - **Sem Force Pushes**: A menos que seja em sua própria branch de funcionalidade isolada e necessário para um rebase.
 - **Sem Dirty Merges**: Evite fazer merge da `main` de volta para `feature/*`. Sempre faça **rebase** sobre a `develop` se sua branch de funcionalidade ficar desatualizada.

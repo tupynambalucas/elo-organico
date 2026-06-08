@@ -3,63 +3,63 @@ title: Arquitetura de Segurança
 description: Visão geral abrangente das medidas de segurança, proteção contra bots e mitigação de brute-force no Elo Orgânico.
 ---
 
-# Arquitetura de Segurança
+# Security Architecture
 
 O Elo Orgânico implementa uma estratégia de segurança em múltiplas camadas para proteger os dados da comunidade e garantir a integridade dos ciclos de compartilhamento. Nossa abordagem combina protocolos padrão da indústria com proteção especializada contra bots e mitigação de ataques de força bruta (brute-force).
 
 ---
 
-## 1. Proteção contra Bots (Cloudflare Turnstile)
+## 1. Bot Protection (Cloudflare Turnstile)
 
-Para evitar registros automatizados e tentativas de login por scripts, utilizamos o **Cloudflare Turnstile**. Ao contrário dos CAPTCHAs tradicionais, o Turnstile oferece uma experiência de verificação focada em privacidade e não intrusiva.
+To prevent automated registrations and login attempts, we utilize **Cloudflare Turnstile**. Unlike traditional CAPTCHAs, Turnstile provides a privacy-focused, non-intrusive verification experience.
 
-### 1.1. Integração no Cliente (React 19)
-O `AuthFeature` utiliza o componente `@marsidev/react-turnstile` no **Modo Gerenciado (Managed)**. 
+### 1.1. Client-Side Integration (React 19)
+The `AuthFeature` utiliza o componente `@marsidev/react-turnstile` no **Modo Gerenciado**. 
 - **Modo Gerenciado**: Exibe um checkbox inteligente que verifica se o usuário é humano.
-- **Gestão de Estado**: O botão de envio permanece desabilitado até que um `turnstileToken` válido seja emitido pelo widget.
-- **Isolamento**: Cada formulário (Login/Registro) mantém sua própria instância do Turnstile via chaves React únicas para garantir uma nova validação ao alternar entre os modos.
+- **State Management**: O botão de envio permanece desabilitado até que um `turnstileToken` válido seja emitido pelo widget.
+- **Isolation**: Cada formulário (Login/Registro) mantém sua própria instância do Turnstile via chaves React únicas para garantir uma nova validação ao alternar entre os modos.
 
-### 1.2. Validação no Servidor (Fastify 5)
-A API não confia apenas no estado do lado do cliente.
-- **Verificação**: O `AuthService` realiza uma requisição POST segura para `https://challenges.cloudflare.com/turnstile/v0/siteverify`.
-- **Validação de IP**: O endereço IP do cliente é passado para a Cloudflare para detectar botnets baseadas em proxy.
-- **DTOs Obrigatórios**: Os esquemas `LoginDTOSchema` e `RegisterDTOSchema` no `@elo-instance/core` exigem estritamente o `turnstileToken`.
+### 1.2. Server-Side Validation (Fastify 5)
+The API does not trust client-side state alone.
+- **Verification**: O `AuthService` realiza uma requisição POST segura para `https://challenges.cloudflare.com/turnstile/v0/siteverify`.
+- **IP Validation**: O endereço IP do cliente é passado para a Cloudflare para detectar botnets baseadas em proxy.
+- **Mandatory DTOs**: Os esquemas `LoginDTOSchema` e `RegisterDTOSchema` no `@elo-instance/core` exigem estritamente o `turnstileToken`.
 
 ---
 
-## 2. Mitigação de Brute-Force
+## 2. Brute-Force Mitigation
 
-Protegemos nossos endpoints de autenticação contra ataques de dicionário e adivinhação automatizada através de dois mecanismos principais.
+We protect our authentication endpoints from dictionary attacks and automated guessing through two primary mechanisms.
 
-### 2.1. Limitação de Taxa (Rate Limiting)
+### 2.1. Rate Limiting
 Utilizando o `@fastify/rate-limit`, aplicamos limites específicos de contexto para rotas sensíveis.
-- **Política Global**: Um limite base de 100 requisições por minuto por IP para uso geral da API.
-- **Política Estrita de Autenticação**: As rotas `/api/auth/login` e `/api/auth/register` são limitadas a **5 tentativas por minuto por IP**.
-- **Código de Retorno**: Exceder estes limites dispara uma resposta `429 (Too Many Requests)`.
+- **Global Policy**: Um limite base de 100 requisições por minuto por IP para uso geral da API.
+- **Strict Auth Policy**: As rotas `/api/auth/login` e `/api/auth/register` são limitadas a **5 tentativas por minuto por IP**.
+- **Return Code**: Exceder estes limites dispara uma resposta `429 (Too Many Requests)`.
 
-### 2.2. Lógica de Bloqueio de Conta (Account Lockout)
-Para evitar ataques direcionados a contas de usuários específicas:
-- **Tentativas Máximas**: Após **5 tentativas consecutivas falhas**, a conta é bloqueada.
-- **Duração do Bloqueio**: A conta permanece inacessível por **15 minutos** (`lockUntil`).
-- **Persistência**: O estado de bloqueio é armazenado diretamente no modelo `User` do Mongoose (`loginAttempts`, `lockUntil`).
+### 2.2. Account Lockout Logic
+To prevent targeted attacks against specific user accounts:
+- **Max Attempts**: Após **5 tentativas consecutivas falhas**, a conta é bloqueada.
+- **Lock Duration**: A conta permanece inacessível por **15 minutos** (`lockUntil`).
+- **Persistence**: O estado de bloqueio é armazenado diretamente no modelo `User` do Mongoose (`loginAttempts`, `lockUntil`).
 
 ---
 
-## 3. Proteção de Dados e Ofuscação
+## 3. Data Protection & Obfuscation
 
-### 3.1. Prevenção de Enumeração de Usuários
-A API é projetada para vazar o mínimo de informação possível sobre o estado do sistema para usuários não autenticados.
-- **Erros Genéricos**: Tanto "Usuário Não Encontrado" quanto "Senha Inválida" retornam um código de erro unificado `INVALID_CREDENTIALS`.
-- **Tempo de Resposta Uniforme**: Comparações criptográficas (Bcrypt) são realizadas mesmo que o identificador do usuário não exista, prevenindo ataques de tempo (timing attacks).
+### 3.1. User Enumeration Prevention
+The API is designed to leak as little information as possible about the system's state to unauthenticated users.
+- **Generic Errors**: Tanto "Usuário Não Encontrado" quanto "Senha Inválida" retornam um código de erro unificado `INVALID_CREDENTIALS`.
+- **Uniform Response Time**: Comparações criptográficas (Bcrypt) são realizadas mesmo que o identificador do usuário não exista, prevenindo ataques de tempo (timing attacks).
 
-### 3.2. Comunicação Segura
+### 3.2. Secure Communication
 - **JWT (HS256)**: Todas as requisições autenticadas exigem um JSON Web Token assinado com um segredo simétrico forte.
-- **Proteção CSRF**: O `@fastify/csrf-protection` está ativado, exigindo um cabeçalho `CSRF-Token` para todas as requisições que alteram estado (POST, PUT, DELETE).
-- **Cookies HTTP-Only**: Os tokens de sessão são armazenados em cookies assinados e HTTP-only para mitigar o roubo de tokens via XSS.
+- **CSRF Protection**: O `@fastify/csrf-protection` está ativado, exigindo um cabeçalho `CSRF-Token` para todas as requisições que alteram estado (POST, PUT, DELETE).
+- **HTTP-Only Cookies**: Os tokens de sessão são armazenados em cookies assinados e HTTP-only para mitigar o roubo de tokens via XSS.
 
 ---
 
-## 4. Requisitos de Ambiente
+## 4. Environment Requirements
 
 As seguintes chaves de segurança são obrigatórias para a operação do stack **Instance**:
 
