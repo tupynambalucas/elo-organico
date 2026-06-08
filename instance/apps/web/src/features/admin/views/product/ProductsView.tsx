@@ -69,7 +69,7 @@ const ProductsView: FC = () => {
             editingId === p._id ? (
               <div key={`edit-${p._id ?? 'new'}`} className={styles.editInlineContainer}>
                 <div className={styles.fixGrid}>
-                  <div className={styles.fixField} style={{ flex: '2 1 200px' }}>
+                  <div className={styles.fixField} style={{ flex: '2 1 12.5rem' }}>
                     <label>Nome do Produto</label>
                     <input
                       className={styles.fixInput}
@@ -78,7 +78,7 @@ const ProductsView: FC = () => {
                       placeholder="Nome..."
                     />
                   </div>
-                  <div className={styles.fixField} style={{ flex: '1 1 80px' }}>
+                  <div className={styles.fixField} style={{ flex: '1 1 5rem' }}>
                     <label>Preço (R$)</label>
                     <input
                       className={styles.fixInput}
@@ -96,7 +96,7 @@ const ProductsView: FC = () => {
                       step="0.01"
                     />
                   </div>
-                  <div className={styles.fixField} style={{ flex: '1 1 100px' }}>
+                  <div className={styles.fixField} style={{ flex: '1 1 6.25rem' }}>
                     <label>Unidade</label>
                     <select
                       className={styles.fixInput}
@@ -118,9 +118,9 @@ const ProductsView: FC = () => {
                       <option value="kg">Kg</option>
                     </select>
                   </div>
-                  <div className={styles.fixField} style={{ flex: '1 1 120px' }}>
+                  <div className={styles.fixField} style={{ flex: '1 1 7.5rem' }}>
                     <label>Peso/Vol (Opcional)</label>
-                    <div style={{ display: 'flex', gap: '4px' }}>
+                    <div style={{ display: 'flex', gap: '0.25rem' }}>
                       <input
                         className={styles.fixInput}
                         value={editForm.content?.value ?? ''}
@@ -144,7 +144,7 @@ const ProductsView: FC = () => {
                             value: prev.content?.value ?? 0 
                           } 
                         }))}
-                        style={{ width: '60px', padding: '0.4rem' }}
+                        style={{ width: '3.75rem', padding: '0.4rem' }}
                       >
                         <option value="g">g</option>
                         <option value="kg">kg</option>
@@ -153,9 +153,9 @@ const ProductsView: FC = () => {
                       </select>
                     </div>
                   </div>
-                  <div className={styles.fixField} style={{ flex: '1 1 120px' }}>
+                  <div className={styles.fixField} style={{ flex: '1 1 7.5rem' }}>
                     <label>Pedido Mín. (Opcional)</label>
-                    <div style={{ display: 'flex', gap: '4px' }}>
+                    <div style={{ display: 'flex', gap: '0.25rem' }}>
                       <select
                         className={styles.fixInput}
                         value={editForm.measure?.minimumOrder?.type ?? ''}
@@ -171,7 +171,7 @@ const ProductsView: FC = () => {
                             }
                           }));
                         }}
-                        style={{ width: '85px', padding: '0.4rem' }}
+                        style={{ width: '5.3125rem', padding: '0.4rem' }}
                       >
                         <option value="">Nenhum</option>
                         <option value="caixa">Caixa</option>

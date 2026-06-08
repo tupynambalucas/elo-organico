@@ -61,7 +61,7 @@ We prioritize maximum type safety through a rigorous TypeScript configuration.
 - **Strict Booleans in UI:** In JSX, always use explicit comparisons: `{isValid === true && <Component />}` to avoid rendering `0` or `NaN` in the UI.
 - **State Syncing:** Avoid calling `setState` synchronously within `useEffect` if the update is derived from props or other state. Instead, sync state during render (the "prevProps" pattern) or initialize state with a function.
 - **List Keys:** Always use stable, unique IDs (e.g., `_id`) as keys in lists. Avoid using array indices unless the list is static and has no unique identifiers. If indices must be used, document the reason.
-- **Styling:** Use **CSS Modules** (`.module.css`). Utility classes from Tailwind are allowed inside modules via `@apply`.
+- **Styling & Responsive Measures:** Use **CSS Modules** (`.module.css`). Utility classes from Tailwind are allowed inside modules via `@apply`. **Crucially, the use of fixed measurements (e.g., `px`) is strictly forbidden** to ensure a fluid and accessible layout. Always use responsive units: `rem` for typography and spacing (where `1rem = 16px`), `%`, `vh`/`vw` for structural layouts, and CSS functions like `clamp()` for fluid scaling.
 - **Console Logs:** `console.log` is forbidden and will fail the production build. Use `console.info/warn/error` sparingly.
 
 ## 5. Naming Conventions

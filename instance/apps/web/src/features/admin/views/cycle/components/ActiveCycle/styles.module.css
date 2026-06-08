@@ -10,8 +10,8 @@
     font-style: italic;
     background: #f9fafb;
     padding: 1rem;
-    border-radius: 6px;
-    border-left: 4px solid #e5e7eb;
+    border-radius: 0.375rem;
+    border-left: 0.25rem solid #e5e7eb;
 }
 
 .stats {
@@ -23,13 +23,13 @@
 .card {
     background: #f8f9fa;
     padding: 1.5rem;
-    border-radius: 8px;
+    border-radius: 0.5rem;
     text-align: center;
-    min-width: 140px;
+    min-width: 8.75rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border: 1px solid #eee;
+    border: 0.0625rem solid #eee;
 }
 
 .card strong {
@@ -42,14 +42,14 @@
     font-size: 0.8rem;
     color: #888;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.0625rem;
 }
 
 .actionBtn {
     background: #f0fdf4;
     color: var(--color-success);
-    border: 2px dashed var(--color-success);
-    border-radius: 8px;
+    border: 0.125rem dashed var(--color-success);
+    border-radius: 0.5rem;
     padding: 1rem 2rem;
     cursor: pointer;
     display: flex;
@@ -62,13 +62,13 @@
 
 .actionBtn:hover {
     background: #dcfce7;
-    transform: translateY(-2px);
+    transform: translateY(-0.125rem);
 }
 
 .backBtn {
     background: #f3f4f6;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
+    border: 0.0625rem solid #d1d5db;
+    border-radius: 0.375rem;
     padding: 0.4rem 0.8rem;
     cursor: pointer;
     font-size: 0.9rem;
@@ -91,13 +91,13 @@
 .productsList {
     flex: 1;
     overflow-y: auto;
-    border: 1px solid #f0f0f0;
-    border-radius: 6px;
+    border: 0.0625rem solid #f0f0f0;
+    border-radius: 0.375rem;
 }
 
 .productRow {
     padding: 1rem;
-    border-bottom: 1px solid #f5f5f5;
+    border-bottom: 0.0625rem solid #f5f5f5;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -122,16 +122,16 @@
     font-size: 0.8rem;
     color: #888;
     background: #f3f4f6;
-    padding: 2px 6px;
-    border-radius: 4px;
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
 }
 
 .price {
     font-weight: 600;
     color: var(--color-success);
     background: #e8f5e9;
-    padding: 2px 8px;
-    border-radius: 4px;
+    padding: 0.125rem 0.5rem;
+    border-radius: 0.25rem;
     font-size: 0.95rem;
 }
 
@@ -142,10 +142,10 @@
 
 .iconBtn {
     background: white;
-    border: 1px solid #ddd;
-    width: 32px;
-    height: 32px;
-    border-radius: 4px;
+    border: 0.0625rem solid #ddd;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.25rem;
     cursor: pointer;
     color: #555;
     display: flex;
@@ -168,11 +168,11 @@
 .editInlineContainer {
     padding: 1.5rem;
     background: #fff;
-    border: 1px solid #e5e7eb;
-    border-left: 4px solid #3b82f6;
-    border-radius: 6px;
+    border: 0.0625rem solid #e5e7eb;
+    border-left: 0.25rem solid #3b82f6;
+    border-radius: 0.375rem;
     margin-bottom: 1rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0.25rem 0.375rem -0.0625rem rgba(0, 0, 0, 0.1);
 }
 
 .fixGrid {
@@ -196,8 +196,8 @@
 
 .fixInput {
     padding: 0.6rem;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
+    border: 0.0625rem solid #d1d5db;
+    border-radius: 0.375rem;
     font-size: 0.95rem;
     width: 100%;
 }
@@ -205,7 +205,7 @@
 .fixInput:focus {
     border-color: #3b82f6;
     outline: none;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    box-shadow: 0 0 0 0.1875rem rgba(59, 130, 246, 0.1);
 }
 
 .editActions {
@@ -220,7 +220,7 @@
     color: white;
     border: none;
     padding: 0.6rem 1.2rem;
-    border-radius: 6px;
+    border-radius: 0.375rem;
     font-weight: 600;
     cursor: pointer;
 }
@@ -230,7 +230,7 @@
     color: #4b5563;
     border: none;
     padding: 0.6rem 1.2rem;
-    border-radius: 6px;
+    border-radius: 0.375rem;
     font-weight: 600;
     cursor: pointer;
 }

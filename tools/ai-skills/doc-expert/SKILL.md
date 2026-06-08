@@ -9,8 +9,11 @@ Esta skill transforma o agente em um Especialista em Documentação Técnica (Do
 
 1.  **Tom de Voz**: Sênior, direto e técnico. Evite conversas irrelevantes ou preâmbulos.
 2.  **Formatação**: Use Markdown GFM e MDX (para Docusaurus).
+    - Consulte [references/github-sintax.md](references/github-sintax.md) para padrões GFM.
+    - Consulte [references/mdx-sintax.md](references/mdx-sintax.md) para padrões MDX.
 3.  **Diagramas**: Use Mermaid para visualização de fluxos e arquitetura.
 4.  **SSOT**: Sempre consulte `knowledge-base/docs/engineering/` antes de propor mudanças estruturais.
+5.  **Emojis**: NÃO use emojis em nenhum documento técnico, a menos que seja explicitamente solicitado pelo usuário. Mantemos um tom estritamente profissional.
 
 ## Padrões Técnicos Obrigatórios
 

@@ -30,7 +30,7 @@ export const FixErrorsStep: React.FC<FixErrorsStepProps> = ({
 
             <div className={styles.fixGrid}>
               {/* Campo Nome */}
-              <div className={styles.fixField} style={{ flex: '2 1 200px' }}>
+              <div className={styles.fixField} style={{ flex: '2 1 12.5rem' }}>
                 <label>Nome do Produto</label>
                 <input
                   className={styles.fixInput}
@@ -41,7 +41,7 @@ export const FixErrorsStep: React.FC<FixErrorsStepProps> = ({
               </div>
 
               {/* Campo Preço */}
-              <div className={styles.fixField} style={{ flex: '1 1 80px' }}>
+              <div className={styles.fixField} style={{ flex: '1 1 5rem' }}>
                 <label>Preço (R$)</label>
                 <input
                   className={styles.fixInput}
@@ -53,7 +53,7 @@ export const FixErrorsStep: React.FC<FixErrorsStepProps> = ({
               </div>
 
               {/* Campo Unidade */}
-              <div className={styles.fixField} style={{ flex: '1 1 100px' }}>
+              <div className={styles.fixField} style={{ flex: '1 1 6.25rem' }}>
                 <label>Unidade</label>
                 <select
                   className={styles.fixInput}
@@ -66,9 +66,9 @@ export const FixErrorsStep: React.FC<FixErrorsStepProps> = ({
               </div>
 
               {/* Campo Conteúdo */}
-              <div className={styles.fixField} style={{ flex: '1 1 120px' }}>
+              <div className={styles.fixField} style={{ flex: '1 1 7.5rem' }}>
                 <label>Peso/Vol (Opcional)</label>
-                <div style={{ display: 'flex', gap: '4px' }}>
+                <div style={{ display: 'flex', gap: '0.25rem' }}>
                   <input
                     className={styles.fixInput}
                     value={item.contentValue}
@@ -80,7 +80,7 @@ export const FixErrorsStep: React.FC<FixErrorsStepProps> = ({
                     className={styles.fixInput}
                     value={item.contentUnit}
                     onChange={(e) => onUpdateItem(item.id, 'contentUnit', e.target.value)}
-                    style={{ width: '60px', padding: '0.4rem' }}
+                    style={{ width: '3.75rem', padding: '0.4rem' }}
                   >
                     <option value="g">g</option>
                     <option value="kg">kg</option>
@@ -91,14 +91,14 @@ export const FixErrorsStep: React.FC<FixErrorsStepProps> = ({
               </div>
 
               {/* Campo Pedido Mínimo */}
-              <div className={styles.fixField} style={{ flex: '1 1 120px' }}>
+              <div className={styles.fixField} style={{ flex: '1 1 7.5rem' }}>
                 <label>Min. Pedido (Opcional)</label>
-                <div style={{ display: 'flex', gap: '4px' }}>
+                <div style={{ display: 'flex', gap: '0.25rem' }}>
                   <select
                     className={styles.fixInput}
                     value={item.minOrderType}
                     onChange={(e) => onUpdateItem(item.id, 'minOrderType', e.target.value)}
-                    style={{ width: '85px', padding: '0.4rem' }}
+                    style={{ width: '5.3125rem', padding: '0.4rem' }}
                   >
                     <option value="">Nenhum</option>
                     <option value="caixa">Caixa</option>
@@ -115,7 +115,7 @@ export const FixErrorsStep: React.FC<FixErrorsStepProps> = ({
               </div>
 
               {/* Campo Categoria */}
-              <div className={styles.fixField} style={{ flex: '1 1 120px' }}>
+              <div className={styles.fixField} style={{ flex: '1 1 7.5rem' }}>
                 <label>Categoria</label>
                 <input
                   className={styles.fixInput}

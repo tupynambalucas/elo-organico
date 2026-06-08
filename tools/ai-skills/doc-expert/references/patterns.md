@@ -1,6 +1,6 @@
 # Padrões de Código Doc Expert
 
-Estes padrões devem ser seguidos em todos os exemplos de código gerados na documentação do Elo Orgânico.
+Estes padrões devem ser seguidos em todos os exemplos de código gerados na documentação do Elo Orgânico. Para sintaxe de formatação, consulte os guias de [GFM](github-sintax.md) e [MDX](mdx-sintax.md).
 
 ## Booleano Estrito
 ```typescript

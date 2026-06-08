@@ -24,8 +24,8 @@
 .searchInput {
   width: 100%;
   padding: 0.55rem 2.5rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
+  border: 0.0625rem solid #e2e8f0;
+  border-radius: 0.5rem;
   font-size: 0.95rem;
   transition: all 0.2s ease;
   background-color: #f8fafc;
@@ -35,7 +35,7 @@
   outline: none;
   border-color: #2ecc71;
   background-color: #fff;
-  box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.1);
+  box-shadow: 0 0 0 0.1875rem rgba(46, 204, 113, 0.1);
 }
 
 .clearBtn {
@@ -51,7 +51,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
+  border-radius: 0.25rem;
   transition: all 0.1s;
 }
 
@@ -92,8 +92,8 @@
 
 .typeBtn {
   padding: 0.3rem 0.75rem;
-  border-radius: 20px;
-  border: 1px solid #e2e8f0;
+  border-radius: 1.25rem;
+  border: 0.0625rem solid #e2e8f0;
   background-color: #fff;
   color: #64748b;
   font-size: 0.75rem;
@@ -112,5 +112,5 @@
   background-color: #2ecc71;
   border-color: #2ecc71;
   color: #fff;
-  box-shadow: 0 2px 4px rgba(46, 204, 113, 0.2);
+  box-shadow: 0 0.125rem 0.25rem rgba(46, 204, 113, 0.2);
 }

@@ -61,7 +61,7 @@ Priorizamos a máxima segurança de tipos através de uma configuração rigoros
 - **Booleanos Estritos na UI:** No JSX, sempre use comparações explícitas: `{isValid === true && <Component />}` para evitar a renderização acidental de `0` ou `NaN` na interface.
 - **Sincronização de Estado:** Evite chamar `setState` de forma síncrona dentro de `useEffect` se a atualização for derivada de props ou outro estado. Em vez disso, sincronize o estado durante a renderização (o padrão "prevProps") ou inicialize o estado com uma função.
 - **Chaves de Lista (Keys):** Sempre use IDs estáveis e únicos (ex: `_id`) como chaves em listas. Evite usar índices de array, a menos que a lista seja estática.
-- **Estilização:** Use **CSS Modules** (`.module.css`). Classes utilitárias do Tailwind são permitidas dentro dos módulos via `@apply`.
+- **Estilização e Medidas Responsivas:** Use **CSS Modules** (`.module.css`). Classes utilitárias do Tailwind são permitidas dentro dos módulos via `@apply`. **Crucialmente, o uso de medidas fixas (ex: `px`) é estritamente proibido** para garantir um layout fluido e acessível. Sempre use unidades responsivas: `rem` para tipografia e espaçamento (onde `1rem = 16px`), `%`, `vh`/`vw` para layouts estruturais, e funções CSS como `clamp()` para escalonamento fluido.
 - **Console Logs:** `console.log` é proibido e causará falha no build de produção. Use `console.info/warn/error` com moderação.
 
 ## 5. Convenções de Nomenclatura

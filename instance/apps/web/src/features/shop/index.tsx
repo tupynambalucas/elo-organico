@@ -93,17 +93,6 @@ const Shop: FC = () => {
               </button>
             </div>
           </div>
-          
-          <div className={styles.searchBar}>
-            <ProductSearchFilter
-              searchTerm={searchTerm}
-              onSearchChange={(val) => handleFiltersChange(val, selectedType, selectedCategory)}
-              selectedType={selectedType}
-              onTypeChange={(type) => handleFiltersChange(searchTerm, type, selectedCategory)}
-              selectedCategory={selectedCategory}
-              onCategoryChange={(cat) => handleFiltersChange(searchTerm, selectedType, cat)}
-            />
-          </div>
         </header>
 
         <main className={styles.main}>
@@ -128,6 +117,17 @@ const Shop: FC = () => {
                   </div>
                 </div>
               </section>
+
+              <div className={styles.searchBar}>
+                <ProductSearchFilter
+                  searchTerm={searchTerm}
+                  onSearchChange={(val) => handleFiltersChange(val, selectedType, selectedCategory)}
+                  selectedType={selectedType}
+                  onTypeChange={(type) => handleFiltersChange(searchTerm, type, selectedCategory)}
+                  selectedCategory={selectedCategory}
+                  onCategoryChange={(cat) => handleFiltersChange(searchTerm, selectedType, cat)}
+                />
+              </div>
 
               <div className={styles.productGrid}>
                 {filteredProducts.length === 0 ? (
