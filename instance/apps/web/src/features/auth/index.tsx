@@ -28,6 +28,7 @@ const AuthFeature = () => {
     () => ({
       theme: 'light' as const,
       appearance: 'always' as const,
+      size: 'flexible' as const,
     }),
     [],
   );
