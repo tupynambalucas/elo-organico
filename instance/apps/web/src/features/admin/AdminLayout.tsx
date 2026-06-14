@@ -1,6 +1,6 @@
 import { type FC, Suspense } from 'react';
 import styles from './Admin.module.css';
-import ProductsView from '@/features/admin/views/product/ProductsView';
+import ProductsView from '@/features/admin/views/product';
 import SharingView from './views/cycle';
 import CustomersView from '@/features/admin/views/customer/CustomersView';
 import ReportsView from '@/features/admin/views/report/ReportsView';
