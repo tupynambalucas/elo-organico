@@ -6,7 +6,7 @@ import CustomersView from '@/features/admin/views/customer/CustomersView';
 import ReportsView from '@/features/admin/views/report/ReportsView';
 import ConfigView from '@/features/admin/views/config/ConfigView';
 import SideBar from '@/features/admin/components/SideBar';
-import Loader from '@/components/loaders/ScreenLoader';
+import Loader from '@/shared/ui/loaders/ScreenLoader';
 import { useAdminNavigation } from './admin.navigation';
 
 const AdminLayout: FC = () => {

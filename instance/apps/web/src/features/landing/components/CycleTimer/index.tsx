@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { differenceInSeconds, format } from 'date-fns';
 import { ptBR } from 'date-fns/locale/pt-BR';
-import { useCycleStore } from '@/domains/cycle';
+import { useActiveCycle, useCycleActions } from '@/domains/cycle';
 import { animateTimerEntrance, animateSecondsTick } from './animations';
 import styles from './styles.module.css';
 
@@ -21,7 +21,8 @@ const TimeUnit = ({ value, label, className = '' }: TimeUnitProps) => (
 );
 
 const CycleTimer = () => {
-  const { activeCycle, fetchActiveCycle } = useCycleStore();
+  const activeCycle = useActiveCycle();
+  const { fetchActiveCycle } = useCycleActions();
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
 

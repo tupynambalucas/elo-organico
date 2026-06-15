@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { useCart } from '../../hooks/useCart';
+import { useCartItems, useCartActions, useCartTotal } from '@/features/shop/domains/cart';
 import styles from './styles.module.css';
 import { Icon, faTimes, faTrash, faPlus, faMinus } from '@elo-organico/studio/icons';
 
@@ -9,10 +9,11 @@ interface CartDrawerProps {
 }
 
 const CartDrawer: FC<CartDrawerProps> = ({ isOpen, onClose }) => {
-  const { items, removeItem, updateQuantity, total, clearCart } = useCart();
+  const items = useCartItems();
+  const { removeItem, updateAmount, clearCart } = useCartActions();
+  const total = useCartTotal();
 
   const handleConfirmOrder = () => {
-    // This will be implemented later
     alert('Compra confirmada! Iniciando processamento de pagamento...');
     clearCart();
     onClose();
@@ -20,13 +21,11 @@ const CartDrawer: FC<CartDrawerProps> = ({ isOpen, onClose }) => {
 
   return (
     <>
-      {/* Backdrop */}
       <div 
         className={`${styles.backdrop} ${isOpen === true ? styles.active : ''}`} 
         onClick={onClose} 
       />
       
-      {/* Drawer */}
       <div className={`${styles.drawer} ${isOpen === true ? styles.open : ''}`}>
         <div className={styles.header}>
           <h3>Seu Carrinho</h3>
@@ -51,21 +50,35 @@ const CartDrawer: FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                   </div>
                   
                   <div className={styles.itemActions}>
-                    <div className={styles.quantityControls}>
-                      <button 
-                        onClick={() => updateQuantity(item._id!, item.quantity - 1)}
-                        className={styles.qtyBtn}
-                      >
-                        <Icon icon={faMinus} size="xs" />
-                      </button>
-                      <span className={styles.qty}>{item.quantity}</span>
-                      <button 
-                        onClick={() => updateQuantity(item._id!, item.quantity + 1)}
-                        className={styles.qtyBtn}
-                      >
-                        <Icon icon={faPlus} size="xs" />
-                      </button>
-                    </div>
+                    {item.measure.type === 'unidade' ? (
+                      <div className={styles.quantityControls}>
+                        <button 
+                          onClick={() => updateAmount(item, item.amount - 1)}
+                          className={styles.qtyBtn}
+                        >
+                          <Icon icon={faMinus} size="xs" />
+                        </button>
+                        <span className={styles.qty}>{item.amount}</span>
+                        <button 
+                          onClick={() => updateAmount(item, item.amount + 1)}
+                          className={styles.qtyBtn}
+                        >
+                          <Icon icon={faPlus} size="xs" />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className={styles.weightControls}>
+                        <input
+                          type="number"
+                          className={styles.weightInput}
+                          value={item.amount}
+                          onChange={(e) => updateAmount(item, Number(e.target.value))}
+                          min="0"
+                          step="50"
+                        />
+                        <span className={styles.weightUnit}>g</span>
+                      </div>
+                    )}
                     
                     <button 
                       onClick={() => removeItem(item._id!)}
@@ -80,7 +93,7 @@ const CartDrawer: FC<CartDrawerProps> = ({ isOpen, onClose }) => {
           )}
         </div>
 
-        {items.length > 0 && (
+        {items.length > 0 === true && (
           <div className={styles.footer}>
             <div className={styles.totalRow}>
               <span>Total Estimado</span>

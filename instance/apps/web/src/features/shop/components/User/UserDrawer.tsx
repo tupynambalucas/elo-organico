@@ -1,6 +1,6 @@
 import { type FC } from 'react';
-import { useAuthStore } from '@/domains/auth';
-import { IconDisplay } from '@/components/UserIcon';
+import { useAuthUser, useAuthActions } from '@/domains/auth';
+import { IconDisplay } from '@/shared/ui/UserIcon';
 import styles from './styles.module.css';
 import { Icon, faTimes, faList, faUser, faArrowRightFromBracket } from '@elo-organico/studio/icons';
 
@@ -10,7 +10,8 @@ interface UserDrawerProps {
 }
 
 const UserDrawer: FC<UserDrawerProps> = ({ isOpen, onClose }) => {
-  const { user, logout } = useAuthStore();
+  const user = useAuthUser();
+  const { logout } = useAuthActions();
 
   const handleLogout = async () => {
     await logout();

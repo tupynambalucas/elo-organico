@@ -144,10 +144,9 @@ export const ProductEditInline: FC<ProductEditInlineProps> = ({
               const type = e.target.value;
               onUpdateForm({
                 measure: {
-                  ...editForm.measure!,
                   type: editForm.measure?.type ?? 'unidade',
                   value: editForm.measure?.value ?? 0,
-                  minimumOrder: type ? { type, value: editForm.measure?.minimumOrder?.value ?? 1 } : undefined
+                  minimumOrder: type !== '' ? { type, value: editForm.measure?.minimumOrder?.value ?? 1 } : undefined
                 }
               });
             }}
@@ -163,12 +162,14 @@ export const ProductEditInline: FC<ProductEditInlineProps> = ({
             value={editForm.measure?.minimumOrder?.value ?? ''}
             onChange={(e) => {
               const val = e.target.value;
+              const minOrderType = editForm.measure?.minimumOrder?.type;
               onUpdateForm({
                 measure: {
-                  ...editForm.measure!,
                   type: editForm.measure?.type ?? 'unidade',
                   value: editForm.measure?.value ?? 0,
-                  minimumOrder: editForm.measure?.minimumOrder?.type !== undefined && editForm.measure?.minimumOrder?.type !== '' ? { type: editForm.measure.minimumOrder.type, value: val !== '' ? Number(val) : 0 } : undefined
+                  minimumOrder: (minOrderType !== undefined && minOrderType !== '') 
+                    ? { type: minOrderType, value: val !== '' ? Number(val) : 0 } 
+                    : undefined
                 }
               });
             }}

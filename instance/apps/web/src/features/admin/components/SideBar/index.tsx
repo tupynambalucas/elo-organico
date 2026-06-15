@@ -8,14 +8,14 @@ import {
   faGear,
 } from '@elo-organico/studio/icons';
 import { LogoMarkPositive } from '@elo-organico/studio/logos';
-import { useAuthStore } from '@/domains/auth';
+import { useAuthActions } from '@/domains/auth';
 import { useAdminNavigation } from '../../admin.navigation';
 import type { AdminViewType } from '../../admin.navigation';
 import styles from './styles.module.css';
 
 const SideBar = () => {
   const { setView, currentView } = useAdminNavigation();
-  const { logout } = useAuthStore();
+  const { logout } = useAuthActions();
 
   const handleNavigation = (view: AdminViewType) => {
     setView(view);

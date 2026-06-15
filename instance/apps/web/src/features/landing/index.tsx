@@ -1,6 +1,6 @@
 import { lazy, Suspense, useRef } from 'react';
-import { useAuthStore } from '@/domains/auth';
-import { useCycleStore } from '@/domains/cycle';
+import { useIsAuthenticated } from '@/domains/auth';
+import { useActiveCycle, useCycleLoading } from '@/domains/cycle';
 import { useGSAP } from '@gsap/react';
 import { LogoHorizontalNegative } from '@elo-organico/studio/logos';
 import { animateLandingIntro } from './animations';
@@ -10,8 +10,9 @@ const AuthForm = lazy(() => import('@/features/auth'));
 const CycleTimer = lazy(() => import('@/features/landing/components/CycleTimer'));
 
 const LandingLayout = () => {
-  const { isAuthenticated } = useAuthStore();
-  const { activeCycle, isLoading: isCycleLoading } = useCycleStore();
+  const isAuthenticated = useIsAuthenticated();
+  const activeCycle = useActiveCycle();
+  const isCycleLoading = useCycleLoading();
 
   const containerRef = useRef<HTMLDivElement>(null);
   const leftPanelRef = useRef<HTMLDivElement>(null);

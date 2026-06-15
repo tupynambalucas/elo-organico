@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import type { FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAuthStore } from '@/domains/auth';
+import { useAuthActions, useAuthStatus, useAuthErrorCode } from '@/domains/auth';
 import { shakeElement } from '../animations';
 import type { AuthFormData, AuthFieldErrors, AuthFormRefs } from '../types';
 import { validateAuthForm } from '../utils/validation';
@@ -9,7 +9,9 @@ import { mapBackendErrorToUI } from '../utils/errorMapper';
 
 export const useAuthForm = (isLogin: boolean, onSuccess: () => void) => {
   const { t } = useTranslation();
-  const { login, register, status, errorCode, clearErrors } = useAuthStore();
+  const { login, register, clearErrors } = useAuthActions();
+  const status = useAuthStatus();
+  const errorCode = useAuthErrorCode();
 
   const identifierRef = useRef<HTMLInputElement>(null);
   const passwordLoginRef = useRef<HTMLInputElement>(null);

@@ -1,13 +1,19 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useProductStore } from '@/domains/product';
+import { useProducts, useProductLoading, useProductSubmitting, useProductActions } from '@/domains/product';
+import { useProductFilters } from '@/domains/product/hooks/useProductFilters';
 import type { IProduct, ProductResponse } from '@elo-instance/core';
 
+/**
+ * Domain-level hook for managing product data and search.
+ * Consolidated from Admin to be accessible throughout the app.
+ */
 export const useProductManager = () => {
-  const { products, fetchProducts, updateProduct, isLoading, isSubmitting } = useProductStore();
+  const products = useProducts();
+  const isLoading = useProductLoading();
+  const isSubmitting = useProductSubmitting();
+  const { fetchProducts, updateProduct } = useProductActions();
+  const { searchTerm, selectedType, selectedCategory, handleFiltersChange: setFilters } = useProductFilters();
   
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedType, setSelectedType] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editForm, setEditForm] = useState<Partial<IProduct>>({});
 
@@ -16,15 +22,13 @@ export const useProductManager = () => {
   }, [fetchProducts]);
 
   const handleFiltersChange = useCallback((search: string, type: string, category: string) => {
-    setSearchTerm(search);
-    setSelectedType(type);
-    setSelectedCategory(category);
+    setFilters(search, type, category);
     void fetchProducts({
       search: search !== '' ? search : undefined,
       type: type !== '' ? type : undefined,
       category: category !== '' ? category : undefined,
     });
-  }, [fetchProducts]);
+  }, [fetchProducts, setFilters]);
 
   const handleEditClick = useCallback((product: ProductResponse) => {
     if (product._id !== undefined) {

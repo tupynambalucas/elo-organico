@@ -1,26 +1,32 @@
 import { type FC } from 'react';
 import type { IProduct } from '@elo-instance/core';
-import { useCart } from '../../hooks/useCart';
+import { useCartItems, useCartActions } from '@/features/shop/domains/cart';
 import styles from './styles.module.css';
+import { Icon, faPlus, faMinus } from '@elo-organico/studio/icons';
 
 interface ProductCardProps {
   product: IProduct;
 }
 
 const ProductCard: FC<ProductCardProps> = ({ product }) => {
-  const { addItem } = useCart();
+  const items = useCartItems();
+  const { updateAmount } = useCartActions();
 
-  const handleAddToCart = () => {
-    addItem(product);
+  const cartItem = items.find((item) => item._id === product._id);
+  const currentAmount = cartItem?.amount ?? 0;
+
+  const handleUpdateAmount = (newAmount: number) => {
+    updateAmount(product, newAmount);
   };
+
+  const isUnit = product.measure.type === 'unidade';
 
   return (
     <div className={styles.card}>
       <div className={styles.imagePlaceholder}>
-        {/* Real images would go here */}
         <div className={styles.tagsContainer}>
           <span className={styles.category}>{product.category}</span>
-          {product.measure.label !== undefined && (
+          {product.measure.label !== undefined === true && (
             <span className={styles.labelTag}>{product.measure.label}</span>
           )}
         </div>
@@ -41,9 +47,39 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
           </span>
         </div>
         
-        <button className={styles.addBtn} onClick={handleAddToCart}>
-          Adicionar ao Carrinho
-        </button>
+        <div className={styles.controlsContainer}>
+          {isUnit === true ? (
+            <div className={styles.unitControls}>
+              <button 
+                className={styles.qtyBtn} 
+                onClick={() => handleUpdateAmount(currentAmount - 1)}
+                disabled={currentAmount === 0}
+              >
+                <Icon icon={faMinus} />
+              </button>
+              <div className={styles.amountDisplay}>{currentAmount}</div>
+              <button 
+                className={styles.qtyBtn} 
+                onClick={() => handleUpdateAmount(currentAmount + 1)}
+              >
+                <Icon icon={faPlus} />
+              </button>
+            </div>
+          ) : (
+            <div className={styles.weightControls}>
+              <input
+                type="number"
+                className={styles.weightInput}
+                value={currentAmount === 0 ? '' : currentAmount}
+                onChange={(e) => handleUpdateAmount(Number(e.target.value))}
+                placeholder="0"
+                min="0"
+                step="50"
+              />
+              <span className={styles.weightUnit}>g</span>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

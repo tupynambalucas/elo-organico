@@ -1,7 +1,7 @@
 import { useState, useRef, useMemo } from 'react';
 import { useGSAP } from '@gsap/react';
 import { Turnstile } from '@marsidev/react-turnstile';
-import { useAuthStore } from '@/domains/auth';
+import { useAuthActions } from '@/domains/auth';
 import styles from './styles.module.css';
 import { animateFormEntrance } from './animations';
 import { useAuthForm } from './hooks/useAuthForm';
@@ -11,7 +11,7 @@ import { RegisterForm } from './components/RegisterForm';
 const AuthFeature = () => {
   const [isLogin, setIsLogin] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
-  const { clearErrors } = useAuthStore();
+  const { clearErrors } = useAuthActions();
 
   const {
     formData,

@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { faCarrot } from '@elo-organico/studio/icons';
 import { AdminContainer } from '../../components';
-import { useProductManager } from './hooks/useProductManager';
+import { useProductManager } from '@/features/admin/domains/product/hooks/useProductManager';
 import { ProductManagerFilters, ProductManagerList } from './components/ProductManager';
 
 const ProductsView: FC = () => {
@@ -24,7 +24,7 @@ const ProductsView: FC = () => {
         editForm={state.editForm}
         onEdit={actions.handleEditClick}
         onUpdateForm={actions.handleUpdateEditForm}
-        onSave={actions.handleSaveInlineEdit}
+        onSave={() => void actions.handleSaveInlineEdit()}
         onCancel={actions.handleCancelInlineEdit}
       />
     </AdminContainer>
