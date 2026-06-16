@@ -1,6 +1,6 @@
 import type { LoginDTO, RegisterDTO } from '@elo-instance/core';
 
-export interface AuthFormData extends LoginDTO, RegisterDTO {
+export interface AuthFormData extends Omit<LoginDTO, 'turnstileToken'>, Omit<RegisterDTO, 'turnstileToken'> {
   icon: string;
   confirmPassword?: string;
 }

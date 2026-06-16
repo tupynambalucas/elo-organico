@@ -98,7 +98,7 @@ export const useAdminCycleStore = create<AdminCycleState>((set) => ({
 
       await adminCycleApi.create(payload);
       set({ isSubmitting: false, success: true });
-      void usePublicCycleStore.getState().fetchActiveCycle();
+      void usePublicCycleStore.getState().actions.fetchActiveCycle();
       return true;
     } catch (err: unknown) {
       set({ isSubmitting: false, error: getErrorMessage(err) });
@@ -119,8 +119,8 @@ export const useAdminCycleStore = create<AdminCycleState>((set) => ({
       CycleResponseSchema.parse(updatedCycle);
       console.info('Updated Cycle:', updatedCycle);
       set({ isSubmitting: false, success: true });
-      void usePublicCycleStore.getState().fetchActiveCycle({ silent: true });
-      void useProductStore.getState().fetchProducts();
+      void usePublicCycleStore.getState().actions.fetchActiveCycle({ silent: true });
+      void useProductStore.getState().actions.fetchProducts();
       return true;
     } catch (err: unknown) {
       set({ isSubmitting: false, error: getErrorMessage(err) });

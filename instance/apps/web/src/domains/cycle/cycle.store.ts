@@ -7,7 +7,9 @@ interface PublicCycleState {
   activeCycle: CycleResponse | null;
   isLoading: boolean;
   error: string | null;
-  fetchActiveCycle: (options?: { silent?: boolean }) => Promise<void>;
+  actions: {
+    fetchActiveCycle: (options?: { silent?: boolean }) => Promise<void>;
+  };
 }
 
 export const useCycleStore = create<PublicCycleState>((set) => ({
@@ -15,22 +17,25 @@ export const useCycleStore = create<PublicCycleState>((set) => ({
   isLoading: false,
   error: null,
 
-  fetchActiveCycle: async (options) => {
-    const isSilent = options?.silent === true;
-    if (isSilent === false) {
-      set({ isLoading: true, error: null });
-    }
-    
-    try {
-      const data = await cycleApi.getActive();
-      const validated = data ? CycleResponseSchema.parse(data) : null;
-      set({ activeCycle: validated });
-    } catch (err: unknown) {
-      set({ activeCycle: null, error: getErrorMessage(err) });
-    } finally {
+  actions: {
+    fetchActiveCycle: async (options) => {
+      const isSilent = options?.silent === true;
       if (isSilent === false) {
-        set({ isLoading: false });
+        set({ isLoading: true, error: null });
       }
-    }
+      
+      try {
+        const data = await cycleApi.getActive();
+        const validated = data ? CycleResponseSchema.parse(data) : null;
+        set({ activeCycle: validated });
+      } catch (err: unknown) {
+        set({ activeCycle: null, error: getErrorMessage(err) });
+      } finally {
+        if (isSilent === false) {
+          set({ isLoading: false });
+        }
+      }
+    },
   },
 }));
+

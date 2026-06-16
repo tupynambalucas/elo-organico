@@ -169,7 +169,7 @@
 .turnstileWrapper {
   margin-bottom: 2vh;
   display: flex;
-  justify-content: center;
+  width: 100%;
 }
 
 .formContainer button:hover:not(:disabled) {

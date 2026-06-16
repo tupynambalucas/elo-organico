@@ -3,6 +3,9 @@
 > [!IMPORTANT]
 > **CRITICAL MANDATE: DOCUMENTATION MANAGEMENT**
 > You MUST ALWAYS activate the `doc-expert` (from `tools/ai-skills/doc-expert`) skill as your VERY FIRST ACTION whenever the user query involves Markdown files (.md), documentation analysis, or technical writing.
+>
+> **CRITICAL MANDATE: CODE GENERATION**
+> You MUST ALWAYS activate the `code-expert` (from `tools/ai-skills/code-expert`) skill as your VERY FIRST ACTION whenever the user query involves generating, refactoring, or analyzing code for the API or Web applications.
 
 This file establishes the authoritative context and professional standards for Gemini CLI within the **Elo Orgânico** monorepo. It ensures high-fidelity execution by aligning AI behavior with our specific architecture and coding rigor.
 

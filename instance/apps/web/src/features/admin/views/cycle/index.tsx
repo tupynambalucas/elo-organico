@@ -3,12 +3,14 @@ import styles from './styles.module.css';
 import CreateCycle from './components/CycleCreate';
 import { ActiveCycleDashboard, ActiveCycleFilters, ActiveCycleProductsList } from './components/ActiveCycle';
 import CyclesHistory from './components/CycleHistory';
-import ContainerLoader from '@/components/loaders/ContainerLoader';
-import { useCycleStore } from '@/domains/cycle';
+import ContainerLoader from '@/shared/ui/loaders/ContainerLoader';
+import { useActiveCycle, useCycleActions, useCycleLoading } from '@/domains/cycle';
 import { useAdminCycleStore } from '@/features/admin/domains/cycle';
 
 const CyclesView = () => {
-  const { activeCycle, fetchActiveCycle, isLoading: isLoadingActive } = useCycleStore();
+  const activeCycle = useActiveCycle();
+  const { fetchActiveCycle } = useCycleActions();
+  const isLoadingActive = useCycleLoading();
   const { success, resetStatus, activeCycleViewMode } = useAdminCycleStore();
 
   const [searchTerm, setSearchTerm] = useState('');

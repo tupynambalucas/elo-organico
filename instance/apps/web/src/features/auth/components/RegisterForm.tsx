@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Icon, faEye, faEyeSlash } from '@elo-organico/studio/icons';
 import { AUTH_RULES } from '@elo-instance/core';
-import { IconSelector } from '@/components/UserIcon';
+import { IconSelector } from '@/shared/ui/UserIcon';
 import type { AuthFormData, AuthFieldErrors, AuthFormRefs } from '../types';
 import styles from '../styles.module.css';
 

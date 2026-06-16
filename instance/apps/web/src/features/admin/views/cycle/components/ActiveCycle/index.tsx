@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { useCycleStore } from '@/domains/cycle';
+import { useActiveCycle } from '@/domains/cycle';
 import { useAdminCycleStore } from '../../../../domains/cycle/cycle.store';
 import styles from './styles.module.css';
 import { format } from 'date-fns';
@@ -9,7 +9,7 @@ import type { IProduct } from '@elo-instance/core';
 import { AdminContainer, ProductSearchFilter } from '../../../../components';
 
 export const ActiveCycleDashboard = () => {
-  const { activeCycle } = useCycleStore();
+  const activeCycle = useActiveCycle();
   const { setActiveCycleViewMode } = useAdminCycleStore();
 
   if (activeCycle === null) return null;
@@ -100,7 +100,7 @@ export const ActiveCycleProductsList = ({
   selectedType: string;
   selectedCategory: string;
 }) => {
-  const { activeCycle } = useCycleStore();
+  const activeCycle = useActiveCycle();
   const { updateActiveCycleProducts, isSubmitting } = useAdminCycleStore();
 
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -234,8 +234,9 @@ export const ActiveCycleProductsList = ({
                         setEditForm(prev => ({
                           ...prev,
                           measure: {
-                            ...prev.measure!,
-                            minimumOrder: type ? { type, value: prev.measure?.minimumOrder?.value ?? 1 } : undefined
+                            type: prev.measure?.type ?? 'unidade',
+                            value: prev.measure?.value ?? 0,
+                            minimumOrder: type !== '' ? { type, value: prev.measure?.minimumOrder?.value ?? 1 } : undefined
                           }
                         }));
                       }}
@@ -250,13 +251,19 @@ export const ActiveCycleProductsList = ({
                       value={editForm.measure?.minimumOrder?.value ?? ''}
                       onChange={(e) => {
                         const val = e.target.value;
-                        setEditForm(prev => ({
-                          ...prev,
-                          measure: {
-                            ...prev.measure!,
-                            minimumOrder: prev.measure?.minimumOrder?.type !== undefined && prev.measure?.minimumOrder?.type !== '' ? { type: prev.measure.minimumOrder.type, value: val !== '' ? Number(val) : 0 } : undefined
-                          }
-                        }));
+                        setEditForm(prev => {
+                          const minOrderType = prev.measure?.minimumOrder?.type;
+                          return {
+                            ...prev,
+                            measure: {
+                              type: prev.measure?.type ?? 'unidade',
+                              value: prev.measure?.value ?? 0,
+                              minimumOrder: (minOrderType !== undefined && minOrderType !== '') 
+                                ? { type: minOrderType, value: val !== '' ? Number(val) : 0 } 
+                                : undefined
+                            }
+                          };
+                        });
                       }}
                       placeholder="Qtd"
                       type="number"

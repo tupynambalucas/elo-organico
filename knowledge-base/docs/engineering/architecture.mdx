@@ -114,10 +114,13 @@ We use a unified interface in the root `package.json` to manage the entire monor
 
 - **Single Source of Truth (SSOT):** Community data structures must be defined in `@elo-instance/core`. Platform rules are in `@elo-portal/core`.
 - **Inherited Configuration:** ESLint and TSConfig are centralized at the root, with localized extensions providing context-specific refinements without duplicating the base rigor.
-- **Domain-Driven Design (DDD):** Business logic is organized into domains (`auth`, `cycle`, `product`) to facilitate modularity.
-  - **Strict Domain Isolation:** Cross-context imports (e.g., Portal importing from Instance) are strictly prohibited via ESLint rules to prevent architectural leak.
+- **Domain-Driven Design (DDD) & Feature-Sliced Design (FSD):** The frontend architecture blends DDD bounded contexts with FSD modularity to achieve enterprise scale.
+  - **Global Domains (`src/domains`):** Contain entities (e.g., `auth`, `product`, `cycle`), their state stores, API clients, and **Domain Hooks**.
+  - **Features (`src/features`):** Represent user workflows or application modules (e.g., `admin`, `shop`). Features orchestrate multiple domains but are strictly isolated from one another.
+  - **Feature-Specific Private Domains (`src/features/*/domains`):** Sub-domains that only make sense within a specific feature (e.g., `cart` inside the `shop` feature). This prevents global domain pollution.
+  - **Shared UI Layer (`src/shared/ui`):** Reusable, domain-agnostic components (e.g., generic loaders, buttons). Global domains or entities **MUST NOT** import from features.
 - **SOLID Principles:**
-  - **Single Responsibility:** Each module has one specific purpose.
+  - **Single Responsibility:** Logic is separated. Stores handle state, pure functions handle calculations, and hooks handle orchestration.
   - **Open/Closed:** Open for extension, closed for modification.
   - **Liskov Substitution:** Consistent subtype behavior.
   - **Interface Segregation:** Lean, specific interfaces.
@@ -145,7 +148,7 @@ We use a unified interface in the root `package.json` to manage the entire monor
 ### 6.3. Frontend (UI Layer)
 
 - **Framework**: React 19.
-- **State Management**: Zustand (Atomic and performant state).
+- **State Management**: Zustand (Atomic and performant state using Slices and Selectors).
 - **Styling**: TailwindCSS v4 + CSS Modules for scoped styles.
 - **Animations**: GSAP (High-fidelity interactive feedback).
 
@@ -185,7 +188,31 @@ export class AuthRepository {
 }
 ```
 
-### 7.2. Dependency Injection
+### 7.2. Frontend State Orchestration (Zustand & FSD)
+
+To prevent monolithic stores and unnecessary re-renders in React 19, the frontend adopts a strict **Atomic Selectors Pattern** coupled with **Domain Hooks**:
+
+1. **State vs. Actions Separation**: The Zustand store separates `state` from `actions`. Pure domain logic (like price calculations) is extracted out of the store to maintain the **Single Source of Truth** and testability.
+2. **Atomic Selectors**: Monolithic exports (`export const useAuthStore = create(...)`) are wrapped in specific hooks.
+3. **Domain Hooks (`src/domains/*/hooks`)**: Selectors are exposed as individual hooks (e.g., `useAuthUser()`, `useProductActions()`). This ensures that a component only re-renders when the exact slice of state it subscribes to changes.
+
+#### Implementation Example (Zustand Atomic Selectors)
+
+```typescript
+// instance/apps/web/src/domains/cart/hooks/useCart.ts
+import { useCartStore } from '../cart.store';
+
+// Atomic Selectors
+export const useCartItems = () => useCartStore((state) => state.items);
+export const useCartActions = () => useCartStore((state) => state.actions);
+
+// Derived State Selector (Never stored in state)
+export const useCartTotal = () => useCartStore((state) => 
+  state.items.reduce((acc, item) => acc + calculateItemPrice(item), 0)
+);
+```
+
+### 7.3. Dependency Injection
 
 Modular management through Fastify decorators and a centralized registry to decouple components and facilitate testing.
 
@@ -195,12 +222,12 @@ Modular management through Fastify decorators and a centralized registry to deco
 
 Designed for **Self-Hosted Excellence** on Hetzner Cloud.
 
-### 9.1. Orchestration
+### 8.1. Orchestration
 
 - **Docker Compose**: Orchestrates the full stack (Apps, DB, Cache, MCP servers).
 - **Nginx**: Operates as a Reverse Proxy and static file server for production builds.
 
-### 9.2. Network & Latency
+### 8.2. Network & Latency
 
 All components reside in a private Docker network for sub-millisecond latency between APIs and Databases.
 

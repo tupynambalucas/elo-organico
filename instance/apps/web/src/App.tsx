@@ -1,6 +1,6 @@
 import { useEffect, Suspense, lazy } from 'react';
-import { useAuthStore } from '@/domains/auth';
-import { useCycleStore } from '@/domains/cycle';
+import { useAuthUser, useIsAuthenticated, useIsAuthLoading, useAuthActions } from '@/domains/auth';
+import { useActiveCycle, useCycleActions } from '@/domains/cycle';
 import { initializeCsrf } from '@/lib/axios';
 import '@/i18n';
 
@@ -9,8 +9,12 @@ const ShopLayout = lazy(() => import('@/features/shop'));
 const LandingLayout = lazy(() => import('@/features/landing'));
 
 function App() {
-  const { user, isAuthenticated, isAuthLoading, verifyAuth } = useAuthStore();
-  const { activeCycle, fetchActiveCycle } = useCycleStore();
+  const user = useAuthUser();
+  const isAuthenticated = useIsAuthenticated();
+  const isAuthLoading = useIsAuthLoading();
+  const { verifyAuth } = useAuthActions();
+  const activeCycle = useActiveCycle();
+  const { fetchActiveCycle } = useCycleActions();
 
   useEffect(() => {
     const initApp = async (): Promise<void> => {

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useAuthStore } from '@/domains/auth';
+import { useAuthUser } from '@/domains/auth';
 import userIconList from './constants';
 import styles from './styles.module.css';
 
@@ -10,7 +10,7 @@ interface IconDisplayProps {
 }
 
 export const IconDisplay = ({ className = '', size = '2.5rem', forceIcon }: IconDisplayProps) => {
-  const { user } = useAuthStore();
+  const user = useAuthUser();
   const iconName = forceIcon ?? user?.icon ?? userIconList[0].name;
 
   const iconData = useMemo(() => {

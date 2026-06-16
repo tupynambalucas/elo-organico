@@ -122,6 +122,37 @@
   background-color: var(--color-background-tint);
   padding: 0.25rem 0.5rem;
   border-radius: 1.25rem;
+  border: 0.0625rem solid var(--color-border-light);
+}
+
+.weightControls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--color-background-tint);
+  padding: 0.25rem 0.75rem;
+  border-radius: 1.25rem;
+  border: 0.0625rem solid var(--color-border-light);
+}
+
+.weightInput {
+  background: none;
+  border: none;
+  font-weight: 700;
+  color: var(--color-title-dark);
+  width: 3.5rem;
+  text-align: right;
+  font-size: 0.9rem;
+}
+
+.weightInput:focus {
+  outline: none;
+}
+
+.weightUnit {
+  font-size: 0.8rem;
+  color: var(--color-subtitle-dark);
+  font-weight: 600;
 }
 
 .qtyBtn {
