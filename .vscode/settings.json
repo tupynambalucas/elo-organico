@@ -1,6 +1,6 @@
 {
   "files.exclude": {
-    "**/.git": false,
+    "**/.git": true,
     "**/.eslintcache": false,
     "**/node_modules": false,
     "**/dist": false

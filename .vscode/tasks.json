@@ -2,21 +2,52 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Gemini CLI (New Window)",
+      "label": "Copilot CLI (New Window)",
       "type": "shell",
       "command": "wt",
-      "args": ["-d", "${workspaceFolder}", "pwsh", "-NoExit", "-Command", "gemini"],
+      "args": [
+        "-w",
+        "new",
+        "-d",
+        "${workspaceFolder}",
+        "pwsh",
+        "-NoLogo",
+        "-NoExit",
+        "-Command",
+        "copilot"
+      ],
       "presentation": {
-        "reveal": "silent",
+        "reveal": "never",
         "panel": "new"
       },
       "problemMatcher": []
     },
     {
-      "label": "Copilot CLI (New Window)",
+      "label": "Antigravity CLI (New Window)",
       "type": "shell",
       "command": "wt",
-      "args": ["-d", "${workspaceFolder}", "pwsh", "-NoExit", "-Command", "copilot"],
+      "args": [
+        "-w",
+        "new",
+        "-d",
+        "${workspaceFolder}",
+        "pwsh",
+        "-NoLogo",
+        "-NoExit",
+        "-Command",
+        "agy"
+      ],
+      "presentation": {
+        "reveal": "never",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Terminal (New Window)",
+      "type": "shell",
+      "command": "wt",
+      "args": ["-d", "${workspaceFolder}", "pwsh", "-NoExit", "-Command", "agy"],
       "presentation": {
         "reveal": "silent",
         "panel": "new"
