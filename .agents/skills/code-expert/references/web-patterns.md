@@ -1,16 +1,16 @@
 # Web Implementation Patterns
 
-O frontend utiliza React 19, Zustand para estado global e CSS Modules para estilização.
+The frontend utilizes React 19, Zustand for global state, and CSS Modules for styling.
 
-## Organização de Features
+## Feature Organization
 
-Seguimos uma estrutura de `views`, `components` e `domains` (hooks/stores).
+We follow a structure of `views`, `components`, and `domains` (hooks/stores).
 
 ### 1. View & Components
-Views orquestram múltiplos componentes e lógica de navegação.
+Views orchestrate multiple components and navigation logic.
 
 ```tsx
-// Exemplo: ActiveCycleDashboard
+// Example: ActiveCycleDashboard
 export const ActiveCycleDashboard = () => {
   const { activeCycle } = useCycleStore();
   const { setActiveCycleViewMode } = useAdminCycleStore();
@@ -39,10 +39,10 @@ export const ActiveCycleDashboard = () => {
 ```
 
 ### 2. Custom Hooks (Logic Extraction)
-Extraia lógica complexa para hooks para manter componentes limpos e testáveis.
+Extract complex UI and state logic to custom hooks to keep components clean and testable.
 
 ```typescript
-// Exemplo: useCycleCreate.ts
+// Example: useCycleCreate.ts
 export const useCycleCreate = () => {
   const { currentStep, setStep } = useCyclesNavigation();
   const { createCycle, isSubmitting } = useAdminCycleStore();
@@ -61,7 +61,7 @@ export const useCycleCreate = () => {
 ```
 
 ### 3. Styling (CSS Modules)
-**PROIBIDO o uso de `px`**. Utilize `rem` (1rem = 16px) e funções CSS como `clamp`.
+**The use of `px` is strictly forbidden**. Use `rem` (1rem = 16px) and CSS logical functions like `clamp`.
 
 ```css
 /* styles.module.css */
@@ -77,8 +77,8 @@ export const useCycleCreate = () => {
 }
 ```
 
-## Guardrails de Código
+## Code Guardrails
 - **Explicit Booleans**: `{hasErrors === true && <ErrorMsg />}`.
-- **Keys**: Sempre use IDs estáveis (`_id`).
-- **Floating Promises**: Use `void actions.handleSubmit()` em eventos de clique se não forem aguardados.
-- **React 19**: Use `use()` para promessas e contexto.
+- **Keys**: Always use stable IDs (`_id`).
+- **Floating Promises**: Use `void actions.handleSubmit()` in click/event handlers if they are unawaited.
+- **React 19**: Use the `use()` hook for promises and context.

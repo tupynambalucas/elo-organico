@@ -1,14 +1,14 @@
 # API Implementation Patterns
 
-O backend segue uma arquitetura em camadas baseada em domínios, utilizando Fastify 5 e Mongoose.
+The backend follows a domain-based layered architecture using Fastify 5 and Mongoose.
 
-## Camadas de Responsabilidade
+## Layers of Responsibility
 
 ### 1. Controller
-Responsável por lidar com I/O HTTP, extrair parâmetros, invocar o serviço e mapear resultados para DTOs.
+Responsible for handling HTTP I/O, extracting parameters, invoking the service, and mapping results to DTOs.
 
 ```typescript
-// Exemplo: cycle.controller.ts
+// Example: cycle.controller.ts
 export class CycleController {
   constructor(private readonly service: CycleService) {}
 
@@ -29,17 +29,17 @@ export class CycleController {
     return {
       ...obj,
       _id: obj._id.toString(),
-      // Mapeamentos adicionais...
+      // Additional mapping...
     };
   }
 }
 ```
 
 ### 2. Service (SOLID: SRP & DI)
-Orquestra regras de negócio e gerencia transações. Depende de interfaces de repositório.
+Orchestrates business rules and manages transactions. Depends on repository interfaces.
 
 ```typescript
-// Exemplo: cycle.service.ts
+// Example: cycle.service.ts
 export class CycleService {
   constructor(
     private readonly cycleRepo: ICycleRepository,
@@ -53,7 +53,7 @@ export class CycleService {
 
     try {
       await this.cycleRepo.deactivateAll(session);
-      // Lógica de negócio...
+      // Business logic...
       await session.commitTransaction();
       return createdCycle;
     } catch (error) {
@@ -67,10 +67,10 @@ export class CycleService {
 ```
 
 ### 3. Repository (SOLID: Interface Segregation)
-Abstrai a persistência de dados.
+Abstracts data persistence.
 
 ```typescript
-// Exemplo: cycle.repository.ts
+// Example: cycle.repository.ts
 export class CycleRepository implements ICycleRepository {
   constructor(private readonly model: Model<ICycleDocument>) {}
 
@@ -80,7 +80,7 @@ export class CycleRepository implements ICycleRepository {
 }
 ```
 
-## Guardrails de Código
-- **Floating Promises**: Sempre use `void reply.send()` ou `void reply.status()`.
-- **Transactions**: Use sessões do Mongoose para operações que afetam múltiplos documentos.
-- **Errors**: Use a classe `AppError` para erros previstos.
+## Code Guardrails
+- **Floating Promises**: Always use `void reply.send()` or `void reply.status()`.
+- **Transactions**: Use Mongoose sessions for operations that affect multiple documents.
+- **Errors**: Use the `AppError` class for expected operational errors.
