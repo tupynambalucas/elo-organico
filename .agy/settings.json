@@ -1,0 +1,27 @@
+{
+  "context": {
+    "files": [
+      "../CONTEXT.md",
+      "../knowledge-base/docs/engineering/styleguide.mdx",
+      "../knowledge-base/docs/engineering/architecture.mdx"
+    ],
+    "includeDirectories": ["../tools/ai-skills"],
+    "discoveryMaxDirs": 200,
+    "loadMemoryFromIncludeDirectories": true,
+    "fileFiltering": {
+      "enableRecursiveFileSearch": true,
+      "respectGitIgnore": false,
+      "respectAgyIgnore": true,
+      "enableFuzzySearch": true
+    }
+  },
+  "advanced": {
+    "excludedEnvVars": []
+  },
+  "mcp": {
+    "configPath": "./mcp_config.json"
+  },
+  "experimental": {
+    "modelSteering": true
+  }
+}

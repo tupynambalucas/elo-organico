@@ -1,0 +1,64 @@
+{
+  "mcpServers": {
+    "mcp/github": {
+      "command": "docker",
+      "args": [
+        "compose",
+        "-f",
+        "tools/mcp/compose.yaml",
+        "-p",
+        "elo-mcp",
+        "run",
+        "--rm",
+        "-i",
+        "github"
+      ]
+    },
+    "mcp/context7": {
+      "command": "docker",
+      "args": [
+        "compose",
+        "-f",
+        "tools/mcp/compose.yaml",
+        "-p",
+        "elo-mcp",
+        "run",
+        "--rm",
+        "-i",
+        "context7"
+      ]
+    },
+    "mcp/browser": {
+      "command": "docker",
+      "args": [
+        "compose",
+        "-f",
+        "tools/mcp/compose.yaml",
+        "-p",
+        "elo-mcp",
+        "run",
+        "--rm",
+        "-i",
+        "browser"
+      ]
+    },
+    "mcp/dockerhub": {
+      "command": "docker",
+      "args": [
+        "compose",
+        "-f",
+        "tools/mcp/compose.yaml",
+        "-p",
+        "elo-mcp",
+        "run",
+        "--rm",
+        "-i",
+        "dockerhub"
+      ]
+    },
+    "mcp/penpot": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "http://localhost:4401/mcp", "--allow-http"]
+    }
+  }
+}

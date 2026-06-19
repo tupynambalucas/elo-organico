@@ -22,6 +22,38 @@
         "panel": "new"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Antigravity CLI (New Window)",
+      "type": "shell",
+      "command": "wt",
+      "args": [
+        "-w",
+        "new",
+        "-d",
+        "${workspaceFolder}",
+        "pwsh",
+        "-NoLogo",
+        "-NoExit",
+        "-Command",
+        "agy"
+      ],
+      "presentation": {
+        "reveal": "never",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Terminal (New Window)",
+      "type": "shell",
+      "command": "wt",
+      "args": ["-d", "${workspaceFolder}", "pwsh", "-NoExit", "-Command", "agy"],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "new"
+      },
+      "problemMatcher": []
     }
   ]
 }
