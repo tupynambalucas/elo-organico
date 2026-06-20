@@ -95,18 +95,35 @@ We employ a **Hybrid High-Performance Architecture** optimized by **Turborepo** 
 
 ## 4. Operational Commands
 
-We use a unified interface in the root `package.json` to manage the entire monorepo.
+We use a unified interface in the root `package.json` to manage the entire monorepo. Commands are organized by environment: **development** (local), **production** (live), and **staging** (pre-production testing).
 
-| Command             | Description                                           | Orchestration          |
-| :------------------ | :---------------------------------------------------- | :--------------------- |
-| `pnpm instance:dev` | Full Community Stack (Infra + API + Web)              | Turbo + Docker Compose |
-| `pnpm instance:up`  | Community Infrastructure only (MongoDB + Redis)       | Docker Compose         |
-| `pnpm instance:down`| Stop Community Stack and cleanup ports                | Docker Compose + Shell |
-| `pnpm portal:dev`   | Full Platform Stack (Foundation)                      | Turbo + Docker Compose |
-| `pnpm mcp:up`       | Start AI Tooling infrastructure (MCP Servers)         | Docker Compose         |
-| `pnpm docs:dev`     | Start Knowledge Base (Development Mode)               | PNPM Filter            |
-| `pnpm typecheck`    | Validate TypeScript across the entire monorepo        | Turbo                  |
-| `pnpm lint`         | Run linting for all workspaces                        | Turbo                  |
+### 4.1. Development
+
+| Command | Description | Orchestration |
+| :--- | :--- | :--- |
+| `pnpm instance:dev` | Full Community Stack: starts infra, then API and Web locally | Turbo + Docker Compose |
+| `pnpm instance:up` | Community infrastructure only (MongoDB Replica Set + Redis) | Docker Compose |
+| `pnpm instance:down` | Stops containers and kills local ports (3000, 5173) | Docker Compose + Shell |
+| `pnpm instance:reset` | Wipes volumes and restarts dev infrastructure | Docker Compose |
+| `pnpm portal:dev` | Full Platform Stack (Foundation) | Turbo + Docker Compose |
+| `pnpm portal:up` | Portal infrastructure only (MongoDB + Redis) | Docker Compose |
+| `pnpm portal:down` | Stops Portal containers and local ports (3001, 5174) | Docker Compose + Shell |
+| `pnpm docs:dev` | Start Knowledge Base (Docusaurus dev server) | PNPM Filter |
+| `pnpm typecheck` | Validate TypeScript across the entire monorepo | Turbo |
+| `pnpm lint` | Run linting for all workspaces | Turbo |
+
+### 4.2. Production & Staging
+
+Production and staging share the same `compose.prod.yaml` structure — only the `--env-file` flag differs.
+
+| Command | Target | Description |
+| :--- | :--- | :--- |
+| `pnpm instance:deploy` | Production | Builds and starts Instance stack (API + Web + Redis) using `.env.prod` |
+| `pnpm instance:deploy:staging` | Staging | Same stack, uses `.env.staging` (different Atlas cluster and secrets) |
+| `pnpm instance:deploy:down` | Prod/Staging | Stops the Instance production stack |
+| `pnpm portal:deploy` | Production | Builds and starts Portal stack using `.env.prod` |
+| `pnpm portal:deploy:staging` | Staging | Same stack, uses `.env.staging` |
+| `pnpm portal:deploy:down` | Prod/Staging | Stops the Portal production stack |
 
 ---
 
@@ -222,14 +239,76 @@ Modular management through Fastify decorators and a centralized registry to deco
 
 Designed for **Self-Hosted Excellence** on Hetzner Cloud.
 
-### 8.1. Orchestration
+### 8.1. Docker Compose Strategy (Dev vs. Production)
 
-- **Docker Compose**: Orchestrates the full stack (Apps, DB, Cache, MCP servers).
-- **Nginx**: Operates as a Reverse Proxy and static file server for production builds.
+Each bounded context (`instance/`, `portal/`) maintains two distinct Compose files with clearly separated responsibilities:
 
-### 8.2. Network & Latency
+| File | Environment | Services | Database |
+| :--- | :--- | :--- | :--- |
+| `compose.yaml` | Development | MongoDB Replica Set + Redis | Local Docker container |
+| `compose.prod.yaml` | Production & Staging | API + Web/Nginx + Redis | MongoDB Atlas (cloud) |
 
-All components reside in a private Docker network for sub-millisecond latency between APIs and Databases.
+**Development flow:**
+```
+pnpm instance:up   →  compose.yaml starts [MongoDB, Redis] in Docker
+pnpm instance:dev  →  API (tsx watch) + Web (vite) run on the host
+                       API connects to localhost:27017 (MongoDB in Docker)
+                       Web proxies /api → localhost:3000 (via Vite proxy)
+```
+
+**Production flow:**
+```
+pnpm instance:deploy  →  compose.prod.yaml builds and starts:
+                          [Nginx:80] → [instance-api:3000] → [Redis (internal)]
+                                              ↕
+                                   [MongoDB Atlas (cloud)]
+```
+
+The `compose.prod.yaml` has no MongoDB service by design. In production, the API connects to a cloud-hosted MongoDB Atlas cluster via URI injected from `.env.prod`.
+
+### 8.2. Dockerfile Architecture
+
+Each application owns its `Dockerfile` co-located within its directory, following the **Single Responsibility** and **Bounded Context** principles:
+
+```
+instance/apps/api/Dockerfile    # Multi-stage: turbo prune → build → pnpm deploy → runner
+instance/apps/web/Dockerfile    # Multi-stage: turbo prune → vite build → nginx:alpine
+portal/apps/api/Dockerfile      # Same pattern as instance/api
+portal/apps/web/Dockerfile      # Same pattern as instance/web
+```
+
+Shared infrastructure services (MongoDB, Redis) have their Dockerfiles in `instance/infrastructure/` because they are cross-app concerns, not owned by any single application.
+
+The API Dockerfiles use **Turborepo pruning** (`turbo prune`) and **`pnpm deploy`** to produce minimal images — no source code, no devDependencies, no monorepo symlinks in production.
+
+The Web Dockerfiles use a two-stage build: a Node.js builder compiles the React SPA via Vite (with `VITE_*` variables injected as Docker `ARG`), and the final stage serves the static output from `nginx:alpine` (~25MB image).
+
+### 8.3. Environment Variable Strategy
+
+Environment files follow the **Bounded Context** and **Single Responsibility** principles — each file has exactly one owner and lives alongside it:
+
+| File | Owner | Purpose | Git |
+| :--- | :--- | :--- | :--- |
+| `instance/.env.dev` | `compose.yaml` | Infra variable interpolation for dev | ignored |
+| `instance/.env.prod` | `compose.prod.yaml` | Infra + `VITE_*` build ARGs for prod | ignored |
+| `instance/.env.staging` | `compose.prod.yaml` | Same as prod, different secrets/cluster | ignored |
+| `instance/apps/api/.env.dev` | `@elo-instance/api` | Fastify runtime config for dev | ignored |
+| `instance/apps/api/.env.prod` | `@elo-instance/api` | Fastify runtime config for prod (Atlas URI) | ignored |
+| `instance/apps/web/.env.dev` | `@elo-instance/web` | Vite build-time vars for dev | ignored |
+| `*.env.*.example` | All above | Committed templates for onboarding | **tracked** |
+
+`VITE_*` variables (e.g., `VITE_TURNSTILE_SITE_KEY`) are **build-time** only — Vite bakes them statically into the JavaScript bundle during `vite build`. In Docker builds they are passed via `ARG` → `ENV` before the build step runs.
+
+### 8.4. Network & Latency
+
+All components in a deployment stack reside in a private named Docker bridge network (e.g., `elo-instance-network`) for sub-millisecond latency between the API and Redis. The Nginx container is the only service with an external port binding; the API is only reachable via the Nginx reverse proxy on the internal network.
+
+### 8.5. Nginx Configuration
+
+The Web containers (Nginx) handle two concerns:
+
+1. **SPA Routing**: All unknown paths fall back to `index.html` via `try_files $uri $uri/ /index.html`, allowing React Router to handle client-side navigation without 404s on page refresh.
+2. **API Reverse Proxy**: Requests to `/api/*` are proxied to the API container using its Docker service name as the hostname (`http://instance-api:3000/`). The trailing slash strips the `/api` prefix before forwarding to Fastify.
 
 ---
 

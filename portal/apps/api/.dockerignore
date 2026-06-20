@@ -1,0 +1,10 @@
+# Exclude files from the Docker build context.
+node_modules
+dist
+*.log
+logs/
+coverage/
+.env
+.env.*
+*.tsbuildinfo
+.turbo

@@ -46,16 +46,18 @@ const schema = {
 };
 
 const envConfig = async (server: FastifyInstance) => {
-  const rootEnvPath = path.join(__dirname, '../../.env');
+  const envFile = process.env.NODE_ENV === 'production' ? '.env.prod' : '.env.dev';
+  const envPath = path.join(__dirname, '../../', envFile);
 
   await server.register(fastifyEnv, {
     confKey: 'config',
     schema: schema,
     dotenv: {
-      path: rootEnvPath,
-      debug: process.env.NODE_ENV === 'development',
+      path: envPath,
+      debug: process.env.NODE_ENV !== 'production',
     },
   });
 };
 
 export default fp(envConfig);
+

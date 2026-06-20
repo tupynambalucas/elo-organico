@@ -1,0 +1,93 @@
+# =================================================================== #
+# Elo Instance — Production Compose
+# Runs: API + Web (Nginx) + Redis
+# Does NOT include MongoDB — production uses MongoDB Atlas (cloud).
+#
+# Usage:
+#   Production: docker compose -f instance/compose.prod.yaml --env-file instance/.env.prod up -d --build
+#   Staging:    docker compose -f instance/compose.prod.yaml --env-file instance/.env.staging up -d --build
+#
+# The --env-file supplies ${VAR} interpolations in this YAML (e.g. VITE_TURNSTILE_SITE_KEY).
+# Each service reads its own secrets from its own env_file (apps/api/.env.prod).
+# =================================================================== #
+
+name: elo-instance-prod
+
+services:
+  # ---------------------------------------------------------------- #
+  # API — Fastify Node.js Server
+  # Reads secrets from apps/api/.env.prod at runtime.
+  # NOT exposed to the host — Nginx proxies all traffic internally.
+  # ---------------------------------------------------------------- #
+  instance-api:
+    build:
+      context: ../
+      dockerfile: instance/apps/api/Dockerfile
+    image: elo-instance-api:latest
+    container_name: elo-instance-api
+    restart: unless-stopped
+    env_file:
+      - apps/api/.env.prod
+    expose:
+      - '3000'
+    depends_on:
+      instance-redis:
+        condition: service_healthy
+    networks:
+      - elo-instance-network
+    healthcheck:
+      test: ['CMD-SHELL', 'curl -f http://localhost:3000/health || exit 1']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # ---------------------------------------------------------------- #
+  # Web — React SPA served by Nginx
+  # Nginx also reverse-proxies /api/ to instance-api:3000.
+  # VITE_* vars are baked into the JS bundle at build time via ARG.
+  # ---------------------------------------------------------------- #
+  instance-web:
+    build:
+      context: ../
+      dockerfile: instance/apps/web/Dockerfile
+      args:
+        VITE_TURNSTILE_SITE_KEY: ${VITE_TURNSTILE_SITE_KEY}
+    image: elo-instance-web:latest
+    container_name: elo-instance-web
+    restart: unless-stopped
+    ports:
+      - '80:80'
+    depends_on:
+      instance-api:
+        condition: service_healthy
+    networks:
+      - elo-instance-network
+
+  # ---------------------------------------------------------------- #
+  # Redis — BullMQ message broker
+  # Required by the API for async job processing.
+  # ---------------------------------------------------------------- #
+  instance-redis:
+    build:
+      context: ./infrastructure/redis
+      dockerfile: Dockerfile
+    image: elo-instance-redis:latest
+    container_name: elo-instance-redis-prod
+    restart: unless-stopped
+    volumes:
+      - elo-instance-redis-prod-data:/data
+    networks:
+      - elo-instance-network
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+networks:
+  elo-instance-network:
+    driver: bridge
+
+volumes:
+  elo-instance-redis-prod-data:

@@ -71,33 +71,50 @@ While architected for a future Multi-tenant SaaS model, our current priority is 
 
 ## Quick Start
 
-Ensure you have **Node.js 22+** and **PNPM 11+** installed.
+Ensure you have **Node.js 22+**, **PNPM 11+**, and **Docker** installed.
 
 1.  **Install Dependencies:**
     ```bash
     pnpm install
     ```
 
-2.  **Set Up Environment:**
-    Copy the `.env.example` to `.env` and configure your local variables.
-
-3.  **Run Development Environment:**
-    We use **Turborepo** to orchestrate both infrastructure and application processes in a single lifecycle. For most cases, you should use the unified dev commands:
+2.  **Set Up Environment Files:**
+    Each bounded context and application has its own environment file. Copy every `.env.*.example` to its non-example counterpart and fill in your local values:
     ```bash
-    pnpm instance:dev       # Orchestrate Community (Infra + Web + API + Core)
-    pnpm portal:dev         # Orchestrate Platform (Infra + Web + API + Core)
+    # Instance infrastructure (for compose.yaml)
+    cp instance/.env.dev.example instance/.env.dev
+
+    # Instance API runtime
+    cp instance/apps/api/.env.dev.example instance/apps/api/.env.dev
+
+    # Instance Web build-time vars
+    cp instance/apps/web/.env.dev.example instance/apps/web/.env.dev
+    ```
+    Repeat for `portal/` when working on the Portal context.
+
+3.  **Start Local Infrastructure:**
+    Spin up the database and cache containers before starting the applications:
+    ```bash
+    pnpm instance:up   # Starts MongoDB (Replica Set) + Redis for Instance
     ```
 
-    You can also target specific components using our namespaced scripts:
+4.  **Run Development Environment:**
+    With infrastructure running, start the applications:
+    ```bash
+    pnpm instance:dev       # Starts API (tsx watch) + Web (Vite) for Instance
+    pnpm portal:dev         # Starts Portal stack
+    ```
+
+    You can also target specific components:
     ```bash
     pnpm docs:dev           # Start Documentation Hub (Docusaurus)
-    pnpm instance:web       # Start community shop/admin only
+    pnpm instance:web       # Start community Web only
     pnpm instance:api       # Start community API only
-    pnpm portal:web         # Start future official portal only
-    pnpm portal:api         # Start portal API foundation only
+    pnpm portal:web         # Start Portal Web only
+    pnpm portal:api         # Start Portal API only
     ```
 
-    Refer to the **[Cheat Sheet](./cheat-sheet.mdx)** for a complete list of commands.
+    Refer to the **[Cheat Sheet](./cheat-sheet.mdx)** for the complete command reference including production deploy commands.
 
 ---
 

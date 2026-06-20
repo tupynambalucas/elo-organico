@@ -61,14 +61,24 @@ The API is designed to leak as little information as possible about the system's
 
 ## 4. Environment Requirements
 
-The following security keys are mandatory for the **Instance** stack to operate:
+The following security keys are mandatory for the **Instance** stack to operate. Each variable lives in the env file owned by the responsible application, following the project's **Bounded Context** isolation principle.
 
-| Environment | Variable | Purpose |
+### 4.1. API (`instance/apps/api/.env.*`)
+
+| Variable | Purpose | Environments |
 | :--- | :--- | :--- |
-| **API** | `TURNSTILE_SECRET_KEY` | Server-side validation of Turnstile tokens. |
-| **Web** | `VITE_TURNSTILE_SITE_KEY` | Rendering the Turnstile widget on the frontend. |
-| **API** | `JWT_SECRET` | Signing authentication tokens. |
-| **API** | `SESSION_SECRET` | Encrypting session cookies. |
+| `TURNSTILE_SECRET_KEY` | Server-side Cloudflare Turnstile token verification. | dev, prod, staging |
+| `JWT_SECRET` | Signing and verifying JSON Web Tokens. | dev, prod, staging |
+| `SESSION_SECRET` | Encrypting signed HTTP-only session cookies. | dev, prod, staging |
+| `MONGO_URI` | MongoDB connection string. Dev uses local Replica Set; prod/staging uses MongoDB Atlas (`mongodb+srv://`). | dev, prod, staging |
+
+### 4.2. Web (`instance/apps/web/.env.*` / Docker `ARG`)
+
+| Variable | Purpose | Injection Method |
+| :--- | :--- | :--- |
+| `VITE_TURNSTILE_SITE_KEY` | Public site key for rendering the Turnstile widget. | Local dev: read from `.env.dev` by Vite (`--mode dev`). Production: injected as Docker `ARG` during image build — baked statically into the JS bundle. |
+
+> **Important:** `VITE_TURNSTILE_SITE_KEY` is a **public** key (safe to embed in client bundles). The `TURNSTILE_SECRET_KEY` is **private** and must only ever exist in the API environment, never in the Web app or committed to version control.
 
 ---
 _Last Updated: June 2026_
