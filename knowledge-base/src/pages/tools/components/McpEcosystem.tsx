@@ -11,6 +11,9 @@ export default function McpEcosystem() {
       </p>
 
       <h4>Integrated Context Servers</h4>
+      <p>
+        Every service is wrapped in a zero-dependency Node.js adapter (<code>sse-adapter.js</code>) that translates standard input/output (stdio) streams into network-accessible Server-Sent Events (SSE) and stateless Streamable HTTP endpoints.
+      </p>
       <ul>
         <li>
           <strong>GitHub MCP:</strong> Handles advanced repository orchestration. It automates

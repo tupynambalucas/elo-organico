@@ -1,64 +1,20 @@
 {
   "mcpServers": {
-    "mcp/github": {
-      "command": "docker",
-      "args": [
-        "compose",
-        "-f",
-        "tools/mcp/compose.yaml",
-        "-p",
-        "elo-mcp",
-        "run",
-        "--rm",
-        "-i",
-        "github"
-      ]
+    "github": {
+      "url": "http://localhost:3000/github/sse",
+      "lifecycle": "eager"
     },
-    "mcp/context7": {
-      "command": "docker",
-      "args": [
-        "compose",
-        "-f",
-        "tools/mcp/compose.yaml",
-        "-p",
-        "elo-mcp",
-        "run",
-        "--rm",
-        "-i",
-        "context7"
-      ]
+    "context7": {
+      "url": "http://localhost:3000/context7/sse",
+      "lifecycle": "eager"
     },
-    "mcp/browser": {
-      "command": "docker",
-      "args": [
-        "compose",
-        "-f",
-        "tools/mcp/compose.yaml",
-        "-p",
-        "elo-mcp",
-        "run",
-        "--rm",
-        "-i",
-        "browser"
-      ]
+    "browser": {
+      "url": "http://localhost:3000/browser/sse",
+      "lifecycle": "eager"
     },
-    "mcp/dockerhub": {
-      "command": "docker",
-      "args": [
-        "compose",
-        "-f",
-        "tools/mcp/compose.yaml",
-        "-p",
-        "elo-mcp",
-        "run",
-        "--rm",
-        "-i",
-        "dockerhub"
-      ]
-    },
-    "mcp/penpot": {
-      "command": "npx",
-      "args": ["-y", "mcp-remote", "http://localhost:4401/mcp", "--allow-http"]
+    "dockerhub": {
+      "url": "http://localhost:3000/dockerhub/sse",
+      "lifecycle": "eager"
     }
   }
 }

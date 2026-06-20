@@ -32,8 +32,14 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 
-# The server requires HUB_PAT_TOKEN environment variable for authenticated access.
-# Optional: HUB_USERNAME can be passed to enable repository management.
+# Install runtime dependencies and tsx for TypeScript execution
+RUN npm install fastify@^5.7.4 @fastify/sse@^0.4.0 tsx@^4.19.3
 
-# We use a shell wrapper to optionally pass the --username flag if HUB_USERNAME is defined
-ENTRYPOINT ["sh", "-c", "node dist/index.js --transport=stdio ${HUB_USERNAME:+--username=$HUB_USERNAME}"]
+# Copy the TypeScript SSE adapter
+COPY infrastructure/common/sse-adapter.ts ./sse-adapter.ts
+
+ENV PORT=3004
+ENV MCP_COMMAND=node
+
+# Use a shell entrypoint to construct the MCP_ARGS JSON array dynamically based on env vars
+ENTRYPOINT ["sh", "-c", "if [ -n \"$HUB_USERNAME\" ]; then export MCP_ARGS=\"[\\\"dist/index.js\\\", \\\"--transport=stdio\\\", \\\"--username\\\", \\\"$HUB_USERNAME\\\"]\"; else export MCP_ARGS=\"[\\\"dist/index.js\\\", \\\"--transport=stdio\\\"]\"; fi; exec npx tsx sse-adapter.ts"]

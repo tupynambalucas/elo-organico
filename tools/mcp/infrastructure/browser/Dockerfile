@@ -1,10 +1,18 @@
 FROM node:20-bookworm
 
-# Instala as dependências do Playwright e o Google Chrome
+# Install Playwright dependencies and Google Chrome
 RUN npx -y playwright@1.58.2 install --with-deps chrome
 
-# Instala o servidor MCP do Playwright globalmente ou usa npx
 WORKDIR /app
 
-# Executa o servidor MCP
-CMD ["npx", "-y", "@playwright/mcp"]
+# Install runtime dependencies and tsx for TypeScript execution
+RUN npm install fastify@^5.7.4 @fastify/sse@^0.4.0 tsx@^4.19.3
+
+# Copy the TypeScript SSE adapter
+COPY infrastructure/common/sse-adapter.ts ./sse-adapter.ts
+
+ENV PORT=3003
+ENV MCP_COMMAND=npx
+ENV MCP_ARGS='["-y", "@playwright/mcp"]'
+
+CMD ["npx", "tsx", "sse-adapter.ts"]

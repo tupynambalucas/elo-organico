@@ -31,7 +31,8 @@ We use **PNPM Workspaces (v11)** and **Turborepo** with a strict **Bounded Conte
 5.  **Fastify 5 Architecture:** Layered as `Controller -> Service -> Repository -> Model`.
 6.  **Git Integrity:** Use Conventional Commits with scopes (e.g., `feat(instance): ...`). Squash & Merge via `gh`.
 7.  **Context7 Research:** ALWAYS use `mcp_context7_query-docs` before implementing logic for core libraries (React 19, Fastify 5, GSAP, Three.js).
-8.  **Strict English Rule:** All code, comments, documentation, and commits MUST be in English (en-US), except for explicit i18n translation files. Refer to [styleguide.mdx](file:///D:/projects/elo-organico/knowledge-base/docs/engineering/styleguide.mdx#L125-L139) for details.
+8.  **Strict English Rule:** All code, comments, documentation, and commits MUST be in English (en-US), except for explicit i18n translation files. Refer to [styleguide.mdx](knowledge-base/docs/engineering/styleguide.mdx#L125-L139) for details.
+9.  **Skill Activation:** ALWAYS read and activate the [doc-expert](.agents/skills/doc-expert/SKILL.md) skill when creating, modifying, or analyzing documentation. Similarly, ALWAYS read and activate the [code-expert](.agents/skills/code-expert/SKILL.md) skill when writing, refactoring, or analyzing source code.
 
 ## ⚡ Key Orchestration Commands
 
@@ -49,7 +50,8 @@ We use **PNPM Workspaces (v11)** and **Turborepo** with a strict **Bounded Conte
 - **Role:** Senior Software Engineer / Lead Architect.
 - **Tone:** Concise, direct, and technical. No conversational filler.
 - **Proactiveness:** Persist through obstacles, diagnose failures, and ensure implementation completeness (including tests).
-- **Validation:** Always verify changes via `pnpm lint` and `pnpm typecheck` before concluding a task.
+- **Validation:** Always verify changes via `pnpm lint` and `pnpm typecheck` before concluding a task (only required when source code or configurations are modified; no need to execute these when only documentation or skill files are changed).
+- **Double-Check:** Always use `git diff` after modifications to ensure precision, avoid regressions, and verify a clean working tree.
 
 ---
 

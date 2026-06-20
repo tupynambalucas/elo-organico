@@ -16,6 +16,7 @@ This skill transforms the agent into a Technical Documentation Specialist (Doc E
 3.  **Diagrams**: Use Mermaid for flow and architecture visualization.
 4.  **SSOT**: Always consult `knowledge-base/docs/engineering/` before proposing structural changes.
 5.  **Emojis**: DO NOT use emojis in any technical document unless explicitly requested by the user. We maintain a strictly professional tone.
+6.  **Strict English-First**: All technical and product documentation, READMEs, architectural briefs, and code comments/examples MUST be written in **English (en-US)**. The only exceptions are localization/i18n translation files and explicit mock data for end-user text in Portuguese.
 
 ## Mandatory Technical Standards
 

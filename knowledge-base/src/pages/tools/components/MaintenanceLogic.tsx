@@ -41,17 +41,61 @@ export default function MaintenanceLogic() {
         </tbody>
       </table>
 
+      <h4>Workspace Orchestration</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Command</th>
+            <th>Engineering Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <code>pnpm mcp:up</code>
+            </td>
+            <td>Launches the entire Dockerized gateway and backend MCP stack.</td>
+          </tr>
+          <tr>
+            <td>
+              <code>pnpm mcp:down</code>
+            </td>
+            <td>Tears down the gateway and MCP container environment.</td>
+          </tr>
+          <tr>
+            <td>
+              <code>pnpm mcp:reset</code>
+            </td>
+            <td>Aggressive stack wipe (volumes removed) followed by full container rebuild.</td>
+          </tr>
+          <tr>
+            <td>
+              <code>pnpm mcp:[service]:up</code>
+            </td>
+            <td>Starts or rebuilds a single container (e.g. <code>github</code>).</td>
+          </tr>
+          <tr>
+            <td>
+              <code>pnpm mcp:[service]:down</code>
+            </td>
+            <td>Stops a single container (e.g. <code>github</code>).</td>
+          </tr>
+        </tbody>
+      </table>
+
       <h4>Workspace Structure</h4>
       <ul>
         <li>
-          <code>src/mcp/</code>: Source logic for custom context providers.
+          <code>tools/mcp/compose.yaml</code>: Defines services, dependencies, volumes, and gateway networks.
         </li>
         <li>
-          <code>mcp/infrastructure/</code>: Docker/Runtime configurations for the AI network.
+          <code>tools/mcp/gateway/</code>: Holds the Nginx configuration template (<code>nginx.conf</code>).
         </li>
         <li>
-          <code>mcp/config/</code>: Environment-specific secrets and orchestration variables (
-          <code>.env</code> files).
+          <code>tools/mcp/infrastructure/</code>: Contains individual multi-stage Dockerfiles and the zero-dependency <code>sse-adapter.js</code> wrapper.
+        </li>
+        <li>
+          <code>tools/mcp/config/</code>: Manages environment-specific secret configurations and <code>.env.*.example</code> templates.
         </li>
       </ul>
     </div>

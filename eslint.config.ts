@@ -54,6 +54,7 @@ export default defineConfig([
             'portal/packages/*/tsconfig.json',
             'shared/*/tsconfig.json',
             'studio/tsconfig.json',
+            'tools/tsconfig.json',
           ],
         },
         node: {
@@ -260,7 +261,41 @@ export default defineConfig([
   },
 
   // ========================================================================
-  // 6. TEST FILES - Regras Relaxadas para Testes
+  // 6. TOOLS WORKSPACE - Strict TypeScript Rules for MCP Infrastructure
+  // ========================================================================
+  {
+    name: 'monorepo/tools-workspace',
+    files: ['tools/**/*.ts'],
+    rules: {
+      // Server-side code may log to stdout/stderr for operational visibility
+      'no-console': ['warn', { allow: ['info', 'warn', 'error'] }],
+      // Enforce explicit return types on all exported functions for clarity
+      '@typescript-eslint/explicit-function-return-type': 'warn',
+      '@typescript-eslint/explicit-module-boundary-types': 'warn',
+      // Strict boolean expressions — no implicit truthiness checks
+      '@typescript-eslint/strict-boolean-expressions': 'error',
+      // Floating promise prevention is critical for Fastify async handlers
+      '@typescript-eslint/no-floating-promises': 'error',
+      '@typescript-eslint/no-misused-promises': [
+        'error',
+        {
+          checksVoidReturn: false,
+        },
+      ],
+      // Prevent implicit any types leaking into infrastructure code
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-unsafe-assignment': 'error',
+      '@typescript-eslint/no-unsafe-member-access': 'error',
+      '@typescript-eslint/no-unsafe-call': 'error',
+      '@typescript-eslint/no-unsafe-return': 'error',
+      // Enforce await correctness
+      '@typescript-eslint/await-thenable': 'error',
+      '@typescript-eslint/require-await': 'warn',
+    },
+  },
+
+  // ========================================================================
+  // 7. TEST FILES - Regras Relaxadas para Testes
   // ========================================================================
   {
     name: 'monorepo/test-files',

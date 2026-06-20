@@ -10,6 +10,6 @@
       "@tools/*": ["./src/*"]
     }
   },
-  "include": ["scripts/**/*.ts", "src/**/*.ts"],
+  "include": ["scripts/**/*.ts", "src/**/*.ts", "mcp/**/*.ts"],
   "exclude": ["node_modules", "dist", "penpot"]
 }

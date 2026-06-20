@@ -5,36 +5,33 @@ export default function NetworkArchitecture() {
     <div>
       <h3>Isolated Infrastructure Architecture</h3>
       <p>
-        Security is maintained through a zero-trust network model for AI agents. Automation tools
-        operate within an isolated Docker environment (<code>elo-mcp-net</code>), preventing lateral
-        movement within the host infrastructure.
+        Security and scaling are maintained through a zero-trust network topology. Automation tools
+        and MCP servers operate within an isolated, explicitly named Docker bridge network (<code>elo-mcp-net</code>),
+        preventing lateral movement within the host or cloud infrastructure.
       </p>
 
       <h4>Network Topology & Connectivity</h4>
       <ul>
         <li>
-          <strong>Private Bridge:</strong> All MCP services communicate over a dedicated bridge
-          network. This network is air-gapped from the host's primary interfaces, requiring explicit
-          port mapping for any external access.
+          <strong>Unified Gateway (Nginx):</strong> A reverse proxy container (<code>elo-mcp-gateway</code>)
+          exposes port <code>3000</code> to the host and port <code>80</code> internally to the Docker bridge network.
+          It acts as the <code>default_server</code> catch-all, routing prefix paths (e.g. <code>/github/sse</code>)
+          to backend containers while disabling caching and buffering for Server-Sent Events (SSE).
         </li>
         <li>
-          <strong>Cross-Boundary Communication:</strong>
-          <ul>
-            <li>
-              <strong>Host-to-Container:</strong> Local development servers (Vite, Docusaurus) are
-              accessed via <code>http://host.docker.internal:[PORT]</code>.
-            </li>
-            <li>
-              <strong>Binding Requirements:</strong> To accept connections from the isolated
-              network, host-side services <strong>must</strong> bind to <code>0.0.0.0</code> (e.g.,{' '}
-              <code>docusaurus start --host 0.0.0.0</code>).
-            </li>
-          </ul>
+          <strong>Internal Domain Routing:</strong> The gateway is aliased as <code>elo.internal.tools</code> on the
+          network. Internal clients, such as containerized Large Language Models (LLMs) or agents, connect
+          using clean URLs (e.g. <code>http://elo.internal.tools/github/sse</code>) without port designations,
+          leveraging standard HTTP port 80.
         </li>
         <li>
-          <strong>Resource Security:</strong> Multi-stage Dockerfiles ensure that only the required
-          runtime binaries are included in the final images, significantly reducing the attack
-          surface.
+          <strong>Host-to-Container Bridge:</strong> Local CLI tools (e.g. Google Antigravity CLI) connect
+          to the gateway from the host loopback interface via <code>http://localhost:3000/[service]/sse</code>.
+        </li>
+        <li>
+          <strong>Buffered stdio Stream Mapping:</strong> The Node.js wrapper handles request buffering and strict JSON-RPC
+          <code>id</code> matching on child process streams. This prevents payload truncation and <code>unexpected EOF</code>
+          errors caused by Docker pseudo-TTY line-wrapping or multi-chunk stdout delivery (e.g. during large <code>tools/list</code> payloads).
         </li>
       </ul>
     </div>

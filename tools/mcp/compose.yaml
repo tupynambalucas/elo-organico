@@ -1,10 +1,28 @@
 name: elo-mcp
 
 services:
+  gateway:
+    build:
+      context: .
+      dockerfile: gateway/Dockerfile
+    container_name: elo-mcp-gateway
+    restart: always
+    ports:
+      - "3000:3000"
+    networks:
+      elo-mcp-net:
+        aliases:
+          - elo.internal.tools
+    depends_on:
+      - github
+      - context7
+      - browser
+      - dockerhub
+
   github:
     build:
-      context: ./infrastructure/github
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: infrastructure/github/Dockerfile
     container_name: elo-mcp-github
     restart: always
     env_file:
@@ -14,8 +32,8 @@ services:
 
   context7:
     build:
-      context: ./infrastructure/context7
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: infrastructure/context7/Dockerfile
     container_name: elo-mcp-context7
     restart: always
     env_file:
@@ -25,8 +43,8 @@ services:
 
   browser:
     build:
-      context: ./infrastructure/browser
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: infrastructure/browser/Dockerfile
     container_name: elo-mcp-browser
     restart: always
     env_file:
@@ -40,8 +58,8 @@ services:
 
   dockerhub:
     build:
-      context: ./infrastructure/dockerhub
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: infrastructure/dockerhub/Dockerfile
     container_name: elo-mcp-dockerhub
     restart: always
     env_file:
@@ -51,4 +69,5 @@ services:
 
 networks:
   elo-mcp-net:
+    name: elo-mcp-net
     driver: bridge

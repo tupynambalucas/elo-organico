@@ -15,6 +15,27 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
-    "build": "tsc"
+    "build": "tsc",
+    "mcp:up": "docker compose -f mcp/compose.yaml up -d",
+    "mcp:down": "docker compose -f mcp/compose.yaml down",
+    "mcp:reset": "docker compose -f mcp/compose.yaml down --volumes && pnpm mcp:up",
+    "mcp:github:up": "docker compose -f mcp/compose.yaml up -d github",
+    "mcp:github:down": "docker compose -f mcp/compose.yaml stop github",
+    "mcp:context7:up": "docker compose -f mcp/compose.yaml up -d context7",
+    "mcp:context7:down": "docker compose -f mcp/compose.yaml stop context7",
+    "mcp:browser:up": "docker compose -f mcp/compose.yaml up -d browser",
+    "mcp:browser:down": "docker compose -f mcp/compose.yaml stop browser",
+    "mcp:dockerhub:up": "docker compose -f mcp/compose.yaml up -d dockerhub",
+    "mcp:dockerhub:down": "docker compose -f mcp/compose.yaml stop dockerhub"
+  },
+  "dependencies": {
+    "fastify": "catalog:api-stack",
+    "@fastify/sse": "catalog:api-stack",
+    "@fastify/http-proxy": "catalog:api-stack"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "catalog:"
   }
 }

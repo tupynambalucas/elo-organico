@@ -4,6 +4,7 @@
     { "path": "./tsconfig.node.json" },
 
     { "path": "./studio" },
+    { "path": "./tools" },
 
     // Instance References
     { "path": "./instance/apps/web/tsconfig.build.json" },

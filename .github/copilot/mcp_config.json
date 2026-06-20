@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "mcp/context7": {
+      "command": "docker",
+      "args": [
+        "compose",
+        "-f",
+        "tools/mcp/compose.yaml",
+        "-p",
+        "elo-mcp",
+        "run",
+        "--rm",
+        "-i",
+        "context7"
+      ]
+    }
+  }
+}
