@@ -59,14 +59,12 @@ Starts only the local infrastructure services. Applications run on the host via 
 
 Builds and deploys the full application stack (API + Web/Nginx + Redis). No MongoDB — production connects to MongoDB Atlas. Production and staging reuse the same Compose file; only the `--env-file` differs.
 
-| Scope | Command | Description |
-| :--- | :--- | :--- |
-| **Instance** | `pnpm instance:deploy` | Builds and starts Instance stack with `.env.prod`. |
-| **Instance** | `pnpm instance:deploy:staging` | Same stack with `.env.staging` (staging Atlas cluster). |
-| **Instance** | `pnpm instance:deploy:down` | Stops the Instance production/staging stack. |
-| **Portal** | `pnpm portal:deploy` | Builds and starts Portal stack with `.env.prod`. |
-| **Portal** | `pnpm portal:deploy:staging` | Same stack with `.env.staging`. |
-| **Portal** | `pnpm portal:deploy:down` | Stops the Portal production/staging stack. |
+| **Instance** | `pnpm instance:prod` | Builds and starts Instance stack with `.env.prod`. |
+| **Instance** | `pnpm instance:staging` | Same stack with `.env.staging` (staging Atlas cluster). |
+| **Instance** | `pnpm instance:prod:down` | Stops the Instance production/staging stack. |
+| **Portal** | `pnpm portal:prod` | Builds and starts Portal stack with `.env.prod`. |
+| **Portal** | `pnpm portal:staging` | Same stack with `.env.staging`. |
+| **Portal** | `pnpm portal:prod:down` | Stops the Portal production/staging stack. |
 
 ---
 

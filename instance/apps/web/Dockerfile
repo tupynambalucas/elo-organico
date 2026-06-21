@@ -8,7 +8,7 @@
 # ---- Stage 1: Base ----
 FROM node:22-slim AS base
 ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
+ENV PATH="$PNPM_HOME:$PNPM_HOME/bin:$PATH"
 RUN corepack enable pnpm
 
 # ---- Stage 2: Pruner ----
@@ -39,7 +39,8 @@ RUN --mount=type=cache,id=pnpm-instance-web,target=/pnpm/store \
 
 # Copy full source and build
 COPY --from=pruner /app/out/full/ .
-RUN pnpm --filter @elo-instance/web build
+COPY --from=pruner /app/tsconfig.base.json ./tsconfig.base.json
+RUN pnpm --filter @elo-instance/web... build
 
 # ---- Stage 4: Runner (Nginx) ----
 # Serves the built static files. Final image is ~25MB.

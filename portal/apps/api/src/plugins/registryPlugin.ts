@@ -52,6 +52,10 @@ const serverAutoRegistry: FastifyPluginAsync = async function (server: FastifyIn
 
   server.decorate('authController', authController);
 
+  server.get('/health', async () => {
+    return { status: 'ok' };
+  });
+
   await server.register(ApiPlugin, { prefix: '/api' });
 
   const allowedOrigins = ['http://localhost:5173', 'http://localhost:80'];

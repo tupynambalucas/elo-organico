@@ -14,7 +14,7 @@ services:
   # ---------------------------------------------------------------- #
   # API — Fastify Node.js Server
   # ---------------------------------------------------------------- #
-  portal-api:
+  api:
     build:
       context: ../
       dockerfile: portal/apps/api/Dockerfile
@@ -22,16 +22,18 @@ services:
     container_name: elo-portal-api
     restart: unless-stopped
     env_file:
-      - apps/api/.env.prod
+      - apps/api/.env.${APP_ENV:-prod}
     expose:
       - '3001'
     depends_on:
-      portal-redis:
+      redis:
         condition: service_healthy
     networks:
-      - elo-portal-network
+      network:
+        aliases:
+          - elo.portal.prod
     healthcheck:
-      test: ['CMD-SHELL', 'curl -f http://localhost:3001/health || exit 1']
+      test: ['CMD', 'node', '-e', 'const http = require("http"); const req = http.request("http://localhost:3001/health", (res) => { process.exit(res.statusCode === 200 ? 0 : 1); }); req.on("error", () => process.exit(1)); req.end();']
       interval: 30s
       timeout: 10s
       retries: 3
@@ -40,7 +42,7 @@ services:
   # ---------------------------------------------------------------- #
   # Web — React SPA served by Nginx
   # ---------------------------------------------------------------- #
-  portal-web:
+  web:
     build:
       context: ../
       dockerfile: portal/apps/web/Dockerfile
@@ -52,15 +54,15 @@ services:
     ports:
       - '8080:80'
     depends_on:
-      portal-api:
+      api:
         condition: service_healthy
     networks:
-      - elo-portal-network
+      - network
 
   # ---------------------------------------------------------------- #
   # Redis — BullMQ message broker
   # ---------------------------------------------------------------- #
-  portal-redis:
+  redis:
     build:
       context: ./infrastructure/redis
       dockerfile: Dockerfile
@@ -68,9 +70,9 @@ services:
     container_name: elo-portal-redis-prod
     restart: unless-stopped
     volumes:
-      - elo-portal-redis-prod-data:/data
+      - redis-data:/data
     networks:
-      - elo-portal-network
+      - network
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
       interval: 10s
@@ -78,8 +80,10 @@ services:
       retries: 3
 
 networks:
-  elo-portal-network:
+  network:
+    name: elo_portal_network
     driver: bridge
 
 volumes:
-  elo-portal-redis-prod-data:
+  redis-data:
+    name: elo_portal_redis_prod_data

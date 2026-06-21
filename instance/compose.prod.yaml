@@ -19,7 +19,7 @@ services:
   # Reads secrets from apps/api/.env.prod at runtime.
   # NOT exposed to the host — Nginx proxies all traffic internally.
   # ---------------------------------------------------------------- #
-  instance-api:
+  api:
     build:
       context: ../
       dockerfile: instance/apps/api/Dockerfile
@@ -27,16 +27,18 @@ services:
     container_name: elo-instance-api
     restart: unless-stopped
     env_file:
-      - apps/api/.env.prod
+      - apps/api/.env.${APP_ENV:-prod}
     expose:
       - '3000'
     depends_on:
-      instance-redis:
+      redis:
         condition: service_healthy
     networks:
-      - elo-instance-network
+      network:
+        aliases:
+          - elo.instance.prod
     healthcheck:
-      test: ['CMD-SHELL', 'curl -f http://localhost:3000/health || exit 1']
+      test: ['CMD', 'node', '-e', 'const http = require("http"); const req = http.request("http://localhost:3000/health", (res) => { process.exit(res.statusCode === 200 ? 0 : 1); }); req.on("error", () => process.exit(1)); req.end();']
       interval: 30s
       timeout: 10s
       retries: 3
@@ -47,7 +49,7 @@ services:
   # Nginx also reverse-proxies /api/ to instance-api:3000.
   # VITE_* vars are baked into the JS bundle at build time via ARG.
   # ---------------------------------------------------------------- #
-  instance-web:
+  web:
     build:
       context: ../
       dockerfile: instance/apps/web/Dockerfile
@@ -59,16 +61,16 @@ services:
     ports:
       - '80:80'
     depends_on:
-      instance-api:
+      api:
         condition: service_healthy
     networks:
-      - elo-instance-network
+      - network
 
   # ---------------------------------------------------------------- #
   # Redis — BullMQ message broker
   # Required by the API for async job processing.
   # ---------------------------------------------------------------- #
-  instance-redis:
+  redis:
     build:
       context: ./infrastructure/redis
       dockerfile: Dockerfile
@@ -76,9 +78,9 @@ services:
     container_name: elo-instance-redis-prod
     restart: unless-stopped
     volumes:
-      - elo-instance-redis-prod-data:/data
+      - redis-data:/data
     networks:
-      - elo-instance-network
+      - network
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
       interval: 10s
@@ -86,8 +88,10 @@ services:
       retries: 3
 
 networks:
-  elo-instance-network:
+  network:
+    name: elo_instance_network
     driver: bridge
 
 volumes:
-  elo-instance-redis-prod-data:
+  redis-data:
+    name: elo_instance_redis_prod_data

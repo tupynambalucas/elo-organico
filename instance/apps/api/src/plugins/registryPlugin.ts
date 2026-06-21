@@ -70,6 +70,10 @@ const serverAutoRegistry: FastifyPluginAsync = async function (server: FastifyIn
   server.decorate('productController', productController);
   server.decorate('cycleController', cycleController);
 
+  server.get('/health', async () => {
+    return { status: 'ok' };
+  });
+
   await server.register(ApiPlugin, { prefix: '/api' });
   await server.register(queuePlugin, { cycleService });
 

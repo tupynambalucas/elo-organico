@@ -12,6 +12,7 @@
     "directory": "instance/apps/web"
   },
   "scripts": {
+    "clean": "rimraf dist tsconfig.tsbuildinfo",
     "dev": "vite --mode dev",
     "instance:dev": "pnpm dev",
     "build": "tsc -p tsconfig.build.json && vite build",

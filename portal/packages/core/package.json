@@ -26,7 +26,7 @@
   ],
   "scripts": {
     "clean": "rimraf dist tsconfig.tsbuildinfo",
-    "build": "pnpm clean && tsc -b",
+    "build": "tsc -b",
     "dev": "pnpm clean && tsc -b -w",
     "portal:dev": "pnpm dev",
     "typecheck": "tsc --noEmit",

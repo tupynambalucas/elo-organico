@@ -51,7 +51,6 @@ const envConfig = async (server: FastifyInstance) => {
     schema: schema,
     dotenv: {
       path: rootEnvPath,
-      debug: process.env.NODE_ENV === 'development',
     },
   });
 };

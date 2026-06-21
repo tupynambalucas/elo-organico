@@ -6,13 +6,13 @@ This directory contains the Dockerized gateway and server environment for Model 
 
 The system uses a hub-and-spoke gateway model:
 
-1. **Nginx Reverse Proxy (Gateway):** Acts as the single entrypoint on port 3000 (external) and port 80 (internal to the network). It routes path prefixes (e.g., `/github/*`) to individual MCP backend adapters.
+1. **Nginx Reverse Proxy (Gateway):** Acts as the single entrypoint on port 3005 (external) and port 80 (internal to the network). It routes path prefixes (e.g., `/github/*`) to individual MCP backend adapters.
 2. **Node.js SSE & Streamable-HTTP Adapters:** Native, zero-dependency Node.js wrappers (`sse-adapter.js`) that translate incoming HTTP POST/GET requests into stdio streams for the CLI-based MCP servers, implementing the MCP Server-Sent Events (SSE) standard.
 3. **Bridge Network Routing:** Containers communicate internally over a dedicated Docker bridge network named `elo-mcp-net`. The gateway is aliased as `elo.internal.tools` on this network.
 
 ```mermaid
 graph TD
-    Client[LLM Client / Antigravity CLI] -- "http://localhost:3000/github/sse" --> Gateway[Nginx Gateway: Port 3000]
+    Client[LLM Client / Antigravity CLI] -- "http://localhost:3005/github/sse" --> Gateway[Nginx Gateway: Port 3005]
     InternalLLM[Internal LLM Service on elo-mcp-net] -- "http://elo.internal.tools/github/sse" --> Gateway
     Gateway -- proxy_pass: 3001 --> Github[elo-mcp-github]
     Gateway -- proxy_pass: 3002 --> Context7[elo-mcp-context7]
@@ -100,19 +100,19 @@ For local development tools (like Google Antigravity CLI running directly on the
 {
   "mcpServers": {
     "github": {
-      "url": "http://localhost:3000/github/sse",
+      "url": "http://localhost:3005/github/sse",
       "lifecycle": "eager"
     },
     "context7": {
-      "url": "http://localhost:3000/context7/sse",
+      "url": "http://localhost:3005/context7/sse",
       "lifecycle": "eager"
     },
     "browser": {
-      "url": "http://localhost:3000/browser/sse",
+      "url": "http://localhost:3005/browser/sse",
       "lifecycle": "eager"
     },
     "dockerhub": {
-      "url": "http://localhost:3000/dockerhub/sse",
+      "url": "http://localhost:3005/dockerhub/sse",
       "lifecycle": "eager"
     }
   }

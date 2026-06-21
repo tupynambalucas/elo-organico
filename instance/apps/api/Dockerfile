@@ -8,7 +8,7 @@
 # Slim Node.js image with pnpm enabled via corepack.
 FROM node:22-slim AS base
 ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
+ENV PATH="$PNPM_HOME:$PNPM_HOME/bin:$PATH"
 RUN corepack enable pnpm
 
 # ---- Stage 2: Pruner ----
@@ -32,7 +32,8 @@ RUN --mount=type=cache,id=pnpm-instance-api,target=/pnpm/store \
     pnpm install --frozen-lockfile
 # Copy full source and build
 COPY --from=pruner /app/out/full/ .
-RUN pnpm --filter @elo-instance/api build
+COPY --from=pruner /app/tsconfig.base.json ./tsconfig.base.json
+RUN pnpm --filter @elo-instance/api... build
 
 # ---- Stage 4: Deployer ----
 # Uses `pnpm deploy` to create a self-contained production directory:
@@ -42,7 +43,7 @@ FROM base AS deployer
 WORKDIR /app
 COPY --from=builder /app .
 RUN --mount=type=cache,id=pnpm-instance-api,target=/pnpm/store \
-    pnpm --filter @elo-instance/api --prod deploy /prod/api
+    pnpm --filter @elo-instance/api --prod deploy --legacy /prod/api
 
 # ---- Stage 5: Runner ----
 # Minimal production image with non-root user for security.

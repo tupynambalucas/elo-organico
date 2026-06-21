@@ -1,7 +1,7 @@
 name: elo-instance
 
 services:
-  instance-db:
+  db:
     build:
       context: ./infrastructure/mongodb
       dockerfile: Dockerfile
@@ -17,16 +17,16 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
       MONGO_INITDB_DATABASE: ${MONGO_DB_NAME}
     volumes:
-      - elo-instance-mongo-data:/data/db
+      - mongo-data:/data/db
     networks:
-      - elo-instance-network
+      - network
     healthcheck:
       test: ['CMD', 'mongosh', '--eval', "db.adminCommand('ping').ok"]
       interval: 10s
       timeout: 5s
       retries: 5
 
-  instance-db-seed:
+  db-seed:
     build:
       context: ./infrastructure/mongodb
       dockerfile: Dockerfile
@@ -34,7 +34,7 @@ services:
     # Overrides the entrypoint to run the seed script
     entrypoint: ['./seed.sh']
     depends_on:
-      instance-db:
+      db:
         condition: service_healthy
     env_file:
       - .env.dev
@@ -46,9 +46,9 @@ services:
       ADMIN_EMAIL_SEED: ${ADMIN_EMAIL_SEED}
       ADMIN_PASS_SEED: ${ADMIN_PASS_SEED}
     networks:
-      - elo-instance-network
+      - network
 
-  instance-redis:
+  redis:
     build:
       context: ./infrastructure/redis
       dockerfile: Dockerfile
@@ -57,9 +57,9 @@ services:
     ports:
       - '6379:6379'
     volumes:
-      - elo-instance-redis-data:/data
+      - redis-data:/data
     networks:
-      - elo-instance-network
+      - network
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
       interval: 10s
@@ -67,9 +67,12 @@ services:
       retries: 3
 
 networks:
-  elo-instance-network:
+  network:
+    name: elo_instance_network
     driver: bridge
 
 volumes:
-  elo-instance-mongo-data:
-  elo-instance-redis-data:
+  mongo-data:
+    name: elo_instance_mongo_data
+  redis-data:
+    name: elo_instance_redis_data

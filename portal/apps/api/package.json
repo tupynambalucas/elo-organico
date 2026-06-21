@@ -16,7 +16,7 @@
     "clean": "rimraf dist tsconfig.tsbuildinfo",
     "dev": "tsx watch src/index.ts",
     "portal:dev": "pnpm dev",
-    "build": "pnpm run clean && tsc -p tsconfig.build.json",
+    "build": "tsc -p tsconfig.build.json",
     "seed": "tsx src/scripts/seedAdmin.ts",
     "start": "node dist/index.js",
     "typecheck": "tsc --noEmit",

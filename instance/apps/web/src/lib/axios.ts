@@ -103,7 +103,7 @@ export const initializeCsrf = async (): Promise<void> => {
     const response = await api.get<CsrfResponse>('/csrf-token');
     setCsrfToken(response.data.token);
   } catch (error) {
-    if (process.env.NODE_ENV !== 'production') {
+    if (import.meta.env.DEV === true) {
       console.error('CSRF Initialization failed:', error);
     }
   }

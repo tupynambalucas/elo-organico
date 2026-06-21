@@ -118,12 +118,12 @@ Production and staging share the same `compose.prod.yaml` structure — only the
 
 | Command | Target | Description |
 | :--- | :--- | :--- |
-| `pnpm instance:deploy` | Production | Builds and starts Instance stack (API + Web + Redis) using `.env.prod` |
-| `pnpm instance:deploy:staging` | Staging | Same stack, uses `.env.staging` (different Atlas cluster and secrets) |
-| `pnpm instance:deploy:down` | Prod/Staging | Stops the Instance production stack |
-| `pnpm portal:deploy` | Production | Builds and starts Portal stack using `.env.prod` |
-| `pnpm portal:deploy:staging` | Staging | Same stack, uses `.env.staging` |
-| `pnpm portal:deploy:down` | Prod/Staging | Stops the Portal production stack |
+| `pnpm instance:prod` | Production | Builds and starts Instance stack (API + Web + Redis) using `.env.prod` |
+| `pnpm instance:staging` | Staging | Same stack, uses `.env.staging` (different Atlas cluster and secrets) |
+| `pnpm instance:prod:down` | Prod/Staging | Stops the Instance production stack |
+| `pnpm portal:prod` | Production | Builds and starts Portal stack using `.env.prod` |
+| `pnpm portal:staging` | Staging | Same stack, uses `.env.staging` |
+| `pnpm portal:prod:down` | Prod/Staging | Stops the Portal production stack |
 
 ---
 
@@ -258,7 +258,7 @@ pnpm instance:dev  →  API (tsx watch) + Web (vite) run on the host
 
 **Production flow:**
 ```
-pnpm instance:deploy  →  compose.prod.yaml builds and starts:
+pnpm instance:prod  →  compose.prod.yaml builds and starts:
                           [Nginx:80] → [instance-api:3000] → [Redis (internal)]
                                               ↕
                                    [MongoDB Atlas (cloud)]

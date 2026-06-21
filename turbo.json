@@ -3,9 +3,13 @@
   "globalEnv": ["NODE_ENV"],
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "clean", "typecheck", "lint"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**", "build/**"],
       "env": ["VITE_*", "DOCUSAURUS_*"]
+    },
+    "clean": {
+      "cache": false
     },
     "lint": {
       "dependsOn": []
@@ -14,31 +18,16 @@
       "dependsOn": ["^typecheck"]
     },
     "dev": {
-      "dependsOn": ["//#instance:up", "//#portal:up"],
       "cache": false,
       "persistent": true
     },
     "instance:dev": {
-      "dependsOn": ["//#instance:up"],
       "cache": false,
       "persistent": true
-    },
-    "//#instance:up": {
-      "cache": false
     },
     "portal:dev": {
-      "dependsOn": ["//#portal:up"],
       "cache": false,
       "persistent": true
-    },
-    "//#portal:up": {
-      "cache": false
-    },
-    "//#mcp:up": {
-      "cache": false
-    },
-    "//#penpot:up": {
-      "cache": false
     },
     "start": {
       "cache": false,

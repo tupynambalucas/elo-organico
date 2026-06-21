@@ -1,19 +1,19 @@
 {
   "mcpServers": {
     "github": {
-      "url": "http://localhost:3000/github/sse",
+      "url": "http://localhost:3005/github/sse",
       "lifecycle": "eager"
     },
     "context7": {
-      "url": "http://localhost:3000/context7/sse",
+      "url": "http://localhost:3005/context7/sse",
       "lifecycle": "eager"
     },
     "browser": {
-      "url": "http://localhost:3000/browser/sse",
+      "url": "http://localhost:3005/browser/sse",
       "lifecycle": "eager"
     },
     "dockerhub": {
-      "url": "http://localhost:3000/dockerhub/sse",
+      "url": "http://localhost:3005/dockerhub/sse",
       "lifecycle": "eager"
     }
   }

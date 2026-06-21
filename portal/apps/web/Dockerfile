@@ -7,7 +7,7 @@
 # ---- Stage 1: Base ----
 FROM node:22-slim AS base
 ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
+ENV PATH="$PNPM_HOME:$PNPM_HOME/bin:$PATH"
 RUN corepack enable pnpm
 
 # ---- Stage 2: Pruner ----
@@ -30,7 +30,8 @@ RUN --mount=type=cache,id=pnpm-portal-web,target=/pnpm/store \
     pnpm install --frozen-lockfile
 
 COPY --from=pruner /app/out/full/ .
-RUN pnpm --filter @elo-portal/web build
+COPY --from=pruner /app/tsconfig.base.json ./tsconfig.base.json
+RUN pnpm --filter @elo-portal/web... build
 
 # ---- Stage 4: Runner (Nginx) ----
 FROM nginx:alpine AS runner

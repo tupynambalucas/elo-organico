@@ -12,6 +12,7 @@
     "directory": "portal/apps/web"
   },
   "scripts": {
+    "clean": "rimraf dist tsconfig.tsbuildinfo",
     "dev": "vite",
     "portal:dev": "pnpm dev",
     "build": "tsc -p tsconfig.build.json && vite build",

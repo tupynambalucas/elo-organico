@@ -54,7 +54,6 @@ const envConfig = async (server: FastifyInstance) => {
     schema: schema,
     dotenv: {
       path: envPath,
-      debug: process.env.NODE_ENV !== 'production',
     },
   });
 };
