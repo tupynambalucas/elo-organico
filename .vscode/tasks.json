@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Copilot CLI (New Window)",
+      "label": "[Host] Copilot CLI",
       "type": "shell",
       "command": "wt",
       "args": [
@@ -23,7 +23,7 @@
       "problemMatcher": []
     },
     {
-      "label": "Antigravity CLI (New Window)",
+      "label": "[Host] Antigravity CLI",
       "type": "shell",
       "command": "wt",
       "args": [
@@ -53,6 +53,49 @@
         "panel": "new"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "[Docker] Copilot CLI",
+      "type": "shell",
+      "command": "wt",
+      "args": [
+        "-w",
+        "new",
+        "-d",
+        "${workspaceFolder}",
+        "pwsh",
+        "-NoLogo",
+        "-NoExit",
+        "-Command",
+        "docker exec -it agent-copilot copilot"
+      ],
+      "presentation": {
+        "reveal": "never",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "[Docker] Antigravity CLI",
+      "type": "shell",
+      "command": "wt",
+      "args": [
+        "-w",
+        "new",
+        "-d",
+        "${workspaceFolder}",
+        "pwsh",
+        "-NoLogo",
+        "-NoExit",
+        "-Command",
+        "docker exec -it agent-antigravity agy"
+      ],
+      "presentation": {
+        "reveal": "never",
+        "panel": "new"
+      },
+      "problemMatcher": []
     }
   ]
 }
+
