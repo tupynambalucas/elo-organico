@@ -287,15 +287,20 @@ The Web Dockerfiles use a two-stage build: a Node.js builder compiles the React 
 
 Environment files follow the **Bounded Context** and **Single Responsibility** principles — each file has exactly one owner and lives alongside it:
 
-| File | Owner | Purpose | Git |
+| File Pattern | Owner / Target | Purpose / Scope | Git |
 | :--- | :--- | :--- | :--- |
-| `instance/.env.dev` | `compose.yaml` | Infra variable interpolation for dev | ignored |
-| `instance/.env.prod` | `compose.prod.yaml` | Infra + `VITE_*` build ARGs for prod | ignored |
-| `instance/.env.staging` | `compose.prod.yaml` | Same as prod, different secrets/cluster | ignored |
-| `instance/apps/api/.env.dev` | `@elo-instance/api` | Fastify runtime config for dev | ignored |
-| `instance/apps/api/.env.prod` | `@elo-instance/api` | Fastify runtime config for prod (Atlas URI) | ignored |
-| `instance/apps/web/.env.dev` | `@elo-instance/web` | Vite build-time vars for dev | ignored |
-| `*.env.*.example` | All above | Committed templates for onboarding | **tracked** |
+| `[context]/.env.dev` | `compose.yaml` | Dev infrastructure environment and DB initialization variables (MongoDB/Redis) | ignored |
+| `[context]/.env.prod` | `compose.prod.yaml` | Production container build args, network names, and host ports | ignored |
+| `[context]/.env.staging` | `compose.prod.yaml` | Staging container build args, network names, and host ports | ignored |
+| `[context]/apps/api/.env.dev` | `@elo-[context]/api` | Dev Fastify API runtime configuration (local DB keys, secrets, rate-limit options) | ignored |
+| `[context]/apps/api/.env.prod` | `@elo-[context]/api` | Production Fastify API runtime configuration (cloud MongoDB Atlas, prod secrets) | ignored |
+| `[context]/apps/api/.env.staging` | `@elo-[context]/api` | Staging Fastify API runtime configuration (staging MongoDB Atlas, staging secrets) | ignored |
+| `[context]/apps/web/.env.dev` | `@elo-[context]/web` | Dev Vite build-time public parameters (e.g. Turnstile site key) | ignored |
+| `[context]/apps/web/.env.prod` | `@elo-[context]/web` | Production Vite build-time parameters (injected as Docker build ARGs) | ignored |
+| `[context]/apps/web/.env.staging` | `@elo-[context]/web` | Staging Vite build-time parameters (injected as Docker build ARGs) | ignored |
+| `*.env.*.example` | Repository | Onboarding config templates for each context and application | **tracked** |
+
+*Note: In the table above, `[context]` represents either the `instance` or `portal` directory.*
 
 `VITE_*` variables (e.g., `VITE_TURNSTILE_SITE_KEY`) are **build-time** only — Vite bakes them statically into the JavaScript bundle during `vite build`. In Docker builds they are passed via `ARG` → `ENV` before the build step runs.
 

@@ -86,18 +86,19 @@ export default function MaintenanceLogic() {
       <h4>Workspace Structure</h4>
       <ul>
         <li>
-          <code>tools/mcp/compose.yaml</code>: Defines services, dependencies, volumes, and gateway networks.
+          <code>tools/mcp/compose.yaml</code>: Defines the container services, dependencies, volumes, and bridge networks.
         </li>
         <li>
-          <code>tools/mcp/gateway/</code>: Holds the Nginx configuration template (<code>nginx.conf</code>).
+          <code>tools/mcp/gateway/</code>: Contains the Fastify v5 HTTP proxy router server (<code>server.ts</code> and its Dockerfile).
         </li>
         <li>
-          <code>tools/mcp/infrastructure/</code>: Contains individual multi-stage Dockerfiles and the zero-dependency <code>sse-adapter.js</code> wrapper.
+          <code>tools/mcp/infrastructure/</code>: Holds individual multi-stage Dockerfiles and the zero-dependency <code>sse-adapter.ts</code> wrapper.
         </li>
         <li>
-          <code>tools/mcp/config/</code>: Manages environment-specific secret configurations and <code>.env.*.example</code> templates.
+          <code>tools/mcp/config/</code>: Manages context-specific environments and secret configurations (e.g., <code>.env.*.example</code> files).
         </li>
       </ul>
     </div>
   );
 }
+

@@ -25,7 +25,7 @@ const replyOptions = {
 };
 
 // Global OPTIONS handler for CORS preflight requests
-server.options('/*', async (request, reply) => {
+server.options('/*', async (_request, reply) => {
   void reply.header('Access-Control-Allow-Origin', '*');
   void reply.header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
   void reply.header('Access-Control-Allow-Headers', 'Content-Type, Mcp-Session-Id, X-Session-Id');
@@ -33,7 +33,7 @@ server.options('/*', async (request, reply) => {
 });
 
 // Health check endpoint
-server.get('/health', async (request, reply) => {
+server.get('/health', async (_request, reply) => {
   return reply.status(200).send({
     status: 'healthy',
     gateway: 'elo.internal.tools'

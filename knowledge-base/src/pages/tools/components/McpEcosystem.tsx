@@ -3,61 +3,65 @@ import React from 'react';
 export default function McpEcosystem() {
   return (
     <div>
-      <h3>Model Context Protocol Infrastructure</h3>
+      <h3>Model Context Protocol (MCP) Ecosystem</h3>
       <p>
-        The project leverages a network of specialized MCP servers. These servers act as structured
-        context providers, allowing AI agents (such as Gemini CLI or Aide) to interact safely and
-        accurately with the project's data layers, external documentation, and infrastructure APIs.
+        The Elo Orgânico monorepo features a specialized, containerized MCP ecosystem. It exposes
+        structured development capabilities and codebase contexts to LLM clients (such as the
+        Antigravity CLI or external agents) via a secure, high-performance gateway network.
       </p>
 
-      <h4>Integrated Context Servers</h4>
+      <h4>Zero-Dependency TypeScript Adapters</h4>
       <p>
-        Every service is wrapped in a zero-dependency Node.js adapter (<code>sse-adapter.js</code>) that translates standard input/output (stdio) streams into network-accessible Server-Sent Events (SSE) and stateless Streamable HTTP endpoints.
+        Standard CLI-based MCP servers communicate via standard input/output (stdio) streams. To expose
+        them securely over the network, every service is packaged with a custom TypeScript wrapper (<code>sse-adapter.ts</code>)
+        running on Fastify v5. This adapter implements two distinct network protocols:
       </p>
       <ul>
         <li>
-          <strong>GitHub MCP:</strong> Handles advanced repository orchestration. It automates
-          branch lifecycle management, commit cycles (adhering to Conventional Commits), and deep
-          Pull Request analysis.
+          <strong>Traditional Server-Sent Events (SSE):</strong> Establishes a persistent uni-directional stream via
+          <code>GET /sse</code> and accepts client messages via <code>POST /messages</code>, piping events directly
+          to the underlying subprocess stdin.
+        </li>
+        <li>
+          <strong>Streamable Stateless HTTP (POST /sse):</strong> A custom transactional adapter that simulates stateless request-response.
+          It buffers stdout lines from the child process, extracts JSON-RPC payloads, and resolves the HTTP request
+          only when it captures the specific JSON-RPC response <code>id</code> matching the request. Notifications (requests lacking an <code>id</code>)
+          receive an immediate <code>204 No Content</code> response.
+        </li>
+      </ul>
+
+      <h4>Integrated Context Servers</h4>
+      <ul>
+        <li>
+          <strong>GitHub MCP:</strong> Wraps the official Go-based GitHub MCP server binary in a multi-stage Alpine image.
+          It provides repository search, pull request reviews, branch lifecycle management, and issue tracking.
           <ul>
-            <li>
-              <em>Capabilities:</em> File creation/update, PR reviews, issue management, and code
-              search.
-            </li>
+            <li><em>Upstream:</em> <code>http://elo-mcp-github:3001/github/sse</code></li>
           </ul>
         </li>
         <li>
-          <strong>Context7 MCP:</strong> A high-performance research bridge. It ensures that
-          AI-generated code aligns with the latest specifications of Fastify v5, React 19, and
-          Three.js by querying up-to-date library documentation.
+          <strong>Context7 MCP:</strong> Exposes the Upstash Context7 documentation search engine. Used to query up-to-date APIs
+          and patterns for core project dependencies like React 19, Fastify 5, and Three.js.
           <ul>
-            <li>
-              <em>Capabilities:</em> Real-time documentation fetching, package resolution, and
-              implementation pattern discovery.
-            </li>
+            <li><em>Upstream:</em> <code>http://elo-mcp-context7:3002/context7/sse</code></li>
           </ul>
         </li>
         <li>
-          <strong>Browser MCP (Playwright):</strong> Provides visual and runtime context. It enables
-          automated visual regression testing, UI analysis, and web scraping within the
-          containerized docker network.
+          <strong>Browser MCP (Playwright):</strong> Integrates a Debian-based Playwright container running headless Google Chrome,
+          enabling agents to navigate frontend layouts, capture screenshots, parse DOM content, and debug client-side scripts.
           <ul>
-            <li>
-              <em>Capabilities:</em> Viewport screenshots, accessibility snapshots, and network
-              request monitoring.
-            </li>
+            <li><em>Upstream:</em> <code>http://elo-mcp-browser:3003/browser/sse</code></li>
           </ul>
         </li>
         <li>
-          <strong>Docker Hub MCP:</strong> Manages container image discovery and synchronization,
-          ensuring infrastructure consistency across all environments.
+          <strong>Docker Hub MCP:</strong> A custom multi-stage build that clones the official Docker Hub MCP server, compiles it,
+          and exposes registry search, tag checks, and repository data using environment-based auth configuration.
           <ul>
-            <li>
-              <em>Capabilities:</em> Image search, repository management, and tag verification.
-            </li>
+            <li><em>Upstream:</em> <code>http://elo-mcp-dockerhub:3004/dockerhub/sse</code></li>
           </ul>
         </li>
       </ul>
     </div>
   );
 }
+
