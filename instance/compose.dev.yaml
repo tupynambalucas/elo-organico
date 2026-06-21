@@ -1,11 +1,11 @@
-name: elo-instance
+name: elo-instance-dev
 
 services:
   db:
     build:
       context: ./infrastructure/mongodb
       dockerfile: Dockerfile
-    container_name: elo-instance-db
+    container_name: elo-instance-db-dev
     restart: always
     ports:
       - '27017:27017'
@@ -30,7 +30,7 @@ services:
     build:
       context: ./infrastructure/mongodb
       dockerfile: Dockerfile
-    container_name: elo-instance-db-init
+    container_name: elo-instance-db-init-dev
     # Single responsibility: initialize the MongoDB Replica Set (rs0).
     # Admin user seeding is handled by the API on startup (SeedPlugin).
     entrypoint: ['./seed.sh']
@@ -50,7 +50,7 @@ services:
     build:
       context: ./infrastructure/redis
       dockerfile: Dockerfile
-    container_name: elo-instance-redis
+    container_name: elo-instance-redis-dev
     restart: always
     ports:
       - '6379:6379'

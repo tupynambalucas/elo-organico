@@ -1,50 +1,38 @@
 #!/bin/bash
+# =================================================================== #
+# db-init.sh — MongoDB Replica Set Initializer (Portal Dev Only)
+#
+# Responsibility: Single concern — initialize the MongoDB Replica Set
+# (rs0) for the portal development environment.
+#
+# Admin user seeding is handled by the API itself via SeedPlugin,
+# which runs on every application startup (dev, staging, prod) and is
+# fully idempotent. Do NOT add seed logic here.
+# =================================================================== #
 set -e
 
-echo "⏳ Waiting for MongoDB to start..."
+echo "⏳ [db-init] Waiting for MongoDB to be ready..."
 until mongosh --host db --port 27017 --quiet --eval "db.adminCommand('ping').ok" > /dev/null 2>&1; do
   sleep 2
 done
-echo "🚀 MongoDB is up."
+echo "🚀 [db-init] MongoDB is up."
 
-# Authentication arguments for root
 AUTH_ARGS="-u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD --authenticationDatabase admin"
 
-# 1. Initialize Replica Set
-# Silent initialization attempt
+# Initialize Replica Set (idempotent — safe to re-run)
 if ! mongosh --host db --port 27017 $AUTH_ARGS --quiet --eval "rs.status().ok" 2>/dev/null | grep -q "1"; then
-    echo "🌀 Initiating Replica Set (rs0)..."
-    # Use the hostname defined in the docker network: 'db'
-    mongosh --host db --port 27017 $AUTH_ARGS --quiet --eval "rs.initiate({_id: 'rs0', members: [{_id: 0, host: 'db:27017'}]})"
-    
-    echo "⏱️ Waiting for node to become PRIMARY..."
+    echo "🌀 [db-init] Initiating Replica Set (rs0)..."
+    mongosh --host db --port 27017 $AUTH_ARGS --quiet --eval \
+      "rs.initiate({_id: 'rs0', members: [{_id: 0, host: 'db:27017'}]})"
+
+    echo "⏱️  [db-init] Waiting for node to become PRIMARY..."
     until mongosh --host db --port 27017 $AUTH_ARGS --quiet --eval "rs.isMaster().ismaster" 2>/dev/null | grep -q "true"; do
         sleep 2
     done
-    echo "✅ Node is now PRIMARY."
+    echo "✅ [db-init] Node is now PRIMARY. Replica Set ready."
+else
+    echo "✅ [db-init] Replica Set already initialized. Skipping."
 fi
 
-# 2. Seed Admin User
-# Generated hash: $2b$10$k5UsEXEq0wC9jGg3f3TReeGTBeRRVxOmBwW9hS1Rm9Lokjh3AKwpS (password: admin)
-ADMIN_PASS_HASH="\$2b\$10\$k5UsEXEq0wC9jGg3f3TReeGTBeRRVxOmBwW9hS1Rm9Lokjh3AKwpS"
-
-echo "👤 Checking admin user in ${MONGO_INITDB_DATABASE}..."
-mongosh --host db --port 27017 $AUTH_ARGS --quiet <<EOF
-use ${MONGO_INITDB_DATABASE}
-if (db.users.countDocuments({ role: 'admin' }) === 0) {
-  db.users.insertOne({
-    email: "${ADMIN_EMAIL_SEED}",
-    username: "${ADMIN_USER_SEED}",
-    password: "${ADMIN_PASS_HASH}",
-    icon: "quati",
-    role: "admin",
-    createdAt: new Date(),
-    updatedAt: new Date()
-  });
-  print('🚀 Admin user seeded successfully.');
-} else {
-  print('⚠️ Admin user already exists.');
-}
-EOF
-
-echo "🏁 Seed complete."
+echo "🏁 [db-init] Infrastructure initialization complete."
+echo "   → Admin user seed is handled by the API on startup (SeedPlugin)."

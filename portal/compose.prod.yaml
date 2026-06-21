@@ -19,7 +19,7 @@ services:
       context: ../
       dockerfile: portal/apps/api/Dockerfile
     image: elo-portal-api:latest
-    container_name: elo-portal-api
+    container_name: elo-portal-api-${APP_ENV:-prod}
     restart: unless-stopped
     env_file:
       - apps/api/.env.${APP_ENV:-prod}
@@ -49,7 +49,7 @@ services:
       args:
         VITE_TURNSTILE_SITE_KEY: ${VITE_TURNSTILE_SITE_KEY}
     image: elo-portal-web:latest
-    container_name: elo-portal-web
+    container_name: elo-portal-web-${APP_ENV:-prod}
     restart: unless-stopped
     ports:
       - '8080:80'
@@ -67,7 +67,7 @@ services:
       context: ./infrastructure/redis
       dockerfile: Dockerfile
     image: elo-portal-redis:latest
-    container_name: elo-portal-redis-prod
+    container_name: elo-portal-redis-${APP_ENV:-prod}
     restart: unless-stopped
     volumes:
       - redis-data:/data

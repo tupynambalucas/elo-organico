@@ -13,6 +13,7 @@ import SecurityPlugin from './securityPlugin.js';
 import ApiPlugin from './apiPlugin.js';
 import sentryPlugin from './sentryPlugin.js';
 import errorHandlerPlugin from './errorHandlerPlugin.js';
+import SeedPlugin from './seedPlugin.js';
 import queuePlugin from './queuePlugin.js';
 
 import { AuthRepository } from '../domains/auth/auth.repository.js';
@@ -41,6 +42,7 @@ const serverAutoRegistry: FastifyPluginAsync = async function (server: FastifyIn
   });
 
   await server.register(MongoosePlugin);
+  await server.register(SeedPlugin);
   await server.register(secureSession);
   await server.register(SecurityPlugin);
 

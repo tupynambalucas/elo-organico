@@ -245,12 +245,12 @@ Each bounded context (`instance/`, `portal/`) maintains two distinct Compose fil
 
 | File | Environment | Services | Database |
 | :--- | :--- | :--- | :--- |
-| `compose.yaml` | Development | MongoDB Replica Set + Redis | Local Docker container |
+| `compose.dev.yaml` | Development | MongoDB Replica Set + Redis | Local Docker container |
 | `compose.prod.yaml` | Production & Staging | API + Web/Nginx + Redis | MongoDB Atlas (cloud) |
 
 **Development flow:**
 ```
-pnpm instance:up   →  compose.yaml starts [MongoDB, Redis] in Docker
+pnpm instance:up   →  compose.dev.yaml starts [MongoDB, Redis] in Docker
 pnpm instance:dev  →  API (tsx watch) + Web (vite) run on the host
                        API connects to localhost:27017 (MongoDB in Docker)
                        Web proxies /api → localhost:3000 (via Vite proxy)
@@ -258,13 +258,30 @@ pnpm instance:dev  →  API (tsx watch) + Web (vite) run on the host
 
 **Production flow:**
 ```
-pnpm instance:prod  →  compose.prod.yaml builds and starts:
+pnpm instance:prod  →  compose.prod.yaml --env-file .env.prod builds and starts:
                           [Nginx:80] → [instance-api:3000] → [Redis (internal)]
                                               ↕
                                    [MongoDB Atlas (cloud)]
+
+pnpm instance:staging  →  compose.prod.yaml --env-file .env.staging (same topology)
 ```
 
-The `compose.prod.yaml` has no MongoDB service by design. In production, the API connects to a cloud-hosted MongoDB Atlas cluster via URI injected from `.env.prod`.
+The `compose.prod.yaml` has no MongoDB service by design. In production and staging, the API connects to a cloud-hosted MongoDB Atlas cluster via URI injected from the environment-specific `.env.prod` or `.env.staging` file.
+
+#### 8.1.1. Project and Container Naming Conventions
+To prevent naming collisions on hosts that run multiple stacks or environments concurrently (such as staging and production on the same server), the following conventions are enforced:
+- **Project Names**: Dev compose files define `name: elo-[context]-dev` (e.g., `elo-instance-dev`), while production/staging compose files define `name: elo-[context]-prod` (e.g., `elo-instance-prod`).
+- **Dev Environments**: Container names carry an explicit `-dev` suffix (e.g., `elo-instance-redis-dev`, `elo-instance-db-dev`).
+- **Staging vs. Production**: Production/staging containers dynamically append the environment name suffix using the `APP_ENV` variable (e.g., `container_name: elo-instance-redis-${APP_ENV:-prod}`). This isolates the containers at the Docker host daemon level, allowing staging and production containers to coexist on the same virtual machine without collisions.
+
+#### 8.1.2. Why Production and Staging Share a Single Compose File
+The decision to use one `compose.prod.yaml` for both production and staging is a deliberate architectural choice, not a simplification shortcut. The rationale is grounded in the **Single Responsibility Principle (SRP)**:
+
+A Compose file should have exactly one reason to change: a **change in stack topology** (new services, different network configuration, altered healthcheck intervals, additional containers). Neither production nor staging requires a different service topology — both run the identical set of services (API, Web/Nginx, Redis) connected to the identical network and with the identical healthcheck strategy.
+
+The only differences between the two environments are **configuration values** (MongoDB Atlas cluster URI, Cloudflare Turnstile keys, API secrets, image tags). This is a configuration concern, not a topology concern, and is the sole responsibility of the environment-specific `.env` files (`.env.prod`, `.env.staging`).
+
+Creating a separate `compose.staging.yaml` as a structural copy of `compose.prod.yaml` would violate SRP by introducing two files with the same reason to change. Any future topology change (adding a monitoring sidecar, updating healthcheck intervals) would require identical edits in both files, creating a drift risk. The correct segregation level is the `--env-file` flag, which is the Docker-sanctioned mechanism for environment-specific configuration injection.
 
 ### 8.2. Dockerfile Architecture
 
@@ -289,7 +306,7 @@ Environment files follow the **Bounded Context** and **Single Responsibility** p
 
 | File Pattern | Owner / Target | Purpose / Scope | Git |
 | :--- | :--- | :--- | :--- |
-| `[context]/.env.dev` | `compose.yaml` | Dev infrastructure environment and DB initialization variables (MongoDB/Redis) | ignored |
+| `[context]/.env.dev` | `compose.dev.yaml` | Dev infrastructure environment and replica set initialization variables (MongoDB/Redis) | ignored |
 | `[context]/.env.prod` | `compose.prod.yaml` | Production container build args, network names, and host ports | ignored |
 | `[context]/.env.staging` | `compose.prod.yaml` | Staging container build args, network names, and host ports | ignored |
 | `[context]/apps/api/.env.dev` | `@elo-[context]/api` | Dev Fastify API runtime configuration (local DB keys, secrets, rate-limit options) | ignored |
@@ -314,6 +331,25 @@ The Web containers (Nginx) handle two concerns:
 
 1. **SPA Routing**: All unknown paths fall back to `index.html` via `try_files $uri $uri/ /index.html`, allowing React Router to handle client-side navigation without 404s on page refresh.
 2. **API Reverse Proxy**: Requests to `/api/*` are proxied to the API container using its Docker service name as the hostname (`http://instance-api:3000/`). The trailing slash strips the `/api` prefix before forwarding to Fastify.
+
+### 8.6. Database Naming and Seeding
+
+To maintain strict parity across environments (development, staging, and production), the database connection and seeding architecture are decoupled from the infrastructure layer and handled directly at the application layer.
+
+#### 8.6.1. Database Naming Standardization
+The system enforces `elodb` as the canonical database name across all environments. The database connection plugin parses the configured `MONGO_URI` connection string and overrides the database path to `/elodb`. This prevents accidental connection to default databases (such as `test` on MongoDB Atlas) and guarantees that development, staging, and production instances use the correct data store name.
+
+#### 8.6.2. Natively Integrated Seeding (`SeedPlugin`)
+Database seeding is integrated into the API application lifecycle via a dedicated Fastify plugin (`seedPlugin.ts`). It triggers during the `onReady` hook of the Fastify server. Because it runs at the application level, it executes automatically in all environments (development, staging, and production).
+
+#### 8.6.3. Idempotent Upsert Strategy
+Seeding operations must be completely safe to execute repeatedly without duplicating or corrupting data. The administrative user seeding utilizes an atomic Mongoose `findOneAndUpdate` operation with the following settings:
+- **Upsert Filter**: Checks for the existence of a user with the `admin` role.
+- **Set On Insert (`$setOnInsert`)**: Writes user fields (email, username, password, icon, role) only if no matching document exists.
+- **Idempotency**: If an admin user is already present, the query resolves as a no-op, preventing existing credentials from being overwritten or duplicated on subsequent server restarts.
+
+#### 8.6.4. Infrastructure Separation of Concerns (`db-init`)
+In local development (`compose.dev.yaml`), the container `db-init` (formerly `db-seed`) handles replica set initialization only. It awaits MongoDB readiness and executes `rs.initiate()` to configure the single-node replica set (`rs0`) required for transaction support. It does not perform database seeding. All administrative and operational seeding responsibilities belong entirely to the API container.
 
 ---
 
