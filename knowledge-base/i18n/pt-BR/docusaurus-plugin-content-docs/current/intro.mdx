@@ -38,28 +38,34 @@ graph TD
 ```
 
 ### Contexto de Instância (instance/)
-Gerencia as operações específicas da comunidade (a "Loja da Comunidade").
+Gerencia as operações específicas da comunidade (a "Loja da Comunidade"). Para documentação detalhada, consulte o **[Workspace Instance](/workspaces)**.
 - **`@elo-instance/web`**: React SPA (Admin & Loja).
 - **`@elo-instance/api`**: Fastify REST API.
 - **`@elo-instance/core`**: Lógica e esquemas específicos do domínio.
 
 ### Contexto de Portal (portal/)
-Gerencia a plataforma global e o onboarding do SaaS.
+Gerencia a plataforma global e o onboarding do SaaS. Para documentação detalhada, consulte o **[Workspace Portal](/workspaces/portal)**.
 - **`@elo-portal/web`**: Landing page oficial e hub de entrada.
 - **`@elo-portal/api`**: API de orquestração global e gestão de tenants.
 - **`@elo-portal/core`**: Lógica e esquemas específicos da plataforma.
 
 ### Contexto de Studio (studio/)
-A fonte única de verdade para a identidade visual do projeto e tokens de UI compartilhados.
+A fonte única de verdade para a identidade visual do projeto e tokens de UI compartilhados. Para documentação detalhada, consulte o **[Workspace Studio](/workspaces/studio)**.
 - **Tokens de Design**: Variáveis CSS e constantes TypeScript centralizadas.
 - **Ativos de Marca**: Logos canônicos, ícones e modelos 3D.
 - **Orquestração de IA**: Ponte de design para contexto de IA.
 
 ### Contexto de Ferramentas (tools/)
-A espinha dorsal de automação e hub de orquestração de infraestrutura.
+A espinha dorsal de automação e hub de orquestração de infraestrutura. Para documentação detalhada, consulte o **[Workspace Tools](/workspaces/tools)**.
 - **Servidores MCP**: Servidores Model Context Protocol (GitHub, Context7, Docker Hub) que fornecem contexto estruturado para agentes de IA.
 - **Infraestrutura**: Configurações Docker e ambientes de runtime para ferramentas de desenvolvimento.
 - **Automação**: Scripts técnicos para manutenção, geração de chaves e saúde do workspace.
+
+### Contexto de Knowledge Base (knowledge-base/)
+O hub de documentação do desenvolvedor (EloDocs). Para documentação detalhada, consulte o **[Workspace Knowledge Base](/workspaces/knowledge-base)**.
+- **Portal Docusaurus**: Layout de barra lateral de documentação multi-instância.
+- **Localização**: Paridade entre as localidades Inglês (`en`) e Português (`pt-BR`).
+- **Compilação de Raiz**: Pipelines de scripts gerando arquivos de documentação no nível raiz.
 
 ---
 

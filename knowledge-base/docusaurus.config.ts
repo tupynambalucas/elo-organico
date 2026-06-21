@@ -40,6 +40,27 @@ const config: Config = {
     studioPath,
   },
 
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'roadmap',
+        path: 'roadmap',
+        routeBasePath: 'roadmap',
+        sidebarPath: './sidebarsRoadmap.ts',
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'workspaces',
+        path: 'workspaces',
+        routeBasePath: 'workspaces',
+        sidebarPath: './sidebarsWorkspaces.ts',
+      },
+    ],
+  ],
+
   themes: ['@docusaurus/theme-live-codeblock', '@docusaurus/theme-mermaid'],
 
   markdown: {
@@ -126,8 +147,8 @@ const config: Config = {
           position: 'left',
           label: 'Documentation',
         },
-        { to: '/studio', label: 'Studio', position: 'left' },
-        { to: '/tools', label: 'Tools', position: 'left' },
+        { to: '/workspaces', label: 'Workspaces', position: 'left' },
+        { to: '/roadmap', label: 'Roadmap', position: 'right' },
         { to: '/changelog', label: 'Changelog', position: 'right' },
         {
           type: 'localeDropdown',
@@ -168,12 +189,12 @@ const config: Config = {
           title: 'Ecosystem',
           items: [
             {
-              label: 'Studio (Design)',
-              to: '/studio',
+              label: 'Studio Workspace',
+              to: '/workspaces/studio',
             },
             {
-              label: 'Tools (CLI)',
-              to: '/tools',
+              label: 'Tools Workspace',
+              to: '/workspaces/tools',
             },
             {
               label: 'Instance (Shop)',
@@ -198,7 +219,7 @@ const config: Config = {
             },
             {
               label: 'Roadmap',
-              to: '/docs/product/roadmap',
+              to: '/roadmap',
             },
           ],
         },

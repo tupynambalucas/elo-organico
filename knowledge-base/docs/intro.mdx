@@ -38,28 +38,34 @@ graph TD
 ```
 
 ### Instance Context (instance/)
-Manages community-specific operations (the "Community Shop").
+Manages community-specific operations (the "Community Shop"). For detailed documentation, see the **[Instance Workspace](/workspaces)**.
 - **`@elo-instance/web`**: React SPA (Admin & Shop).
 - **`@elo-instance/api`**: Fastify REST API.
 - **`@elo-instance/core`**: Domain-specific logic and schemas.
 
 ### Portal Context (portal/)
-Manages the global platform and SaaS onboarding.
+Manages the global platform and SaaS onboarding. For detailed documentation, see the **[Portal Workspace](/workspaces/portal)**.
 - **`@elo-portal/web`**: Official landing page and gatekeeper hub.
 - **`@elo-portal/api`**: Global orchestration and tenant management API.
 - **`@elo-portal/core`**: Platform-specific logic and schemas.
 
 ### Studio Context (studio/)
-The single source of truth for the project's visual identity and shared UI tokens.
+The single source of truth for the project's visual identity and shared UI tokens. For detailed documentation, see the **[Studio Workspace](/workspaces/studio)**.
 - **Design Tokens**: Centralized CSS variables and TypeScript constants.
 - **Brand Assets**: Canonical logos, icons, and 3D models.
 - **AI Orchestration**: Design bridge for AI context.
 
 ### Tools Context (tools/)
-The automation backbone and infrastructure orchestration hub.
+The automation backbone and infrastructure orchestration hub. For detailed documentation, see the **[Tools Workspace](/workspaces/tools)**.
 - **MCP Servers**: Model Context Protocol servers (GitHub, Context7, Docker Hub) providing structured context to AI agents.
 - **Infrastructure**: Docker configurations and runtime environments for development tools.
 - **Automation**: Technical scripts for maintenance, key generation, and workspace health.
+
+### Knowledge Base Context (knowledge-base/)
+The developer documentation hub (EloDocs). For detailed documentation, see the **[Knowledge Base Workspace](/workspaces/knowledge-base)**.
+- **Docusaurus Portal**: Multi-instance documentation sidebar layout.
+- **Localization**: Parity between English (`en`) and Portuguese (`pt-BR`) locales.
+- **Root Compilation**: Script pipelines generating root-level documentation files.
 
 ---
 

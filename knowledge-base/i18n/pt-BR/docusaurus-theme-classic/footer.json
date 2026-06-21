@@ -19,13 +19,13 @@
     "message": "Plano Mestre",
     "description": "The label of footer link with label=Master Plan linking to /docs/product/masterplan"
   },
-  "link.item.label.Studio": {
-    "message": "Studio",
-    "description": "The label of footer link with label=Studio linking to /studio"
+  "link.item.label.Studio Workspace": {
+    "message": "Workspace Studio",
+    "description": "The label of footer link with label=Studio Workspace linking to /workspaces/studio"
   },
-  "link.item.label.Tools": {
-    "message": "Ferramentas",
-    "description": "The label of footer link with label=Tools linking to /tools"
+  "link.item.label.Tools Workspace": {
+    "message": "Workspace Tools",
+    "description": "The label of footer link with label=Tools Workspace linking to /workspaces/tools"
   },
   "link.item.label.GitHub": {
     "message": "GitHub",

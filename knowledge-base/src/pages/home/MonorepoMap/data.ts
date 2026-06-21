@@ -36,7 +36,7 @@ export const WORKSPACES: Record<string, WorkspaceInfo> = {
   instance: {
     id: 'instance',
     name: 'Instance Context',
-    path: '/instance',
+    path: '/workspaces',
     description: 'Manages community-specific operations, focusing on the "Community Shop" and local administration.',
     stack: ['React 19', 'Fastify v5', 'MongoDB', 'Zustand'],
     responsibilities: [
@@ -57,7 +57,7 @@ export const WORKSPACES: Record<string, WorkspaceInfo> = {
   portal: {
     id: 'portal',
     name: 'Portal Context',
-    path: '/portal',
+    path: '/workspaces/portal',
     description: 'The global platform face and SaaS onboarding hub for managing multiple tenants.',
     stack: ['React 19', 'Fastify v5', 'Redis', 'BullMQ'],
     responsibilities: [
@@ -78,7 +78,7 @@ export const WORKSPACES: Record<string, WorkspaceInfo> = {
   studio: {
     id: 'studio',
     name: 'Studio Context',
-    path: '/studio',
+    path: '/workspaces/studio',
     description: 'The single source of truth for visual identity, shared tokens, and UI consistency.',
     stack: ['TailwindCSS v4', 'PostCSS', 'Style Dictionary'],
     responsibilities: [
@@ -99,7 +99,7 @@ export const WORKSPACES: Record<string, WorkspaceInfo> = {
   tools: {
     id: 'tools',
     name: 'Tools Context',
-    path: '/tools',
+    path: '/workspaces/tools',
     description: 'Infrastructure orchestration hub and technical automation backbone.',
     stack: ['Model Context Protocol (MCP)', 'Docker', 'Shell Scripts'],
     responsibilities: [
@@ -120,7 +120,7 @@ export const WORKSPACES: Record<string, WorkspaceInfo> = {
   knowledge: {
     id: 'knowledge',
     name: 'Knowledge Base',
-    path: '/knowledge-base',
+    path: '/workspaces/knowledge-base',
     description: 'Centralized technical documentation and engineering masterplan.',
     stack: ['Docusaurus v3', 'MDX', 'Mermaid.js'],
     responsibilities: [

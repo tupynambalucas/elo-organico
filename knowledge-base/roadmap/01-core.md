@@ -1,0 +1,24 @@
+---
+slug: /
+title: Core Architecture & Strategy
+sidebar_label: Core Architecture
+---
+
+This section outlines the strategic monorepo architecture, catalog configurations, and logical multi-tenant isolation goals for the Elo Orgânico project.
+
+## Completed Milestones
+
+### Monorepo Architecture & Workspace Setup
+- **Monorepo Workspace Segregation**: Structured workspace layers via PNPM Workspaces v11 and Turborepo, segregating `instance/`, `portal/`, `studio/`, `tools/`, and `knowledge-base/` domains.
+- **High-Performance Task Orchestration**: Integrated **Turborepo** to orchestrate pipelines, enabling smart target caching and parallel execution of scripts.
+- **Unified Configuration Inheritances**: Configured root-level `tsconfig.base.json` and `eslint.config.ts` extendable by workspace packages via TSConfig extends and ESLint config array definitions.
+- **Node 22 & TypeScript ESM Configuration**: Converted all packages to use ECMAScript Modules (`"type": "module"`) and compiled with target `ESNext` for modern syntax support.
+
+### Bounded Contexts & Domain Security
+- **Strict Bounded Context Isolation**: Configured custom ESLint import restrictions (`no-restricted-imports`) in `eslint.config.ts` preventing cross-workspace dependencies (e.g., Instance context importing from Portal context, and vice-versa) to guarantee clean, decoupled business logic.
+- **Domain-Core Pattern Integration**: Established `packages/core` in both `instance` and `portal` as the Single Source of Truth (SSOT) for data models and schema validators.
+- **Unified Dependency Management via Catalogs**: Integrated PNPM v11 Catalogs feature in `pnpm-workspace.yaml` to govern third-party tool versions (e.g., Fastify 5, React 19, TSX, ESLint) across the entire monorepo.
+
+## Planned Focus
+- **Logical Multi-Tenant Isolation**: Ensure instances and portal run completely isolated execution domains.
+- **SaaS Platform Evolution**: Transition from single-instance deployments to a centralized multi-tenant marketplace model.
