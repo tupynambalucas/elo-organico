@@ -1,102 +1,119 @@
-# MDX Syntax (Markdown + JSX)
+# MDX & Docusaurus Syntax Reference
 
-Technical reference for using components, expressions, and logic within `.mdx` files in the **Elo Orgânico** monorepo.
+This reference outlines MDX syntax standards and native Docusaurus v3 features used in the **Elo Orgânico** monorepo.
 
-## JSX (Components)
+---
 
-MDX allows the use of React components (HTML or custom) interleaved with Markdown.
+## 1. Docusaurus Admonitions (Alerts)
+
+Instead of generic GitHub flavored markdown quote alerts (`> [!NOTE]`), Docusaurus uses a dedicated triple-colon syntax (`:::`) to render stylized banners. 
+
+Supported types: `note`, `tip`, `info`, `caution`, `danger` (or `warning`).
+
+```markdown
+:::note
+Here is some standard note content.
+:::
+
+:::tip[Custom Title]
+You can define a custom title for the admonition by adding it in brackets next to the type.
+:::
+
+:::danger[Critical Warning]
+Use danger admonitions sparingly for production risks or potential data loss.
+:::
+```
+
+---
+
+## 2. Interactive Multi-Tabs
+
+Use the native `@theme/Tabs` and `@theme/TabItem` components for comparing instructions, scripts, or configurations.
 
 ```mdx
-import MyComponent from '@site/src/components/MyComponent';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-# Markdown Heading
+<Tabs>
+  <TabItem value="dev" label="Development" default>
+    Development configurations or commands.
+  </TabItem>
+  <TabItem value="staging" label="Staging">
+    Staging configurations or commands.
+  </TabItem>
+  <TabItem value="prod" label="Production">
+    Production configurations or commands.
+  </TabItem>
+</Tabs>
+```
 
-<MyComponent title="Example">
-  **Markdown** content inside a JSX component.
-</MyComponent>
+---
 
-<div className="custom-wrapper">
-  Standard HTML is also supported.
+## 3. Code Block Highlights & Metadata
+
+### A. Title/Filename Headers
+To display a filename or title above a code block, use the `title="..."` key in the code block definition:
+
+````markdown
+```typescript title="packages/core/src/types/index.ts"
+export type BoundedContext = 'instance' | 'portal';
+```
+````
+
+### B. Line Highlighting
+To highlight specific lines within a code block, use curly braces `{...}` specifying 1-indexed lines or line ranges:
+
+````markdown
+```typescript title="api/src/server.ts" {2,5-7}
+import fastify from 'fastify';
+const app = fastify(); // Highlighted
+
+// Lines 5, 6, and 7 will be highlighted:
+app.get('/health', async () => {
+  return { status: 'ok' };
+});
+```
+````
+
+### C. Inline Comments Highlighting
+You can also use inline comments within the code block to highlight lines automatically:
+
+````typescript
+// highlight-next-line
+const secret = process.env.API_SECRET;
+
+// highlight-start
+const config = {
+  port: 3000,
+};
+// highlight-end
+````
+
+---
+
+## 4. JSX Elements and MDX Parsing Rules
+
+MDX blends markdown with standard JSX. Keep the following parsing rules in mind to avoid compilation failures:
+
+### A. Markdown inside JSX block tags
+To write standard Markdown within block elements (such as `<div>` or `<section>`), separate the markdown content with blank lines:
+
+```mdx
+<div className="custom-box">
+
+**This is bold markdown** inside a HTML div tag.
+
 </div>
 ```
 
-## Expressions (Curly Braces `{}`)
+### B. Escaping Special Characters
+Characters like `{` and `<` trigger the MDX parser for expressions or JSX. To display them as literal text, they must be escaped:
+- Escape curly braces: `\{` and `\}`
+- Escape less-than signs: `\<`
 
-JavaScript can be executed inside curly braces, similar to JSX in React.
-
-```mdx
-export const year = new Date().getFullYear();
-
-The current year is {year}.
-
-{/* Calculations and Logic */}
-Two plus two is {2 + 2}
-
-{/* String Manipulation */}
-Hello {"World".toUpperCase()}
-```
-
-## Imports (ESM)
-
-Import components, data, or other MDX files. Must be at the top of the file or separated by blank lines.
+### C. Comments
+Standard HTML comments (`<!-- -->`) are **not** valid in MDX. Use JavaScript comment syntax inside curly braces:
 
 ```mdx
-import { Chart } from './components/Chart';
-import data from './data.json';
-import SharedContent from './shared.mdx';
-
-<Chart data={data} />
-<SharedContent />
-```
-
-## Exports
-
-Define variables, metadata, or layouts that can be used locally or by whoever imports the file.
-
-```mdx
-export const metadata = {
-  author: 'Elo Orgânico',
-  category: 'Engineering'
-};
-
-# Author: {metadata.author}
-
-export const Layout = ({children}) => <div className="docs-layout">{children}</div>;
-export default Layout;
-```
-
-## Comments
-
-HTML comments (`<!-- -->`) **are not supported** in MDX. Use standard JavaScript comments inside curly braces instead.
-
-```mdx
-{/* This is a valid comment in MDX */}
-
-{/* 
-  Multi-line
-  comment 
-*/}
-```
-
-## Parsing Rules and Differences
-
-1.  **Markdown inside JSX:** Works if there are blank lines separating the Markdown from the JSX tags in block elements (e.g., `<div>`).
-2.  **Special Characters:** Curly braces `{` and less-than signs `<` are interpreted as the start of JSX/Expressions. To display them as text, use escaping: `\{` or `\<`.
-3.  **Indentation:** Avoid indenting JSX blocks with 4 spaces or a Tab, as this can trigger Markdown code block formatting.
-
-## Full Example (Elo Orgânico Standard)
-
-```mdx
-import { Callout } from '@site/src/components/Callout';
-
-export const status = "Active";
-
-# Technical Documentation
-
-<Callout type="info">
-  The current system status is: **{status === "Active" ? "Online" : "Offline"}**.
-</Callout>
-
-- [x] GFM supported
-- [x] JSX integrated
+{/* This is a single or multi-line comment in MDX */}
 ```

@@ -1,6 +1,6 @@
 # Doc Expert Code Patterns
 
-These patterns must be followed in all code examples generated in the Elo Orgânico documentation. For formatting syntax, refer to the [GFM](github-sintax.md) and [MDX](mdx-sintax.md) guides.
+These patterns must be followed in all code examples generated in the Elo Orgânico documentation. For formatting syntax, refer to the [MDX Syntax Guide](mdx-sintax.md).
 
 ---
 
@@ -86,3 +86,33 @@ API examples must feature security-first configurations:
 - **User Enumeration Prevention**: Use generic `INVALID_CREDENTIALS` error codes and constant-time comparisons.
 - **Rate-Limiting & CSRF**: Document rate limit setups (e.g., auth routes limited to 5/min) and verify `CSRF-Token` headers.
 - **HttpOnly Cookies & JWT**: Store JWT tokens in signed, HttpOnly, secure cookies.
+
+---
+
+## 💾 MongoDB Connection & Seeding Standards
+
+### 1. Database Naming Parity
+API connection scripts must dynamically override the database path in the MongoDB connection URI to enforce `elodb` across all environments.
+```typescript
+// Enforce canonical database name "elodb" in connection string
+const connectionUri = originalUri.replace(/\/[^?]*(\?|$)/, '/elodb$1');
+await mongoose.connect(connectionUri);
+```
+
+### 2. Idempotent Admin Seeding (`SeedPlugin`)
+Administrative seed operations must use atomic, idempotent update operations to avoid duplication on server restarts.
+```typescript
+// Correct idempotent upsert pattern
+await UserModel.findOneAndUpdate(
+  { role: 'admin' },
+  {
+    $setOnInsert: {
+      email: 'admin@eloorganico.com',
+      username: 'admin',
+      password: hashedSecurePassword,
+      role: 'admin'
+    }
+  },
+  { upsert: true, new: true }
+);
+```
