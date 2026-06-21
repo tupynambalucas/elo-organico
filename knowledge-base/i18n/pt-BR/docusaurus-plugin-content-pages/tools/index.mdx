@@ -1,0 +1,35 @@
+---
+title: Workspace de Ferramentas (Tools)
+description: Infraestrutura técnica de automação, ecossistemas Model Context Protocol (MCP) e diretrizes de engenharia nativa de IA.
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import McpEcosystem from './components/McpEcosystem.mdx';
+import NetworkArchitecture from './components/NetworkArchitecture.mdx';
+import EngineeringGuidelines from './components/EngineeringGuidelines.mdx';
+import MaintenanceLogic from './components/MaintenanceLogic.mdx';
+
+<main className="container margin-vert--lg">
+  <h1>Workspace de Ferramentas (Tools)</h1>
+
+    O workspace Tools fornece a espinha dorsal de automação para o projeto Elo Orgânico. Ele centraliza servidores especializados de Model Context Protocol (MCP) e scripts de infraestrutura projetados para aumentar a produtividade do desenvolvedor, garantir a paridade de ambiente através de builds Docker multi-estágio e permitir fluxos de trabalho de engenharia nativa de IA seguros e de alto contexto.
+
+    <Tabs>
+      <TabItem value="mcp" label="Ecossistema MCP" default>
+        <McpEcosystem />
+      </TabItem>
+
+      <TabItem value="network" label="Segurança de IA & Rede">
+        <NetworkArchitecture />
+      </TabItem>
+
+      <TabItem value="guidelines" label="Diretrizes de Engenharia">
+        <EngineeringGuidelines />
+      </TabItem>
+
+      <TabItem value="scripts" label="Manutenção & Lógica">
+        <MaintenanceLogic />
+      </TabItem>
+    </Tabs>
+  </main>

@@ -59,9 +59,11 @@ When generating code examples in documentation, you MUST follow:
 
 For detailed code patterns, refer to [references/patterns.md](references/patterns.md).
 
-## 6. Build Validation
+## 6. Build & Content Validation
 
 Before concluding any documentation change:
 1.  **Translation Alignment Check**: Verify that all modified or new English documentation files have their corresponding translated versions under the `pt-BR` locale fully synchronized and up-to-date.
-2.  **Compilation Check**: Run `pnpm docs:build` to compile Docusaurus and verify that there are no broken links (`onBrokenLinks: 'throw'` is configured) or MDX syntax errors.
-3.  **Review Check**: Run `git diff` to double check accuracy and ensure a clean working tree.
+2.  **Content Integrity Check (git diff)**: Analyze the `git diff` of all modified documents to verify that the core content was preserved. Ensure that no required technical information, guidelines, or architectural contexts were accidentally removed or incorrectly altered during refactoring.
+3.  **Codebase Reconciliation (Inconclusive Cases)**: If the diff shows deleted info and it is suspicious or you cannot be 100% certain if the deletion is correct, you MUST inspect the corresponding implementation workspace (`instance/`, `portal/`, or `tools/`). Verify if the undocumented code/feature was actually deprecated, refactored, or deleted in the codebase before approving the removal of the documentation.
+4.  **Compilation Check**: Run `pnpm docs:build` to compile Docusaurus and verify that there are no broken links (`onBrokenLinks: 'throw'` is configured) or MDX syntax errors.
+5.  **Review Check**: Run `git diff` to double check accuracy and ensure a clean working tree.

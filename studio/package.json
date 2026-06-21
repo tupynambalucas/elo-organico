@@ -43,7 +43,7 @@
     "lint": "eslint .",
     "penpot:up": "docker compose -f penpot/compose.yaml up -d",
     "penpot:down": "docker compose -f penpot/compose.yaml down",
-    "penpot:reset": "docker compose -f penpot/compose.yaml down && docker compose -f penpot/compose.yaml up -d --force-recreate",
+    "penpot:reset": "docker compose -f penpot/compose.yaml down --volumes && docker compose -f penpot/compose.yaml up -d --build",
     "penpot:update": "docker compose -f penpot/compose.yaml pull && docker compose -f penpot/compose.yaml up -d",
     "aide:up": "docker compose -f penpot/compose.yaml up -d aide",
     "aide:down": "docker compose -f penpot/compose.yaml stop aide",

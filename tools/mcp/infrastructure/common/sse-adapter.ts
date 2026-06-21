@@ -212,7 +212,11 @@ fastify.post<{ Querystring: QueryParams; Body: string }>('/messages', async (req
     return reply.status(404).type('text/plain').send('Session not found');
   }
 
-  const body = request.body;
+  let body = request.body;
+  if (process.env.MCP_REWRITE_LOCALHOST === 'true') {
+    body = body.replace(/localhost|127\.0\.0\.1/g, 'host.docker.internal');
+  }
+
   try {
     child.stdin.write(body + '\n');
     return reply.type('text/plain').send('Accepted');
@@ -254,7 +258,10 @@ fastify.post<{ Querystring: QueryParams; Body: string }>('/sse', async (request,
     return reply.status(404).type('text/plain').send('Session not found');
   }
 
-  const body = request.body;
+  let body = request.body;
+  if (process.env.MCP_REWRITE_LOCALHOST === 'true') {
+    body = body.replace(/localhost|127\.0\.0\.1/g, 'host.docker.internal');
+  }
 
   // Check if it's a notification
   let isNotification = false;

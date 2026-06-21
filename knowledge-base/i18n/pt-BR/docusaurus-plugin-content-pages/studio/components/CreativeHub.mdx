@@ -1,0 +1,33 @@
+### Repositório Criativo Centralizado
+
+O workspace Studio atua como o cofre mestre para todos os ativos criativos da marca Elo Orgânico. Ele centraliza arquivos originais de suítes de design e produção profissionais, garantindo uma evolução visual controlada por versão e eliminando a gestão fragmentada de ativos.
+
+#### Integração de Ferramentas de Design
+
+O repositório suporta fluxos de trabalho de várias ferramentas mantendo arquivos de origem brutos que servem como a origem canônica para todos os ativos prontos para produção.
+
+*   **Gráficos Vetoriais:** Arquivos mestre do Adobe Illustrator (`.ai`) para logotipos, exploração de tipografia e iconografia.
+*   **Imagens Digitais:** Fontes do Adobe Photoshop (`.psd`) para ativos rasterizados de alta fidelidade e material de marketing.
+*   **Engenharia 3D:** Arquivos mestre do Blender (`.blend`) para componentes de plataforma e visualizações espaciais (por exemplo, `Avokado.blend`).
+*   **Pós-Produção:** Projetos do Adobe Premiere (`.prproj`) para tutoriais da comunidade e conteúdo de marketing.
+
+#### Gestão de Ativos de Origem
+
+Todos os arquivos mestre de alta fidelidade são mantidos estritamente dentro da estrutura de diretórios `assets/sources/**`. Isso garante que toda a história da identidade visual da marca seja preservada e acessível dentro do contexto do monorepo.
+
+#### Pipeline de Produção
+
+Os arquivos mestre transitam para as camadas de aplicação através de um pipeline otimizado:
+
+*   **Ícones:** As fontes são processadas em SVGs otimizados em `src/icons/`.
+*   **Modelos 3D:** Os arquivos mestre do Blender são exportados para o formato GLB para renderização em tempo de execução.
+*   **Tokens:** Constantes visuais são exportadas como definições TypeScript fortemente tipadas de `src/tokens/`.
+
+#### Exportações de Workspace Namespaced
+
+Os pacotes internos acessam ativos criativos através de exportações estritamente definidas para garantir o isolamento arquitetural:
+
+*   `@elo-organico/studio/icons`: Biblioteca SVG otimizada e registro de componentes Icon com curadoria (wrapper forwardRef).
+*   `@elo-organico/studio/logos`: Logotipos de marcas canônicas.
+*   `@elo-organico/studio/tokens`: Constantes de design fortemente tipadas para lógica JS/TS.
+*   `@elo-organico/studio/theme.css`: Tema Tailwind CSS v4 com zero runtime e resets globais.

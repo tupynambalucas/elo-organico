@@ -1,0 +1,37 @@
+### Engenharia de Design Self-Hosted
+
+O Elo Orgânico utiliza uma stack do Penpot distribuída e integrada ao Aide, um assistente de engenharia nativo de IA. Esta configuração garante soberania absoluta dos dados e sincronização automatizada entre as camadas de design e a base de código.
+
+#### Arquitetura de Infraestrutura
+
+O ambiente é orquestrado através de uma stack Docker multi-container, utilizando backends em nuvem para maior durabilidade.
+
+*   **Orchestration:** Gerenciada via `studio/penpot/compose.yaml` (Frontend, Backend, Exporter, Valkey).
+*   **Camada de Banco de Dados:** Persistência PostgreSQL hospedada na Neon.tech para integridade transacional sem servidor.
+*   **Armazenamento de Objetos:** Os ativos binários são persistidos em buckets compatíveis com S3 (Backblaze B2 ou Filebase), garantindo um tamanho mínimo de Git.
+
+#### Aide: Integração Nativa de IA
+
+O Aide funciona como uma ponte Model Context Protocol (MCP), permitindo que agentes de IA interajam diretamente com a API do plugin do Penpot para consultas avançadas e transformações de layout.
+
+##### Lógica de Ponte do Aide
+
+*   **Protocolo:** Comunicação WebSocket bidirecional entre o servidor `@penpot/mcp` e o ambiente Penpot.
+*   **Segurança:** O Aide opera dentro da rede isolada `penpot-net`, fornecendo um gateway controlado para manipulação de design.
+*   **Conectividade:** Utiliza a porta 4402 para auditorias de design em tempo real e sincronização.
+
+##### Scripts Operacionais
+
+| Comando | Responsabilidade Técnica |
+| :--- | :--- |
+| `pnpm penpot:up` | Inicializa os serviços de design principais em `http://localhost:9005`. |
+| `pnpm penpot:update` | Puxa as imagens de serviço mais recentes e realiza um reinício gradual. |
+| `pnpm aide:up` | Ativa a ponte do Aide (Penpot MCP) para manipulação de design por IA. |
+| `pnpm aide:down` | Desativa a ponte de automação. |
+
+##### Regras Obrigatórias de Manipulação por IA
+
+*   **Reutilização de Componentes:** Sempre verifique a biblioteca de componentes existente (no Penpot) ou a biblioteca de UI (`instance/apps/web/src/components`) antes de criar novos elements. O Aide deve priorizar os tokens e componentes do sistema de design existentes.
+*   **Lógica Token-First:** As exportações de design para código devem usar estritamente as Propriedades Personalizadas do CSS (CSS Custom Properties) derivadas de `src/tokens/` para cores, fontes e espaçamento.
+*   **Otimização de SVG:** Certifique-se de que o código SVG exportado está otimizado, segue os padrões de ícones do projeto e está integrado através do registro `@elo-organico/studio/icons`.
+*   **Hierarquia de Camadas:** A manutenção do agrupamento semântico é obrigatória. Os elementos devem ser organizados em páginas e frames claros (por exemplo, `Layout/Grid`, `Components/Buttons`).

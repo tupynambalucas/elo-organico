@@ -1,0 +1,85 @@
+import { ColorSwatch } from '@site/src/pages/studio/components/ColorSwatch';
+
+### Visual Strategy and Governance
+
+The visual identity is grounded in the Everyman archetype, prioritizing accessibility, empathy, and realistic community orientation. Governance is maintained through a strictly tokenized design system engineered for WCAG AAA compliance.
+
+#### Core Philosophy and Pillars
+
+*   **Belonging:** Fostering community ownership and collective participation.
+*   **Honest Simplicity:** Transparent operations delivered through intuitive, functional interfaces.
+*   **Human Connection:** Maintaining the social link in every digital transaction.
+*   **Concept:** "From peer to peer, from soil to table."
+
+#### Brand Slogans
+
+| Context | Slogan |
+| :--- | :--- |
+| Primary | "Your community, our harvest." |
+| Functional | "Organic sharing, easy as it should be." |
+| Marketing | "As natural as our friendship." |
+
+#### Complete Color Palette Specification
+
+The color identity evokes naturalness combined with community simplicity. All tokens are prioritized for accessibility and semantic flexibility.
+
+##### Primary Identity (Brand Triad)
+
+| Swatch | Token | Hex | Functional Application |
+| :---: | :--- | :--- | :--- |
+| <ColorSwatch color="#8EA637" /> | Olive Leaf | `#8EA637` | Primary brand identifier and interactive components. |
+| <ColorSwatch color="#C9F2AC" /> | Sprout Green | `#C9F2AC` | Secondary support, highlights, and luminosity. |
+| <ColorSwatch color="#022601" /> | Deep Forest | `#022601` | Solid bases, high-contrast text, and structural borders. |
+
+##### Background System (Surfaces)
+
+| Swatch | Token | Hex | Suggested Use |
+| :---: | :--- | :--- | :--- |
+| <ColorSwatch color="#F2E8C9" /> | Natural Fiber | `#F2E8C9` | Light Background (Base). Warm cream. |
+| <ColorSwatch color="#400101" /> | Coffee Soil | `#400101` | Dark Background (Base). Main background for Dark Mode. |
+| <ColorSwatch color="#F1F8E9" /> | Mint Whisper | `#F1F8E9` | Light Background (Tint). Soft highlight surfaces. |
+| <ColorSwatch color="#02590F" /> | Canopy Dark | `#02590F` | Dark Background (Shade). Modals and sidebars. |
+
+##### Structural Neutral Colors
+
+| Swatch | Token | Hex | Suggested Use |
+| :---: | :--- | :--- | :--- |
+| <ColorSwatch color="#E6DCC3" /> | Raw Line | `#E6DCC3` | Light Background Borders. |
+| <ColorSwatch color="#2C1A1A" /> | Night Line | `#2C1A1A` | Dark Background Borders. |
+| <ColorSwatch color="#A89F91" /> | Disabled Gray | `#A89F91` | Disabled states. Warm gray. |
+
+##### Typographic System
+
+| Swatch (L/D) | Level | Light HEX | Dark HEX |
+| :---: | :--- | :--- | :--- |
+| <ColorSwatch color="#400101" /> <ColorSwatch color="#F2E8C9" /> | Titles (H1-H3) | `#400101` | `#F2E8C9` |
+| <ColorSwatch color="#5C4B3F" /> <ColorSwatch color="#C9F2AC" /> | Subtitles (H4-H6) | `#5C4B3F` | `#C9F2AC` |
+| <ColorSwatch color="#212121" /> <ColorSwatch color="#FBF8F1" /> | Paragraphs | `#212121` | `#FBF8F1` |
+| <ColorSwatch color="#6D6D6D" /> <ColorSwatch color="#A89F91" /> | Captions | `#6D6D6D` | `#A89F91` |
+
+##### Highlight & Feedback
+
+| Swatch | Token | Hex | Purpose |
+| :---: | :--- | :--- | :--- |
+| <ColorSwatch color="#F2622E" /> | Harvest Pumpkin | `#F2622E` | CTA / Primary Action. |
+| <ColorSwatch color="#F2A341" /> | Sun Pollen | `#F2A341` | Highlights / Badges. |
+| <ColorSwatch color="#2ECC71" /> | Emerald Fresh | `#2ECC71` | Success states. |
+| <ColorSwatch color="#D9042B" /> | Clay Error | `#D9042B` | Critical alerts. |
+| <ColorSwatch color="#F2C84B" /> | Ripe Warning | `#F2C84B` | Warnings and cautionary alerts. |
+| <ColorSwatch color="#2F80ED" /> | Water Info | `#2F80ED` | Informational messages and tips. |
+
+#### Typography and Font Engineering
+
+The system utilizes the Nunito font family (Rounded), managed as a centralized asset within the `@studio` workspace to ensure cross-package parity. Headlines are prioritized in Bold weights, while body text follows Regular weight specifications.
+*   **Distribution:** Fonts are bundled via `@fontsource/nunito` and injected automatically into the global styles through the centralized `theme.css`.
+*   **Performance:** Implementation utilizes **Variable Fonts** (`variable.css`) to provide the full weight spectrum (200-900) with a single HTTP request, optimizing Core Web Vitals.
+
+#### Technical Implementation: Hybrid Token System
+
+The design system employs a **Hybrid Source of Truth (SSOT)** model, bridging the gap between high-performance CSS and type-safe TypeScript engineering.
+
+| Layer | File Path | Technical Purpose |
+| :--- | :--- | :--- |
+| **Source of Truth (TS)** | `src/tokens/colors.ts` | Strongly-typed object (HEX) for React components, GSAP animations, and Three.js materials. |
+| **Distribution Layer (CSS)** | `src/tokens/theme.css` | Tailwind CSS v4 `@theme` block and base resets for zero-runtime browser delivery. |
+| **Icon Registry** | `src/icons/index.tsx` | Curated barrel of FontAwesome icons and a standardized `Icon` component wrapper (forwardRef). |

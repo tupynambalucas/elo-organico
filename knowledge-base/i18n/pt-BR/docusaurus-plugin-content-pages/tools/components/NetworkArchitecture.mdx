@@ -1,0 +1,14 @@
+### Isolated Infrastructure & Network Routing
+
+A segurança e a previsibilidade do ambiente são mantidas por meio de uma rede bridge Docker isolada e explicitamente nomeada (`elo-mcp-net`), impedindo o acesso não autorizado entre redes.
+
+#### Gateway & Routing Configuration
+
+*   **Gateway Proxy HTTP Fastify:** Um servidor Fastify v5 leve (`elo-mcp-gateway`) executado no Node.js serve como ponto de entrada. Ele expõe a porta `3005` para a máquina física host e escuta na porta `3000` internamente. Usando `@fastify/http-proxy`, ele encaminha prefixos de rota (por exemplo, `/github`) para os respectivos containers de backend.
+*   **Tratamento de CORS & SSE a Nível de Rede:** O gateway intercepta requisições `OPTIONS` e injeta cabeçalhos CORS apropriados globalmente. Ele desativa os tempos limite (timeouts) padrões do HTTP nos proxies para evitar que as conexões ativas de Server-Sent Events (SSE) caiam durante tarefas de longa execução.
+*   **Roteamento de Domínio Interno:** Na rede bridge `elo-mcp-net`, o gateway é apelidado como `elo.internal.tools`. Serviços LLM internos ou agentes em execução em containers adjacentes podem rotear requisições diretamente através de `http://elo.internal.tools:3000/[servico]/sse`.
+*   **Ponte Host-para-Container:** Clientes de desenvolvimento local (como o Google Antigravity CLI) comunicam-se com o gateway a partir da interface loopback da máquina host usando:
+    ```
+    http://localhost:3005/github/sse
+    ```
+*   **Mapeamento de Fluxo de stdio com Buffer:** O wrapper executa os processos filhos localmente, evitando a fragmentação do stdout. Ao verificar os `id`s de transação JSON-RPC linha por linha, o adaptador resolve as requisições HTTP com payloads completos e não truncados.
