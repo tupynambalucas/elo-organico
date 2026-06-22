@@ -1,6 +1,3 @@
-# PROFESSIONAL MULTI-STAGE DOCKERFILE FOR DOCKER HUB MCP SERVER
-# Repository: https://github.com/docker/hub-mcp
-
 # --- Build Stage ---
 FROM node:22-slim AS builder
 
@@ -12,34 +9,21 @@ WORKDIR /app
 # Clone the official repository
 RUN git clone https://github.com/docker/hub-mcp.git .
 
-# Install all dependencies (including devDependencies for build)
-RUN npm install
-
-# Build the project (generates dist/ folder)
-RUN npm run build
-
-# Prune development dependencies to keep the image slim
-RUN npm prune --omit=dev
-
+# Install dependencies and build
+RUN npm install && npm run build && npm prune --omit=dev
 
 # --- Runtime Stage ---
 FROM node:22-slim
 
 WORKDIR /app
 
-# Copy only the necessary files from the builder stage
+# Copy built files
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 
-# Install runtime dependencies and tsx for TypeScript execution
-RUN npm install fastify@^5.7.4 @fastify/sse@^0.4.0 tsx@^4.19.3
+# Install socat
+RUN apt-get update && apt-get install -y socat && rm -rf /var/lib/apt/lists/*
 
-# Copy the TypeScript SSE adapter
-COPY infrastructure/common/sse-adapter.ts ./sse-adapter.ts
-
-ENV PORT=3004
-ENV MCP_COMMAND=node
-
-# Use a shell entrypoint to construct the MCP_ARGS JSON array dynamically based on env vars
-ENTRYPOINT ["sh", "-c", "if [ -n \"$HUB_USERNAME\" ]; then export MCP_ARGS=\"[\\\"dist/index.js\\\", \\\"--transport=stdio\\\", \\\"--username\\\", \\\"$HUB_USERNAME\\\"]\"; else export MCP_ARGS=\"[\\\"dist/index.js\\\", \\\"--transport=stdio\\\"]\"; fi; exec npx tsx sse-adapter.ts"]
+EXPOSE 3004
+ENTRYPOINT ["sh", "-c", "if [ -n \"$HUB_USERNAME\" ]; then exec socat TCP-LISTEN:3004,reuseaddr,fork EXEC:\"node dist/index.js --transport=stdio --username $HUB_USERNAME\"; else exec socat TCP-LISTEN:3004,reuseaddr,fork EXEC:\"node dist/index.js --transport=stdio\"; fi"]

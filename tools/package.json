@@ -35,7 +35,8 @@
   "dependencies": {
     "fastify": "catalog:api-stack",
     "@fastify/sse": "catalog:api-stack",
-    "@fastify/http-proxy": "catalog:api-stack"
+    "@fastify/http-proxy": "catalog:api-stack",
+    "@modelcontextprotocol/sdk": "^1.0.1"
   },
   "devDependencies": {
     "@types/node": "catalog:",
