@@ -1,69 +1,78 @@
 ---
 name: doc-expert
-description: Technical documentation specialist for the Elo Orgânico project. Use to create, analyze, or update Markdown files (.md, .mdx), Mermaid diagrams, and technical documentation following the project's Senior Lead standards.
+description: Use this skill when the user wants to create, analyze, or update Markdown files (.md) such as READMEs or skill files, or MDX documents (.mdx) in the knowledge base, following the project's Senior Lead standards.
 ---
 
 # Doc Expert
 
-This skill equips the agent as the Technical Documentation Specialist (Doc Expert) for the **Elo Orgânico** monorepo.
+This skill defines the standards, structure, design patterns, and validation workflow for technical documentation in the **Elo Orgânico** monorepo.
 
-## 1. Documentation Structure & Diátaxis System
+## 1. Global Documentation Standards
 
-All documentation created or modified within `knowledge-base/docs/` must align with the **Diátaxis framework**, classifying pages into one of four distinct categories:
+The following rules apply to all documentation tasks, regardless of file extension or location.
 
-| Category | Focus | Orientation | Target Directory |
-| :--- | :--- | :--- | :--- |
-| **Tutorials** | Learning | Step-by-step practical lesson for beginners | `docs/tutorials/` |
-| **How-to Guides** | Problem-solving | Specific goal-oriented task guide | `docs/engineering/` or custom |
-| **Reference** | Information | Technical descriptions, APIs, schemas | `docs/reference/` or co-located |
-| **Explanations** | Understanding | High-level architecture, security, "why" decisions | `docs/engineering/` or `docs/product/` |
+### A. Tone of Voice
 
-*Rule:* Never mix quadrants. An explanation page should not contain step-by-step tutorial setups, and a reference table should not contain architectural essays.
+- Maintain a senior, objective, and technical tone.
+- Avoid preambles, introductory chatter, or conclusion summaries.
+- Keep sentences concise, clear, and direct.
 
-## 2. Writing & Styling Guidelines
+### B. Strict English-First
 
-1.  **Tone of Voice**: Senior, objective, and technical. No preambles, introductory chatter, or conclusion summaries.
-2.  **Formatting**: GFM Markdown and Docusaurus MDX.
-    - Refer to [references/mdx-sintax.md](references/mdx-sintax.md) for Markdown, MDX, and Docusaurus components syntax.
-3.  **Strict English-First**: All technical documentation, READMEs, architectural briefs, and code comments/examples MUST be written in **English (en-US)**.
-4.  **Emojis**: DO NOT use emojis in any technical document. Maintain a clean, professional enterprise look.
-5.  **Docusaurus Customization Guidelines**:
-    - **Admonitions**: Use native colon admonitions (`:::note`, `:::tip`, `:::info`, `:::caution`, `:::danger`).
-    - **Tabs**: Group environment-specific instructions (Dev vs. Staging vs. Prod) using `<Tabs>` and `<TabItem>`.
-    - **Metadata Slugs**: Always specify explicit metadata headers (frontmatter) like `id`, `title`, and `sidebar_position` if sidebar ordering is critical.
+- All technical documentation, READMEs, architectural briefs, and code comments/examples MUST be written in English (en-US).
 
-## 3. Localization & Translation (i18n) Protocol
+### C. Zero Emojis
 
-The project supports English (`en`) and Portuguese (`pt-BR`). Localized documents must reside under `knowledge-base/i18n/pt-BR/docusaurus-plugin-content-docs/current/...` mirroring the exact path of the English source files.
+- Emojis are strictly forbidden in all technical documents, READMEs, and skill files to maintain a professional, corporate appearance.
 
-*   **Change Propagation**: Whenever any document is created, updated, or deleted at its source (English), the corresponding Portuguese (`pt-BR`) translation file must be created, updated, or deleted to maintain 100% parity.
-*   **DO NOT** translate frontmatter metadata keys (e.g., `id`, `tags`, `sidebar_position`).
-*   **DO NOT** translate JSX tag names, component imports, or variable names inside expression braces.
-*   **DO** translate prose, image alt texts, comments, and strings intended for user consumption.
-*   **DO** keep filenames and relative internal links identical to the English files.
+### D. Mermaid Diagram Standards
 
-## 4. Mermaid Diagram Standards
-
-- Always define layout direction explicitly (`direction TD` or `direction LR`).
-- Use clear node labels wrapped in quotes `node["label"]` to prevent parser issues with special characters.
+- Always define layout direction explicitly (e.g., `direction TD` or `direction LR`).
+- Use clear node labels wrapped in double quotes (e.g., `node["label"]`) to prevent parser issues with special characters.
 - Use subgraphs to explicitly illustrate Bounded Context boundaries (e.g., separating `instance/` logic from `portal/` logic).
-- Do not use HTML formatting tags within Mermaid labels; rely on Markdown where supported.
+- Do not use HTML formatting tags within Mermaid labels; rely on plain Markdown where supported.
 
-## 5. Mandatory Technical Standards (Code Snippets)
+### E. Zero Placeholders
 
-When generating code examples in documentation, you MUST follow:
-- **Strict Booleans**: `if (value === true)`
-- **Asynchronous Patterns**: Use `void asyncFn()` for intentionally unawaited promises.
-- **React 19**: Use the `use()` hook and explicit comparisons in JSX (e.g., `{items.length > 0 && <List />}`).
-- **Architecture**: Respect Bounded Contexts and layered architecture: `Controller -> Service -> Repository -> Model`.
+- Never include empty sections, "TBD", or "TODO" notes in documentation. If a section is not yet ready, omit it completely.
 
-For detailed code patterns, refer to [references/patterns.md](references/patterns.md).
+---
 
-## 6. Build & Content Validation
+## 2. Document Types and Use Cases
 
-Before concluding any documentation change:
-1.  **Translation Alignment Check**: Verify that all modified or new English documentation files have their corresponding translated versions under the `pt-BR` locale fully synchronized and up-to-date.
-2.  **Content Integrity Check (git diff)**: Analyze the `git diff` of all modified documents to verify that the core content was preserved. Ensure that no required technical information, guidelines, or architectural contexts were accidentally removed or incorrectly altered during refactoring.
-3.  **Codebase Reconciliation (Inconclusive Cases)**: If the diff shows deleted info and it is suspicious or you cannot be 100% certain if the deletion is correct, you MUST inspect the corresponding implementation workspace (`instance/`, `portal/`, or `tools/`). Verify if the undocumented code/feature was actually deprecated, refactored, or deleted in the codebase before approving the removal of the documentation.
-4.  **Compilation Check**: Run `pnpm docs:build` to compile Docusaurus and verify that there are no broken links (`onBrokenLinks: 'throw'` is configured) or MDX syntax errors.
-5.  **Review Check**: Run `git diff` to double check accuracy and ensure a clean working tree.
+Follow the specific guidelines and refer to the designated references folder based on the document type being managed.
+
+### Use Case A: Project Markdown Files (.md, README.md, Skill Files)
+
+Use these guidelines when creating, updating, or analyzing general repository documentation, package READMEs, or files under the `.agents/` folder.
+
+- **Syntax Standard**: Must adhere to standard GitHub Flavored Markdown (GFM).
+- **GFM Callouts**: Use GFM blockquote alerts (`> [!NOTE]`, `> [!TIP]`, `> [!IMPORTANT]`, `> [!WARNING]`, `> [!CAUTION]`) for admonitions.
+- **Reference Folders**:
+  - GFM syntax and formatting: [references/github/syntax.md](references/github/syntax.md)
+  - Code examples and GitHub patterns: [references/github/patterns.md](references/github/patterns.md)
+  - Validation and verification workflow: [references/github/workflow.md](references/github/workflow.md)
+
+### Use Case B: Knowledge Base Documents (.mdx under knowledge-base/)
+
+Use these guidelines when creating, updating, or analyzing documents within the `knowledge-base/` workspace.
+
+- **Structure**: Align with the Diátaxis framework (Tutorials, How-to Guides, Reference, Explanation). Never mix quadrants in a single page.
+- **Docusaurus Admonitions**: Use native colon admonitions (`:::note`, `:::tip`, `:::info`, `:::caution`, `:::danger`) instead of GFM blockquote alerts.
+- **Interactive Elements**: Use `@theme/Tabs` and `@theme/TabItem` to group environment-specific or system-specific instructions.
+- **i18n Translation Protocol**:
+  - When creating or modifying an English document, you must also synchronize its Portuguese (pt-BR) translation under `knowledge-base/i18n/pt-BR/docusaurus-plugin-content-docs/current/...` mirroring the exact path of the English source file.
+  - Do not translate frontmatter keys, component names, or imports.
+- **Reference Folders**:
+  - MDX and Docusaurus components syntax: [references/knowledge-base/syntax.md](references/knowledge-base/syntax.md)
+  - Strict coding standards for KB code snippets: [references/knowledge-base/patterns.md](references/knowledge-base/patterns.md)
+  - Build, translation, and verification workflow: [references/knowledge-base/workflow.md](references/knowledge-base/workflow.md)
+
+---
+
+## 3. Build and Content Validation Workflow
+
+Before completing any documentation task, you must execute the verification steps defined in the respective workflow guide:
+
+- **For general Markdown (.md)**: Follow the validation steps in [references/github/workflow.md](references/github/workflow.md).
+- **For Docusaurus MDX (.mdx)**: Follow the compilation and translation validation steps in [references/knowledge-base/workflow.md](references/knowledge-base/workflow.md).

@@ -1,10 +1,10 @@
-# Doc Expert Code Patterns
+# Knowledge Base Code Patterns
 
-These patterns must be followed in all code examples generated in the Elo Orgânico documentation. For formatting syntax, refer to the [MDX Syntax Guide](mdx-sintax.md).
+These patterns must be followed in all code examples generated in the Elo Orgânico documentation. For formatting syntax, refer to the [MDX Syntax Guide](syntax.md).
 
 ---
 
-## 🛠️ General Standards
+## General Standards
 
 ### 1. Strict Booleans
 Always use explicit comparisons in conditionals and JSX.
@@ -27,7 +27,7 @@ void notifyUser();
 
 ---
 
-## ⚛️ React 19 & Zustand Standards
+## React 19 & Zustand Standards
 
 ### 1. JSX Explicit Comparisons
 Always use explicit comparisons to boolean/numbers in JSX rendering conditions. Never use array index as keys.
@@ -67,7 +67,7 @@ Combine TailwindCSS v4 and CSS Modules. **The use of `px` is strictly forbidden*
 
 ---
 
-## 🚀 Fastify 5 & Mongoose API Standards
+## Fastify 5 & Mongoose API Standards
 
 ### 1. Layered Responsibilities
 Code examples must align with: `Controller -> Service -> Repository -> Model`. All data schemas must reside in core packages (e.g., `@elo-instance/core` or `@elo-portal/core`) first.
@@ -89,7 +89,7 @@ API examples must feature security-first configurations:
 
 ---
 
-## 💾 MongoDB Connection & Seeding Standards
+## MongoDB Connection & Seeding Standards
 
 ### 1. Database Naming Parity
 API connection scripts must dynamically override the database path in the MongoDB connection URI to enforce `elodb` across all environments.
