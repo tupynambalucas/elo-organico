@@ -17,3 +17,4 @@ This section covers the Penpot environment, design-token sync automation, and cu
 ## Planned Focus
 - **Sync Integration**: Automate the pipeline to sync tokens from Penpot directly into codebase design systems.
 - **Extended Suite Assets**: Design custom marketing and UI asset libraries.
+- **Cloud-Based Asset Hosting**: Migrate the studio architecture to host all static assets (images, logos, 3D models) from [studio/src](file:///D:/projects/elo-organico/studio/src) in the cloud (using CDN or buckets) instead of tracking them in the Git repository, keeping the codebase lightweight.

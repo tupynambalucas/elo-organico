@@ -2,6 +2,7 @@ import Fastify from 'fastify';
 import fastifySSE from '@fastify/sse';
 import { spawn } from 'child_process';
 import type { ChildProcessWithoutNullStreams } from 'child_process';
+import { readFileSync, existsSync } from 'fs';
 
 const PORT = Number(process.env.PORT) || 3000;
 const COMMAND = process.env.MCP_COMMAND;
@@ -12,6 +13,22 @@ const ARGS: string[] = typeof process.env.MCP_ARGS === 'string' && process.env.M
 if (COMMAND === undefined) {
   console.error("Error: MCP_COMMAND environment variable is required.");
   process.exit(1);
+}
+
+// Load instructions from local folder context injected via volume mount
+const INSTRUCTIONS_PATH = process.env.MCP_INSTRUCTIONS_FILE !== undefined && process.env.MCP_INSTRUCTIONS_FILE !== ''
+  ? process.env.MCP_INSTRUCTIONS_FILE
+  : '/app/instructions.md';
+let instructionsContent = '';
+if (existsSync(INSTRUCTIONS_PATH) === true) {
+  try {
+    instructionsContent = readFileSync(INSTRUCTIONS_PATH, 'utf-8');
+    console.info(`[Adapter] Successfully loaded instructions from ${INSTRUCTIONS_PATH} (len=${instructionsContent.length})`);
+  } catch (err) {
+    console.error(`[Adapter] Failed to read instructions from ${INSTRUCTIONS_PATH}:`, err);
+  }
+} else {
+  console.info(`[Adapter] No instructions file found at ${INSTRUCTIONS_PATH}`);
 }
 
 const fastify = Fastify({
@@ -76,11 +93,19 @@ function queryChild(sessionId: string, child: ChildProcessWithoutNullStreams, re
           }
 
           try {
-            const responsePayload = JSON.parse(trimmedLine) as { id?: string | number };
+            const responsePayload = JSON.parse(trimmedLine) as { id?: string | number; result?: { protocolVersion?: string; instructions?: string } };
             if (responsePayload.id === requestId) {
               console.info(`[Session ${sessionId}] Found matching JSON-RPC response for id=${requestId}. Resolving.`);
               cleanup();
-              resolve(line);
+              if (responsePayload.result !== undefined && typeof responsePayload.result.protocolVersion === 'string') {
+                console.info(`[Session ${sessionId}] Intercepted initialize response in queryChild. Injecting instructions.`);
+                if (instructionsContent !== '') {
+                  responsePayload.result.instructions = instructionsContent;
+                }
+                resolve(JSON.stringify(responsePayload));
+              } else {
+                resolve(line);
+              }
               return;
             } else {
               console.info(`[Session ${sessionId}] Mismatched JSON-RPC response id=${responsePayload.id} (expected ${requestId}). Continuing to buffer.`);
@@ -178,7 +203,20 @@ fastify.get<{ Querystring: QueryParams }>('/sse', { sse: true }, async (request,
     const lines = data.toString().split('\n');
     for (const line of lines) {
       if (line.trim() !== '') {
-        void reply.sse.send({ event: 'message', data: line });
+        let outputLine = line;
+        try {
+          const payload = JSON.parse(line) as { result?: { protocolVersion?: string; instructions?: string } };
+          if (payload.result !== undefined && typeof payload.result.protocolVersion === 'string') {
+            console.info(`[SSE ${clientId}] Intercepted initialize response. Injecting instructions.`);
+            if (instructionsContent !== '') {
+              payload.result.instructions = instructionsContent;
+            }
+            outputLine = JSON.stringify(payload);
+          }
+        } catch {
+          // Ignore, line is raw text or partial JSON chunk
+        }
+        void reply.sse.send({ event: 'message', data: outputLine });
       }
     }
   });

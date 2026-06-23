@@ -27,6 +27,8 @@ services:
     restart: always
     env_file:
       - ./config/.env.github
+    volumes:
+      - ./context/github/instructions.md:/app/instructions.md:ro
     networks:
       - elo-mcp-net
 
@@ -38,6 +40,8 @@ services:
     restart: always
     env_file:
       - ./config/.env.context7
+    volumes:
+      - ./context/context7/instructions.md:/app/instructions.md:ro
     networks:
       - elo-mcp-net
 
@@ -53,6 +57,8 @@ services:
       - 'host.docker.internal:host-gateway'
       - 'elo.internal:host-gateway'
     shm_size: '2gb'
+    volumes:
+      - ./context/browser/instructions.md:/app/instructions.md:ro
     networks:
       - elo-mcp-net
 
@@ -64,6 +70,8 @@ services:
     restart: always
     env_file:
       - ./config/.env.dockerhub
+    volumes:
+      - ./context/dockerhub/instructions.md:/app/instructions.md:ro
     networks:
       - elo-mcp-net
 

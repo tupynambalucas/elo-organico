@@ -17,3 +17,4 @@ Esta seção abrange o ambiente Penpot, automação de sincronização de design
 ## Foco Planejado
 - **Integração de Sincronização**: Sincronizar automaticamente tokens do Penpot diretamente para o código-fonte.
 - **Ativos de Suíte Expandidos**: Criação de bibliotecas de ativos de marketing e de interface personalizadas.
+- **Hospedagem de Ativos na Nuvem**: Migrar a arquitetura do studio para hospedar todos os arquivos de assets estáticos (imagens, logotipos, modelos 3D) da pasta [studio/src](file:///D:/projects/elo-organico/studio/src) na nuvem (utilizando CDN ou buckets) em vez de rastreá-los no repositório Git, mantendo a base de código leve.
