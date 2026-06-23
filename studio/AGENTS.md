@@ -9,6 +9,8 @@ This file defines the domain rules, local stack services, and directory structur
 Before editing or analyzing design files or brand tokens, read the local rules for the specific workspace:
 
 - **Penpot Collaborative Design**: [penpot/AGENTS.md](./penpot/AGENTS.md) — Self-hosted Penpot setup, S3 bucket mappings, PostgreSQL, and Penpot AI assistant (aide).
+- **Workspace Documentation**: Refer to the studio documentation in [knowledge-base/workspaces/03-studio.mdx](../knowledge-base/workspaces/03-studio.mdx).
+- **Workspace Roadmap**: Refer to the studio roadmap in [knowledge-base/roadmap/04-studio.md](../knowledge-base/roadmap/04-studio.md).
 
 ---
 

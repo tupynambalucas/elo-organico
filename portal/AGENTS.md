@@ -11,6 +11,8 @@ Before editing or analyzing code in this platform context, read the local rules 
 - **Core Library**: [packages/core/AGENTS.md](./packages/core/AGENTS.md) — Platform types, validation schemas, and contracts.
 - **REST API**: [apps/api/AGENTS.md](./apps/api/AGENTS.md) — Fastify platform endpoints, billing logic, and tenant registries.
 - **Web Client**: [apps/web/AGENTS.md](./apps/web/AGENTS.md) — React dashboard for global administration and user onboarding.
+- **Workspace Documentation**: Refer to the platform hub documentation in [knowledge-base/workspaces/02-portal.md](../knowledge-base/workspaces/02-portal.md).
+- **Workspace Roadmap**: Refer to the platform hub roadmap in [knowledge-base/roadmap/03-portal.md](../knowledge-base/roadmap/03-portal.md).
 
 ---
 
