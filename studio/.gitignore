@@ -23,5 +23,6 @@ dist/
 **/*.blend
 **/*.blend1
 **/*.dae
+**/*.exr
 **/*.stl
 **/*.3ds
