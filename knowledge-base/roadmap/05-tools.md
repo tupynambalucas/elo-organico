@@ -8,14 +8,12 @@ This section outlines the gateway proxy infrastructure, containerized MCP server
 ## Completed Milestones
 
 ### Gateway Proxy & Networking
-- **Unified Federated Gateway**: Migrated the gateway (`elo-mcp-gateway`) to an official SDK-based federated MCP server. It acts as the single SSE entrypoint (port `3005` on host), dynamically handles tool namespace aggregation, and injects compiled markdown instructions into client handshakes.
-- **CORS & SSE Stream Handling**: Configured network-level CORS headers and SSE event loops to guarantee stable, persistent Server-Sent Events (SSE) connections.
+- **Fastify HTTP Proxy Gateway**: Deployed a containerized gateway (`elo-mcp-gateway`) running on Fastify v5 that proxies and routes incoming local client requests (e.g. from the Antigravity CLI on port `3005`) to downstream context containers.
+- **CORS & SSE Stream Handling**: Configured network-level CORS headers and disabled proxy timeouts to guarantee stable, persistent Server-Sent Events (SSE) connections.
 
-### Containerized MCP Ecosystem (socat raw TCP Bridge)
-- **Raw TCP Bridging**: Replaced custom Node/Fastify wrappers in all backend containers with low-latency `socat` TCP-to-stdio socket tunnels (ports `3001`-`3004` internally), significantly reducing image memory footprints.
+### Containerized MCP Ecosystem
 - **Playwright Headless Browser Sandbox**: Deployed a Debian-based container running Playwright Google Chrome, with automatic rewrite rules routing loopback/localhost requests back to the host machine bridge (`host.docker.internal`).
-- **Zero-Trust Network Isolation**: Configured Docker Compose namespaces to keep upstream TCP ports isolated inside the internal network bridge, preventing any port exposure to the host loopback or public internet.
-- **Structured MCP Servers**: Created containerized setups for:
+- **Structured MCP Servers**: Created Alpine/Debian-based containerized setups for:
   - `GitHub MCP`: Version control execution, issue tracking, and repository queries.
   - `Context7 MCP`: Documentation search targeting dependencies (React 19, Fastify 5, Three.js).
   - `Docker Hub MCP`: Container registry tracking.
@@ -34,8 +32,6 @@ This section outlines the gateway proxy infrastructure, containerized MCP server
 
 ## Planned Focus
 - **Agent Stack Validation**: End-to-end testing of MCP connectivity, OAuth persistence, and workspace bind mount integrity from within containerized agent sessions.
-- **Agent Token-Bypass Authentication**: Implement direct API key authentication for agent CLIs using variables (e.g. `GEMINI_API_KEY`, `GITHUB_TOKEN`) defined in `.env.agents`, bypassing interactive OAuth and provisioning credentials automatically on initial startup.
 - **Host CLI Decommission**: After full agent stack validation, remove host-global CLI installations and delete legacy `.agents/` and `.github/copilot/` configuration directories.
 - **CI/CD Integrations**: Build context validators and check scripts.
 - **Automated Sandbox Reporting**: Expose runtime test and coverage dashboards to local agent environments.
-

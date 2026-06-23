@@ -1,53 +1,31 @@
-# 🤖 @elo-organico/tools - Project Automation & AI Infrastructure
+# 🤖 @elo-organico/tools - Project Automation & Infrastructure
 
-This workspace provides the automation backbone for the Elo Orgânico project. It centralizes specialized Model Context Protocol (MCP) servers, sandboxed AI agent CLI environments, and maintenance utilities designed to enhance developer productivity and ensure environment parity.
+This workspace houses the infrastructure for project automation, specialized scripts, and **Model Context Protocol (MCP)** servers. It serves as the technical backbone for our AI-native engineering workflow.
 
-## 🏗️ Workspace Layout
+## 🏗️ Structure
 
-This package is structured into modular sub-systems:
+- `src/mcp/`: Source code and Docker configurations for MCP servers.
+  - `github/`: Repository management automation.
+  - `context7/`: Technical documentation and research bridge.
+  - `dockerhub/`: Infrastructure orchestration.
+- `tools/mcp/`: Orchestration for the isolated AI network (Docker Compose).
+- `tools/scripts/`: Maintenance and utility scripts.
 
-*   **[agents/](file:///D:/projects/elo-organico/tools/agents)**: Containerized CLI agent sandboxes (GitHub Copilot and Google Antigravity) running inside isolated Docker environments.
-    *   *See details in [agents/README.md](file:///D:/projects/elo-organico/tools/agents/README.md).*
-*   **[mcp/](file:///D:/projects/elo-organico/tools/mcp)**: The containerized Model Context Protocol ecosystem, featuring a Fastify-based HTTP proxy gateway and customized upstream servers.
-    *   *See details in [mcp/README.md](file:///D:/projects/elo-organico/tools/mcp/README.md).*
-*   **[scripts/](file:///D:/projects/elo-organico/tools/scripts)**: Project compilation utilities running under TypeScript (`generate-changelog.ts` and `generate-roadmap.ts`) to maintain documentation and workspace roadmaps.
+## 📖 Detailed Documentation
 
----
+Technical documentation is centralized in our **[Knowledge Base](https://tupynambalucas.github.io/elo-organico)**:
 
-## 🛠️ Operations & Orchestration Commands
-
-All operations can be orchestrated via `pnpm` at the root workspace or within this directory:
-
-### 1. Stack Lifecycle
-
-| Command | Action |
-| :--- | :--- |
-| `pnpm mcp:up` | Launches the entire Dockerized gateway and backend MCP stack. |
-| `pnpm mcp:down` | Tears down the gateway and MCP container environment. |
-| `pnpm mcp:reset` | Aggressively wipes all MCP volumes and rebuilds containers. |
-| `pnpm agents:up` | Starts both agent containers (`agent-antigravity` and `agent-copilot`). |
-| `pnpm agents:down` | Shuts down and removes agent containers. |
-| `pnpm agents:reset` | Wipes agent volumes and rebuilds containers. |
-
-### 2. Agent Authentication
-
-| Command | Action |
-| :--- | :--- |
-| `pnpm antigravity:auth` | Executes the Google OAuth authentication flow inside the container. |
-| `pnpm copilot:auth` | Executes the GitHub OAuth device login flow inside the container. |
-
-### 3. Maintenance
-
-| Command | Action |
-| :--- | :--- |
-| `pnpm typecheck` | Validates TypeScript integrity across scripts and MCP source code. |
-| `pnpm build` | Compiles TypeScript source files into the output `dist/` directory. |
-| `pnpm clean` | Cleans compilation artifacts (`dist/`, tsbuildinfo files). |
+- **[Tools Workspace Overview](https://tupynambalucas.github.io/elo-organico/tools)**: AI automation infrastructure and guidelines.
+- **[MCP Ecosystem](https://tupynambalucas.github.io/elo-organico/tools)**: Model Context Protocol infrastructure and integrated servers.
+- **[AI Security & Network](https://tupynambalucas.github.io/elo-organico/tools)**: Isolated network architecture and zero-trust model.
+- **[Engineering Guidelines](https://tupynambalucas.github.io/elo-organico/docs/engineering/styleguide)**: Rules of engagement for AI agents and maintainers.
 
 ---
 
-## 📖 Extended Documentation
+## 🛠️ Operations
 
-Authoritative documentation is maintained within our Docusaurus Knowledge Base:
-*   **[Tools Workspace Overview](https://tupynambalucas.github.io/elo-organico/workspaces/tools)**
-*   **[Architecture Guide](https://tupynambalucas.github.io/elo-organico/docs/engineering/architecture)**
+- **`pnpm typecheck`**: Validates TypeScript integrity across scripts and MCP source code.
+- **`pnpm project:clean`**: Aggressive workspace maintenance using `npkill`.
+
+---
+_Part of the Elo Orgânico Monorepo._

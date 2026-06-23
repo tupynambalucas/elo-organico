@@ -9,8 +9,6 @@ services:
     restart: always
     ports:
       - "3005:3000"
-    volumes:
-      - ./context:/app/context:ro
     networks:
       elo-mcp-net:
         aliases:
