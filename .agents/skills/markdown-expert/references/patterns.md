@@ -93,4 +93,3 @@ Any code snippets written in repository documentation must strictly adhere to th
   ```tsx
   {items.length > 0 && <Component />}
   ```
-

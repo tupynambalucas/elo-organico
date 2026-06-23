@@ -236,7 +236,7 @@ O workspace Tools fornece a espinha dorsal de automação para o projeto Elo Org
     }
     ```
 
-    :::caution Requisito de Sequência de Inicialização
+    :::caution[Requisito de Sequência de Inicialização]
     A stack MCP deve estar em execução antes que a stack de agentes seja iniciada. A rede bridge `elo-mcp-net` é de propriedade e declarada por `tools/mcp/compose.yaml`. Iniciar os agentes antes da stack MCP produzirá um erro de resolução de rede do Docker.
 
     1. `pnpm mcp:up`

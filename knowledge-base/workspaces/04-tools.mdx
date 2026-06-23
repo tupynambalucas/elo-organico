@@ -236,7 +236,7 @@ The Tools workspace provides the automation backbone for the Elo Orgânico proje
     }
     ```
 
-    :::caution Boot Sequence Requirement
+    :::caution[Boot Sequence Requirement]
     The MCP stack must be running before the agents stack is started. The `elo-mcp-net` bridge network is owned and declared by `tools/mcp/compose.yaml`. Starting the agents before the MCP stack will produce a Docker network resolution error.
 
     1. `pnpm mcp:up`

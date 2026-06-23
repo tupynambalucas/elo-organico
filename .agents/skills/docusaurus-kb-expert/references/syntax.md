@@ -54,16 +54,13 @@ import TabItem from '@theme/TabItem';
 ### A. Title/Filename Headers
 To display a filename or title above a code block, use the `title="..."` key in the code block definition:
 
-````markdown
 ```typescript title="packages/core/src/types/index.ts"
 export type BoundedContext = 'instance' | 'portal';
 ```
-````
 
 ### B. Line Highlighting
 To highlight specific lines within a code block, use curly braces `{...}` specifying 1-indexed lines or line ranges:
 
-````markdown
 ```typescript title="api/src/server.ts" {2,5-7}
 import fastify from 'fastify';
 const app = fastify(); // Highlighted
@@ -73,12 +70,11 @@ app.get('/health', async () => {
   return { status: 'ok' };
 });
 ```
-````
 
 ### C. Inline Comments Highlighting
 You can also use inline comments within the code block to highlight lines automatically:
 
-````typescript
+```typescript
 // highlight-next-line
 const secret = process.env.API_SECRET;
 
@@ -87,7 +83,7 @@ const config = {
   port: 3000,
 };
 // highlight-end
-````
+```
 
 ---
 
