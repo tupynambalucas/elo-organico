@@ -65,6 +65,9 @@ For ordered instructions, use lazy numbering (`1.`) for all list items. This all
 - When mentioning a file path or directory within text, always use inline code syntax and include a relative link using the `file://` scheme or standard markdown relative links.
 - Example: Refer to [instance/packages/core/src/index.ts](../../../../../instance/packages/core/src/index.ts) for details.
 
+### E. Unordered Lists Formatting
+- Always use hyphens (`-`) instead of asterisks (`*`) or plus signs (`+`) for unordered list items to ensure consistency with our Prettier configuration and maintain a professional look.
+
 ---
 
 ## 3. Code Blocks and Technical Examples

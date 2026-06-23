@@ -213,7 +213,7 @@ Wrap alt text in `[ ]` prefixed with an exclamation mark `!`, followed by the im
 
 ### Unordered Lists
 
-Use `-`, `*`, or `+` followed by a space.
+Use hyphens (`-`) followed by a space. Do not use asterisks (`*`) or plus signs (`+`) for unordered list items to ensure consistency with our Prettier configuration.
 
 #### Syntax
 

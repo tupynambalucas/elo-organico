@@ -40,16 +40,33 @@ Utilizamos o **Turborepo** para orquestrar as aplicações e suas respectivas in
 
 ## Infraestrutura (Docker)
 
-Gestão direta dos serviços conteinerizados.
+O projeto utiliza dois arquivos Compose por contexto delimitado, com responsabilidades estritamente separadas.
+
+### Infraestrutura de Desenvolvimento (`compose.dev.yaml`)
+
+Inicia apenas os serviços de infraestrutura local. As aplicações rodam diretamente no host via `pnpm *:dev`.
 
 | Escopo | Comando | Descrição |
 | :--- | :--- | :--- |
-| **Instância** | `pnpm instance:up` | Inicia MongoDB (Replica Set) e Redis para Instância. |
-| **Instância** | `pnpm instance:down` | Para e remove os containers e processos locais da Instância. |
-| **Instância** | `pnpm instance:reset` | Apaga os dados e reinicia a infraestrutura da Instância. |
-| **Portal** | `pnpm portal:up` | Inicia MongoDB (Replica Set) e Redis para o Portal. |
-| **Portal** | `pnpm portal:down` | Para e remove os containers e processos locais do Portal. |
-| **Portal** | `pnpm portal:reset` | Apaga os dados e reinicia a infraestrutura do Portal. |
+| **Instância** | `pnpm instance:up` | Inicia o MongoDB (Replica Set) e o Redis para a Instância. |
+| **Instância** | `pnpm instance:down` | Para os containers da Instância e libera as portas 3000 e 5173. |
+| **Instância** | `pnpm instance:reset` | Remove volumes e reinicia a infraestrutura da Instância. |
+| **Portal** | `pnpm portal:up` | Inicia o MongoDB (Replica Set) e o Redis para o Portal. |
+| **Portal** | `pnpm portal:down` | Para os containers do Portal e libera as portas 3001 e 5174. |
+| **Portal** | `pnpm portal:reset` | Remove volumes e reinicia a infraestrutura do Portal. |
+
+### Stack de Produção e Staging (`compose.prod.yaml`)
+
+Compila e implanta a stack de aplicação completa (API + Web/Nginx + Redis). Sem MongoDB local — a produção conecta-se ao MongoDB Atlas. Produção e staging compartilham o mesmo arquivo Compose; apenas o arquivo `--env-file` difere.
+
+| Escopo | Comando | Descrição |
+| :--- | :--- | :--- |
+| **Instância** | `pnpm instance:prod` | Compila e inicia a stack da Instância com `.env.prod`. |
+| **Instância** | `pnpm instance:staging` | Mesma stack com `.env.staging` (cluster staging do Atlas). |
+| **Instância** | `pnpm instance:prod:down` | Para a stack de produção/staging da Instância. |
+| **Portal** | `pnpm portal:prod` | Compila e inicia a stack do Portal com `.env.prod`. |
+| **Portal** | `pnpm portal:staging` | Mesma stack com `.env.staging`. |
+| **Portal** | `pnpm portal:prod:down` | Para a stack de produção/staging do Portal. |
 
 ---
 

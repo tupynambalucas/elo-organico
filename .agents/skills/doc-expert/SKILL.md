@@ -68,6 +68,16 @@ Use these guidelines when creating, updating, or analyzing documents within the 
   - Strict coding standards for KB code snippets: [references/knowledge-base/patterns.md](references/knowledge-base/patterns.md)
   - Build, translation, and verification workflow: [references/knowledge-base/workflow.md](references/knowledge-base/workflow.md)
 
+### Use Case C: AI Agent Context Files (AGENTS.md)
+
+Use these guidelines when creating, updating, or analyzing `AGENTS.md` context files across monorepo workspaces and packages.
+
+- **Purpose**: Act as local and root routers/guardrail lists to provide high-fidelity context for AI agents without cluttering developer-facing READMEs.
+- **Reference Folders**:
+  - AI Agent syntax and path reference: [references/agents/syntax.md](references/agents/syntax.md)
+  - Root, core, api, and web layouts: [references/agents/patterns.md](references/agents/patterns.md)
+  - Verification, emoji auditing, and rule alignment: [references/agents/workflow.md](references/agents/workflow.md)
+
 ---
 
 ## 3. Build and Content Validation Workflow
@@ -76,3 +86,4 @@ Before completing any documentation task, you must execute the verification step
 
 - **For general Markdown (.md)**: Follow the validation steps in [references/github/workflow.md](references/github/workflow.md).
 - **For Docusaurus MDX (.mdx)**: Follow the compilation and translation validation steps in [references/knowledge-base/workflow.md](references/knowledge-base/workflow.md).
+- **For AI Agent Contexts (AGENTS.md)**: Follow the verification and audit steps in [references/agents/workflow.md](references/agents/workflow.md).

@@ -1,0 +1,41 @@
+# Workspace Context: Tools & Automation
+
+This file defines the domain rules, containerized services, and directory structure for the **Tools and AI Agents Workspace** (`tools/`).
+
+---
+
+## Tools Navigation
+
+Before editing or analyzing code in this tools context, read the local rules for the specific sub-stack:
+
+- **MCP Ecosystem**: [mcp/AGENTS.md](./mcp/AGENTS.md) — Fastify SSE adapters, Model Context Protocol routing, and browser/git wrappers.
+- **AI Agents**: [agents/AGENTS.md](./agents/AGENTS.md) — Docker-out-of-Docker containerized terminals and shell environments.
+
+---
+
+## Workspace Architecture
+
+The Tools workspace manages the infrastructure for development automation, AI integration layers, and developer shell environments.
+
+- **MCP Gateway**: Containerized gateway translating command-line integrations (Context7, GitHub, Playwright) into Model Context Protocol Server-Sent Events (SSE).
+- **Session Containers**: Local developer workspaces mounted with shell agents (Google Antigravity CLI and GitHub Copilot) to ensure environment parity and OAuth persistence.
+
+---
+
+## Tools Guardrails
+
+1. **Isolation Policy**: Code in this directory represents automation utilities. Do not import business domain models or schemas from `instance/` or `portal/`.
+2. **DooD Safety**: When executing commands or mapping volumes for Docker-out-of-Docker (DooD), ensure `/var/run/docker.sock` is mounted securely, and container user permissions are aligned to prevent file ownership issues on the host.
+
+---
+
+## Scoped Commands
+
+Run these scripts from the monorepo root to manage the tools:
+
+- `pnpm mcp:up`: Launches the MCP gateway and downstream tools adapters in detached Docker containers.
+- `pnpm mcp:down`: Stops the MCP stack containers.
+- `pnpm mcp:reset`: Prunes volumes, rebuilds adapters, and restarts the gateway.
+- `pnpm agents:up`: Launches containerized AI development terminals.
+- `pnpm agents:down`: Stops the agent containers.
+- `pnpm typecheck`: Validates TypeScript type safety across scripts and adapters.

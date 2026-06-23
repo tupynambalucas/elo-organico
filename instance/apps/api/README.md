@@ -41,26 +41,34 @@ src/
 
 ## Environment Configuration
 
-Create a `.env` file in this directory with the variables defined in the root `.env.example` template. Key backend-specific variables include:
+Create a `.env.dev` or `.env.prod` file in this directory (or copy from the provided templates `.env.dev.example` / `.env.prod.example`). Key variables include:
 
 ```properties
 # Server
-NODE_ENV=development
 SERVER_PORT=3000
+SERVER_HOST=localhost
+NODE_ENV=development
 
-# Connectivity
-MONGO_URI=mongodb://localhost:27017/elo-organico
+# MongoDB (replica set enabled, enforcing canonical 'elodb' name)
+MONGO_URI=mongodb://YOUR_MONGO_USER:YOUR_MONGO_PASSWORD@localhost:27017/elodb?authSource=admin&replicaSet=rs0&directConnection=true
+
+# Redis (BullMQ)
 REDIS_HOST=localhost
 REDIS_PORT=6379
 
-# Security
-JWT_SECRET=your_jwt_secret
-SESSION_SECRET=your_session_secret
-TURNSTILE_SECRET_KEY=your_cloudflare_secret_key
+# Auth & Session Secrets
+JWT_SECRET=your_jwt_secret_here
+SESSION_SECRET=your_session_secret_here
+USER_SESSION_KEY=EloInstance
 
-# Integrations
-EFI_CLIENT_ID=your_efi_id
-EFI_CLIENT_SECRET=your_efi_secret
+# Admin Seed
+ADMIN_USER_SEED=admin
+ADMIN_EMAIL_SEED=your-email@example.com
+ADMIN_PASS_SEED=admin
+
+# External Services
+SENTRY_DSN=your_sentry_dsn_here
+TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA
 ```
 
 ---
