@@ -2,21 +2,21 @@
 
 This module comprises the user interface for the Elo Orgânico platform. In our architectural model, this is an **Instance-based Application**, providing the specific Shop and Administrative Dashboard for each community (ecovillage, condominium, or tenant).
 
-## 🏗️ Architectural Role: Instance-based
+## Architectural Role: Instance-based
 
-While the project currently focuses on **"Single-Instance Mastery"**, the frontend is built to support a future SaaS evolution:
-- **Tailored Experience**: Each community instance receives a customized interface based on local configurations.
-- **Client-Side Isolation**: Manages the state, authentication, and interactions for a single tenant instance.
-- **Contract-Driven**: Strictly follows the data contracts and UI tokens defined in `@elo-instance/core` and the design system.
+While the project currently focuses on "Single-Instance Mastery", the frontend is built to support a future SaaS evolution:
+*   **Tailored Experience**: Each community instance receives a customized interface based on local configurations.
+*   **Client-Side Isolation**: Manages the state, authentication, and interactions for a single tenant instance.
+*   **Contract-Driven**: Strictly follows the data contracts and UI tokens defined in `@elo-instance/core` and the design system.
 
-### 📖 Documentation
-Detailed technical documentation is available in our **[Knowledge Base](https://tupynambalucas.github.io/elo-organico)**:
-- **[Architecture Overview](https://tupynambalucas.github.io/elo-organico/docs/engineering/architecture)**: Technical decisions and stack details.
-- **[Style Guide](https://tupynambalucas.github.io/elo-organico/docs/engineering/styleguide)**: UI patterns and React 19 standards.
+### Documentation
+Detailed technical documentation is available in our [Knowledge Base](https://tupynambalucas.github.io/elo-organico):
+*   [Architecture Overview](https://tupynambalucas.github.io/elo-organico/docs/engineering/architecture): Technical decisions and stack details.
+*   [Style Guide](https://tupynambalucas.github.io/elo-organico/docs/engineering/styleguide): UI patterns and React 19 standards.
 
 ---
 
-## 📂 Directory Structure
+## Directory Structure
 
 The source code is organized by *Features*, promoting cohesion and modularity:
 
@@ -39,7 +39,7 @@ src/
 
 ---
 
-## ⚙️ Environment Configuration
+## Environment Configuration
 
 Create a `.env` file in this directory:
 
@@ -49,7 +49,7 @@ VITE_TURNSTILE_SITE_KEY=your_cloudflare_site_key
 
 ---
 
-## 💻 Local Development
+## Local Development
 
 To run the frontend in isolation:
 
@@ -60,7 +60,7 @@ Accessible at `http://localhost:5173`.
 
 ---
 
-## 📦 Build and Deploy
+## Build and Deploy
 
 ```bash
 pnpm build

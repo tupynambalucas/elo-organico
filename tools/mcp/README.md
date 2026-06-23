@@ -1,64 +1,60 @@
-# Elo Organico - Model Context Protocol (MCP) Gateway
+# Model Context Protocol (MCP) Ecosystem
 
-This directory contains the Dockerized gateway and server environment for Model Context Protocol (MCP) services. It is designed to work out of the box in local development environments and scale to containerized cloud deployments (e.g., Docker Compose, Swarm, or Kubernetes on VPS hosts).
+This workspace houses the containerized gateway and backend services for Model Context Protocol (MCP) tooling inside the Elo Orgânico infrastructure.
 
 ## Architecture Overview
 
-The system uses a hub-and-spoke gateway model:
+The ecosystem operates on a decoupled gateway proxy model:
 
-1. **Nginx Reverse Proxy (Gateway):** Acts as the single entrypoint on port 3005 (external) and port 80 (internal to the network). It routes path prefixes (e.g., `/github/*`) to individual MCP backend adapters.
-2. **Node.js SSE & Streamable-HTTP Adapters:** Native, zero-dependency Node.js wrappers (`sse-adapter.js`) that translate incoming HTTP POST/GET requests into stdio streams for the CLI-based MCP servers, implementing the MCP Server-Sent Events (SSE) standard.
-3. **Bridge Network Routing:** Containers communicate internally over a dedicated Docker bridge network named `elo-mcp-net`. The gateway is aliased as `elo.internal.tools` on this network.
+1.  **Fastify Proxy Gateway:** A Node.js Fastify service ([server.ts](file:///D:/projects/elo-organico/tools/mcp/gateway/server.ts)) that exposes port `3005` to the host machine. It intercepts CORS preflight options and routes path prefixes (e.g., `/github`) directly to downstream servers using `@fastify/http-proxy`.
+2.  **Downstream Fastify SSE Adapters:** Each MCP container runs a custom Fastify utility ([sse-adapter.ts](file:///D:/projects/elo-organico/tools/mcp/infrastructure/common/sse-adapter.ts)) wrapping stdio-based CLI binaries (Node/Python) and exposing them via Server-Sent Events (SSE).
+3.  **Context Handshake Injection:** The downstream adapters read localized instructions files from the [context/](file:///D:/projects/elo-organico/tools/mcp/context) directory mounted at runtime and inject them into the `InitializeResult` handshake response, updating the LLM client's system prompt dynamically.
+4.  **Isolated Bridge Network:** Services communicate internally over the bridge network `elo-mcp-net`. No ports other than `3005` on the gateway are exposed to the host machine.
 
-```mermaid
-graph TD
-    Client[LLM Client / Antigravity CLI] -- "http://localhost:3005/github/sse" --> Gateway[Nginx Gateway: Port 3005]
-    InternalLLM[Internal LLM Service on elo-mcp-net] -- "http://elo.internal.tools/github/sse" --> Gateway
-    Gateway -- proxy_pass: 3001 --> Github[elo-mcp-github]
-    Gateway -- proxy_pass: 3002 --> Context7[elo-mcp-context7]
-    Gateway -- proxy_pass: 3003 --> Browser[elo-mcp-browser]
-    Gateway -- proxy_pass: 3004 --> Dockerhub[elo-mcp-dockerhub]
 ```
-
-## Internal Network Connectivity (Cloud & Dev)
-
-For deployments where LLM runners, AI agents, or backend services run within the same Docker environment (e.g., on a cloud VPS), they can attach directly to the network and communicate internally.
-
-### Network Specification
-* **Network Name:** `elo-mcp-net` (declared explicitly in `compose.yaml`).
-* **Gateway Host Alias:** `elo.internal.tools`.
-
-### How to Attach External Services (e.g., LLM containers)
-To attach an LLM runner stack or another compose file to the same network, define it as an external network in your service's `compose.yaml`:
-
-```yaml
-services:
-  llm-runner:
-    image: ollama/ollama
-    networks:
-      - elo-mcp-net
-
-networks:
-  elo-mcp-net:
-    external: true
+                  +-----------------------------------------+
+                  |              Host Machine               |
+                  |     +-----------------------------+     |
+                  |     |    Antigravity / Client     |     |
+                  |     +--------------+--------------+     |
+                  +--------------------|--------------------+
+                                       | HTTP / SSE
+                                       v Port 3005
+                  +--------------------|--------------------+
+                  |              elo-mcp Stack              |
+                  |     +--------------v--------------+     |
+                  |     |     Fastify Proxy Gateway   |     |
+                  |     |       (elo-mcp-gateway)     |     |
+                  |     +--------------+--------------+     |
+                  |                    |                    |
+                  |                    | elo-mcp-net        |
+                  |      +-------------+-------------+      |
+                  |      |                           |      |
+                  |      v Port 3001                 v Port 3002
+                  | +----+----+                  +----+----+
+                  | | github  |                  |context7 |
+                  | +---------+                  +---------+
+                  +-----------------------------------------+
 ```
-
-Inside the LLM runner container, the MCP services can then be configured using the internal unified domain:
-* GitHub: `http://elo.internal.tools/github/sse`
-* Context7: `http://elo.internal.tools/context7/sse`
-* Playwright Browser: `http://elo.internal.tools/browser/sse`
-* Docker Hub: `http://elo.internal.tools/dockerhub/sse`
-
-No port mappings (e.g., `:3000`) are required internally because the gateway listens on standard HTTP port 80.
 
 ---
 
-## Configuration
+## Directory Layout
 
-Secrets and settings are managed using environment files in the `config/` directory.
+*   [compose.yaml](file:///D:/projects/elo-organico/tools/mcp/compose.yaml): Docker Compose orchestration defining internal networks, volumes, and service constraints.
+*   `gateway/`: Gateway Fastify proxy server configuration.
+*   `infrastructure/`: Containerized setups and Dockerfiles for the downstream servers.
+*   `context/`: Specific markdown files containing context parameters injected into each MCP (e.g., [github/instructions.md](file:///D:/projects/elo-organico/tools/mcp/context/github/instructions.md)).
+*   `config/`: Template environment configurations and git-ignored secrets.
+
+---
+
+## Configuration & Environment Files
+
+Settings are managed via environment files under `config/`.
 
 ### Setup
-Copy the example files and populate them with your credentials:
+Copy the examples and configure your tokens:
 ```bash
 cp config/.env.github.example config/.env.github
 cp config/.env.context7.example config/.env.context7
@@ -67,34 +63,25 @@ cp config/.env.dockerhub.example config/.env.dockerhub
 ```
 
 ### Reference Variables
-* `.env.github`: `GITHUB_PERSONAL_ACCESS_TOKEN` (Requires permissions: repo, read:org, gist, workflow).
-* `.env.context7`: `CONTEXT7_API_KEY` (Your Upstash Context7 API key).
-* `.env.dockerhub`: `HUB_PAT_TOKEN` (Read-only token) and `HUB_USERNAME` (Optional, for repository write operations).
+*   `GITHUB_PERSONAL_ACCESS_TOKEN` (permissions: `repo`, `read:org`, `gist`, `workflow`)
+*   `CONTEXT7_API_KEY` (Technical dependency documentation lookup key)
+*   `HUB_PAT_TOKEN` & `HUB_USERNAME` (Docker Hub queries)
 
 ---
 
-## Orchestration Commands
+## Operations & Orchestration Commands
 
-Manage the MCP stack using global commands defined in the root `package.json`:
+Run these scripts from the monorepo root:
 
-* **Start the stack:**
-  ```bash
-  pnpm mcp:up
-  ```
-* **Stop the stack:**
-  ```bash
-  pnpm mcp:down
-  ```
-* **Rebuild and restart (apply configuration changes):**
-  ```bash
-  pnpm mcp:reset
-  ```
+*   `pnpm mcp:up`: Launches the gateway and all downstream MCP containers.
+*   `pnpm mcp:down`: Stops and removes the MCP stack.
+*   `pnpm mcp:reset`: Prunes volumes, rebuilds the Fastify adapters, and restarts the environment.
 
 ---
 
-## Client Integration
+## Client Connection Mapping
 
-For local development tools (like Google Antigravity CLI running directly on the host machine), update your `.agents/mcp_config.json` configuration as follows:
+For standard IDE extensions or local command-line runners (e.g., Google Antigravity CLI on the host), map the gateway paths inside your [.agents/mcp_config.json](file:///D:/projects/elo-organico/.agents/mcp_config.json):
 
 ```json
 {
