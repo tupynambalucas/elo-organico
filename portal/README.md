@@ -9,16 +9,22 @@ This directory contains the global orchestration and platform-wide domain packag
 The workspace is split into three main packages:
 
 ### 1. [Global Web Client](file:///D:/projects/elo-organico/portal/apps/web/README.md) (`apps/web/`)
+
 A React 19 Single Page Application serving the global landing page, SaaS dashboard, and onboarding forms.
-*   **Detailed Guide:** Refer to the [Web Client README](file:///D:/projects/elo-organico/portal/apps/web/README.md).
+
+- **Detailed Guide:** Refer to the [Web Client README](file:///D:/projects/elo-organico/portal/apps/web/README.md).
 
 ### 2. [Global Orchestration API](file:///D:/projects/elo-organico/portal/apps/api/README.md) (`apps/api/`)
+
 A Fastify 5 REST API handling global tenant configurations, platform subscriptions, and SaaS administration logic.
-*   **Detailed Guide:** Refer to the [Orchestration API README](file:///D:/projects/elo-organico/portal/apps/api/README.md).
+
+- **Detailed Guide:** Refer to the [Orchestration API README](file:///D:/projects/elo-organico/portal/apps/api/README.md).
 
 ### 3. [Portal Core Library](file:///D:/projects/elo-organico/portal/packages/core/README.md) (`packages/core/`)
+
 The Single Source of Truth (SSOT) for data contracts, global validation schemas, and types shared across the platform domain.
-*   **Detailed Guide:** Refer to the [Core Library README](file:///D:/projects/elo-organico/portal/packages/core/README.md).
+
+- **Detailed Guide:** Refer to the [Core Library README](file:///D:/projects/elo-organico/portal/packages/core/README.md).
 
 ---
 
@@ -34,11 +40,13 @@ Ensure you have initialized the local infrastructure first:
 
 1.  **Configure environment files:**
     Copy templates and add your local secrets:
+
     ```bash
     cp .env.dev.example .env.dev
     ```
 
 2.  **Start database infrastructure (MongoDB, Redis):**
+
     ```bash
     pnpm portal:up
     ```
@@ -54,8 +62,8 @@ Ensure you have initialized the local infrastructure first:
 
 Manage the workspace from the monorepo root:
 
-*   `pnpm portal:up`: Boots global MongoDB and Redis containers in detached mode.
-*   `pnpm portal:down`: Tears down the infrastructure containers.
-*   `pnpm portal:dev`: Runs the API and Web applications concurrently.
-*   `pnpm portal:build`: Compiles the typescript files.
-*   `pnpm portal:typecheck`: Validates TypeScript type safety.
+- `pnpm portal:up`: Boots global MongoDB and Redis containers in detached mode.
+- `pnpm portal:down`: Tears down the infrastructure containers.
+- `pnpm portal:dev`: Runs the API and Web applications concurrently.
+- `pnpm portal:build`: Compiles the typescript files.
+- `pnpm portal:typecheck`: Validates TypeScript type safety.

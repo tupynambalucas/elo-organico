@@ -6,9 +6,9 @@ This workspace centralizes brand identity management, design assets, and self-ho
 
 Technical documentation is centralized in our [Knowledge Base](https://tupynambalucas.github.io/elo-organico):
 
-*   [Studio Workspace Overview](https://tupynambalucas.github.io/elo-organico/studio): Strategy, visual language, and coded constants.
-*   [Design System & Tokens](https://tupynambalucas.github.io/elo-organico/docs/engineering/styleguide): Detailed specifications for colors, typography, and UI patterns.
-*   [Design Engineering](https://tupynambalucas.github.io/elo-organico/studio): Infrastructure, S3 configuration, and design workflows with Penpot.
+- [Studio Workspace Overview](https://tupynambalucas.github.io/elo-organico/studio): Strategy, visual language, and coded constants.
+- [Design System & Tokens](https://tupynambalucas.github.io/elo-organico/docs/engineering/styleguide): Detailed specifications for colors, typography, and UI patterns.
+- [Design Engineering](https://tupynambalucas.github.io/elo-organico/studio): Infrastructure, S3 configuration, and design workflows with Penpot.
 
 ## Configuration
 
@@ -34,6 +34,7 @@ PENPOT_BUCKET_SECRET_KEY=your_secret_access_key
 Manage the Studio environment using standardized scripts from the project root or this directory:
 
 ### Core Studio Services (Penpot)
+
 ```bash
 pnpm penpot:up      # Launch the studio at http://localhost:9005
 pnpm penpot:down    # Shutdown core services
@@ -42,6 +43,7 @@ pnpm penpot:reset   # Force container recreation
 ```
 
 ### AI Automation & Helpers
+
 ```bash
 pnpm penpot:aide:up # Launch Penpot AI assistant (aide)
 pnpm penpot:aide:down # Stop the AI assistant
@@ -49,7 +51,7 @@ pnpm penpot:aide:down # Stop the AI assistant
 
 ## Directory Structure
 
-*   `studio/penpot/`: Docker orchestration for the self-hosted Penpot instance.
-*   `studio/assets/sources/`: Raw design sources (Adobe Illustrator, Photoshop, etc.).
-*   `studio/src/icons/`: Canonical SVG icon library (React wrapper).
-*   `studio/src/tokens/`: Brand color and typography definitions.
+- `studio/penpot/`: Docker orchestration for the self-hosted Penpot instance.
+- `studio/assets/sources/`: Raw design sources (Adobe Illustrator, Photoshop, etc.).
+- `studio/src/icons/`: Canonical SVG icon library (React wrapper).
+- `studio/src/tokens/`: Brand color and typography definitions.

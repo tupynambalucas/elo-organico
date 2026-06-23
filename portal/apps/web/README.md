@@ -8,41 +8,46 @@ The **Portal Web** is the skeleton for the future public-facing product interfac
 ## Architectural Role: Singleton (Unique)
 
 In our multi-tenant SaaS model, this application is designed to operate as a **Singleton Web Interface**:
-*   **Future Global Hub**: The unique official site for the entire project.
-*   **Onboarding Interface**: The planned UI for new ecovillages and producers to register and launch their own instances.
-*   **SaaS Gateway**: Designed to manage the user journey from curiosity to platform subscription.
+
+- **Future Global Hub**: The unique official site for the entire project.
+- **Onboarding Interface**: The planned UI for new ecovillages and producers to register and launch their own instances.
+- **SaaS Gateway**: Designed to manage the user journey from curiosity to platform subscription.
 
 ### Documentation
+
 Detailed technical documentation is available in our [Knowledge Base](https://tupynambalucas.github.io/elo-organico):
-*   [Architecture Overview](https://tupynambalucas.github.io/elo-organico/docs/engineering/architecture): Technical decisions and monorepo structure.
-*   [Style Guide](https://tupynambalucas.github.io/elo-organico/docs/engineering/styleguide): UI patterns and React 19 standards.
+
+- [Architecture Overview](https://tupynambalucas.github.io/elo-organico/docs/engineering/architecture): Technical decisions and monorepo structure.
+- [Style Guide](https://tupynambalucas.github.io/elo-organico/docs/engineering/styleguide): UI patterns and React 19 standards.
 
 ---
 
 ## Strategic Role
 
 While the `@elo-instance/web` handles community logistics, `@elo-portal/web` focuses on the "Big Picture" foundation:
-*   **Brand Foundation**: Establishing the technical base for communicating brand values.
-*   **SaaS Skeleton**: Initial structure for future tenant sign-up and configuration flows.
-*   **Global Orchestration**: (Future) A centralized view for users participating in multiple community instances.
+
+- **Brand Foundation**: Establishing the technical base for communicating brand values.
+- **SaaS Skeleton**: Initial structure for future tenant sign-up and configuration flows.
+- **Global Orchestration**: (Future) A centralized view for users participating in multiple community instances.
 
 ---
 
 ## Future Responsibilities
 
-*   **Marketing & SEO**: High-performance landing pages optimized for search engines.
-*   **Tenant Registration**: Interactive forms for community leaders to initialize their ecosystem.
-*   **Product Showcase**: Highlighting platform features like the Intelligent Parser and Pix-First Economy.
+- **Marketing & SEO**: High-performance landing pages optimized for search engines.
+- **Tenant Registration**: Interactive forms for community leaders to initialize their ecosystem.
+- **Product Showcase**: Highlighting platform features like the Intelligent Parser and Pix-First Economy.
 
 ---
 
 ## Tech Stack
 
 Designed for high performance and a polished user experience:
-*   **Core**: React 19 (Modern UI primitives)
-*   **Styling**: TailwindCSS v4 (Utility-first design)
-*   **State Management**: Zustand (Lightweight, reactive state)
-*   **Integration**: Axios (Communication with `@elo-portal/api`)
+
+- **Core**: React 19 (Modern UI primitives)
+- **Styling**: TailwindCSS v4 (Utility-first design)
+- **State Management**: Zustand (Lightweight, reactive state)
+- **Integration**: Axios (Communication with `@elo-portal/api`)
 
 ---
 
@@ -70,6 +75,7 @@ To run the portal skeleton in isolation:
 ```bash
 pnpm dev
 ```
+
 Accessible at `http://localhost:5174`.
 
 ---
@@ -81,4 +87,5 @@ pnpm build
 ```
 
 ---
-*The foundation for a decentralized, sustainable, and community-driven organic economy.*
+
+_The foundation for a decentralized, sustainable, and community-driven organic economy._

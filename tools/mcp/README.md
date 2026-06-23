@@ -41,11 +41,11 @@ The ecosystem operates on a decoupled gateway proxy model:
 
 ## Directory Layout
 
-*   [compose.yaml](file:///D:/projects/elo-organico/tools/mcp/compose.yaml): Docker Compose orchestration defining internal networks, volumes, and service constraints.
-*   `gateway/`: Gateway Fastify proxy server configuration.
-*   `infrastructure/`: Containerized setups and Dockerfiles for the downstream servers.
-*   `context/`: Specific markdown files containing context parameters injected into each MCP (e.g., [github/instructions.md](file:///D:/projects/elo-organico/tools/mcp/context/github/instructions.md)).
-*   `config/`: Template environment configurations and git-ignored secrets.
+- [compose.yaml](file:///D:/projects/elo-organico/tools/mcp/compose.yaml): Docker Compose orchestration defining internal networks, volumes, and service constraints.
+- `gateway/`: Gateway Fastify proxy server configuration.
+- `infrastructure/`: Containerized setups and Dockerfiles for the downstream servers.
+- `context/`: Specific markdown files containing context parameters injected into each MCP (e.g., [github/instructions.md](file:///D:/projects/elo-organico/tools/mcp/context/github/instructions.md)).
+- `config/`: Template environment configurations and git-ignored secrets.
 
 ---
 
@@ -54,7 +54,9 @@ The ecosystem operates on a decoupled gateway proxy model:
 Settings are managed via environment files under `config/`.
 
 ### Setup
+
 Copy the examples and configure your tokens:
+
 ```bash
 cp config/.env.github.example config/.env.github
 cp config/.env.context7.example config/.env.context7
@@ -63,9 +65,10 @@ cp config/.env.dockerhub.example config/.env.dockerhub
 ```
 
 ### Reference Variables
-*   `GITHUB_PERSONAL_ACCESS_TOKEN` (permissions: `repo`, `read:org`, `gist`, `workflow`)
-*   `CONTEXT7_API_KEY` (Technical dependency documentation lookup key)
-*   `HUB_PAT_TOKEN` & `HUB_USERNAME` (Docker Hub queries)
+
+- `GITHUB_PERSONAL_ACCESS_TOKEN` (permissions: `repo`, `read:org`, `gist`, `workflow`)
+- `CONTEXT7_API_KEY` (Technical dependency documentation lookup key)
+- `HUB_PAT_TOKEN` & `HUB_USERNAME` (Docker Hub queries)
 
 ---
 
@@ -73,9 +76,9 @@ cp config/.env.dockerhub.example config/.env.dockerhub
 
 Run these scripts from the monorepo root:
 
-*   `pnpm mcp:up`: Launches the gateway and all downstream MCP containers.
-*   `pnpm mcp:down`: Stops and removes the MCP stack.
-*   `pnpm mcp:reset`: Prunes volumes, rebuilds the Fastify adapters, and restarts the environment.
+- `pnpm mcp:up`: Launches the gateway and all downstream MCP containers.
+- `pnpm mcp:down`: Stops and removes the MCP stack.
+- `pnpm mcp:reset`: Prunes volumes, rebuilds the Fastify adapters, and restarts the environment.
 
 ---
 

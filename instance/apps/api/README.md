@@ -5,14 +5,17 @@ This directory contains the core API for the Elo Orgânico system. In our archit
 ## Architectural Role: Instance-based
 
 While the project currently focuses on "Single-Instance Mastery", the backend is built to support a future SaaS evolution:
-*   **Isolation**: Each instance manages its own business logic, database connections, and community-specific workflows.
-*   **Portability**: Designed to be containerized and scaled independently per tenant.
-*   **Contract-Driven**: Strictly follows the data contracts defined in `@elo-instance/core`.
+
+- **Isolation**: Each instance manages its own business logic, database connections, and community-specific workflows.
+- **Portability**: Designed to be containerized and scaled independently per tenant.
+- **Contract-Driven**: Strictly follows the data contracts defined in `@elo-instance/core`.
 
 ### Documentation
+
 Detailed technical documentation is available in our [Knowledge Base](https://tupynambalucas.github.io/elo-organico):
-*   [Architecture Overview](https://tupynambalucas.github.io/elo-organico/docs/engineering/architecture): Technical decisions and domain modeling details.
-*   [Style Guide](https://tupynambalucas.github.io/elo-organico/docs/engineering/styleguide): Coding standards and conventions.
+
+- [Architecture Overview](https://tupynambalucas.github.io/elo-organico/docs/engineering/architecture): Technical decisions and domain modeling details.
+- [Style Guide](https://tupynambalucas.github.io/elo-organico/docs/engineering/styleguide): Coding standards and conventions.
 
 ---
 
@@ -64,8 +67,8 @@ EFI_CLIENT_SECRET=your_efi_secret
 
 ## Operation Scripts
 
-*   `pnpm dev`: Starts server in watch mode.
-*   `pnpm build`: Transpiles TypeScript to `dist/`.
-*   `pnpm start`: Executes the compiled application.
-*   `pnpm typecheck`: Verifies type integrity.
-*   `pnpm lint`: Executes code style verification.
+- `pnpm dev`: Starts server in watch mode.
+- `pnpm build`: Transpiles TypeScript to `dist/`.
+- `pnpm start`: Executes the compiled application.
+- `pnpm typecheck`: Verifies type integrity.
+- `pnpm lint`: Executes code style verification.

@@ -4,22 +4,24 @@ This is the central, authoritative documentation hub for the Elo Orgânico proje
 
 ## Structure & Content
 
-*   **docs/**: Core project documentation (Architecture, Master Plan, Product Vision, Style Guide).
-*   **src/pages/**: Custom interactive landing pages for workspace contexts (Studio, Tools).
-*   **releases/**: Official project Changelog and versioned release notes.
-*   **i18n/**: Full internationalization support (English and Brazilian Portuguese).
+- **docs/**: Core project documentation (Architecture, Master Plan, Product Vision, Style Guide).
+- **src/pages/**: Custom interactive landing pages for workspace contexts (Studio, Tools).
+- **releases/**: Official project Changelog and versioned release notes.
+- **i18n/**: Full internationalization support (English and Brazilian Portuguese).
 
 ## Local Development
 
 Manage the documentation from the project root or this directory:
 
 ### From Monorepo Root
+
 ```bash
 pnpm docs:dev     # Start in English (default) - http://localhost:3002
 pnpm docs:dev:pt  # Start in Brazilian Portuguese (pt-BR)
 ```
 
 ### Within this Workspace
+
 ```bash
 pnpm start     # Start in English
 pnpm start:pt  # Start in Brazilian Portuguese (pt-BR)
@@ -37,8 +39,9 @@ The static site will be generated in the build/ directory using an optimized SSG
 
 The documentation is automatically deployed to GitHub Pages via GitHub Actions on every push to main.
 
-*   **Workflow:** .github/workflows/deploy-docs.yaml
-*   **Authoritative URL:** [https://tupynambalucas.github.io/elo-organico](https://tupynambalucas.github.io/elo-organico)
+- **Workflow:** .github/workflows/deploy-docs.yaml
+- **Authoritative URL:** [https://tupynambalucas.github.io/elo-organico](https://tupynambalucas.github.io/elo-organico)
 
 ---
+
 _Professional documentation for a sustainable organic economy._
