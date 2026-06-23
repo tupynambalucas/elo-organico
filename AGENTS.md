@@ -19,6 +19,16 @@ To understand local requirements, directories, and stack-specific behaviors, you
 
 ---
 
+## AI Specialized Skills Routing
+
+To guarantee documentation quality, strict syntax adherence, and local layout standards, you MUST activate and follow the corresponding specialized skill before modifying any technical documents or context router files:
+
+- **General Markdown files (`.md`, `README.md`, except `AGENTS.md` files)**: Load and follow the [markdown-expert](./.agents/skills/markdown-expert/SKILL.md) skill.
+- **Docusaurus Knowledge Base workspace (`knowledge-base/`)**: Load and follow the [docusaurus-kb-expert](./.agents/skills/docusaurus-kb-expert/SKILL.md) skill for all workspace documentation, configurations, and Docusaurus components.
+- **AI Context Router files (`AGENTS.md`)**: Load and follow the [agent-router-expert](./.agents/skills/agent-router-expert/SKILL.md) skill.
+
+---
+
 ## Global Guardrails (Non-Negotiable)
 
 All development across all workspaces MUST strictly comply with these core engineering standards:

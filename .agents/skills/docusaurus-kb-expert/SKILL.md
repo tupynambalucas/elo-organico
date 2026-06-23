@@ -1,6 +1,6 @@
 ---
 name: docusaurus-kb-expert
-description: Use this skill to create, analyze, or update Docusaurus MDX documents (.mdx) under the knowledge-base/ workspace.
+description: Use this skill to create, analyze, or update documentation, configurations, or components within the Docusaurus knowledge-base/ workspace.
 ---
 
 # Docusaurus Knowledge Base Expert
