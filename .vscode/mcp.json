@@ -1,0 +1,16 @@
+{
+  "servers": {
+    "github": {
+      "url": "http://localhost:3005/github/sse"
+    },
+    "context7": {
+      "url": "http://localhost:3005/context7/sse"
+    },
+    "browser": {
+      "url": "http://localhost:3005/browser/sse"
+    },
+    "dockerhub": {
+      "url": "http://localhost:3005/dockerhub/sse"
+    }
+  }
+}

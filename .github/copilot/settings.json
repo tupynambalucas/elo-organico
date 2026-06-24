@@ -1,5 +1,0 @@
-{
-  "mcpConfig": ".github/copilot/mcp_config.json",
-  "useRepoMcp": true,
-  "defaultMcp": "mcp/context7"
-}
