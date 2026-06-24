@@ -209,7 +209,7 @@ export default defineConfig([
   },
 
   // ========================================================================
-  // 4. DOMAIN API - Regras para Backend (Fastify)
+  // 5. DOMAIN API - Regras para Backend (Fastify)
   // ========================================================================
   {
     name: 'monorepo/domain-api',
@@ -227,7 +227,7 @@ export default defineConfig([
   },
 
   // ========================================================================
-  // 5. DOMAIN WEB - Regras para Frontend (React/Vite)
+  // 6. DOMAIN WEB - Regras para Frontend (React/Vite)
   // ========================================================================
   {
     name: 'monorepo/domain-web',
@@ -261,7 +261,7 @@ export default defineConfig([
   },
 
   // ========================================================================
-  // 6. TOOLS WORKSPACE - Strict TypeScript Rules for MCP Infrastructure
+  // 7. TOOLS WORKSPACE - Strict TypeScript Rules for MCP Infrastructure
   // ========================================================================
   {
     name: 'monorepo/tools-workspace',
@@ -295,7 +295,7 @@ export default defineConfig([
   },
 
   // ========================================================================
-  // 7. TEST FILES - Regras Relaxadas para Testes
+  // 8. TEST FILES - Regras Relaxadas para Testes
   // ========================================================================
   {
     name: 'monorepo/test-files',
@@ -312,7 +312,7 @@ export default defineConfig([
   },
 
   // ========================================================================
-  // 7. IGNORES GLOBAIS
+  // 9. IGNORES GLOBAIS
   // ========================================================================
   {
     name: 'monorepo/ignores',
