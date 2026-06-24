@@ -19,20 +19,24 @@ We use **Turborepo** and **Docker Compose** to orchestrate applications and thei
 
 <Tabs>
   <TabItem value="instance" label="Community Instance" default>
-    - **Start Dev Stack:** `pnpm instance:dev` (Starts local databases in Docker, then runs Web and
-    API on the host) - **Stop & Kill Ports:** `pnpm instance:down` (Stops database containers and
-    releases ports 3000 and 5173) - **Reset Infrastructure:** `pnpm instance:reset` (Stops, wipes
-    MongoDB/Redis data volumes, and rebuilds containers)
+
+- **Start Dev Stack:** `pnpm instance:dev` (Starts local databases in Docker, then runs Web and API on the host)
+- **Stop & Kill Ports:** `pnpm instance:down` (Stops database containers and releases ports 3000 and 5173)
+- **Reset Infrastructure:** `pnpm instance:reset` (Stops, wipes MongoDB/Redis data volumes, and rebuilds containers)
+
   </TabItem>
   <TabItem value="portal" label="Global Portal">
-    - **Start Dev Stack:** `pnpm portal:dev` (Starts local databases in Docker, then runs Web and
-    API on the host) - **Stop & Kill Ports:** `pnpm portal:down` (Stops database containers and
-    releases ports 3001 and 5174) - **Reset Infrastructure:** `pnpm portal:reset` (Stops, wipes
-    MongoDB/Redis data volumes, and rebuilds containers)
+
+- **Start Dev Stack:** `pnpm portal:dev` (Starts local databases in Docker, then runs Web and API on the host)
+- **Stop & Kill Ports:** `pnpm portal:down` (Stops database containers and releases ports 3001 and 5174)
+- **Reset Infrastructure:** `pnpm portal:reset` (Stops, wipes MongoDB/Redis data volumes, and rebuilds containers)
+
   </TabItem>
   <TabItem value="docs" label="Documentation">
-    - **Start Dev Server:** `pnpm docs:dev` (Starts local Docusaurus server at port 3002) - **Build
-    Documentation:** `pnpm docs:build` (Compiles static Docusaurus site files)
+
+- **Start Dev Server:** `pnpm docs:dev` (Starts local Docusaurus server at port 3002)
+- **Build Documentation:** `pnpm docs:build` (Compiles static Docusaurus site files)
+
   </TabItem>
 </Tabs>
 
