@@ -4,7 +4,10 @@ This reference defines the compilation, localization, and alignment validation p
 
 ## 1. i18n Translation Protocol
 
-- **Parity Check**: For every modified or new English document under `knowledge-base/docs/`, ensure the corresponding Portuguese (pt-BR) file under `knowledge-base/i18n/pt-BR/docusaurus-plugin-content-docs/current/...` is updated or created to maintain 100% parity.
+- **Parity Check**: For every modified or new English document under the knowledge base, ensure the corresponding Portuguese (pt-BR) file under the correct plugin directory in `knowledge-base/i18n/pt-BR/` is updated or created to maintain 100% parity:
+  - Files under `knowledge-base/docs/` -> `knowledge-base/i18n/pt-BR/docusaurus-plugin-content-docs/current/...`
+  - Files under `knowledge-base/roadmap/` -> `knowledge-base/i18n/pt-BR/docusaurus-plugin-content-docs-roadmap/current/...`
+  - Files under `knowledge-base/workspaces/` -> `knowledge-base/i18n/pt-BR/docusaurus-plugin-content-docs-workspaces/current/...`
 - **Unescaped Elements**: Ensure frontmatter keys, JSX tags, and variable expressions inside translations are left untranslated.
 
 ## 2. Compilation and Link Checking
