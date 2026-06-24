@@ -181,7 +181,7 @@ const config: Config = {
             },
             {
               label: 'Cheat Sheet',
-              to: '/docs/cheat-sheet',
+              to: '/docs/contributing/cheat-sheet',
             },
           ],
         },

@@ -14,7 +14,7 @@ To understand local requirements, directories, and stack-specific behaviors, you
 - **Studio Context (Visual Identity & Design System)**: Refer to the local [studio/AGENTS.md](./studio/AGENTS.md) for color tokens, SVG icon library, and self-hosted Penpot setup.
 - **Knowledge Base Documentation**: Refer to general guides in [knowledge-base/docs/](./knowledge-base/docs/):
   - [Introduction](./knowledge-base/docs/intro.mdx)
-  - [Cheat Sheet](./knowledge-base/docs/cheat-sheet.mdx)
+  - [Cheat Sheet](./knowledge-base/docs/contributing/cheat-sheet.mdx)
 - **Core Platform Roadmap**: Refer to the core roadmap in [knowledge-base/roadmap/01-core.md](./knowledge-base/roadmap/01-core.md).
 
 ---
