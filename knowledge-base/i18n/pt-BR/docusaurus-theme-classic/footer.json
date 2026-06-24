@@ -15,6 +15,10 @@
     "message": "Arquitetura",
     "description": "The label of footer link with label=Architecture linking to /docs/engineering/architecture"
   },
+  "link.item.label.Orchestration Reference": {
+    "message": "Referência de Orquestração",
+    "description": "The label of footer link with label=Orchestration Reference linking to /docs/contributing/orchestration"
+  },
   "link.item.label.Master Plan": {
     "message": "Plano Mestre",
     "description": "The label of footer link with label=Master Plan linking to /docs/product/masterplan"

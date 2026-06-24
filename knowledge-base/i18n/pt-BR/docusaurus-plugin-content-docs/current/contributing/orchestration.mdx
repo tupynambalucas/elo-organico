@@ -1,5 +1,5 @@
 ---
-title: Cheat Sheet
+title: Referência de Orquestração
 description: Referência rápida para comandos comuns e orquestração do projeto.
 sidebar_position: 1
 ---
@@ -7,7 +7,7 @@ sidebar_position: 1
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Cheat Sheet Rápido
+# Orquestração do Monorepo
 
 Uma referência abrangente para desenvolvedores gerenciarem o monorepo **Elo Orgânico**, infraestrutura e automação.
 
@@ -18,23 +18,26 @@ Uma referência abrangente para desenvolvedores gerenciarem o monorepo **Elo Org
 Utilizamos o **Turborepo** e o **Docker Compose** para orquestrar as aplicações e suas respectivas infraestruturas locais (banco de dados e cache) em scripts unificados.
 
 <Tabs>
-  <TabItem value="instance" label="Instância de Comunidade" default>
-    * **Iniciar Stack de Desenvolvimento:** `pnpm instance:dev` (Inicia bancos locais no Docker e
-    executa Web e API no host) * **Parar & Liberar Portas:** `pnpm instance:down` (Para os
-    containers e libera as portas 3000 e 5173) * **Resetar Infraestrutura:** `pnpm instance:reset`
-    (Para, apaga os volumes do MongoDB/Redis e reconstrói os containers)
-  </TabItem>
-  <TabItem value="portal" label="Portal Global">
-    * **Iniciar Stack de Desenvolvimento:** `pnpm portal:dev` (Inicia bancos locais no Docker e
-    executa Web e API no host) * **Parar & Liberar Portas:** `pnpm portal:down` (Para os containers
-    e libera as portas 3001 e 5174) * **Resetar Infraestrutura:** `pnpm portal:reset` (Para, apaga
-    os volumes do MongoDB/Redis e reconstrói os containers)
-  </TabItem>
-  <TabItem value="docs" label="Documentação">
-    * **Iniciar Servidor de Desenvolvimento:** `pnpm docs:dev` (Inicia o servidor local do
-    Docusaurus na porta 3002) * **Build da Documentação:** `pnpm docs:build` (Compila os arquivos
-    estáticos do Docusaurus)
-  </TabItem>
+<TabItem value="instance" label="Instância de Comunidade" default>
+
+- **Iniciar Stack de Desenvolvimento:** `pnpm instance:dev` (Inicia bancos locais no Docker e executa Web e API no host)
+- **Parar & Liberar Portas:** `pnpm instance:down` (Para os containers e libera as portas 3000 e 5173)
+- **Resetar Infraestrutura:** `pnpm instance:reset` (Para, apaga os volumes do MongoDB/Redis e reconstrói os containers)
+
+</TabItem>
+<TabItem value="portal" label="Portal Global">
+
+- **Iniciar Stack de Desenvolvimento:** `pnpm portal:dev` (Inicia bancos locais no Docker e executa Web e API no host)
+- **Parar & Liberar Portas:** `pnpm portal:down` (Para os containers e libera as portas 3001 e 5174)
+- **Resetar Infraestrutura:** `pnpm portal:reset` (Para, apaga os volumes do MongoDB/Redis e reconstrói os containers)
+
+</TabItem>
+<TabItem value="docs" label="Documentação">
+
+- **Iniciar Servidor de Desenvolvimento:** `pnpm docs:dev` (Inicia o servidor local do Docusaurus na porta 3002)
+- **Build da Documentação:** `pnpm docs:build` (Compila os arquivos estáticos do Docusaurus)
+
+</TabItem>
 </Tabs>
 
 ---

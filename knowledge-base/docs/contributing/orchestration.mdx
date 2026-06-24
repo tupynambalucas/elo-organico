@@ -1,5 +1,5 @@
 ---
-title: Cheat Sheet
+title: Orchestration Reference
 description: Fast reference for common commands and project orchestration.
 sidebar_position: 1
 ---
@@ -7,7 +7,7 @@ sidebar_position: 1
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Quick Cheat Sheet
+# Monorepo Orchestration
 
 A comprehensive reference for developers to manage the **Elo Orgânico** monorepo, infrastructure, and automation.
 
@@ -18,22 +18,26 @@ A comprehensive reference for developers to manage the **Elo Orgânico** monorep
 We use **Turborepo** and **Docker Compose** to orchestrate applications and their respective local infrastructure (databases and cache) in unified scripts.
 
 <Tabs>
-  <TabItem value="instance" label="Community Instance" default>
-    * **Start Dev Stack:** `pnpm instance:dev` (Starts local databases in Docker, then runs Web and
-    API on the host) * **Stop & Kill Ports:** `pnpm instance:down` (Stops database containers and
-    releases ports 3000 and 5173) * **Reset Infrastructure:** `pnpm instance:reset` (Stops, wipes
-    MongoDB/Redis data volumes, and rebuilds containers)
-  </TabItem>
-  <TabItem value="portal" label="Global Portal">
-    * **Start Dev Stack:** `pnpm portal:dev` (Starts local databases in Docker, then runs Web and
-    API on the host) * **Stop & Kill Ports:** `pnpm portal:down` (Stops database containers and
-    releases ports 3001 and 5174) * **Reset Infrastructure:** `pnpm portal:reset` (Stops, wipes
-    MongoDB/Redis data volumes, and rebuilds containers)
-  </TabItem>
-  <TabItem value="docs" label="Documentation">
-    * **Start Dev Server:** `pnpm docs:dev` (Starts local Docusaurus server at port 3002) * **Build
-    Documentation:** `pnpm docs:build` (Compiles static Docusaurus site files)
-  </TabItem>
+<TabItem value="instance" label="Community Instance" default>
+
+- **Start Dev Stack:** `pnpm instance:dev` (Starts local databases in Docker, then runs Web and API on the host)
+- **Stop & Kill Ports:** `pnpm instance:down` (Stops database containers and releases ports 3000 and 5173)
+- **Reset Infrastructure:** `pnpm instance:reset` (Stops, wipes MongoDB/Redis data volumes, and rebuilds containers)
+
+</TabItem>
+<TabItem value="portal" label="Global Portal">
+
+- **Start Dev Stack:** `pnpm portal:dev` (Starts local databases in Docker, then runs Web and API on the host)
+- **Stop & Kill Ports:** `pnpm portal:down` (Stops database containers and releases ports 3001 and 5174)
+- **Reset Infrastructure:** `pnpm portal:reset` (Stops, wipes MongoDB/Redis data volumes, and rebuilds containers)
+
+</TabItem>
+<TabItem value="docs" label="Documentation">
+
+- **Start Dev Server:** `pnpm docs:dev` (Starts local Docusaurus server at port 3002)
+- **Build Documentation:** `pnpm docs:build` (Compiles static Docusaurus site files)
+
+</TabItem>
 </Tabs>
 
 ---

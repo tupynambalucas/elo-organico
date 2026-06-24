@@ -180,8 +180,8 @@ const config: Config = {
               to: '/docs/engineering/styleguide',
             },
             {
-              label: 'Cheat Sheet',
-              to: '/docs/contributing/cheat-sheet',
+              label: 'Orchestration Reference',
+              to: '/docs/contributing/orchestration',
             },
           ],
         },
