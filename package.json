@@ -71,6 +71,7 @@
     "project:clean": "npx npkill"
   },
   "devDependencies": {
+    "@eslint/compat": "catalog:tooling-stack",
     "@eslint/js": "catalog:tooling-stack",
     "@types/node": "catalog:",
     "@typescript-eslint/eslint-plugin": "catalog:tooling-stack",

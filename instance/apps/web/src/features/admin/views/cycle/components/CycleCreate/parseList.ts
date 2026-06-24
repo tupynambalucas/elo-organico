@@ -28,10 +28,11 @@ export const resolveIntelligentMeasure = (unitString: string): { type: string; l
   const input = unitString.toLowerCase().trim().replace('.', '');
 
   if (['kg', 'quilo', 'kilo'].includes(input)) return { type: 'kg' };
-  
+
   // All other units are mapped to 'unidade' with an optional label
   if (['pct', 'pcte', 'pacote'].includes(input)) return { type: 'unidade', label: 'pacote' };
-  if (['l', 'litro', 'lt', 'garrafa', 'garrafas'].includes(input)) return { type: 'unidade', label: 'garrafa' };
+  if (['l', 'litro', 'lt', 'garrafa', 'garrafas'].includes(input))
+    return { type: 'unidade', label: 'garrafa' };
   if (['garrafão', 'garrafao'].includes(input)) return { type: 'unidade', label: 'garrafão' };
   if (['maço', 'maco'].includes(input)) return { type: 'unidade', label: 'maço' };
   if (['bandeja', 'bdj'].includes(input)) return { type: 'unidade', label: 'bandeja' };
@@ -68,11 +69,12 @@ export const parseProductList = (text: string): ParseResult => {
 
   let currentCategory = 'Hortifruti';
   let inheritedContent: { value: number; unit: 'g' | 'kg' | 'ml' | 'L' } | undefined = undefined;
-  
+
   // Para lidar com listas de sabores (ex: Barra Cereais)
   let activeFlavorBase: Partial<IProduct> | null = null;
 
-  const CONTENT_REGEX = /(?:^|\s|\()(\d+(?:[.,]\d+)?)\s*(g|gr|gramas|kg|quilo|kilo|ml|l|lt|litros?)(?:\s|\)|\/|$)/i;
+  const CONTENT_REGEX =
+    /(?:^|\s|\()(\d+(?:[.,]\d+)?)\s*(g|gr|gramas|kg|quilo|kilo|ml|l|lt|litros?)(?:\s|\)|\/|$)/i;
   const PRICE_REGEX = /(?:[R$]\s*)?(\d+[.,]\d{2})\b(?:\s*ao\s*kg)?(?:\s*\/.*)?(?:\s*\(.*\))?$/i;
   const BULLET_REGEX = /^[\-*•]/;
   const MIN_ORDER_REGEX = /\/\s*(cx|caixa|saca)\s*([\d.,]+)\s*(kg|un|uni|unidade)?/i;
@@ -109,8 +111,9 @@ export const parseProductList = (text: string): ParseResult => {
         // Pode ser uma categoria nova ou sub-cabeçalho
         if (upperLine === cleanedLine || cleanedLine.endsWith(':') || cleanedLine.endsWith(';')) {
           currentCategory = cleanedLine.replace(/[;:]$/, '').trim();
-          currentCategory = currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1).toLowerCase();
-          
+          currentCategory =
+            currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1).toLowerCase();
+
           // Tentar extrair conteúdo herdado (ex: Geleias 320g)
           const contentMatch = CONTENT_REGEX.exec(cleanedLine);
           if (contentMatch) {
@@ -121,7 +124,7 @@ export const parseProductList = (text: string): ParseResult => {
           } else {
             inheritedContent = undefined;
           }
-          
+
           isCategory = true;
           activeFlavorBase = null;
         }
@@ -134,7 +137,14 @@ export const parseProductList = (text: string): ParseResult => {
     const flavorHeaderMatch = FLAVOR_HEADER_REGEX.exec(cleanedLine);
     if (flavorHeaderMatch) {
       const headerText = flavorHeaderMatch[1];
-      const parsedHeader = parseLineData(headerText, currentCategory, undefined, CONTENT_REGEX, PRICE_REGEX, MIN_ORDER_REGEX);
+      const parsedHeader = parseLineData(
+        headerText,
+        currentCategory,
+        undefined,
+        CONTENT_REGEX,
+        PRICE_REGEX,
+        MIN_ORDER_REGEX,
+      );
       if (parsedHeader) {
         activeFlavorBase = parsedHeader;
         continue;
@@ -154,8 +164,15 @@ export const parseProductList = (text: string): ParseResult => {
     }
 
     // 5. Parsing normal de linha
-    const product = parseLineData(cleanedLine, currentCategory, inheritedContent, CONTENT_REGEX, PRICE_REGEX, MIN_ORDER_REGEX);
-    
+    const product = parseLineData(
+      cleanedLine,
+      currentCategory,
+      inheritedContent,
+      CONTENT_REGEX,
+      PRICE_REGEX,
+      MIN_ORDER_REGEX,
+    );
+
     if (product) {
       products.push(product);
     } else if (hasBullet === true || PRICE_REGEX.test(cleanedLine)) {
@@ -178,26 +195,18 @@ export const parseProductList = (text: string): ParseResult => {
  * Função auxiliar para parsear dados de uma única linha
  */
 function parseLineData(
-  line: string, 
-  category: string, 
+  line: string,
+  category: string,
   inheritedContent: { value: number; unit: 'g' | 'kg' | 'ml' | 'L' } | undefined,
   contentRegex: RegExp,
   priceRegex: RegExp,
-  minOrderRegex: RegExp
+  minOrderRegex: RegExp,
 ): IProduct | null {
   const priceMatch = priceRegex.exec(line);
   if (!priceMatch) return null;
 
   const priceRaw = priceMatch[1];
   const priceValue = parsePrice(priceRaw);
-  const fullMatchText = priceMatch[0];
-  
-  // Extrair info de pedido mínimo do que sobrou da linha ou do match do preço
-  let extraInfo = line.substring(priceMatch.index + fullMatchText.length).trim();
-  if (!extraInfo && priceMatch[0].includes('/')) {
-    extraInfo = priceMatch[0].substring(priceMatch[0].indexOf('/')).trim();
-  }
-
   let namePart = line.substring(0, priceMatch.index).trim();
 
   // Tentar extrair conteúdo (peso/volume) PRIMEIRO, para que a unidade fique no final do nome
@@ -220,7 +229,8 @@ function parseLineData(
   // Tentar extrair unidade de venda do final do nome (ex: "Alface americana uni")
   let saleType = 'unidade';
   let saleLabel: string | undefined = undefined;
-  const unitSuffixRegex = /\s(kg|un|uni|unidade|pct|pcte|pacote|maço|maco|bandeja|bdj|litro|l|lt|pote|pt|garrafa|garrafão|saca|fardo)\s*$/i;
+  const unitSuffixRegex =
+    /\s(kg|un|uni|unidade|pct|pcte|pacote|maço|maco|bandeja|bdj|litro|l|lt|pote|pt|garrafa|garrafão|saca|fardo)\s*$/i;
   const unitMatch = unitSuffixRegex.exec(namePart);
 
   if (unitMatch) {
@@ -259,7 +269,7 @@ function parseLineData(
     let inputType = minOrderMatch[1].toLowerCase();
     if (['cx', 'caixa'].includes(inputType)) inputType = 'caixa';
     if (inputType === 'saca') inputType = 'saca';
-    
+
     minimumOrder = {
       type: inputType,
       value: parseFloat(minOrderMatch[2].replace(',', '.')),

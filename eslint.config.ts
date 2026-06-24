@@ -4,13 +4,12 @@ import { fileURLToPath } from 'node:url';
 import eslint from '@eslint/js';
 import type { Linter } from 'eslint';
 import { defineConfig } from 'eslint/config';
+import { fixupPluginRules } from '@eslint/compat';
 import importPlugin from 'eslint-plugin-import';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import reactRefreshPlugin from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
-
-type EslintPlugin = NonNullable<Linter.Config['plugins']>[string];
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -233,9 +232,11 @@ export default defineConfig([
     name: 'monorepo/domain-web',
     files: ['**/apps/web/**/*.{ts,tsx}'],
     plugins: {
-      react: reactPlugin,
-      'react-hooks': reactHooksPlugin as unknown as EslintPlugin,
-      'react-refresh': reactRefreshPlugin,
+      react: fixupPluginRules(reactPlugin),
+      'react-hooks': fixupPluginRules(
+        reactHooksPlugin as unknown as NonNullable<Linter.Config['plugins']>[string],
+      ),
+      'react-refresh': fixupPluginRules(reactRefreshPlugin),
     },
     settings: {
       react: {
