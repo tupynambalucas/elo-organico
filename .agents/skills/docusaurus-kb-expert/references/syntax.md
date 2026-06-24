@@ -35,27 +35,24 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 <Tabs>
-<TabItem value="dev" label="Development" default>
-
-Development configurations or commands.
-
-</TabItem>
-<TabItem value="staging" label="Staging">
-
-Staging configurations or commands.
-
-</TabItem>
-<TabItem value="prod" label="Production">
-
-Production configurations or commands.
-
-</TabItem>
+  <TabItem value="dev" label="Development" default>
+    Development configurations or commands.
+  </TabItem>
+  <TabItem value="staging" label="Staging">
+    Staging configurations or commands.
+  </TabItem>
+  <TabItem value="prod" label="Production">
+    Production configurations or commands.
+  </TabItem>
 </Tabs>
 ```
 
 > [!IMPORTANT]
-> If a `<TabItem>` contains any Markdown formatting (such as lists, bold text, code blocks, or links), you **MUST** insert an empty line immediately after the opening `<TabItem ...>` tag and another empty line immediately before the closing `</TabItem>` tag. Without these empty lines, the MDX parser will fail to render the Markdown elements correctly, resulting in unformatted single-line text output.
-> Additionally, **do not indent** the `<Tabs>` or `<TabItem>` tags, nor the Markdown list elements inside them. Keep them aligned to the left margin (0 spaces indentation) to avoid parser context loss and tag mismatch errors.
+> When nesting Markdown content (such as lists or headings) inside `<TabItem>`, adhere strictly to these spacing and indentation rules to avoid MDX parsing and tag mismatch errors:
+>
+> 1. **Tag Indentation**: Indent `<TabItem>` tags by 2 spaces relative to `<Tabs>`.
+> 2. **Content Indentation**: Indent all Markdown lines inside the `<TabItem>` block by 4 spaces.
+> 3. **No Trailing Empty Lines**: Do not leave empty lines immediately before the closing `</TabItem>` tag to prevent the MDX parser from mistakenly grouping the closing tag into the Markdown list context.
 
 ---
 
