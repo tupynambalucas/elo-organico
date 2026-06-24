@@ -1,6 +1,6 @@
 {
   "files.exclude": {
-    "**/.git": true,
+    "**/.git": false,
     "**/.eslintcache": false,
     "**/node_modules": false,
     "**/dist": false
@@ -160,7 +160,6 @@
   "github.copilot.chat.codeGeneration.useInstructionFiles": true,
   "github.copilot.chat.customInstructionsInSystemMessage": true,
   "github.copilot.chat.cli.mcp.enabled": true,
-  "github.copilot.chat.cli.planCommand.enabled": true,
   "github.copilot.chat.agent.currentEditorContext.enabled": true,
   "github.copilot.chat.agent.largeToolResultsToDisk.enabled": true,
   "github.copilot.chat.agent.modelDetails.enabled": true,

@@ -71,7 +71,7 @@ if (runAll === true) {
 } else if (filters.size > 0) {
   const filterList = Array.from(filters).join(' ');
   console.info(`Changes detected in specific workspaces. Running typecheck for: ${filterList}...`);
-  command = `npx turbo run typecheck ${filterList}`;
+  command = `pnpm typecheck ${filterList}`;
 } else {
   console.info('No typecheck required for changed files.');
   process.exit(0);
