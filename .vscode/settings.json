@@ -160,6 +160,7 @@
   "github.copilot.chat.codeGeneration.useInstructionFiles": true,
   "github.copilot.chat.customInstructionsInSystemMessage": true,
   "github.copilot.chat.cli.mcp.enabled": true,
+  "github.copilot.chat.cli.autoCommit.enabled": true,
   "github.copilot.chat.cli.planCommand.enabled": true,
   "github.copilot.chat.agent.currentEditorContext.enabled": true,
   "github.copilot.chat.agent.largeToolResultsToDisk.enabled": true,

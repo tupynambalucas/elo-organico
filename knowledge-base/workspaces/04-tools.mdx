@@ -140,6 +140,7 @@ The Tools workspace provides the automation backbone for the Elo Orgânico proje
     *   `listAllNamespacesMemberOf`: List all organizations/namespaces the user is a member of.
     *   `dockerHardenedImages`: Fetch a list of recommended security-hardened base images.
     </details>
+
   </TabItem>
 
   <TabItem value="agents" label="AI Agents (Docker)">
@@ -164,7 +165,7 @@ The Tools workspace provides the automation backbone for the Elo Orgânico proje
       end
 
       subgraph "Docker: elo-mcp"
-        Gateway["elo-mcp-gateway (elo.internal.tools:3000)"]
+        Gateway["elo-mcp-gateway (elo.internal.tools.mcp:3005)"]
         Github["elo-mcp-github"]
         Context7["elo-mcp-context7"]
         Browser["elo-mcp-browser"]
@@ -173,8 +174,9 @@ The Tools workspace provides the automation backbone for the Elo Orgânico proje
 
       Dev -- "docker exec -it" --> Copilot
       Dev -- "docker exec -it" --> Antigravity
-      Copilot -- "elo-mcp-net" --> Gateway
-      Antigravity -- "elo-mcp-net" --> Gateway
+      Copilot -- "elo-agents-net" --> Host["Host Gateway"]
+      Antigravity -- "elo-agents-net" --> Host
+      Host -- "elo-mcp-net" --> Gateway
       Gateway --> Github
       Gateway --> Context7
       Gateway --> Browser
@@ -223,24 +225,21 @@ The Tools workspace provides the automation backbone for the Elo Orgânico proje
 
     #### MCP Network Connectivity
 
-    Inside the containers, MCP services are resolved via the internal Docker network alias `elo.internal.tools` on port `3000`. This is the internal port of the Fastify gateway; no host-level port mapping is required.
+    Inside the agent containers, MCP services are resolved via the host gateway using the custom alias `elo.internal.tools.mcp` mapped to `host-gateway` on port `3005`. This allows the agent stack to start completely independently of the MCP stack.
 
     ```json
     {
       "mcpServers": {
-        "github":    { "url": "http://elo.internal.tools:3000/github/sse" },
-        "context7":  { "url": "http://elo.internal.tools:3000/context7/sse" },
-        "browser":   { "url": "http://elo.internal.tools:3000/browser/sse" },
-        "dockerhub": { "url": "http://elo.internal.tools:3000/dockerhub/sse" }
+        "github":    { "url": "http://elo.internal.tools.mcp:3005/github/sse" },
+        "context7":  { "url": "http://elo.internal.tools.mcp:3005/context7/sse" },
+        "browser":   { "url": "http://elo.internal.tools.mcp:3005/browser/sse" },
+        "dockerhub": { "url": "http://elo.internal.tools.mcp:3005/dockerhub/sse" }
       }
     }
     ```
 
-    :::caution[Boot Sequence Requirement]
-    The MCP stack must be running before the agents stack is started. The `elo-mcp-net` bridge network is owned and declared by `tools/mcp/compose.yaml`. Starting the agents before the MCP stack will produce a Docker network resolution error.
-
-    1. `pnpm mcp:up`
-    2. `pnpm agents:up`
+    :::info[Independent Boot Sequence]
+    The agent and MCP stacks are network-decoupled. Either stack can be started or stopped independently. The agents will automatically connect to the MCP gateway when the MCP stack is running.
     :::
 
     #### Lifecycle Commands
@@ -282,23 +281,25 @@ The Tools workspace provides the automation backbone for the Elo Orgânico proje
     :::note
     The `data/` and `gh-config/` directories are Git-ignored. They exist only on the developer's local machine and are never committed to the repository.
     :::
+
   </TabItem>
 
   <TabItem value="network" label="AI Security & Network">
     ### Isolated Infrastructure & Network Routing
 
-    Security and environment predictability are maintained through an isolated, explicitly named Docker bridge network (`elo-mcp-net`), preventing unauthorized cross-network access.
+    Security and environment predictability are maintained through isolated Docker bridge networks (`elo-agents-net` for agents and `elo-mcp-net` for MCP tools), preventing unauthorized cross-network access.
 
     #### Gateway & Routing Configuration
 
-    *   **Fastify HTTP Proxy Gateway:** A lightweight Fastify v5 server (`elo-mcp-gateway`) running on Node.js serves as the entrypoint. It exposes port `3005` to the host machine and listens on port `3000` internally. Using `@fastify/http-proxy`, it proxies path prefixes (e.g., `/github`) to the respective backend containers.
+    *   **Fastify HTTP Proxy Gateway:** A lightweight Fastify v5 server (`elo-mcp-gateway`) running on Node.js serves as the entrypoint. It exposes port `3005` to the host machine. Using `@fastify/http-proxy`, it proxies path prefixes (e.g., `/github`) to the respective backend containers.
     *   **Network-Level CORS & SSE Handling:** The gateway intercepts `OPTIONS` requests and injects appropriate CORS headers globally. It disables default HTTP timeouts on proxies to prevent active Server-Sent Events (SSE) connections from dropping during long-running tasks.
-    *   **Internal Domain Routing:** On the `elo-mcp-net` bridge network, the gateway is aliased as `elo.internal.tools`. Internal LLM services or agents running in adjacent containers can route requests directly through `http://elo.internal.tools:3000/[service]/sse`.
+    *   **Internal Domain Routing:** Within the MCP stack, the gateway is aliased as `elo.internal.tools.mcp`. Agent containers running in separate network namespaces can route requests directly through `http://elo.internal.tools.mcp:3005/[service]/sse` via the host bridge mapping.
     *   **Host-to-Container Bridge:** Local development clients (such as the Google Antigravity CLI) communicate with the gateway from the host machine loopback interface using:
         ```
         http://localhost:3005/github/sse
         ```
     *   **Buffered stdio Stream Mapping:** The wrapper executes child processes locally, preventing stdout fragmentation. By checking JSON-RPC transaction `id`s line-by-line, the adapter resolves HTTP requests with complete, un-truncated payloads.
+
   </TabItem>
 
   <TabItem value="guidelines" label="Engineering Guidelines">
@@ -312,6 +313,7 @@ The Tools workspace provides the automation backbone for the Elo Orgânico proje
     *   **Strict Typing & Linting:** Agents are strictly prohibited from using `any` or bypassing the project's rigorous TypeScript/ESLint configurations. Validation via `typecheck` is a mandatory step after code modification.
     *   **Technological Minimalism:** Avoid suggesting external dependencies unless no native or already-implemented solution exists within the current stack (Fastify, React, Zustand, Zod).
     *   **Conventional Documentation:** Documentation updates must follow a professional, senior tone, utilizing MDX features like Tabs for high-density information management.
+
   </TabItem>
 
   <TabItem value="scripts" label="Maintenance & Logic">
@@ -339,5 +341,6 @@ The Tools workspace provides the automation backbone for the Elo Orgânico proje
     *   `tools/mcp/gateway/`: Contains the Fastify v5 HTTP proxy router server (`server.ts` and its Dockerfile).
     *   `tools/mcp/infrastructure/`: Holds individual multi-stage Dockerfiles and the zero-dependency `sse-adapter.ts` wrapper.
     *   `tools/mcp/config/`: Manages context-specific environments and secret configurations (e.g., `.env.*.example` files).
+
   </TabItem>
 </Tabs>

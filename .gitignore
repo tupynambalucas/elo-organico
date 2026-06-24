@@ -57,6 +57,5 @@ gha-creds-*.json
 
 # --- Agents Stack (tools/agents) ---
 # Persistent runtime data: conversations, histories, OAuth tokens (never commit)
-tools/agents/antigravity/data/
-tools/agents/copilot/data/
-tools/agents/copilot/gh-config/
+data/
+

@@ -1,7 +1,7 @@
 import Fastify from 'fastify';
 import proxy from '@fastify/http-proxy';
 
-const PORT = Number(process.env.PORT) || 3000;
+const PORT = Number(process.env.PORT) || 3005;
 
 const server = Fastify({
   logger: {
@@ -38,31 +38,31 @@ server.options('/*', async (_request, reply) => {
 server.get('/health', async (_request, reply) => {
   return reply.status(200).send({
     status: 'healthy',
-    gateway: 'elo.internal.tools',
+    gateway: 'elo.internal.tools.mcp',
   });
 });
 
 // Register upstream proxy targets
 void server.register(proxy, {
-  upstream: 'http://elo-mcp-github:3001',
+  upstream: 'http://github:3001',
   prefix: '/github',
   replyOptions,
 });
 
 void server.register(proxy, {
-  upstream: 'http://elo-mcp-context7:3002',
+  upstream: 'http://context7:3002',
   prefix: '/context7',
   replyOptions,
 });
 
 void server.register(proxy, {
-  upstream: 'http://elo-mcp-browser:3003',
+  upstream: 'http://browser:3003',
   prefix: '/browser',
   replyOptions,
 });
 
 void server.register(proxy, {
-  upstream: 'http://elo-mcp-dockerhub:3004',
+  upstream: 'http://dockerhub:3004',
   prefix: '/dockerhub',
   replyOptions,
 });

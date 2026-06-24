@@ -42,6 +42,12 @@ Run these scripts from the monorepo root to manage the tools:
 - `pnpm mcp:prod:down`: Stops the production MCP stack containers.
 - `pnpm mcp:staging:up`: Launches the staging MCP stack with detached containers.
 - `pnpm mcp:staging:down`: Stops the staging MCP stack containers.
-- `pnpm agents:up`: Launches containerized AI development terminals.
-- `pnpm agents:down`: Stops the agent containers.
+- `pnpm agents:up`: Launches development containerized AI terminals.
+- `pnpm agents:down`: Stops the development agent containers.
+- `pnpm agents:reset`: Wipes development agent session caches and rebuilds the containers.
+- `pnpm agents:prod:up` / `pnpm agents:prod:down`: Manages the production agent stack.
+- `pnpm agents:staging:up` / `pnpm agents:staging:down`: Manages the staging agent stack.
+- `pnpm antigravity:auth` / `pnpm copilot:auth`: Runs OAuth authorization inside development containers.
+- `pnpm antigravity:prod:auth` / `pnpm copilot:prod:auth`: Runs OAuth authorization inside production containers.
+- `pnpm antigravity:staging:auth` / `pnpm copilot:staging:auth`: Runs OAuth authorization inside staging containers.
 - `pnpm typecheck`: Validates TypeScript type safety across scripts and adapters.

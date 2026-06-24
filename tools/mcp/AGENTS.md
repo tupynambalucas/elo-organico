@@ -1,14 +1,18 @@
 # Local Context: MCP Ecosystem
 
-This workspace (`tools/mcp/`) implements the Server-Sent Events (SSE) adapters and Model Context Protocol (MCP) gateways.
+This workspace ([tools/mcp/](./)) implements the Server-Sent Events (SSE) adapters and Model Context Protocol (MCP) gateways.
 
 ---
 
 ## Local Architecture & Directory Map
 
-- **`gateway/`**: Orchestration proxy mapping client connections to downstream tools.
-- **`adapters/`**: Custom SSE adapters translating tool actions (GitHub, Playwright Browser, Context7, Docker Hub) to MCP protocol actions.
-- **`config.json`**: Port allocations and network routing rules.
+- **[gateway/](./gateway)**: Orchestration proxy ([server.ts](./gateway/server.ts)) mapping client connections to downstream tools.
+- **[infrastructure/](./infrastructure)**: Containerized Model Context Protocol (MCP) servers (GitHub, Playwright Browser, Context7, Docker Hub) and their shared SSE adapter ([sse-adapter.ts](./infrastructure/common/sse-adapter.ts)).
+- **[compose.dev.yaml](./compose.dev.yaml)**: Docker Compose configuration for the development environment.
+- **[compose.prod.yaml](./compose.prod.yaml)**: Docker Compose configuration for production/staging environments.
+- **[.env.dev.example](./.env.dev.example)**: Environment template file for development.
+- **[.env.staging.example](./.env.staging.example)**: Environment template file for staging.
+- **[.env.prod.example](./.env.prod.example)**: Environment template file for production.
 
 ---
 
@@ -23,7 +27,8 @@ This workspace (`tools/mcp/`) implements the Server-Sent Events (SSE) adapters a
 
 ## Scoped Commands
 
-- `pnpm mcp:build`: Compiles the typescript adapters and gateway.
+Run these scripts from the monorepo root:
+
 - `pnpm mcp:up`: Boots the development MCP Docker containers in the background.
 - `pnpm mcp:down`: Stops the development MCP containers.
 - `pnpm mcp:prod:up`: Boots the production MCP Docker containers in the background.

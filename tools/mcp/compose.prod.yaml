@@ -1,5 +1,10 @@
 name: elo-mcp-${DOCKER_ENV:-prod}
 
+networks:
+  elo-mcp-net:
+    name: elo-mcp-net-${DOCKER_ENV:-prod}
+    driver: bridge
+
 services:
   gateway:
     build:
@@ -12,7 +17,7 @@ services:
     networks:
       elo-mcp-net:
         aliases:
-          - elo.internal.tools
+          - elo.internal.tools.mcp
     depends_on:
       - github
       - context7
@@ -74,8 +79,3 @@ services:
       - ./infrastructure/dockerhub/instructions.md:/app/instructions.md:ro
     networks:
       - elo-mcp-net
-
-networks:
-  elo-mcp-net:
-    name: elo-mcp-net-${DOCKER_ENV:-prod}
-    driver: bridge

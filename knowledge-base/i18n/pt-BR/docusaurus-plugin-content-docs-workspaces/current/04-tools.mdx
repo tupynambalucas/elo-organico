@@ -140,6 +140,7 @@ O workspace Tools fornece a espinha dorsal de automação para o projeto Elo Org
     *   `listAllNamespacesMemberOf`: Listar todas as organizações/namespaces dos quais o usuário é membro.
     *   `dockerHardenedImages`: Buscar uma lista de imagens base recomendadas com segurança reforçada.
     </details>
+
   </TabItem>
 
   <TabItem value="agents" label="Agentes de IA (Docker)">
@@ -164,7 +165,7 @@ O workspace Tools fornece a espinha dorsal de automação para o projeto Elo Org
       end
 
       subgraph "Docker: elo-mcp"
-        Gateway["elo-mcp-gateway (elo.internal.tools:3000)"]
+        Gateway["elo-mcp-gateway (elo.internal.tools.mcp:3005)"]
         Github["elo-mcp-github"]
         Context7["elo-mcp-context7"]
         Browser["elo-mcp-browser"]
@@ -173,8 +174,9 @@ O workspace Tools fornece a espinha dorsal de automação para o projeto Elo Org
 
       Dev -- "docker exec -it" --> Copilot
       Dev -- "docker exec -it" --> Antigravity
-      Copilot -- "elo-mcp-net" --> Gateway
-      Antigravity -- "elo-mcp-net" --> Gateway
+      Copilot -- "elo-agents-net" --> Host["Host Gateway"]
+      Antigravity -- "elo-agents-net" --> Host
+      Host -- "elo-mcp-net" --> Gateway
       Gateway --> Github
       Gateway --> Context7
       Gateway --> Browser
@@ -223,24 +225,21 @@ O workspace Tools fornece a espinha dorsal de automação para o projeto Elo Org
 
     #### Conectividade de Rede MCP
 
-    Dentro dos containers, os serviços MCP são resolvidos por meio do alias interno da rede Docker `elo.internal.tools` na porta `3000`. Esta é a porta interna do gateway Fastify; nenhum mapeamento de porta no nível do host é necessário.
+    Dentro dos containers de agentes, os serviços MCP são resolvidos por meio do gateway do host usando o alias personalizado `elo.internal.tools.mcp` mapeado para `host-gateway` na porta `3005`. Isso permite que a stack de agentes seja iniciada de forma totalmente independente da stack MCP.
 
     ```json
     {
       "mcpServers": {
-        "github":    { "url": "http://elo.internal.tools:3000/github/sse" },
-        "context7":  { "url": "http://elo.internal.tools:3000/context7/sse" },
-        "browser":   { "url": "http://elo.internal.tools:3000/browser/sse" },
-        "dockerhub": { "url": "http://elo.internal.tools:3000/dockerhub/sse" }
+        "github":    { "url": "http://elo.internal.tools.mcp:3005/github/sse" },
+        "context7":  { "url": "http://elo.internal.tools.mcp:3005/context7/sse" },
+        "browser":   { "url": "http://elo.internal.tools.mcp:3005/browser/sse" },
+        "dockerhub": { "url": "http://elo.internal.tools.mcp:3005/dockerhub/sse" }
       }
     }
     ```
 
-    :::caution[Requisito de Sequência de Inicialização]
-    A stack MCP deve estar em execução antes que a stack de agentes seja iniciada. A rede bridge `elo-mcp-net` é de propriedade e declarada por `tools/mcp/compose.yaml`. Iniciar os agentes antes da stack MCP produzirá um erro de resolução de rede do Docker.
-
-    1. `pnpm mcp:up`
-    2. `pnpm agents:up`
+    :::info[Sequência de Inicialização Independente]
+    As stacks de agentes e MCP são desacopladas ao nível de rede. Qualquer uma das stacks pode ser iniciada ou parada de forma independente. Os agentes se conectarão automaticamente ao gateway MCP assim que a stack MCP estiver em execução.
     :::
 
     #### Comandos de Ciclo de Vida
@@ -282,23 +281,25 @@ O workspace Tools fornece a espinha dorsal de automação para o projeto Elo Org
     :::note
     Os diretórios `data/` e `gh-config/` são ignorados pelo Git. Eles existem apenas na máquina local do desenvolvedor e nunca são commitados no repositório.
     :::
+
   </TabItem>
 
   <TabItem value="network" label="Segurança de IA e Rede">
     ### Infraestrutura Isolada e Roteamento de Rede
 
-    A segurança e a previsibilidade do ambiente são mantidas por meio de uma rede bridge do Docker isolada e explicitamente nomeada (`elo-mcp-net`), evitando o acesso não autorizado entre redes.
+    A segurança e a previsibilidade do ambiente são mantidas por meio de redes bridge do Docker isoladas (`elo-agents-net` para agentes e `elo-mcp-net` para ferramentas MCP), evitando o acesso não autorizado entre redes.
 
     #### Configuração de Gateway e Roteamento
 
-    *   **Gateway Proxy HTTP Fastify:** Um servidor Fastify v5 leve (`elo-mcp-gateway`) executado em Node.js serve como ponto de entrada. Ele expõe a porta `3005` para a máquina host e escuta na porta `3000` internamente. Usando o `@fastify/http-proxy`, ele encaminha prefixos de rotas (ex: `/github`) para os respectivos containers de backend.
+    *   **Gateway Proxy HTTP Fastify:** Um servidor Fastify v5 leve (`elo-mcp-gateway`) executado em Node.js serve como ponto de entrada. Ele expõe a porta `3005` para a máquina host. Usando o `@fastify/http-proxy`, ele encaminha prefixos de rotas (ex: `/github`) para os respectivos containers de backend.
     *   **Tratamento de CORS e SSE no nível da rede:** O gateway intercepta requisições `OPTIONS` e injeta os cabeçalhos CORS apropriados globalmente. Ele desativa os timeouts HTTP padrão nos proxies para evitar que as conexões ativas de Server-Sent Events (SSE) caiam durante tarefas de longa duração.
-    *   **Roteamento de Domínio Interno:** Na rede bridge `elo-mcp-net`, o gateway é apelidado como `elo.internal.tools`. Serviços de LLM internos ou agentes executados em containers adjacentes podem rotear requisições diretamente através de `http://elo.internal.tools:3000/[service]/sse`.
+    *   **Roteamento de Domínio Interno:** Dentro da stack MCP, o gateway é apelidado como `elo.internal.tools.mcp`. Containers de agentes executados em namespaces de rede separados podem rotear requisições diretamente através de `http://elo.internal.tools.mcp:3005/[service]/sse` via mapeamento de ponte do host.
     *   **Ponte Host-para-Container:** Clientes de desenvolvimento local (como o Google Antigravity CLI) se comunicam com o gateway a partir da interface de loopback da máquina host usando:
         ```
         http://localhost:3005/github/sse
         ```
     *   **Mapeamento de Fluxo stdio Bufferizado:** O wrapper executa processos filhos localmente, evitando a fragmentação do stdout. Ao verificar os `id`s das transações JSON-RPC linha por linha, o adaptador resolve as requisições HTTP com payloads completos e sem truncamento.
+
   </TabItem>
 
   <TabItem value="guidelines" label="Diretrizes de Engenharia">
@@ -312,6 +313,7 @@ O workspace Tools fornece a espinha dorsal de automação para o projeto Elo Org
     *   **Tipagem e Linting Estritos:** Os agentes são estritamente proibidos de usar `any` ou ignorar as configurações rigorosas de TypeScript/ESLint do projeto. A validação via `typecheck` é uma etapa obrigatória após qualquer modificação de código.
     *   **Minimalismo Tecnológico:** Evite sugerir dependências externas, a menos que nenhuma solução nativa ou já implementada exista dentro da stack atual (Fastify, React, Zustand, Zod).
     *   **Documentação Convencional:** As atualizações de documentação devem seguir um tom profissional e sênior, utilizando recursos do MDX como Tabs para gerenciamento de informações de alta densidade.
+
   </TabItem>
 
   <TabItem value="scripts" label="Manutenção e Lógica">
@@ -339,5 +341,6 @@ O workspace Tools fornece a espinha dorsal de automação para o projeto Elo Org
     *   `tools/mcp/gateway/`: Contém o servidor proxy de roteamento HTTP Fastify v5 (`server.ts` e seu Dockerfile).
     *   `tools/mcp/infrastructure/`: Contém Dockerfiles multi-stage individuais e o wrapper zero-dependency `sse-adapter.ts`.
     *   `tools/mcp/config/`: Gerencia ambientes específicos de contexto e configurações de segredos (ex: arquivos `.env.*.example`).
+
   </TabItem>
 </Tabs>

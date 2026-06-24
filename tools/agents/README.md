@@ -25,11 +25,11 @@ The agent containers run as long-running Docker services in the private bridge n
 +------------|-----------------------------------|------------+
              |                                   |
              +-----------------+-----------------+
-                               | elo-mcp-net
+                               | host loopback
                                v
              +-----------------+-----------------+
              |     Fastify Unified MCP Gateway   |
-             |       (elo.internal.tools:3000)   |
+             |     (elo.internal.tools.mcp:3005) |
              +-----------------------------------+
 ```
 
@@ -71,8 +71,8 @@ Both CLI clients utilize standard OAuth device-auth flows. Authenticate them dir
   ```
 - **GitHub Copilot CLI:**
   `bash
-  pnpm copilot:auth
-  `
+pnpm copilot:auth
+`
   These scripts run `docker exec` in interactive mode. Open the returned URL, input the verification code, and authorize. The tokens are saved directly to the bind-mounted volumes on your host and persist across container restarts.
 
 ---
