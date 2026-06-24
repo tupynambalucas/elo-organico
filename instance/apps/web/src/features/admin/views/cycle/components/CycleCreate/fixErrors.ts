@@ -4,12 +4,16 @@ import type { FixingItem } from './types';
 
 const PRICE_REGEX = /(?:[R$]\s*)?(\d+[.,]?\d*)\b/i;
 const CONTENT_REGEX = /(\d+(?:[.,]\d+)?)\s*(g|gr|kg|ml|l|lt|litros?)/i;
-const UNIT_SUFFIX_REGEX = /\s(kg|un|uni|unidade|pct|pcte|pacote|maço|maco|bandeja|bdj|litro|l|lt|pote|pt|garrafa|garrafão|saca|fardo)\s*$/i;
+const UNIT_SUFFIX_REGEX =
+  /\s(kg|un|uni|unidade|pct|pcte|pacote|maço|maco|bandeja|bdj|litro|l|lt|pote|pt|garrafa|garrafão|saca|fardo)\s*$/i;
 const MIN_ORDER_REGEX = /\/\s*(cx|caixa|saca)\s*([\d.,]+)\s*(kg|un|uni|unidade)?/i;
 
 export const createFixingItems = (failedLines: FailedLine[]): FixingItem[] => {
   return failedLines.map((fail, idx) => {
-    const cleanText = fail.text.replace(/[\-*•]/g, '').replace(/^\*+|\*+$/g, '').trim();
+    const cleanText = fail.text
+      .replace(/[\-*•]/g, '')
+      .replace(/^\*+|\*+$/g, '')
+      .trim();
     let estimatedName = cleanText;
     let estimatedPrice = '';
     let estimatedUnit = 'unidade';
@@ -67,8 +71,14 @@ export const processFixedItems = (fixingItems: FixingItem[]) => {
 
   fixingItems.forEach((item) => {
     const priceNum = parseFloat(item.price.replace(',', '.'));
-    const contentValNum = item.contentValue !== undefined && item.contentValue !== '' ? parseFloat(item.contentValue.replace(',', '.')) : NaN;
-    const minOrderValNum = item.minOrderValue !== undefined && item.minOrderValue !== '' ? parseFloat(item.minOrderValue.replace(',', '.')) : NaN;
+    const contentValNum =
+      item.contentValue !== undefined && item.contentValue !== ''
+        ? parseFloat(item.contentValue.replace(',', '.'))
+        : NaN;
+    const minOrderValNum =
+      item.minOrderValue !== undefined && item.minOrderValue !== ''
+        ? parseFloat(item.minOrderValue.replace(',', '.'))
+        : NaN;
 
     if (item.name.trim().length > 2 && Number.isNaN(priceNum) === false && priceNum > 0) {
       let contentData = undefined;
@@ -84,7 +94,11 @@ export const processFixedItems = (fixingItems: FixingItem[]) => {
       }
 
       let minimumOrder = undefined;
-      if (item.minOrderType !== undefined && item.minOrderType !== '' && Number.isNaN(minOrderValNum) === false) {
+      if (
+        item.minOrderType !== undefined &&
+        item.minOrderType !== '' &&
+        Number.isNaN(minOrderValNum) === false
+      ) {
         minimumOrder = {
           type: item.minOrderType,
           value: minOrderValNum,

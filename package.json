@@ -68,7 +68,8 @@
     "antigravity:auth": "pnpm --filter @elo-organico/tools antigravity:auth",
     "copilot:auth": "pnpm --filter @elo-organico/tools copilot:auth",
     "// CI/CD & Quality": "-------------------------------------------------",
-    "project:clean": "npx npkill"
+    "project:clean": "npx npkill",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@eslint/compat": "catalog:tooling-stack",
@@ -87,6 +88,18 @@
     "tsx": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:tooling-stack",
-    "turbo": "catalog:"
+    "turbo": "catalog:",
+    "eslint-plugin-prettier": "catalog:tooling-stack",
+    "eslint-config-prettier": "catalog:tooling-stack",
+    "husky": "catalog:",
+    "lint-staged": "catalog:"
+  },
+  "lint-staged": {
+    "**/*.{js,mjs,ts,tsx}": [
+      "eslint --fix"
+    ],
+    "**/*.{json,yaml,md,mdx}": [
+      "prettier --write"
+    ]
   }
 }

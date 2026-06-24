@@ -16,6 +16,8 @@ catalog:
   'rimraf': '^6.1.2'
   'turbo': '2.9.7'
   'kill-port': '2.0.1'
+  'husky': '^9.1.7'
+  'lint-staged': '^15.4.3'
 
 catalogs:
   tooling-stack:
@@ -25,6 +27,8 @@ catalogs:
     'eslint': '10.5.0'
     'eslint-import-resolver-typescript': '4.4.5'
     'eslint-plugin-import': '^2.32.0'
+    'eslint-plugin-prettier': '^5.2.3'
+    'eslint-config-prettier': '^10.0.1'
     'prettier': '3.8.4'
     'typescript-eslint': '8.62.0'
 

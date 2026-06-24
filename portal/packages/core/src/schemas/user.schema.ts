@@ -9,11 +9,11 @@ export const UserSchema = z.object({
   icon: z.string(),
   role: z.enum(['user', 'admin']).default('user'),
   createdAt: z.string().optional(),
-  updatedAt: z.string().optional()
+  updatedAt: z.string().optional(),
 });
 
-export const UserResponseSchema = UserSchema.omit({ 
-  password: true 
+export const UserResponseSchema = UserSchema.omit({
+  password: true,
 });
 
 export type IUser = z.infer<typeof UserSchema>;

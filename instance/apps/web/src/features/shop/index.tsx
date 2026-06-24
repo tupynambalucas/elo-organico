@@ -24,22 +24,24 @@ const Shop: FC = () => {
             <div className={styles.logo}>
               <LogoHorizontalNegative className={styles.logoSvg} />
             </div>
-            
+
             <div className={styles.actions}>
-              <button 
-                className={styles.iconButton} 
+              <button
+                className={styles.iconButton}
                 onClick={() => actions.setIsUserOpen(true)}
                 title="Meu Perfil"
               >
                 <Icon icon={faUser} size="lg" />
               </button>
-              <button 
-                className={styles.iconButton} 
+              <button
+                className={styles.iconButton}
                 onClick={() => actions.setIsCartOpen(true)}
                 title="Carrinho"
               >
                 <Icon icon={faShoppingCart} size="lg" />
-                {state.cartCount > 0 === true && <span className={styles.badge}>{state.cartCount}</span>}
+                {state.cartCount > 0 === true && (
+                  <span className={styles.badge}>{state.cartCount}</span>
+                )}
               </button>
             </div>
           </div>
@@ -63,7 +65,9 @@ const Shop: FC = () => {
                 <div className={styles.cycleDetails}>
                   <div className={styles.detailItem}>
                     <Icon icon={faCalendarAlt} size="sm" />
-                    <span>Encerramento: <strong>{state.closingDateFormatted}</strong></span>
+                    <span>
+                      Encerramento: <strong>{state.closingDateFormatted}</strong>
+                    </span>
                   </div>
                 </div>
               </section>
@@ -71,17 +75,25 @@ const Shop: FC = () => {
               <div className={styles.searchBar}>
                 <ProductSearchFilter
                   searchTerm={state.searchTerm}
-                  onSearchChange={(val) => actions.handleFiltersChange(val, state.selectedType, state.selectedCategory)}
+                  onSearchChange={(val) =>
+                    actions.handleFiltersChange(val, state.selectedType, state.selectedCategory)
+                  }
                   selectedType={state.selectedType}
-                  onTypeChange={(type) => actions.handleFiltersChange(state.searchTerm, type, state.selectedCategory)}
+                  onTypeChange={(type) =>
+                    actions.handleFiltersChange(state.searchTerm, type, state.selectedCategory)
+                  }
                   selectedCategory={state.selectedCategory}
-                  onCategoryChange={(cat) => actions.handleFiltersChange(state.searchTerm, state.selectedType, cat)}
+                  onCategoryChange={(cat) =>
+                    actions.handleFiltersChange(state.searchTerm, state.selectedType, cat)
+                  }
                 />
               </div>
 
               <div className={styles.productGrid}>
-                {state.filteredProducts.length === 0 === true ? (
-                  <div className={styles.noResults}>Nenhum produto encontrado com os filtros aplicados.</div>
+                {(state.filteredProducts.length === 0) === true ? (
+                  <div className={styles.noResults}>
+                    Nenhum produto encontrado com os filtros aplicados.
+                  </div>
                 ) : (
                   state.filteredProducts.map((product) => (
                     <ProductCard key={product._id} product={product} />

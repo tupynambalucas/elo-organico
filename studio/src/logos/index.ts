@@ -1,14 +1,14 @@
 /**
  * Elo Orgânico - Canonical Logo System
  * Managed by @studio.
- * 
+ *
  * This file provides named exports for all brand identity variations.
  * Consumption in Vite/React apps:
- * 
+ *
  * 1. As a React Component (Dynamic styling):
  *    import { LogoHorizontalPositive } from '@elo-organico/studio/logos';
  *    <LogoHorizontalPositive className="w-32" />
- * 
+ *
  * 2. As a static URL (Standard <img> tag):
  *    import { logoUrls } from '@elo-organico/studio/logos';
  *    <img src={logoUrls.horizontalPositive} />

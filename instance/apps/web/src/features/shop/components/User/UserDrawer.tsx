@@ -23,11 +23,11 @@ const UserDrawer: FC<UserDrawerProps> = ({ isOpen, onClose }) => {
   return (
     <>
       {/* Backdrop */}
-      <div 
-        className={`${styles.backdrop} ${isOpen === true ? styles.active : ''}`} 
-        onClick={onClose} 
+      <div
+        className={`${styles.backdrop} ${isOpen === true ? styles.active : ''}`}
+        onClick={onClose}
       />
-      
+
       {/* Drawer */}
       <div className={`${styles.drawer} ${isOpen === true ? styles.open : ''}`}>
         <div className={styles.header}>
@@ -52,13 +52,15 @@ const UserDrawer: FC<UserDrawerProps> = ({ isOpen, onClose }) => {
             <h4 className={styles.sectionTitle}>Informações da Conta</h4>
             <div className={styles.detailItem}>
               <span className={styles.detailLabel}>Nível de Acesso</span>
-              <span className={styles.detailValue}>{user.role === 'admin' ? 'Administrador' : 'Membro'}</span>
+              <span className={styles.detailValue}>
+                {user.role === 'admin' ? 'Administrador' : 'Membro'}
+              </span>
             </div>
             <div className={styles.detailItem}>
               <span className={styles.detailLabel}>Membro desde</span>
               <span className={styles.detailValue}>
-                {user.createdAt !== undefined 
-                  ? new Date(user.createdAt).toLocaleDateString('pt-BR') 
+                {user.createdAt !== undefined
+                  ? new Date(user.createdAt).toLocaleDateString('pt-BR')
                   : 'N/A'}
               </span>
             </div>

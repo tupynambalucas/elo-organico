@@ -10,7 +10,12 @@ interface ProductState {
   isSubmitting: boolean;
   error: string | null;
   actions: {
-    fetchProducts: (filters?: { search?: string; category?: string; type?: string; availableOnly?: boolean }) => Promise<void>;
+    fetchProducts: (filters?: {
+      search?: string;
+      category?: string;
+      type?: string;
+      availableOnly?: boolean;
+    }) => Promise<void>;
     updateProduct: (id: string, data: Partial<IProduct>) => Promise<boolean>;
   };
 }
@@ -36,7 +41,7 @@ export const useProductStore = create<ProductState>((set) => ({
       set({ isSubmitting: true, error: null });
       try {
         await productApi.update(id, data);
-        
+
         // Atualizar lista local
         set((state) => ({
           products: state.products.map((p) => (p._id === id ? { ...p, ...data } : p)),
@@ -55,4 +60,3 @@ export const useProductStore = create<ProductState>((set) => ({
     },
   },
 }));
-

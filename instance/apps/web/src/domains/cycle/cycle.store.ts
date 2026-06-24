@@ -23,7 +23,7 @@ export const useCycleStore = create<PublicCycleState>((set) => ({
       if (isSilent === false) {
         set({ isLoading: true, error: null });
       }
-      
+
       try {
         const data = await cycleApi.getActive();
         const validated = data ? CycleResponseSchema.parse(data) : null;
@@ -38,4 +38,3 @@ export const useCycleStore = create<PublicCycleState>((set) => ({
     },
   },
 }));
-

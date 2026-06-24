@@ -5,8 +5,8 @@ const PORT = Number(process.env.PORT) || 3000;
 
 const server = Fastify({
   logger: {
-    level: 'info'
-  }
+    level: 'info',
+  },
 });
 
 // Configure CORS headers for all proxied requests via replyOptions
@@ -14,14 +14,16 @@ const replyOptions = {
   // Disable default timeout to prevent SSE streams from being cut off
   timeout: 0,
   // Ensure headers are modified safely
-  rewriteHeaders: (headers: Record<string, string | string[] | undefined>): Record<string, string | string[] | undefined> => {
+  rewriteHeaders: (
+    headers: Record<string, string | string[] | undefined>,
+  ): Record<string, string | string[] | undefined> => {
     return {
       ...headers,
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Mcp-Session-Id, X-Session-Id'
+      'Access-Control-Allow-Headers': 'Content-Type, Mcp-Session-Id, X-Session-Id',
     };
-  }
+  },
 };
 
 // Global OPTIONS handler for CORS preflight requests
@@ -36,7 +38,7 @@ server.options('/*', async (_request, reply) => {
 server.get('/health', async (_request, reply) => {
   return reply.status(200).send({
     status: 'healthy',
-    gateway: 'elo.internal.tools'
+    gateway: 'elo.internal.tools',
   });
 });
 
@@ -44,25 +46,25 @@ server.get('/health', async (_request, reply) => {
 void server.register(proxy, {
   upstream: 'http://elo-mcp-github:3001',
   prefix: '/github',
-  replyOptions
+  replyOptions,
 });
 
 void server.register(proxy, {
   upstream: 'http://elo-mcp-context7:3002',
   prefix: '/context7',
-  replyOptions
+  replyOptions,
 });
 
 void server.register(proxy, {
   upstream: 'http://elo-mcp-browser:3003',
   prefix: '/browser',
-  replyOptions
+  replyOptions,
 });
 
 void server.register(proxy, {
   upstream: 'http://elo-mcp-dockerhub:3004',
   prefix: '/dockerhub',
-  replyOptions
+  replyOptions,
 });
 
 const start = async (): Promise<void> => {

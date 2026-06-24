@@ -59,4 +59,3 @@ const envConfig = async (server: FastifyInstance) => {
 };
 
 export default fp(envConfig);
-

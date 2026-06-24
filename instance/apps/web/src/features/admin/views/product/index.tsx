@@ -29,6 +29,6 @@ const ProductsView: FC = () => {
       />
     </AdminContainer>
   );
-}
+};
 
 export default ProductsView;

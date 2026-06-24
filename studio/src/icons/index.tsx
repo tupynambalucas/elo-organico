@@ -5,10 +5,10 @@
 
 import React from 'react';
 import type { IconType } from 'react-icons';
-import { 
-  FaList, 
-  FaUsers, 
-  FaCarrot, 
+import {
+  FaList,
+  FaUsers,
+  FaCarrot,
   FaBoxOpen,
   FaArrowLeft,
   FaSave,
@@ -28,7 +28,7 @@ import {
   FaUserCircle,
   FaShoppingCart,
   FaPlus,
-  FaMinus
+  FaMinus,
 } from 'react-icons/fa';
 
 import {
@@ -38,7 +38,7 @@ import {
   FaCircleCheck,
   FaCircleExclamation,
   FaCircleInfo,
-  FaTriangleExclamation
+  FaTriangleExclamation,
 } from 'react-icons/fa6';
 
 export type { IconType };
@@ -62,10 +62,10 @@ export const Icon = React.forwardRef<HTMLSpanElement, IconProps>(
   ({ icon: IconComponent, size, color, title, flip, style, ...props }, ref) => {
     // Map FontAwesome sizes to react-icons sizes
     const sizeMap: Record<string, string> = {
-      'xs': '0.75em',
-      'sm': '0.875em',
-      'lg': '1.25em',
-      'xl': '1.5em',
+      xs: '0.75em',
+      sm: '0.875em',
+      lg: '1.25em',
+      xl: '1.5em',
       '2xl': '2em',
       '1x': '1em',
       '2x': '2em',
@@ -77,9 +77,14 @@ export const Icon = React.forwardRef<HTMLSpanElement, IconProps>(
     const finalSize = typeof size === 'string' ? (sizeMap[size] ?? size) : size;
 
     // Handle flip
-    const transform = flip === 'horizontal' ? 'scaleX(-1)' : 
-                      flip === 'vertical' ? 'scaleY(-1)' : 
-                      flip === 'both' ? 'scale(-1, -1)' : undefined;
+    const transform =
+      flip === 'horizontal'
+        ? 'scaleX(-1)'
+        : flip === 'vertical'
+          ? 'scaleY(-1)'
+          : flip === 'both'
+            ? 'scale(-1, -1)'
+            : undefined;
 
     const finalStyle: React.CSSProperties = {
       ...style,
@@ -89,29 +94,25 @@ export const Icon = React.forwardRef<HTMLSpanElement, IconProps>(
 
     return (
       <span ref={ref} style={finalStyle} className="elo-icon-wrapper">
-        <IconComponent
-          {...props}
-          size={finalSize}
-          color={color}
-        >
+        <IconComponent {...props} size={finalSize} color={color}>
           {title !== undefined && <title>{title}</title>}
         </IconComponent>
       </span>
     );
-  }
+  },
 );
 
 Icon.displayName = 'Icon';
 
-// Re-export specific icons as "fa" compatible names if needed, 
+// Re-export specific icons as "fa" compatible names if needed,
 // but it's better to use the react-icons naming convention.
 // To minimize changes in instance/web, we'll map them to the old names for now.
 export {
-  FaList as faList, 
-  FaUsers as faUsers, 
-  FaCarrot as faCarrot, 
-  FaChartSimple as faChartSimple, 
-  FaGear as faGear, 
+  FaList as faList,
+  FaUsers as faUsers,
+  FaCarrot as faCarrot,
+  FaChartSimple as faChartSimple,
+  FaGear as faGear,
   FaArrowRightFromBracket as faArrowRightFromBracket,
   FaBoxOpen as faBoxOpen,
   FaArrowLeft as faArrowLeft,
@@ -136,7 +137,7 @@ export {
   FaUserCircle as faUser,
   FaShoppingCart as faShoppingCart,
   FaPlus as faPlus,
-  FaMinus as faMinus
+  FaMinus as faMinus,
 };
 
 // Export entire sets if needed

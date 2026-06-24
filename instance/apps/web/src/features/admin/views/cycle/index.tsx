@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import styles from './styles.module.css';
 import CreateCycle from './components/CycleCreate';
-import { ActiveCycleDashboard, ActiveCycleFilters, ActiveCycleProductsList } from './components/ActiveCycle';
+import {
+  ActiveCycleDashboard,
+  ActiveCycleFilters,
+  ActiveCycleProductsList,
+} from './components/ActiveCycle';
 import CyclesHistory from './components/CycleHistory';
 import ContainerLoader from '@/shared/ui/loaders/ContainerLoader';
 import { useActiveCycle, useCycleActions, useCycleLoading } from '@/domains/cycle';
@@ -57,7 +61,13 @@ const CyclesView = () => {
   return (
     <div className={styles.container}>
       <section>
-        {isLoadingActive ? <ContainerLoader /> : activeCycle ? <ActiveCycleDashboard /> : <CreateCycle />}
+        {isLoadingActive ? (
+          <ContainerLoader />
+        ) : activeCycle ? (
+          <ActiveCycleDashboard />
+        ) : (
+          <CreateCycle />
+        )}
       </section>
 
       <section>

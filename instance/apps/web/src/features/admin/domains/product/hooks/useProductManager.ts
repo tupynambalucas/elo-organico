@@ -1,5 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useProducts, useProductLoading, useProductSubmitting, useProductActions } from '@/domains/product';
+import {
+  useProducts,
+  useProductLoading,
+  useProductSubmitting,
+  useProductActions,
+} from '@/domains/product';
 import { useProductFilters } from '@/domains/product/hooks/useProductFilters';
 import type { IProduct, ProductResponse } from '@elo-instance/core';
 
@@ -12,8 +17,13 @@ export const useProductManager = () => {
   const isLoading = useProductLoading();
   const isSubmitting = useProductSubmitting();
   const { fetchProducts, updateProduct } = useProductActions();
-  const { searchTerm, selectedType, selectedCategory, handleFiltersChange: setFilters } = useProductFilters();
-  
+  const {
+    searchTerm,
+    selectedType,
+    selectedCategory,
+    handleFiltersChange: setFilters,
+  } = useProductFilters();
+
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editForm, setEditForm] = useState<Partial<IProduct>>({});
 
@@ -21,14 +31,17 @@ export const useProductManager = () => {
     void fetchProducts();
   }, [fetchProducts]);
 
-  const handleFiltersChange = useCallback((search: string, type: string, category: string) => {
-    setFilters(search, type, category);
-    void fetchProducts({
-      search: search !== '' ? search : undefined,
-      type: type !== '' ? type : undefined,
-      category: category !== '' ? category : undefined,
-    });
-  }, [fetchProducts, setFilters]);
+  const handleFiltersChange = useCallback(
+    (search: string, type: string, category: string) => {
+      setFilters(search, type, category);
+      void fetchProducts({
+        search: search !== '' ? search : undefined,
+        type: type !== '' ? type : undefined,
+        category: category !== '' ? category : undefined,
+      });
+    },
+    [fetchProducts, setFilters],
+  );
 
   const handleEditClick = useCallback((product: ProductResponse) => {
     if (product._id !== undefined) {
@@ -51,7 +64,7 @@ export const useProductManager = () => {
   }, []);
 
   const handleUpdateEditForm = useCallback((updates: Partial<IProduct>) => {
-    setEditForm(prev => ({ ...prev, ...updates }));
+    setEditForm((prev) => ({ ...prev, ...updates }));
   }, []);
 
   return {

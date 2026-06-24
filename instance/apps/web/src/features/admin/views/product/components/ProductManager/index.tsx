@@ -62,13 +62,13 @@ export const ProductEditInline: FC<ProductEditInlineProps> = ({
           id="edit-price"
           className={styles.fixInput}
           value={editForm.measure?.value ?? ''}
-          onChange={(e) => 
-            onUpdateForm({ 
-              measure: { 
+          onChange={(e) =>
+            onUpdateForm({
+              measure: {
                 type: editForm.measure?.type ?? 'unidade',
                 value: Number(e.target.value),
-                minimumOrder: editForm.measure?.minimumOrder
-              } 
+                minimumOrder: editForm.measure?.minimumOrder,
+              },
             })
           }
           placeholder="0.00"
@@ -84,13 +84,13 @@ export const ProductEditInline: FC<ProductEditInlineProps> = ({
           value={editForm.measure?.type ?? 'unidade'}
           onChange={(e) => {
             const val = e.target.value;
-            onUpdateForm({ 
-              measure: { 
+            onUpdateForm({
+              measure: {
                 type: val,
                 label: undefined,
                 value: editForm.measure?.value ?? 0,
-                minimumOrder: editForm.measure?.minimumOrder
-              } 
+                minimumOrder: editForm.measure?.minimumOrder,
+              },
             });
           }}
         >
@@ -105,12 +105,14 @@ export const ProductEditInline: FC<ProductEditInlineProps> = ({
             id="edit-content-val"
             className={styles.fixInput}
             value={editForm.content?.value ?? ''}
-            onChange={(e) => onUpdateForm({
-              content: { 
-                unit: editForm.content?.unit ?? 'g',
-                value: e.target.value !== '' ? Number(e.target.value) : 0 
-              }
-            })}
+            onChange={(e) =>
+              onUpdateForm({
+                content: {
+                  unit: editForm.content?.unit ?? 'g',
+                  value: e.target.value !== '' ? Number(e.target.value) : 0,
+                },
+              })
+            }
             placeholder="Ex: 500"
             type="number"
           />
@@ -118,12 +120,14 @@ export const ProductEditInline: FC<ProductEditInlineProps> = ({
             aria-label="Unidade de conteúdo"
             className={styles.fixInput}
             value={editForm.content?.unit ?? 'g'}
-            onChange={(e) => onUpdateForm({ 
-              content: { 
-                unit: e.target.value as 'g' | 'kg' | 'ml' | 'L',
-                value: editForm.content?.value ?? 0 
-              } 
-            })}
+            onChange={(e) =>
+              onUpdateForm({
+                content: {
+                  unit: e.target.value as 'g' | 'kg' | 'ml' | 'L',
+                  value: editForm.content?.value ?? 0,
+                },
+              })
+            }
             style={{ width: '3.75rem', padding: '0.4rem' }}
           >
             <option value="g">g</option>
@@ -146,8 +150,11 @@ export const ProductEditInline: FC<ProductEditInlineProps> = ({
                 measure: {
                   type: editForm.measure?.type ?? 'unidade',
                   value: editForm.measure?.value ?? 0,
-                  minimumOrder: type !== '' ? { type, value: editForm.measure?.minimumOrder?.value ?? 1 } : undefined
-                }
+                  minimumOrder:
+                    type !== ''
+                      ? { type, value: editForm.measure?.minimumOrder?.value ?? 1 }
+                      : undefined,
+                },
               });
             }}
             style={{ width: '5.3125rem', padding: '0.4rem' }}
@@ -167,10 +174,11 @@ export const ProductEditInline: FC<ProductEditInlineProps> = ({
                 measure: {
                   type: editForm.measure?.type ?? 'unidade',
                   value: editForm.measure?.value ?? 0,
-                  minimumOrder: (minOrderType !== undefined && minOrderType !== '') 
-                    ? { type: minOrderType, value: val !== '' ? Number(val) : 0 } 
-                    : undefined
-                }
+                  minimumOrder:
+                    minOrderType !== undefined && minOrderType !== ''
+                      ? { type: minOrderType, value: val !== '' ? Number(val) : 0 }
+                      : undefined,
+                },
               });
             }}
             placeholder="Qtd"
@@ -180,10 +188,20 @@ export const ProductEditInline: FC<ProductEditInlineProps> = ({
       </div>
     </div>
     <div className={styles.editActions}>
-      <button type="button" className={styles.cancelInlineBtn} onClick={onCancel} disabled={isSubmitting}>
+      <button
+        type="button"
+        className={styles.cancelInlineBtn}
+        onClick={onCancel}
+        disabled={isSubmitting}
+      >
         Cancelar
       </button>
-      <button type="button" className={styles.saveInlineBtn} onClick={() => void onSave()} disabled={isSubmitting}>
+      <button
+        type="button"
+        className={styles.saveInlineBtn}
+        onClick={() => void onSave()}
+        disabled={isSubmitting}
+      >
         {isSubmitting === true ? 'Salvando...' : 'Salvar'}
       </button>
     </div>
@@ -206,7 +224,10 @@ export const ProductRow: FC<ProductRowProps> = ({ product, onEdit, disabled }) =
           <span className={styles.labelTag}>{product.measure.label}</span>
         )}
         {product.content !== null && product.content !== undefined && (
-          <span className={styles.contentBadge}>{product.content.value}{product.content.unit}</span>
+          <span className={styles.contentBadge}>
+            {product.content.value}
+            {product.content.unit}
+          </span>
         )}
       </div>
     </div>
@@ -216,7 +237,13 @@ export const ProductRow: FC<ProductRowProps> = ({ product, onEdit, disabled }) =
         <span className={styles.price}>R$ {Number(product.measure.value).toFixed(2)}</span>
       </div>
       <div className={styles.pActions}>
-        <button type="button" className={styles.iconBtn} onClick={() => onEdit(product)} title="Editar" disabled={disabled}>
+        <button
+          type="button"
+          className={styles.iconBtn}
+          onClick={() => onEdit(product)}
+          title="Editar"
+          disabled={disabled}
+        >
           <Icon icon={faPen} />
         </button>
       </div>
@@ -251,7 +278,7 @@ export const ProductManagerList: FC<ProductManagerListProps> = ({
     {isLoading === true ? (
       <div className={styles.loading}>Carregando produtos...</div>
     ) : (
-      products.map((p) => (
+      products.map((p) =>
         editingId === p._id ? (
           <ProductEditInline
             key={`edit-${p._id ?? 'new'}`}
@@ -262,14 +289,9 @@ export const ProductManagerList: FC<ProductManagerListProps> = ({
             isSubmitting={isSubmitting}
           />
         ) : (
-          <ProductRow
-            key={p._id}
-            product={p}
-            onEdit={onEdit}
-            disabled={isSubmitting}
-          />
-        )
-      ))
+          <ProductRow key={p._id} product={p} onEdit={onEdit} disabled={isSubmitting} />
+        ),
+      )
     )}
   </div>
 );

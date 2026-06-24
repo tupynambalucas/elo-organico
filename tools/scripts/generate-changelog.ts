@@ -17,7 +17,8 @@ function generateChangelog(): void {
   }
 
   // Get all markdown release files and sort descending (newest first based on YYYY-MM-DD filenames)
-  const files = fs.readdirSync(RELEASES_DIR)
+  const files = fs
+    .readdirSync(RELEASES_DIR)
     .filter((file: string): boolean => file.endsWith('.md') || file.endsWith('.mdx'))
     .sort((a: string, b: string): number => b.localeCompare(a));
 
@@ -26,7 +27,8 @@ function generateChangelog(): void {
     return;
   }
 
-  let changelogContent = '# Changelog\n\nAll updates, improvements, and new features of Elo Orgânico documented in the Knowledge Base.\n\n';
+  let changelogContent =
+    '# Changelog\n\nAll updates, improvements, and new features of Elo Orgânico documented in the Knowledge Base.\n\n';
   const entries: string[] = [];
 
   for (const file of files) {
@@ -58,7 +60,9 @@ function generateChangelog(): void {
       entries.push(entry);
     } else {
       const cleanedContent = content.trim();
-      const cleanedBody = cleanedContent.endsWith('---') ? cleanedContent.slice(0, -3).trim() : cleanedContent;
+      const cleanedBody = cleanedContent.endsWith('---')
+        ? cleanedContent.slice(0, -3).trim()
+        : cleanedContent;
       entries.push(`## ${file}\n\n${cleanedBody}`);
     }
   }
@@ -66,7 +70,9 @@ function generateChangelog(): void {
   changelogContent += entries.join('\n\n---\n\n') + '\n';
 
   fs.writeFileSync(CHANGELOG_PATH, changelogContent);
-  console.info(`✅ CHANGELOG.md successfully generated at the repository root! (${files.length} release notes compiled)`);
+  console.info(
+    `✅ CHANGELOG.md successfully generated at the repository root! (${files.length} release notes compiled)`,
+  );
 }
 
 generateChangelog();

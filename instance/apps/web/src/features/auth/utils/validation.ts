@@ -10,19 +10,20 @@ export const validateAuthForm = (
   t: TFunction,
 ): ValidationResult => {
   const schema = isLogin === true ? LoginDTOSchema : RegisterDTOSchema;
-  const dataToValidate = isLogin === true
-    ? { 
-        identifier: data.identifier, 
-        password: data.password,
-        turnstileToken 
-      }
-    : {
-        email: data.email,
-        username: data.username,
-        icon: data.icon,
-        password: data.password,
-        turnstileToken
-      };
+  const dataToValidate =
+    isLogin === true
+      ? {
+          identifier: data.identifier,
+          password: data.password,
+          turnstileToken,
+        }
+      : {
+          email: data.email,
+          username: data.username,
+          icon: data.icon,
+          password: data.password,
+          turnstileToken,
+        };
 
   const result = schema.safeParse(dataToValidate);
   const errorRefs: Record<string, React.RefObject<HTMLInputElement | null>> = {

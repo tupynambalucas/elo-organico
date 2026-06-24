@@ -21,11 +21,11 @@ const CartDrawer: FC<CartDrawerProps> = ({ isOpen, onClose }) => {
 
   return (
     <>
-      <div 
-        className={`${styles.backdrop} ${isOpen === true ? styles.active : ''}`} 
-        onClick={onClose} 
+      <div
+        className={`${styles.backdrop} ${isOpen === true ? styles.active : ''}`}
+        onClick={onClose}
       />
-      
+
       <div className={`${styles.drawer} ${isOpen === true ? styles.open : ''}`}>
         <div className={styles.header}>
           <h3>Seu Carrinho</h3>
@@ -46,20 +46,22 @@ const CartDrawer: FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                 <div key={item._id} className={styles.item}>
                   <div className={styles.itemInfo}>
                     <span className={styles.itemName}>{item.name}</span>
-                    <span className={styles.itemPrice}>R$ {Number(item.measure.value).toFixed(2)}</span>
+                    <span className={styles.itemPrice}>
+                      R$ {Number(item.measure.value).toFixed(2)}
+                    </span>
                   </div>
-                  
+
                   <div className={styles.itemActions}>
                     {item.measure.type === 'unidade' ? (
                       <div className={styles.quantityControls}>
-                        <button 
+                        <button
                           onClick={() => updateAmount(item, item.amount - 1)}
                           className={styles.qtyBtn}
                         >
                           <Icon icon={faMinus} size="xs" />
                         </button>
                         <span className={styles.qty}>{item.amount}</span>
-                        <button 
+                        <button
                           onClick={() => updateAmount(item, item.amount + 1)}
                           className={styles.qtyBtn}
                         >
@@ -79,11 +81,8 @@ const CartDrawer: FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                         <span className={styles.weightUnit}>g</span>
                       </div>
                     )}
-                    
-                    <button 
-                      onClick={() => removeItem(item._id!)}
-                      className={styles.removeBtn}
-                    >
+
+                    <button onClick={() => removeItem(item._id!)} className={styles.removeBtn}>
                       <Icon icon={faTrash} />
                     </button>
                   </div>
@@ -99,7 +98,7 @@ const CartDrawer: FC<CartDrawerProps> = ({ isOpen, onClose }) => {
               <span>Total Estimado</span>
               <span className={styles.totalAmount}>R$ {total.toFixed(2)}</span>
             </div>
-            
+
             <button className={styles.confirmBtn} onClick={handleConfirmOrder}>
               Confirmar Compra
             </button>

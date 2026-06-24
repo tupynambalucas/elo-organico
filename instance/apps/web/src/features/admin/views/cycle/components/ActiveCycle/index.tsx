@@ -35,7 +35,11 @@ export const ActiveCycleDashboard = () => {
             <span>Produtos</span>
           </div>
 
-          <button type="button" className={styles.actionBtn} onClick={() => setActiveCycleViewMode('products')}>
+          <button
+            type="button"
+            className={styles.actionBtn}
+            onClick={() => setActiveCycleViewMode('products')}
+          >
             <Icon icon={faBoxOpen} size="2x" />
             <span>Gerenciar Produtos</span>
           </button>
@@ -142,10 +146,10 @@ export const ActiveCycleProductsList = ({
 
   const handleSaveInlineEdit = async () => {
     if (editingId !== null && editForm.name !== undefined && editForm.name !== '') {
-      const updatedProducts = productsToShow.map((p) => 
-        p._id === editingId ? (editForm as IProduct) : p
+      const updatedProducts = productsToShow.map((p) =>
+        p._id === editingId ? (editForm as IProduct) : p,
       );
-      
+
       setLocalUpdatedProducts(updatedProducts);
       const success = await updateActiveCycleProducts(updatedProducts);
       if (success === true) {
@@ -162,7 +166,7 @@ export const ActiveCycleProductsList = ({
   return (
     <AdminContainer title={`Lista de Produtos (${filteredProducts.length})`} level="h3">
       <div className={styles.productsList}>
-        {filteredProducts.map((p, idx) => (
+        {filteredProducts.map((p, idx) =>
           editingId !== null && p._id !== undefined && editingId === p._id ? (
             <div key={`edit-${p._id}`} className={styles.editInlineContainer}>
               <div className={styles.fixGrid}>
@@ -171,7 +175,7 @@ export const ActiveCycleProductsList = ({
                   <input
                     className={styles.fixInput}
                     value={editForm.name ?? ''}
-                    onChange={(e) => setEditForm(prev => ({ ...prev, name: e.target.value }))}
+                    onChange={(e) => setEditForm((prev) => ({ ...prev, name: e.target.value }))}
                     placeholder="Nome..."
                   />
                 </div>
@@ -180,7 +184,16 @@ export const ActiveCycleProductsList = ({
                   <input
                     className={styles.fixInput}
                     value={editForm.measure?.value ?? ''}
-                    onChange={(e) => setEditForm(prev => ({ ...prev, measure: { type: prev.measure?.type ?? 'unidade', value: Number(e.target.value), minimumOrder: prev.measure?.minimumOrder } }))}
+                    onChange={(e) =>
+                      setEditForm((prev) => ({
+                        ...prev,
+                        measure: {
+                          type: prev.measure?.type ?? 'unidade',
+                          value: Number(e.target.value),
+                          minimumOrder: prev.measure?.minimumOrder,
+                        },
+                      }))
+                    }
                     placeholder="0.00"
                     type="number"
                     step="0.01"
@@ -191,7 +204,16 @@ export const ActiveCycleProductsList = ({
                   <select
                     className={styles.fixInput}
                     value={editForm.measure?.type ?? 'unidade'}
-                    onChange={(e) => setEditForm(prev => ({ ...prev, measure: { type: e.target.value, value: prev.measure?.value ?? 0, minimumOrder: prev.measure?.minimumOrder } }))}
+                    onChange={(e) =>
+                      setEditForm((prev) => ({
+                        ...prev,
+                        measure: {
+                          type: e.target.value,
+                          value: prev.measure?.value ?? 0,
+                          minimumOrder: prev.measure?.minimumOrder,
+                        },
+                      }))
+                    }
                   >
                     <option value="unidade">Unidade</option>
                     <option value="kg">Kg</option>
@@ -203,17 +225,30 @@ export const ActiveCycleProductsList = ({
                     <input
                       className={styles.fixInput}
                       value={editForm.content?.value ?? ''}
-                      onChange={(e) => setEditForm(prev => ({
-                        ...prev,
-                        content: { unit: prev.content?.unit ?? 'g', value: e.target.value !== '' ? Number(e.target.value) : 0 }
-                      }))}
+                      onChange={(e) =>
+                        setEditForm((prev) => ({
+                          ...prev,
+                          content: {
+                            unit: prev.content?.unit ?? 'g',
+                            value: e.target.value !== '' ? Number(e.target.value) : 0,
+                          },
+                        }))
+                      }
                       placeholder="Ex: 500"
                       type="number"
                     />
                     <select
                       className={styles.fixInput}
                       value={editForm.content?.unit ?? 'g'}
-                      onChange={(e) => setEditForm(prev => ({ ...prev, content: { unit: e.target.value as 'g' | 'kg' | 'ml' | 'L', value: prev.content?.value ?? 0 } }))}
+                      onChange={(e) =>
+                        setEditForm((prev) => ({
+                          ...prev,
+                          content: {
+                            unit: e.target.value as 'g' | 'kg' | 'ml' | 'L',
+                            value: prev.content?.value ?? 0,
+                          },
+                        }))
+                      }
                       style={{ width: '3.75rem', padding: '0.4rem' }}
                     >
                       <option value="g">g</option>
@@ -231,13 +266,16 @@ export const ActiveCycleProductsList = ({
                       value={editForm.measure?.minimumOrder?.type ?? ''}
                       onChange={(e) => {
                         const type = e.target.value;
-                        setEditForm(prev => ({
+                        setEditForm((prev) => ({
                           ...prev,
                           measure: {
                             type: prev.measure?.type ?? 'unidade',
                             value: prev.measure?.value ?? 0,
-                            minimumOrder: type !== '' ? { type, value: prev.measure?.minimumOrder?.value ?? 1 } : undefined
-                          }
+                            minimumOrder:
+                              type !== ''
+                                ? { type, value: prev.measure?.minimumOrder?.value ?? 1 }
+                                : undefined,
+                          },
                         }));
                       }}
                       style={{ width: '5.3125rem', padding: '0.4rem' }}
@@ -251,17 +289,18 @@ export const ActiveCycleProductsList = ({
                       value={editForm.measure?.minimumOrder?.value ?? ''}
                       onChange={(e) => {
                         const val = e.target.value;
-                        setEditForm(prev => {
+                        setEditForm((prev) => {
                           const minOrderType = prev.measure?.minimumOrder?.type;
                           return {
                             ...prev,
                             measure: {
                               type: prev.measure?.type ?? 'unidade',
                               value: prev.measure?.value ?? 0,
-                              minimumOrder: (minOrderType !== undefined && minOrderType !== '') 
-                                ? { type: minOrderType, value: val !== '' ? Number(val) : 0 } 
-                                : undefined
-                            }
+                              minimumOrder:
+                                minOrderType !== undefined && minOrderType !== ''
+                                  ? { type: minOrderType, value: val !== '' ? Number(val) : 0 }
+                                  : undefined,
+                            },
                           };
                         });
                       }}
@@ -272,10 +311,20 @@ export const ActiveCycleProductsList = ({
                 </div>
               </div>
               <div className={styles.editActions}>
-                <button type="button" className={styles.cancelInlineBtn} onClick={handleCancelInlineEdit} disabled={isSubmitting}>
+                <button
+                  type="button"
+                  className={styles.cancelInlineBtn}
+                  onClick={handleCancelInlineEdit}
+                  disabled={isSubmitting}
+                >
                   Cancelar
                 </button>
-                <button type="button" className={styles.saveInlineBtn} onClick={() => void handleSaveInlineEdit()} disabled={isSubmitting}>
+                <button
+                  type="button"
+                  className={styles.saveInlineBtn}
+                  onClick={() => void handleSaveInlineEdit()}
+                  disabled={isSubmitting}
+                >
                   {isSubmitting ? 'Salvando...' : 'Salvar'}
                 </button>
               </div>
@@ -298,7 +347,13 @@ export const ActiveCycleProductsList = ({
                 </div>
               </div>
               <div className={styles.pActions}>
-                <button type="button" className={styles.iconBtn} onClick={() => handleEditClick(p)} title="Editar" disabled={isSubmitting}>
+                <button
+                  type="button"
+                  className={styles.iconBtn}
+                  onClick={() => handleEditClick(p)}
+                  title="Editar"
+                  disabled={isSubmitting}
+                >
                   <Icon icon={faPen} />
                 </button>
                 <button
@@ -312,8 +367,8 @@ export const ActiveCycleProductsList = ({
                 </button>
               </div>
             </div>
-          )
-        ))}
+          ),
+        )}
       </div>
     </AdminContainer>
   );

@@ -6,24 +6,28 @@ import { readFileSync, existsSync } from 'fs';
 
 const PORT = Number(process.env.PORT) || 3000;
 const COMMAND = process.env.MCP_COMMAND;
-const ARGS: string[] = typeof process.env.MCP_ARGS === 'string' && process.env.MCP_ARGS !== '' 
-  ? (JSON.parse(process.env.MCP_ARGS) as string[]) 
-  : [];
+const ARGS: string[] =
+  typeof process.env.MCP_ARGS === 'string' && process.env.MCP_ARGS !== ''
+    ? (JSON.parse(process.env.MCP_ARGS) as string[])
+    : [];
 
 if (COMMAND === undefined) {
-  console.error("Error: MCP_COMMAND environment variable is required.");
+  console.error('Error: MCP_COMMAND environment variable is required.');
   process.exit(1);
 }
 
 // Load instructions from local folder context injected via volume mount
-const INSTRUCTIONS_PATH = process.env.MCP_INSTRUCTIONS_FILE !== undefined && process.env.MCP_INSTRUCTIONS_FILE !== ''
-  ? process.env.MCP_INSTRUCTIONS_FILE
-  : '/app/instructions.md';
+const INSTRUCTIONS_PATH =
+  process.env.MCP_INSTRUCTIONS_FILE !== undefined && process.env.MCP_INSTRUCTIONS_FILE !== ''
+    ? process.env.MCP_INSTRUCTIONS_FILE
+    : '/app/instructions.md';
 let instructionsContent = '';
 if (existsSync(INSTRUCTIONS_PATH) === true) {
   try {
     instructionsContent = readFileSync(INSTRUCTIONS_PATH, 'utf-8');
-    console.info(`[Adapter] Successfully loaded instructions from ${INSTRUCTIONS_PATH} (len=${instructionsContent.length})`);
+    console.info(
+      `[Adapter] Successfully loaded instructions from ${INSTRUCTIONS_PATH} (len=${instructionsContent.length})`,
+    );
   } catch (err) {
     console.error(`[Adapter] Failed to read instructions from ${INSTRUCTIONS_PATH}:`, err);
   }
@@ -32,7 +36,7 @@ if (existsSync(INSTRUCTIONS_PATH) === true) {
 }
 
 const fastify = Fastify({
-  logger: false
+  logger: false,
 });
 
 // Active sessions mapping: clientId -> childProcess
@@ -41,7 +45,11 @@ const sessions = new Map<string, ChildProcessWithoutNullStreams>();
 const sessionBuffers = new Map<string, string>();
 
 // Helper to query child subprocess
-function queryChild(sessionId: string, child: ChildProcessWithoutNullStreams, requestBody: string): Promise<string> {
+function queryChild(
+  sessionId: string,
+  child: ChildProcessWithoutNullStreams,
+  requestBody: string,
+): Promise<string> {
   return new Promise((resolve, reject) => {
     let requestId: string | number | null = null;
     let requestMethod = '';
@@ -56,7 +64,9 @@ function queryChild(sessionId: string, child: ChildProcessWithoutNullStreams, re
       console.error(`[Session ${sessionId}] Failed to parse request body:`, err.message);
     }
 
-    console.info(`[Session ${sessionId}] Querying child: method="${requestMethod}", requestId=${requestId}`);
+    console.info(
+      `[Session ${sessionId}] Querying child: method="${requestMethod}", requestId=${requestId}`,
+    );
 
     if (sessionBuffers.has(sessionId) === false) {
       sessionBuffers.set(sessionId, '');
@@ -83,22 +93,36 @@ function queryChild(sessionId: string, child: ChildProcessWithoutNullStreams, re
 
         const trimmedLine = line.trim();
         if (trimmedLine.length > 0) {
-          console.info(`[Session ${sessionId}] Extracted line from stdout (len=${trimmedLine.length}), preview: ${trimmedLine.substring(0, 100)}...`);
+          console.info(
+            `[Session ${sessionId}] Extracted line from stdout (len=${trimmedLine.length}), preview: ${trimmedLine.substring(0, 100)}...`,
+          );
 
           if (requestId === null) {
-            console.info(`[Session ${sessionId}] Stateless query or null requestId. Resolving immediately with line.`);
+            console.info(
+              `[Session ${sessionId}] Stateless query or null requestId. Resolving immediately with line.`,
+            );
             cleanup();
             resolve(line);
             return;
           }
 
           try {
-            const responsePayload = JSON.parse(trimmedLine) as { id?: string | number; result?: { protocolVersion?: string; instructions?: string } };
+            const responsePayload = JSON.parse(trimmedLine) as {
+              id?: string | number;
+              result?: { protocolVersion?: string; instructions?: string };
+            };
             if (responsePayload.id === requestId) {
-              console.info(`[Session ${sessionId}] Found matching JSON-RPC response for id=${requestId}. Resolving.`);
+              console.info(
+                `[Session ${sessionId}] Found matching JSON-RPC response for id=${requestId}. Resolving.`,
+              );
               cleanup();
-              if (responsePayload.result !== undefined && typeof responsePayload.result.protocolVersion === 'string') {
-                console.info(`[Session ${sessionId}] Intercepted initialize response in queryChild. Injecting instructions.`);
+              if (
+                responsePayload.result !== undefined &&
+                typeof responsePayload.result.protocolVersion === 'string'
+              ) {
+                console.info(
+                  `[Session ${sessionId}] Intercepted initialize response in queryChild. Injecting instructions.`,
+                );
                 if (instructionsContent !== '') {
                   responsePayload.result.instructions = instructionsContent;
                 }
@@ -108,11 +132,15 @@ function queryChild(sessionId: string, child: ChildProcessWithoutNullStreams, re
               }
               return;
             } else {
-              console.info(`[Session ${sessionId}] Mismatched JSON-RPC response id=${responsePayload.id} (expected ${requestId}). Continuing to buffer.`);
+              console.info(
+                `[Session ${sessionId}] Mismatched JSON-RPC response id=${responsePayload.id} (expected ${requestId}). Continuing to buffer.`,
+              );
             }
           } catch (err: unknown) {
             const error = err as Error;
-            console.info(`[Session ${sessionId}] Line is not valid JSON (${error.message}). Continuing to buffer.`);
+            console.info(
+              `[Session ${sessionId}] Line is not valid JSON (${error.message}). Continuing to buffer.`,
+            );
           }
         }
       }
@@ -172,7 +200,8 @@ interface QueryParams {
 
 // DELETE route to close session
 fastify.delete<{ Querystring: QueryParams }>('/sse', async (request, reply) => {
-  const sessionIdHeader = request.headers['mcp-session-id'] ?? request.headers['x-session-id'] ?? request.query.clientId;
+  const sessionIdHeader =
+    request.headers['mcp-session-id'] ?? request.headers['x-session-id'] ?? request.query.clientId;
   const sessionId = Array.isArray(sessionIdHeader) ? sessionIdHeader[0] : sessionIdHeader;
   if (sessionId !== undefined && sessionId !== '') {
     const child = sessions.get(sessionId);
@@ -205,9 +234,13 @@ fastify.get<{ Querystring: QueryParams }>('/sse', { sse: true }, async (request,
       if (line.trim() !== '') {
         let outputLine = line;
         try {
-          const payload = JSON.parse(line) as { result?: { protocolVersion?: string; instructions?: string } };
+          const payload = JSON.parse(line) as {
+            result?: { protocolVersion?: string; instructions?: string };
+          };
           if (payload.result !== undefined && typeof payload.result.protocolVersion === 'string') {
-            console.info(`[SSE ${clientId}] Intercepted initialize response. Injecting instructions.`);
+            console.info(
+              `[SSE ${clientId}] Intercepted initialize response. Injecting instructions.`,
+            );
             if (instructionsContent !== '') {
               payload.result.instructions = instructionsContent;
             }
@@ -266,7 +299,8 @@ fastify.post<{ Querystring: QueryParams; Body: string }>('/messages', async (req
 
 // POST /sse - Streamable HTTP (Stateless / Unified POST Endpoint)
 fastify.post<{ Querystring: QueryParams; Body: string }>('/sse', async (request, reply) => {
-  const sessionIdHeader = request.headers['mcp-session-id'] ?? request.headers['x-session-id'] ?? request.query.clientId;
+  const sessionIdHeader =
+    request.headers['mcp-session-id'] ?? request.headers['x-session-id'] ?? request.query.clientId;
   let sessionId = Array.isArray(sessionIdHeader) ? sessionIdHeader[0] : sessionIdHeader;
   let child: ChildProcessWithoutNullStreams | undefined;
 
@@ -313,7 +347,9 @@ fastify.post<{ Querystring: QueryParams; Body: string }>('/sse', async (request,
   }
 
   if (isNotification === true) {
-    console.info(`[HTTP] Received JSON-RPC Notification: ${body.trim()}. Responding 204 immediately.`);
+    console.info(
+      `[HTTP] Received JSON-RPC Notification: ${body.trim()}. Responding 204 immediately.`,
+    );
     try {
       child.stdin.write(body + '\n');
       void reply.header('Mcp-Session-Id', sessionId);

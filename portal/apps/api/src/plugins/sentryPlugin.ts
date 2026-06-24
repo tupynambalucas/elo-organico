@@ -21,7 +21,7 @@ const sentryPlugin: FastifyPluginAsync = async (server: FastifyInstance) => {
       }
 
       if (error && typeof error === 'object' && 'statusCode' in error) {
-        const errorWithStatus = error as { statusCode: unknown };
+        const errorWithStatus = error;
         const status = errorWithStatus.statusCode;
 
         if (typeof status === 'number' && status < 500) {

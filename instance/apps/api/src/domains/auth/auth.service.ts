@@ -20,7 +20,7 @@ export class AuthService {
 
   private async verifyTurnstile(token: string, ip?: string): Promise<void> {
     const secret = this.server.config.TURNSTILE_SECRET_KEY;
-    
+
     try {
       const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
         method: 'POST',
@@ -28,12 +28,12 @@ export class AuthService {
         body: JSON.stringify({
           secret,
           response: token,
-          remoteip: ip
-        })
+          remoteip: ip,
+        }),
       });
 
       const result = (await response.json()) as { success: boolean };
-      
+
       if (!result.success) {
         throw new AppError('BOT_DETECTION_FAILED', 403);
       }
@@ -80,15 +80,15 @@ export class AuthService {
     }
 
     const isValid = await this.server.compareHash(data.password, user.password);
-    
+
     if (!isValid || isValid instanceof Error) {
       // Increment attempts
       user.loginAttempts += 1;
-      
+
       if (user.loginAttempts >= this.MAX_ATTEMPTS) {
         user.lockUntil = Date.now() + this.LOCK_TIME;
       }
-      
+
       await user.save();
       throw genericError;
     }

@@ -2,7 +2,12 @@ import { api } from '@/lib/axios';
 import type { IProduct, ProductResponse } from '@elo-instance/core';
 
 export const productApi = {
-  list: async (filters?: { search?: string; category?: string; type?: string; availableOnly?: boolean }) => {
+  list: async (filters?: {
+    search?: string;
+    category?: string;
+    type?: string;
+    availableOnly?: boolean;
+  }) => {
     const { data } = await api.get<ProductResponse[]>('/admin/products', { params: filters });
     return data;
   },

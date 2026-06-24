@@ -42,7 +42,9 @@ export const RegisterForm = ({
           placeholder="Nome de usuário"
           value={data.username}
           onChange={(e) => onChange('username', e.target.value)}
-          className={errors.username !== undefined && errors.username !== '' ? styles.inputError : ''}
+          className={
+            errors.username !== undefined && errors.username !== '' ? styles.inputError : ''
+          }
           disabled={disabled}
           required
         />
@@ -79,7 +81,9 @@ export const RegisterForm = ({
             placeholder={`Crie uma senha (mín. ${AUTH_RULES.PASSWORD.MIN} carac.)`}
             value={data.password}
             onChange={(e) => onChange('password', e.target.value)}
-            className={errors.password !== undefined && errors.password !== '' ? styles.inputError : ''}
+            className={
+              errors.password !== undefined && errors.password !== '' ? styles.inputError : ''
+            }
             disabled={disabled}
             required
           />
@@ -103,7 +107,11 @@ export const RegisterForm = ({
             placeholder="Digite a senha novamente para confirmar"
             value={data.confirmPassword}
             onChange={(e) => onChange('confirmPassword', e.target.value)}
-            className={errors.confirmPassword !== undefined && errors.confirmPassword !== '' ? styles.inputError : ''}
+            className={
+              errors.confirmPassword !== undefined && errors.confirmPassword !== ''
+                ? styles.inputError
+                : ''
+            }
             disabled={disabled}
             required
           />

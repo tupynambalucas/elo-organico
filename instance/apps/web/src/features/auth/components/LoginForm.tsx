@@ -24,7 +24,9 @@ export const LoginForm = ({ data, errors, onChange, inputRefs, disabled }: Login
           placeholder="Usuário ou E-mail"
           value={data.identifier}
           onChange={(e) => onChange('identifier', e.target.value)}
-          className={errors.identifier !== undefined && errors.identifier !== '' ? styles.inputError : ''}
+          className={
+            errors.identifier !== undefined && errors.identifier !== '' ? styles.inputError : ''
+          }
           disabled={disabled}
           required
         />
@@ -41,7 +43,9 @@ export const LoginForm = ({ data, errors, onChange, inputRefs, disabled }: Login
             placeholder="Senha"
             value={data.password}
             onChange={(e) => onChange('password', e.target.value)}
-            className={errors.password !== undefined && errors.password !== '' ? styles.inputError : ''}
+            className={
+              errors.password !== undefined && errors.password !== '' ? styles.inputError : ''
+            }
             disabled={disabled}
             required
           />

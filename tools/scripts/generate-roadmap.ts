@@ -25,7 +25,8 @@ function generateRoadmap(): void {
     process.exit(1);
   }
 
-  let roadmapContent = '# Roadmap\n\nAll planned and completed milestones for each key workspace context in the Elo Orgânico ecosystem, aligning our immediate features with long-term platform transformations.\n\n';
+  let roadmapContent =
+    '# Roadmap\n\nAll planned and completed milestones for each key workspace context in the Elo Orgânico ecosystem, aligning our immediate features with long-term platform transformations.\n\n';
   const entries: string[] = [];
 
   for (const file of ROADMAP_FILES) {
@@ -57,7 +58,9 @@ function generateRoadmap(): void {
       entries.push(entry);
     } else {
       const cleanedContent = content.trim();
-      const cleanedBody = cleanedContent.endsWith('---') ? cleanedContent.slice(0, -3).trim() : cleanedContent;
+      const cleanedBody = cleanedContent.endsWith('---')
+        ? cleanedContent.slice(0, -3).trim()
+        : cleanedContent;
       entries.push(`## ${file}\n\n${cleanedBody}`);
     }
   }
@@ -65,7 +68,9 @@ function generateRoadmap(): void {
   roadmapContent += entries.join('\n\n---\n\n') + '\n';
 
   fs.writeFileSync(ROADMAP_PATH, roadmapContent);
-  console.info(`✅ ROADMAP.md successfully generated at the repository root! (${entries.length} contexts compiled)`);
+  console.info(
+    `✅ ROADMAP.md successfully generated at the repository root! (${entries.length} contexts compiled)`,
+  );
 }
 
 generateRoadmap();

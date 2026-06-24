@@ -21,7 +21,11 @@ const LandingLayout = () => {
 
   useGSAP(
     () => {
-      if (leftPanelRef.current === null || logoWrapperRef.current === null || rightPanelRef.current === null) {
+      if (
+        leftPanelRef.current === null ||
+        logoWrapperRef.current === null ||
+        rightPanelRef.current === null
+      ) {
         return;
       }
 

@@ -5,7 +5,7 @@ export const translations = {
       UNKNOWN_ERROR: 'Ocorreu um erro inesperado.',
       NETWORK_ERROR: 'Erro de conexão. Verifique sua internet.',
       VALIDATION_ERROR: 'Verifique os dados informados.',
-    }
+    },
   },
   auth: {
     errors: {
@@ -25,7 +25,7 @@ export const translations = {
     success: {
       USER_CREATED_SUCCESSFULLY: 'Conta criada com sucesso! Faça seu login.',
       LOGOUT_SUCCESSFUL: 'Sessão encerrada com sucesso.',
-    }
+    },
   },
   cycle: {
     errors: {
@@ -38,6 +38,6 @@ export const translations = {
     success: {
       CYCLE_CREATED: 'Ciclo iniciado com sucesso!',
       CYCLE_UPDATED: 'Ciclo atualizado com sucesso!',
-    }
-  }
+    },
+  },
 };

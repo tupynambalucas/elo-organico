@@ -59,7 +59,7 @@ export const useCartStore = create<CartState>()(
               const existingItem = state.items.find((item) => item._id === product._id);
               if (existingItem !== undefined) {
                 newItems = state.items.map((item) =>
-                  item._id === product._id ? { ...item, amount: numericAmount } : item
+                  item._id === product._id ? { ...item, amount: numericAmount } : item,
                 );
               } else {
                 newItems = [...state.items, { ...product, amount: numericAmount }];

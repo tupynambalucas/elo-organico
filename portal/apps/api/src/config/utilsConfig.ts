@@ -15,7 +15,7 @@ const utilsPlugin: FastifyPluginAsync = async (server) => {
         default:
           return undefined;
       }
-    }
+    },
   );
 };
 

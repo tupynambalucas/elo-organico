@@ -88,11 +88,15 @@ export const useAuthStore = create<AuthState>((set) => ({
         });
       } catch {
         console.warn('[VerifyAuth]: Usuário não autenticado ou sessão expirada.');
-        set({ user: null, isAuthenticated: false, status: 'UNAUTHENTICATED', isAuthLoading: false });
+        set({
+          user: null,
+          isAuthenticated: false,
+          status: 'UNAUTHENTICATED',
+          isAuthLoading: false,
+        });
       }
     },
 
     clearErrors: () => set({ error: null, errorCode: null }),
   },
 }));
-

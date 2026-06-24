@@ -4,10 +4,9 @@ import cycleRoutes from '../domains/cycle/cycle.routes.js';
 import productRoutes from '../domains/product/product.routes.js';
 
 const apiPlugin: FastifyPluginAsync = async function (server: FastifyInstance) {
-  
   await server.register(authRoutes, { prefix: 'auth' });
   await server.register(cycleRoutes);
   await server.register(productRoutes); // Nova rota registrada
-}
+};
 
 export default apiPlugin;

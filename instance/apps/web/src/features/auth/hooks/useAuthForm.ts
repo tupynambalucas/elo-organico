@@ -54,7 +54,11 @@ export const useAuthForm = (isLogin: boolean, onSuccess: () => void) => {
 
   const handleInputChange = (field: keyof AuthFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
-    if (fieldErrors[field] !== undefined && fieldErrors[field] !== null && fieldErrors[field] !== '') {
+    if (
+      fieldErrors[field] !== undefined &&
+      fieldErrors[field] !== null &&
+      fieldErrors[field] !== ''
+    ) {
       setFieldErrors((prev) => ({ ...prev, [field]: null }));
     }
     if (errorCode !== null && errorCode !== '') {
@@ -85,10 +89,10 @@ export const useAuthForm = (isLogin: boolean, onSuccess: () => void) => {
     }
 
     if (isLogin) {
-      await login({ 
-        identifier: formData.identifier, 
+      await login({
+        identifier: formData.identifier,
         password: formData.password,
-        turnstileToken 
+        turnstileToken,
       });
     } else {
       const success = await register({
@@ -96,7 +100,7 @@ export const useAuthForm = (isLogin: boolean, onSuccess: () => void) => {
         email: formData.email,
         password: formData.password,
         icon: formData.icon,
-        turnstileToken
+        turnstileToken,
       });
       if (success) {
         onSuccess();

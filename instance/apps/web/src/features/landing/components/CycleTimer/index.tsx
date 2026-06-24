@@ -77,7 +77,8 @@ const CycleTimer = () => {
   }, [calculateTime]);
 
   const isClosed = activeCycle?.status === 'CLOSED';
-  const displayDate = activeCycle?.openingDate !== undefined ? new Date(activeCycle.openingDate) : new Date();
+  const displayDate =
+    activeCycle?.openingDate !== undefined ? new Date(activeCycle.openingDate) : new Date();
   const formattedDate = format(displayDate, "EEEE, dd 'de' MMMM", { locale: ptBR });
 
   return (

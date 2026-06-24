@@ -33,10 +33,7 @@
 
   /* --- YAML Schemas --- */
   "yaml.schemas": {
-    ".vscode/schemas/schema-docker-compose.json": [
-      "**/compose.yaml",
-      "**/*compose*.yaml"
-    ],
+    ".vscode/schemas/schema-docker-compose.json": ["**/compose.yaml", "**/*compose*.yaml"],
     ".vscode/schemas/schema-pnpm-workspace.json": ["pnpm-workspace.yaml"]
   },
 
@@ -62,19 +59,16 @@
     "strings": true
   },
   "[javascript]": {
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "explicit"
-    }
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.formatOnSave": false
   },
   "[typescript]": {
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "explicit"
-    }
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.formatOnSave": false
   },
   "[typescriptreact]": {
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "explicit"
-    }
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.formatOnSave": false
   },
 
   "[mdx]": {

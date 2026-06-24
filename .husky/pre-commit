@@ -1,0 +1,1 @@
+pnpm typecheck --filter=!@elo-portal/* && pnpm exec lint-staged

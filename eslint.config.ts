@@ -10,6 +10,8 @@ import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import reactRefreshPlugin from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
+import eslintPluginPrettier from 'eslint-plugin-prettier';
+import eslintConfigPrettier from 'eslint-config-prettier';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -339,4 +341,18 @@ export default defineConfig([
       '**/vite-env.d.ts',
     ],
   },
+
+  // ========================================================================
+  // 10. PRETTIER INTEGRATION
+  // ========================================================================
+  {
+    name: 'monorepo/prettier',
+    plugins: {
+      prettier: eslintPluginPrettier,
+    },
+    rules: {
+      'prettier/prettier': ['error', { endOfLine: 'auto' }],
+    },
+  },
+  eslintConfigPrettier,
 ]);

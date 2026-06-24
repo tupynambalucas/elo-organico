@@ -26,40 +26,42 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
       <div className={styles.imagePlaceholder}>
         <div className={styles.tagsContainer}>
           <span className={styles.category}>{product.category}</span>
-          {product.measure.label !== undefined === true && (
+          {(product.measure.label !== undefined) === true && (
             <span className={styles.labelTag}>{product.measure.label}</span>
           )}
         </div>
       </div>
-      
+
       <div className={styles.info}>
         <h4 className={styles.name}>{product.name}</h4>
-        
+
         <div className={styles.details}>
           <span className={styles.measure}>
             {product.measure.type}
             {product.content !== null && product.content !== undefined && (
-              <> • {product.content.value}{product.content.unit}</>
+              <>
+                {' '}
+                • {product.content.value}
+                {product.content.unit}
+              </>
             )}
           </span>
-          <span className={styles.price}>
-            R$ {Number(product.measure.value).toFixed(2)}
-          </span>
+          <span className={styles.price}>R$ {Number(product.measure.value).toFixed(2)}</span>
         </div>
-        
+
         <div className={styles.controlsContainer}>
           {isUnit === true ? (
             <div className={styles.unitControls}>
-              <button 
-                className={styles.qtyBtn} 
+              <button
+                className={styles.qtyBtn}
                 onClick={() => handleUpdateAmount(currentAmount - 1)}
                 disabled={currentAmount === 0}
               >
                 <Icon icon={faMinus} />
               </button>
               <div className={styles.amountDisplay}>{currentAmount}</div>
-              <button 
-                className={styles.qtyBtn} 
+              <button
+                className={styles.qtyBtn}
                 onClick={() => handleUpdateAmount(currentAmount + 1)}
               >
                 <Icon icon={faPlus} />

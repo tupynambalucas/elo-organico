@@ -15,7 +15,7 @@ const utilsPlugin: FastifyPluginAsync = (server) => {
         default:
           return Promise.resolve(undefined);
       }
-    }
+    },
   );
   return Promise.resolve();
 };

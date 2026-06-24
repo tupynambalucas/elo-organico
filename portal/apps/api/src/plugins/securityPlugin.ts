@@ -4,13 +4,13 @@ import type { FastifyInstance, FastifyPluginAsync } from 'fastify';
 
 const securityPlugin: FastifyPluginAsync = async function (server: FastifyInstance) {
   await server.register(csrf, {
-    cookieOpts: { 
+    cookieOpts: {
       signed: true,
-      httpOnly: true, 
+      httpOnly: true,
       path: '/api',
       secure: server.config.NODE_ENV === 'production',
-      sameSite: 'strict'
-    }
+      sameSite: 'strict',
+    },
   });
 
   server.get('/api/csrf-token', async (req, reply) => {

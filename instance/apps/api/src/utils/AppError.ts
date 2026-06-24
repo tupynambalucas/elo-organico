@@ -7,7 +7,7 @@ export class AppError extends Error {
     this.code = code;
     this.statusCode = statusCode;
     this.name = 'AppError';
-    
+
     Error.captureStackTrace(this, this.constructor);
   }
 }

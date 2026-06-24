@@ -8,9 +8,9 @@ const loaderContainerStyle: React.CSSProperties = {
   justifyContent: 'center',
   alignItems: 'center',
   borderRadius: '0.5rem',
-  // Garante que fique acima de outros elementos se necessário, 
+  // Garante que fique acima de outros elementos se necessário,
   // mas dentro do fluxo da section
-  zIndex: 10, 
+  zIndex: 10,
 };
 
 const spinnerStyle: React.CSSProperties = {
