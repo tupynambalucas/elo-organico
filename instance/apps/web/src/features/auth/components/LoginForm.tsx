@@ -21,7 +21,7 @@ export const LoginForm = ({ data, errors, onChange, inputRefs, disabled }: Login
         <input
           ref={identifier}
           type="text"
-          placeholder="Usuári ou E-mail"
+          placeholder="Usuário ou E-mail"
           value={data.identifier}
           onChange={(e) => onChange('identifier', e.target.value)}
           className={
