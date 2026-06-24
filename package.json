@@ -87,6 +87,8 @@
     "copilot:staging:auth": "pnpm --filter @elo-organico/tools copilot:staging:auth",
     "// CI/CD & Quality": "-------------------------------------------------",
     "project:clean": "npx npkill",
+    "husky:test": "tsx tools/scripts/test-hooks.ts",
+    "husky:validate": "npx husky validate",
     "prepare": "husky"
   },
   "devDependencies": {
