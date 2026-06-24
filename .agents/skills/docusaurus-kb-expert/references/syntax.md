@@ -35,26 +35,27 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 <Tabs>
-  <TabItem value="dev" label="Development" default>
+<TabItem value="dev" label="Development" default>
 
 Development configurations or commands.
 
-  </TabItem>
-  <TabItem value="staging" label="Staging">
+</TabItem>
+<TabItem value="staging" label="Staging">
 
 Staging configurations or commands.
 
-  </TabItem>
-  <TabItem value="prod" label="Production">
+</TabItem>
+<TabItem value="prod" label="Production">
 
 Production configurations or commands.
 
-  </TabItem>
+</TabItem>
 </Tabs>
 ```
 
 > [!IMPORTANT]
 > If a `<TabItem>` contains any Markdown formatting (such as lists, bold text, code blocks, or links), you **MUST** insert an empty line immediately after the opening `<TabItem ...>` tag and another empty line immediately before the closing `</TabItem>` tag. Without these empty lines, the MDX parser will fail to render the Markdown elements correctly, resulting in unformatted single-line text output.
+> Additionally, **do not indent** the `<Tabs>` or `<TabItem>` tags, nor the Markdown list elements inside them. Keep them aligned to the left margin (0 spaces indentation) to avoid parser context loss and tag mismatch errors.
 
 ---
 
