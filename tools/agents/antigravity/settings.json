@@ -3,7 +3,6 @@
   "colorScheme": "dark",
   "editor": "code",
   "enableTelemetry": false,
-  "model": "Claude Sonnet 4.6 (Thinking)",
   "permissions": {
     "allow": [
       "command(pnpm lint)",
@@ -25,7 +24,5 @@
     "command": "bash /root/.gemini/antigravity-cli/title.sh",
     "enabled": true
   },
-  "trustedWorkspaces": [
-    "/workspace"
-  ]
+  "trustedWorkspaces": ["/workspace"]
 }
