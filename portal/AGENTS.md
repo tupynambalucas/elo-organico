@@ -18,7 +18,7 @@ Before editing or analyzing code in this platform context, read the local rules 
 
 ## Bounded Context Architecture
 
-The Portal context represents the **Global Platform layer** (SaaS Hub) designed to manage multi-tenant community instances. 
+The Portal context represents the **Global Platform layer** (SaaS Hub) designed to manage multi-tenant community instances.
 
 > [!NOTE]
 > This context is currently in the **foundation/skeleton stage** of development. Our immediate strategic focus is "Single-Instance Mastery" (`instance/` stack). Portal features should remain foundational and not introduce runtime complex SaaS logic until instance stability is reached.
@@ -54,4 +54,6 @@ Run these commands from the monorepo root to manage the platform stack:
 - `pnpm portal:up`: Boots only the Portal MongoDB (`elo-portal-db-dev`) and Redis (`elo-portal-redis-dev`) containers.
 - `pnpm portal:down`: Stops local Portal Docker containers and releases localhost ports 3001 and 5174.
 - `pnpm portal:prod`: Builds and launches the production platform stack using `.env.prod`.
+- `pnpm portal:prod:down`: Stops and tears down the production platform stack.
 - `pnpm portal:staging`: Builds and launches the staging platform stack using `.env.staging`.
+- `pnpm portal:staging:down`: Stops and tears down the staging platform stack.

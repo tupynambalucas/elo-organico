@@ -35,9 +35,13 @@ The Tools workspace manages the infrastructure for development automation, AI in
 
 Run these scripts from the monorepo root to manage the tools:
 
-- `pnpm mcp:up`: Launches the MCP gateway and downstream tools adapters in detached Docker containers.
-- `pnpm mcp:down`: Stops the MCP stack containers.
-- `pnpm mcp:reset`: Prunes volumes, rebuilds adapters, and restarts the gateway.
+- `pnpm mcp:up`: Launches the development MCP gateway and downstream tools adapters in detached Docker containers.
+- `pnpm mcp:down`: Stops the development MCP stack containers.
+- `pnpm mcp:reset`: Prunes development volumes, rebuilds adapters, and restarts the gateway.
+- `pnpm mcp:prod:up`: Launches the production MCP stack with detached containers.
+- `pnpm mcp:prod:down`: Stops the production MCP stack containers.
+- `pnpm mcp:staging:up`: Launches the staging MCP stack with detached containers.
+- `pnpm mcp:staging:down`: Stops the staging MCP stack containers.
 - `pnpm agents:up`: Launches containerized AI development terminals.
 - `pnpm agents:down`: Stops the agent containers.
 - `pnpm typecheck`: Validates TypeScript type safety across scripts and adapters.

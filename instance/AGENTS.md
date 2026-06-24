@@ -53,4 +53,6 @@ Run these commands from the monorepo root to manage the community stack:
 - `pnpm instance:down`: Stops local Docker containers and releases localhost ports 3000 and 5173.
 - `pnpm instance:reset`: Clears local database volumes and rebuilds developer infrastructure containers.
 - `pnpm instance:prod`: Builds and launches the production stack (API + Web/Nginx + Redis) using `.env.prod`.
+- `pnpm instance:prod:down`: Stops and tears down the production stack.
 - `pnpm instance:staging`: Builds and launches the staging stack using `.env.staging`.
+- `pnpm instance:staging:down`: Stops and tears down the staging stack.

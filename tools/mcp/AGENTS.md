@@ -24,5 +24,9 @@ This workspace (`tools/mcp/`) implements the Server-Sent Events (SSE) adapters a
 ## Scoped Commands
 
 - `pnpm mcp:build`: Compiles the typescript adapters and gateway.
-- `pnpm mcp:up`: Boots all MCP Docker containers in the background.
-- `pnpm mcp:down`: Stops all running MCP containers.
+- `pnpm mcp:up`: Boots the development MCP Docker containers in the background.
+- `pnpm mcp:down`: Stops the development MCP containers.
+- `pnpm mcp:prod:up`: Boots the production MCP Docker containers in the background.
+- `pnpm mcp:prod:down`: Stops the production MCP containers.
+- `pnpm mcp:staging:up`: Boots the staging MCP Docker containers in the background.
+- `pnpm mcp:staging:down`: Stops the staging MCP containers.
