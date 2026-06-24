@@ -18,7 +18,9 @@ Refer to the **[Architecture Overview](../../../docs/ARCHITECTURE.md)** for the 
 ## 🚀 Workflow Principles
 
 ### Domain Core First
+
 Any change affecting data models or shared schemas must originate in the respective core package (`@elo-instance/core` or `@elo-portal/core`) before being propagated to the associated applications.
 
 ### Automated Verification
+
 Before merging, ensure that `npm run lint:all` and `npm run build:all` (in respective packages) pass successfully.
