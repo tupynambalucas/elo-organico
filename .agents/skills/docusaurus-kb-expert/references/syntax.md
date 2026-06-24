@@ -36,23 +36,29 @@ import TabItem from '@theme/TabItem';
 
 <Tabs>
   <TabItem value="dev" label="Development" default>
+
     Development configurations or commands.
+
   </TabItem>
   <TabItem value="staging" label="Staging">
+
     Staging configurations or commands.
+
   </TabItem>
   <TabItem value="prod" label="Production">
+
     Production configurations or commands.
+
   </TabItem>
 </Tabs>
 ```
 
 > [!IMPORTANT]
-> When nesting Markdown content (such as lists or headings) inside `<TabItem>`, adhere strictly to these spacing and indentation rules to avoid MDX parsing and tag mismatch errors:
+> When nesting Markdown content (such as lists or headings) inside `<TabItem>`, adhere strictly to these spacing and indentation rules to avoid MDX parsing, tag mismatch, and formatting drift:
 >
 > 1. **Tag Indentation**: Indent `<TabItem>` tags by 2 spaces relative to `<Tabs>`.
 > 2. **Content Indentation**: Indent all Markdown lines inside the `<TabItem>` block by 4 spaces.
-> 3. **No Trailing Empty Lines**: Do not leave empty lines immediately before the closing `</TabItem>` tag to prevent the MDX parser from mistakenly grouping the closing tag into the Markdown list context.
+> 3. **Empty Lines (Above and Below Content)**: Prettier automatically inserts a single blank line immediately after the opening `<TabItem>` tag and a single blank line immediately before the closing `</TabItem>` tag. Always include exactly one blank line both above and below the inner content to prevent formatting drift.
 
 ---
 
@@ -127,3 +133,18 @@ Standard HTML comments (`<!-- -->`) are **not** valid in MDX. Use JavaScript com
 ```mdx
 {/* This is a single or multi-line comment in MDX */}
 ```
+
+---
+
+## 5. Prettier Formatting Standards
+
+All MDX files are automatically formatted by Prettier on pre-commit. To prevent formatting issues, your manual edits must align with the rules in [.prettierrc.json](../../../../.prettierrc.json):
+
+- **Indentation**: Explicit 2-space indentation for document layout, list nesting, and JSX wrapper structures.
+- **Line Width**: Word wrap prose to keep lines under 100 characters. Long URLs or code symbols that cannot be split are exempted.
+- **Code Block Formatting**: Code blocks embedded within MDX must match the project's Prettier style:
+  - `semi: true`: Always use semicolons in JavaScript/TypeScript blocks.
+  - `singleQuote: true`: Use single quotes for strings (except double quotes in JSX tags).
+  - `trailingComma: "all"`: Enforce trailing commas for objects, arrays, and parameters.
+  - `arrowParens: "always"`: Enforce parentheses around arrow function arguments (e.g. `(arg) => {}`).
+- **Unordered Lists**: Use hyphens (`-`) for unordered lists. Asterisks (`*`) and plus signs (`+`) are forbidden.

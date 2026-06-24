@@ -20,3 +20,7 @@ This reference defines the compilation, localization, and alignment validation p
 ## 3. Context Verification
 
 - **Codebase Check**: If updating documentation that removes a deprecated feature, check the corresponding implementation directories (instance/, portal/, or tools/) to verify that the target feature was indeed refactored or removed before deleting it from the docs.
+
+## 4. Formatting and Prettier Check
+
+- **Prettier Validation**: Ensure all edited or created MDX/Markdown files comply with the project Prettier config by running `pnpm exec prettier --check <file>`. If there are issues, format them with `pnpm exec prettier --write <file>`.

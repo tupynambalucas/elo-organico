@@ -10,17 +10,24 @@ Use one to six `#` characters followed by a space to create headings.
 
 ```markdown
 # Heading Level 1
+
 ## Heading Level 2
+
 ### Heading Level 3
+
 #### Heading Level 4
+
 ##### Heading Level 5
+
 ###### Heading Level 6
 ```
 
 ### Rendered Preview
 
 #### Heading Level 4 (Example)
+
 ##### Heading Level 5 (Example)
+
 ###### Heading Level 6 (Example)
 
 ---
@@ -29,15 +36,15 @@ Use one to six `#` characters followed by a space to create headings.
 
 ### Syntax and Rendered Preview
 
-| Style | Syntax | Example | Rendered Preview |
-| :--- | :--- | :--- | :--- |
-| Bold | `**text**` or `__text__` | `**Bold text**` | **Bold text** |
-| Italic | `*text*` or `_text_` | `_Italic text_` | _Italic text_ |
-| Strikethrough | `~~text~~` | `~~Strikethrough text~~` | ~~Strikethrough text~~ |
-| Bold & Italic | `**_text_**` or `***text***` | `**_Bold and italic_**` | **_Bold and italic_** |
-| Subscript | `<sub>text</sub>` | `H<sub>2</sub>O` | H<sub>2</sub>O |
-| Superscript | `<sup>text</sup>` | `X<sup>2</sup>` | X<sup>2</sup> |
-| Underline | `<ins>text</ins>` | `<ins>Underlined</ins>` | <ins>Underlined</ins> |
+| Style         | Syntax                       | Example                  | Rendered Preview       |
+| :------------ | :--------------------------- | :----------------------- | :--------------------- |
+| Bold          | `**text**` or `__text__`     | `**Bold text**`          | **Bold text**          |
+| Italic        | `*text*` or `_text_`         | `_Italic text_`          | _Italic text_          |
+| Strikethrough | `~~text~~`                   | `~~Strikethrough text~~` | ~~Strikethrough text~~ |
+| Bold & Italic | `**_text_**` or `***text***` | `**_Bold and italic_**`  | **_Bold and italic_**  |
+| Subscript     | `<sub>text</sub>`            | `H<sub>2</sub>O`         | H<sub>2</sub>O         |
+| Superscript   | `<sup>text</sup>`            | `X<sup>2</sup>`          | X<sup>2</sup>          |
+| Underline     | `<ins>text</ins>`            | `<ins>Underlined</ins>`  | <ins>Underlined</ins>  |
 
 ---
 
@@ -51,7 +58,8 @@ Use the `>` character before lines of quoted text. Blockquotes can also be neste
 Text that is not a quote
 
 > This is a blockquote.
->> This is a nested blockquote.
+>
+> > This is a nested blockquote.
 ```
 
 ### Rendered Preview
@@ -59,7 +67,8 @@ Text that is not a quote
 Text that is not a quote
 
 > This is a blockquote.
->> This is a nested blockquote.
+>
+> > This is a nested blockquote.
 
 ---
 
@@ -87,7 +96,7 @@ Use triple backticks to create standalone code blocks. Optionally, specify the l
 
 ````markdown
 ```typescript
-const app = "elo";
+const app = 'elo';
 console.log(app);
 ```
 ````
@@ -95,7 +104,7 @@ console.log(app);
 #### Rendered Preview
 
 ```typescript
-const app = "elo";
+const app = 'elo';
 console.log(app);
 ```
 
@@ -156,6 +165,7 @@ Relative paths can be used to link to files within the repository.
 ### Section Anchors
 
 Link directly to section headings using generated anchors:
+
 - Conversion to lowercase.
 - Spaces replaced with hyphens (`-`).
 - Punctuation characters are removed.
@@ -304,6 +314,7 @@ Here is a footnote[^1].
 ## Line Breaks
 
 In `.md` files, a line break requires:
+
 - Two trailing spaces.
 - A trailing backslash `\`.
 - An HTML `<br/>` tag.
@@ -389,6 +400,7 @@ Hide content in the rendered output using HTML comment syntax.
 ### Rendered Preview
 
 (There is a hidden comment below this line, which is invisible in the rendered output)
+
 <!-- Hidden content -->
 
 ---
@@ -406,3 +418,18 @@ Prevent Markdown parsing by escaping characters with a backslash `\`.
 ### Rendered Preview
 
 \*This is not italic\*
+
+---
+
+## Prettier Formatting Standards
+
+All Markdown files are formatted by Prettier on pre-commit. To ensure your modifications do not cause conflicts or formatting drift, align with [.prettierrc.json](../../../../.prettierrc.json):
+
+- **Indentation**: Standard 2-space indentation for list nesting, blockquotes, and HTML tags.
+- **Line Width**: Word wrap prose to keep lines under 100 characters where possible.
+- **Unordered Lists**: Always use hyphens (`-`) for unordered lists. Asterisks (`*`) and plus signs (`+`) are strictly forbidden.
+- **Code Block Formatting**: JavaScript/TypeScript code snippets inside fenced code blocks must comply with:
+  - `semi: true` (always use semicolons)
+  - `singleQuote: true` (use single quotes for strings)
+  - `trailingComma: "all"` (enforce trailing commas)
+  - `arrowParens: "always"` (parentheses around arrow function arguments)

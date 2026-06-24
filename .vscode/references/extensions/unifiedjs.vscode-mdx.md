@@ -1,52 +1,63 @@
-Settings
-ID Description Default
-mdx.server.enable
+# unifiedjs.vscode-mdx
+
+## Settings
+
+### `mdx.server.enable`
+
+- **Default**: `true`
 
 Enable experimental IntelliSense support for MDX files.
 
-true
-mdx.trace.server.format
+### `mdx.trace.server.format`
+
+- **Default**: `"text"`
 
 How to format traced MDX language server requests.
 
-"text"
-mdx.trace.server.verbosity
+### `mdx.trace.server.verbosity`
+
+- **Default**: `"off"`
 
 Trace MDX language server requests in the output console.
 
-"off"
-mdx.validate.ignoreLinks
+### `mdx.validate.ignoreLinks`
+
+- **Default**: `[]`
 
 Glob of links that should not be validated.
 
-[]
-mdx.validate.validateDuplicateLinkDefinitions
+### `mdx.validate.validateDuplicateLinkDefinitions`
+
+- **Default**: `"ignore"`
 
 Diagnostic level for duplicate link definitions.
 
-"ignore"
-mdx.validate.validateFileLinks
+### `mdx.validate.validateFileLinks`
+
+- **Default**: `"ignore"`
 
 Diagnostic level for links to local files that don’t exist, e.g. [text](./no-such-file.png).
 
-"ignore"
-mdx.validate.validateFragmentLinks
+### `mdx.validate.validateFragmentLinks`
+
+- **Default**: `"ignore"`
 
 Diagnostic level for fragments links to headers in the current file that don’t exist, e.g. [text](#no-such-header).
 
-"ignore"
-mdx.validate.validateMarkdownFileLinkFragments
+### `mdx.validate.validateMarkdownFileLinkFragments`
+
+- **Default**: `"ignore"`
 
 Diagnostic level for the fragment part of links to other local markdown files , e.g. [text](./file.md#no-such-header).
 
-"ignore"
-mdx.validate.validateReferences
+### `mdx.validate.validateReferences`
+
+- **Default**: `"ignore"`
 
 Diagnostic level for invalid reference links, e.g. [text][no-such-ref].
 
-"ignore"
-mdx.validate.validateUnusedLinkDefinitions
+### `mdx.validate.validateUnusedLinkDefinitions`
+
+- **Default**: `"ignore"`
 
 Diagnostic level for link definitions that aren’t used anywhere. [never-used]: http://example.com.
-
-"ignore"

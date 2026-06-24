@@ -36,6 +36,10 @@ The following rules apply to all documentation tasks, regardless of file extensi
 
 - Never include empty sections, "TBD", or "TODO" notes in documentation. If a section is not yet ready, omit it completely.
 
+### F. Prettier Formatting Standards
+
+- All files must comply with the Prettier formatting rules defined in [.prettierrc.json](../../../.prettierrc.json) (2-space indentation, max 100-character line width, hyphen-based unordered lists, exactly one blank line after the opening and before the closing `<TabItem>` tags to prevent formatting drift, and proper JavaScript/TypeScript code block styling).
+
 ---
 
 ## 2. Document Guidelines
