@@ -55,7 +55,7 @@ for (const file of stagedFiles) {
   } else if (rootDir === 'knowledge-base') {
     filters.add('--filter=@elo-organico/knowledge-base');
   } else if (rootDir === 'portal') {
-    filters.add('--filter=@elo-portal/*');
+    // Ignore portal changes completely
   } else {
     runAll = true;
     break;

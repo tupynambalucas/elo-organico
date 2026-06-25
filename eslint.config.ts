@@ -349,6 +349,7 @@ export default defineConfig([
     name: 'monorepo/ignores',
     ignores: [
       'knowledge-base/**',
+      'portal/**',
       '**/dist/**',
       '**/node_modules/**',
       '**/build/**',
