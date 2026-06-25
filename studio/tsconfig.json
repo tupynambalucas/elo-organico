@@ -6,6 +6,6 @@
       "@studio/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "cloudnary/**/*"],
   "exclude": ["node_modules", "dist"]
 }

@@ -40,6 +40,36 @@ declare module '*.svg' {
   export default src;
 }
 
+declare module '*.glb' {
+  const src: string;
+  export default src;
+}
+
+declare module '*.gltf' {
+  const src: string;
+  export default src;
+}
+
+declare module '*.hdr' {
+  const src: string;
+  export default src;
+}
+
+declare module '*.exr' {
+  const src: string;
+  export default src;
+}
+
+declare module '*.blend' {
+  const src: string;
+  export default src;
+}
+
+declare module '*.ai' {
+  const src: string;
+  export default src;
+}
+
 interface ImportMetaEnv {
   readonly VITE_APP_TITLE: string;
   readonly BASE_URL: string;

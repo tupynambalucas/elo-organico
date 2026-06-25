@@ -1,28 +1,12 @@
 # Build & Runtime
-sources/
-three/
 node_modules/
 dist/
 *.tsbuildinfo
 
-# Ignore all image formats (makes repository lighter, assets will be migrated to cloud)
-**/*.png
-**/*.jpg
-**/*.jpeg
-**/*.gif
-**/*.webp
-**/*.svg
-**/*.ico
-**/*.bmp
+# Ignore Studio's local development files
+three/
+raw/
+images/
 
-# Ignore all 3D and Blender formats
-**/*.gltf
-**/*.glb
-**/*.fbx
-**/*.obj
-**/*.blend
-**/*.blend1
-**/*.dae
-**/*.exr
-**/*.stl
-**/*.3ds
+# Keep studio/assets/ tracked in GitHub
+!assets/

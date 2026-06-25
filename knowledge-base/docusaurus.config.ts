@@ -2,9 +2,11 @@ import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import path from 'node:path';
+import fs from 'node:fs';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
+const webpack = require('webpack') as any;
 const studioPath = path.dirname(require.resolve('@elo-organico/studio/package.json'));
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
@@ -32,9 +34,7 @@ const config: Config = {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
   },
 
-  staticDirectories: [
-    path.join(studioPath, 'src'),
-  ],
+  staticDirectories: [path.join(studioPath, 'src')],
 
   customFields: {
     studioPath,
@@ -59,6 +59,43 @@ const config: Config = {
         sidebarPath: './sidebarsWorkspaces.ts',
       },
     ],
+    () => ({
+      name: 'docusaurus-plugin-studio-assets',
+      configureWebpack(config, isServer, utils) {
+        const isProd = process.env.NODE_ENV === 'production';
+        if (isProd === false) {
+          return {};
+        }
+
+        const manifestPath = require.resolve('@elo-organico/studio/assets-manifest.json');
+        const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+        const buildFolders = manifest.cloudnary.assets.build as string[];
+        const folderPattern = buildFolders.map((f: string) => f.replace(/^\//, '')).join('|');
+        const matchRegex = new RegExp(`^@elo-organico\\/studio\\/(${folderPattern})\\/.*`);
+
+        return {
+          plugins: [
+            new webpack.NormalModuleReplacementPlugin(matchRegex, (resource: any) => {
+              const originalRequest = resource.request as string;
+              const mockAssetPath = path.resolve(__dirname, 'src/mock-asset.js');
+              resource.request = `${mockAssetPath}?original=${encodeURIComponent(originalRequest)}`;
+            }),
+          ],
+          module: {
+            rules: [
+              {
+                resourceQuery: /original=/,
+                use: [
+                  {
+                    loader: path.resolve(__dirname, 'loaders/cloudinary-loader.js'),
+                  },
+                ],
+              },
+            ],
+          },
+        };
+      },
+    }),
   ],
 
   themes: ['@docusaurus/theme-live-codeblock', '@docusaurus/theme-mermaid'],

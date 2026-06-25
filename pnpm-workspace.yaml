@@ -18,6 +18,9 @@ catalog:
   'kill-port': '2.0.1'
   'husky': '^9.1.7'
   'lint-staged': '^15.4.3'
+  'cloudinary': '^2.5.1'
+  'glob': '^11.0.1'
+  '@types/glob': '^8.1.0'
 
 catalogs:
   tooling-stack:

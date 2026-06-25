@@ -3,6 +3,7 @@ import { useIsAuthenticated } from '@/domains/auth';
 import { useActiveCycle, useCycleLoading } from '@/domains/cycle';
 import { useGSAP } from '@gsap/react';
 import { LogoHorizontalNegative } from '@elo-organico/studio/logos';
+import Farmer from '@elo-organico/studio/images/farmer.jpg';
 import { animateLandingIntro } from './animations';
 import styles from './styles.module.css';
 
@@ -49,6 +50,7 @@ const LandingLayout = () => {
 
   return (
     <div ref={containerRef} className={styles.container}>
+      <img src={Farmer} alt="Farmer" />
       <div ref={leftPanelRef} className={styles.leftPanel}>
         <div className={styles.bannerContainer}>
           <div

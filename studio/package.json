@@ -13,15 +13,17 @@
     "directory": "studio"
   },
   "files": [
-    "src"
+    "src",
+    "assets-manifest.json"
   ],
   "exports": {
     "./package.json": "./package.json",
+    "./assets-manifest.json": "./assets-manifest.json",
     "./icons": "./src/icons/index.tsx",
     "./logos": "./src/logos/index.ts",
     "./logos/*": "./src/logos/*",
-    "./images/*": "./src/images/*",
     "./three/*": "./src/three/*",
+    "./images/*": "./src/images/*",
     "./tupynamba/*": "./src/tupynamba/*",
     "./tokens": "./src/tokens/index.ts",
     "./tokens.css": "./src/tokens/tokens.css",
@@ -31,15 +33,22 @@
     "@fontsource-variable/nunito": "catalog:studio-stack",
     "react-icons": "catalog:studio-stack",
     "react": "catalog:web-stack",
-    "react-dom": "catalog:web-stack"
+    "react-dom": "catalog:web-stack",
+    "cloudinary": "catalog:",
+    "glob": "catalog:",
+    "axios": "catalog:shared-stack",
+    "dotenv": "catalog:shared-stack"
   },
   "devDependencies": {
     "@types/react": "catalog:web-stack",
     "@types/react-dom": "catalog:web-stack",
     "typescript": "catalog:",
-    "tailwindcss": "catalog:shared-stack"
+    "tailwindcss": "catalog:shared-stack",
+    "@types/glob": "catalog:"
   },
   "scripts": {
+    "assets:push": "tsx cloudnary/push.ts",
+    "assets:pull": "tsx cloudnary/pull.ts",
     "lint": "eslint .",
     "penpot:up": "docker compose -f penpot/compose.yaml up -d",
     "penpot:down": "docker compose -f penpot/compose.yaml down",

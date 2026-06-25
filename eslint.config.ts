@@ -298,7 +298,35 @@ export default defineConfig([
   },
 
   // ========================================================================
-  // 8. TEST FILES - Regras Relaxadas para Testes
+  // 8. STUDIO WORKSPACE - Strict TypeScript Rules for Design System and Scripts
+  // ========================================================================
+  {
+    name: 'monorepo/studio-workspace',
+    files: ['studio/**/*.ts', 'studio/**/*.tsx'],
+    rules: {
+      'no-console': ['warn', { allow: ['info', 'warn', 'error'] }],
+      '@typescript-eslint/explicit-function-return-type': 'warn',
+      '@typescript-eslint/explicit-module-boundary-types': 'warn',
+      '@typescript-eslint/strict-boolean-expressions': 'error',
+      '@typescript-eslint/no-floating-promises': 'error',
+      '@typescript-eslint/no-misused-promises': [
+        'error',
+        {
+          checksVoidReturn: false,
+        },
+      ],
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-unsafe-assignment': 'error',
+      '@typescript-eslint/no-unsafe-member-access': 'error',
+      '@typescript-eslint/no-unsafe-call': 'error',
+      '@typescript-eslint/no-unsafe-return': 'error',
+      '@typescript-eslint/await-thenable': 'error',
+      '@typescript-eslint/require-await': 'warn',
+    },
+  },
+
+  // ========================================================================
+  // 9. TEST FILES - Regras Relaxadas para Testes
   // ========================================================================
   {
     name: 'monorepo/test-files',
@@ -315,7 +343,7 @@ export default defineConfig([
   },
 
   // ========================================================================
-  // 9. IGNORES GLOBAIS
+  // 10. IGNORES GLOBAIS
   // ========================================================================
   {
     name: 'monorepo/ignores',
@@ -343,7 +371,7 @@ export default defineConfig([
   },
 
   // ========================================================================
-  // 10. PRETTIER INTEGRATION
+  // 11. PRETTIER INTEGRATION
   // ========================================================================
   {
     name: 'monorepo/prettier',

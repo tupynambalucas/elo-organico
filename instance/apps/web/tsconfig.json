@@ -10,7 +10,7 @@
       "@components/*": ["./src/components/*"],
       "@features/*": ["./src/features/*"],
       "@domains/*": ["./src/domains/*"],
-      /* Desenvolvimento instantÃ¢neo: lÃª a fonte do core */
+      /* Desenvolvimento instantâneo: lê a fonte do core */
       "@elo-instance/core": ["../../packages/core/src/index.ts"]
     }
   },
