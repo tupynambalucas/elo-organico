@@ -42,7 +42,15 @@
     "antigravity:prod:auth": "docker exec -it agent-antigravity-prod agy",
     "copilot:prod:auth": "docker exec -it agent-copilot-prod copilot login",
     "antigravity:staging:auth": "docker exec -it agent-antigravity-staging agy",
-    "copilot:staging:auth": "docker exec -it agent-copilot-staging copilot login"
+    "copilot:staging:auth": "docker exec -it agent-copilot-staging copilot login",
+    "github:sync:security-quality": "docker compose -f github/compose.github.yaml --env-file github/.env.github up --build --force-recreate gh-secrets",
+    "github:secrets:push": "pnpm github:sync:security-quality",
+    "github:cli:up": "docker compose -f github/compose.github.yaml --env-file github/.env.github up -d gh-cli",
+    "github:cli:down": "docker compose -f github/compose.github.yaml --env-file github/.env.github stop gh-cli && docker compose -f github/compose.github.yaml --env-file github/.env.github rm -f gh-cli",
+    "github:cli:reset": "docker compose -f github/compose.github.yaml --env-file github/.env.github stop gh-cli && docker compose -f github/compose.github.yaml --env-file github/.env.github rm -f gh-cli && docker compose -f github/compose.github.yaml --env-file github/.env.github up -d --build gh-cli",
+    "github:bash:up": "docker compose -f github/compose.github.yaml --env-file github/.env.github up -d git-bash",
+    "github:bash:down": "docker compose -f github/compose.github.yaml --env-file github/.env.github stop git-bash && docker compose -f github/compose.github.yaml --env-file github/.env.github rm -f git-bash",
+    "github:bash:reset": "docker compose -f github/compose.github.yaml --env-file github/.env.github stop git-bash && docker compose -f github/compose.github.yaml --env-file github/.env.github rm -f git-bash && docker compose -f github/compose.github.yaml --env-file github/.env.github up -d --build git-bash"
   },
   "dependencies": {
     "fastify": "catalog:api-stack",

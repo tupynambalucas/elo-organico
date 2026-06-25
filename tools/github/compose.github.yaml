@@ -1,0 +1,57 @@
+name: elo-github
+
+services:
+  # Service 1: One-shot execution to push secrets to the repository and shut down
+  gh-secrets:
+    build:
+      context: ./infrastructure/gh
+      dockerfile: Dockerfile
+    container_name: github-gh-secrets
+    volumes:
+      - .:/workspace
+    env_file:
+      - ./infrastructure/gh/.env.github.gh
+    environment:
+      - GH_TOKEN=${GH_TOKEN}
+    working_dir: /workspace
+    command: ['/workspace/infrastructure/gh/features/security-quality/sync_security_quality.sh']
+
+  # Service 2: Long-running interactive GitHub CLI service for docker exec use
+  gh-cli:
+    build:
+      context: ./infrastructure/gh
+      dockerfile: Dockerfile
+    container_name: github-gh-cli
+    volumes:
+      - .:/workspace
+    env_file:
+      - ./infrastructure/gh/.env.github.gh
+    working_dir: /workspace
+    tty: true
+    stdin_open: true
+    command: ["-c", "tail -f /dev/null"]
+
+  # Service 3: Long-running git-only container for commits and local git operations
+  git-bash:
+    build:
+      context: ./infrastructure/git
+      dockerfile: Dockerfile
+    container_name: github-git-bash
+    volumes:
+      - ../../:/workspace
+    env_file:
+      - ./infrastructure/git/.env.github.git
+    environment:
+      - GH_TOKEN=${GH_TOKEN}
+      # Configure Git to automatically authenticate HTTPS requests to github.com using the GH_TOKEN
+      - GIT_CONFIG_COUNT=2
+      - GIT_CONFIG_KEY_0=credential.https://github.com.username
+      - GIT_CONFIG_VALUE_0=x-access-token
+      - GIT_CONFIG_KEY_1=credential.https://github.com.helper
+      - GIT_CONFIG_VALUE_1=!f() { test "$1" = get && echo "password=${GH_TOKEN}"; }; f
+      - EDITOR=${EDITOR:-nano}
+      - PAGER=${PAGER:-less}
+    working_dir: /workspace
+    tty: true
+    stdin_open: true
+    command: ["-c", "tail -f /dev/null"]

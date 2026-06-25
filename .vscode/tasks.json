@@ -95,6 +95,48 @@
         "panel": "new"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "[Docker] GitHub Bash",
+      "type": "shell",
+      "command": "wt",
+      "args": [
+        "-w",
+        "new",
+        "-d",
+        "${workspaceFolder}",
+        "pwsh",
+        "-NoLogo",
+        "-NoExit",
+        "-Command",
+        "docker exec -it github-git-bash bash"
+      ],
+      "presentation": {
+        "reveal": "never",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "[Docker] GitHub CLI",
+      "type": "shell",
+      "command": "wt",
+      "args": [
+        "-w",
+        "new",
+        "-d",
+        "${workspaceFolder}",
+        "pwsh",
+        "-NoLogo",
+        "-NoExit",
+        "-Command",
+        "docker exec -it github-gh-cli bash"
+      ],
+      "presentation": {
+        "reveal": "never",
+        "panel": "new"
+      },
+      "problemMatcher": []
     }
   ]
 }

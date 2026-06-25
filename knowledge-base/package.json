@@ -8,13 +8,14 @@
     "start:pt": "docusaurus start --host 0.0.0.0 --port 3002 --locale pt-BR",
     "build": "tsx scripts/build.ts",
     "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy",
     "clean": "docusaurus clear",
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "edit": "npx editsaurus",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "generate:changelog": "tsx scripts/generate-changelog.ts",
+    "generate:roadmap": "tsx scripts/generate-roadmap.ts"
   },
   "dependencies": {
     "@elo-organico/studio": "workspace:*",

@@ -55,7 +55,7 @@ gha-creds-*.json
 # Turborepo
 .turbo
 
-# --- Agents Stack (tools/agents) ---
-# Persistent runtime data: conversations, histories, OAuth tokens (never commit)
+# --- Persistent runtime ---
 data/
+logs/
 
