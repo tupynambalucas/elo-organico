@@ -69,7 +69,7 @@ const config: Config = {
 
         const manifestPath = require.resolve('@elo-organico/studio/assets-manifest.json');
         const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-        const buildFolders = manifest.cloudnary.assets.build as string[];
+        const buildFolders = manifest.bucket.assets.build as string[];
         const folderPattern = buildFolders.map((f: string) => f.replace(/^\//, '')).join('|');
         const matchRegex = new RegExp(`^@elo-organico\\/studio\\/(${folderPattern})\\/.*`);
 

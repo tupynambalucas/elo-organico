@@ -1,7 +1,7 @@
 import { glob } from 'glob';
 import path from 'path';
 import fs from 'fs';
-import type { IAssetDiscoveryService } from '../clodnary.interface.js';
+import type { IAssetDiscoveryService } from '../bucket.interface.js';
 
 export class GlobAssetDiscoveryService implements IAssetDiscoveryService {
   async discoverAssets(studioDir: string, folder: string): Promise<string[]> {

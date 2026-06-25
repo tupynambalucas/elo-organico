@@ -1,9 +1,10 @@
 {
-  "cloudnary": {
+  "bucket": {
     "assets": {
       "push": ["/images", "/three", "/raw"],
       "pull": ["/images", "/three", "/raw"],
-      "build": ["/three", "/images"]
+      "docs": ["/three", "/images"],
+      "web": ["/images"]
     }
   }
 }

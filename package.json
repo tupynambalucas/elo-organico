@@ -48,10 +48,9 @@
     "portal:prod:down": "docker compose -f portal/compose.prod.yaml --env-file portal/.env.prod down",
     "portal:staging:down": "docker compose -f portal/compose.prod.yaml --env-file portal/.env.staging down",
     "// Studio / Penpot": "---------------------------------------------",
-    "studio:assets:push": "pnpm --filter @elo-organico/studio assets:push",
-    "studio:assets:pull": "pnpm --filter @elo-organico/studio assets:pull",
     "studio:lint": "turbo run lint --filter=@elo-organico/studio",
     "studio:typecheck": "turbo run typecheck --filter=@elo-organico/studio",
+    "studio:bucket": "pnpm --filter @elo-organico/studio bucket",
     "penpot:up": "pnpm --filter @elo-organico/studio penpot:up",
     "penpot:down": "pnpm --filter @elo-organico/studio penpot:down",
     "penpot:reset": "pnpm --filter @elo-organico/studio penpot:reset",
@@ -125,7 +124,8 @@
     "eslint-plugin-prettier": "catalog:tooling-stack",
     "eslint-config-prettier": "catalog:tooling-stack",
     "husky": "catalog:",
-    "lint-staged": "catalog:"
+    "lint-staged": "catalog:",
+    "@clack/prompts": "catalog:"
   },
   "lint-staged": {
     "**/*.{js,mjs,ts,tsx}": [

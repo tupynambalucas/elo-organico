@@ -17,7 +17,7 @@ module.exports = function (source) {
   // Load manifest
   const manifestPath = require.resolve('@elo-organico/studio/assets-manifest.json');
   const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-  const buildFolders = manifest.cloudnary.assets.build;
+  const buildFolders = manifest.bucket.assets.build;
 
   const cloudName = process.env.VITE_CLOUDINARY_CLOUD_NAME || 'elo-organico';
 

@@ -29,33 +29,35 @@
     "./tokens.css": "./src/tokens/tokens.css",
     "./theme.css": "./src/tokens/theme.css"
   },
-  "dependencies": {
-    "@fontsource-variable/nunito": "catalog:studio-stack",
-    "react-icons": "catalog:studio-stack",
-    "react": "catalog:web-stack",
-    "react-dom": "catalog:web-stack",
-    "cloudinary": "catalog:",
-    "glob": "catalog:",
-    "axios": "catalog:shared-stack",
-    "dotenv": "catalog:shared-stack"
-  },
-  "devDependencies": {
-    "@types/react": "catalog:web-stack",
-    "@types/react-dom": "catalog:web-stack",
-    "typescript": "catalog:",
-    "tailwindcss": "catalog:shared-stack",
-    "@types/glob": "catalog:"
-  },
   "scripts": {
-    "assets:push": "tsx cloudnary/push.ts",
-    "assets:pull": "tsx cloudnary/pull.ts",
-    "lint": "eslint .",
+    "bucket": "tsx bucket/bucket.ts",
     "penpot:up": "docker compose -f penpot/compose.yaml up -d",
     "penpot:down": "docker compose -f penpot/compose.yaml down",
     "penpot:reset": "docker compose -f penpot/compose.yaml down --volumes && docker compose -f penpot/compose.yaml up -d --build",
     "penpot:update": "docker compose -f penpot/compose.yaml pull && docker compose -f penpot/compose.yaml up -d",
     "aide:up": "docker compose -f penpot/compose.yaml up -d aide",
     "aide:down": "docker compose -f penpot/compose.yaml stop aide",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@fontsource-variable/nunito": "catalog:studio-stack",
+    "react-icons": "catalog:studio-stack",
+    "react": "catalog:web-stack",
+    "react-dom": "catalog:web-stack",
+    "glob": "catalog:",
+    "dotenv": "catalog:shared-stack",
+    "@aws-sdk/client-s3": "catalog:",
+    "@smithy/node-http-handler": "catalog:",
+    "mime-types": "catalog:",
+    "@clack/prompts": "catalog:"
+  },
+  "devDependencies": {
+    "@types/react": "catalog:web-stack",
+    "@types/react-dom": "catalog:web-stack",
+    "typescript": "catalog:",
+    "tailwindcss": "catalog:shared-stack",
+    "@types/glob": "catalog:",
+    "@types/mime-types": "catalog:"
   }
 }

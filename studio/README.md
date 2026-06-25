@@ -12,7 +12,9 @@ Technical documentation is centralized in our [Knowledge Base](https://tupynamba
 
 ## Configuration
 
-Before running the services, you must create a `.env` file in the `studio` directory (see `.env.example` if available):
+### Core Design Platform (Penpot)
+
+Before running the collaborative design services, you must create a `.env` file in the `studio` directory:
 
 ```bash
 # Path: studio/.env
@@ -29,29 +31,49 @@ PENPOT_BUCKET_ACCESS_ID=your_access_key_id
 PENPOT_BUCKET_SECRET_KEY=your_secret_access_key
 ```
 
+### R2 Asset Sync System (Bucket)
+
+For synchronizing web-ready assets (e.g., icons, textures, images, and raw source archives) directly with Cloudflare R2, configure the environment variables in `studio/bucket/.env.studio.bucket`:
+
+```bash
+# Path: studio/bucket/.env.studio.bucket
+
+S3_API=https://your-cloudflare-r2-endpoint.r2.cloudflarestorage.com/your-bucket-name
+CLOUDFLARE_R2_ACCESS_KEY_ID=your_access_key_id
+CLOUDFLARE_R2_SECRET_ACCESS_KEY=your_secret_access_key
+CLOUDFLARE_R2_PUBLIC_URL=https://your-public-cdn-url.r2.dev
+```
+
 ## Quick Start (Operation Scripts)
 
-Manage the Studio environment using standardized scripts from the project root or this directory:
+Manage the Studio environment using standardized scripts from the project root:
 
 ### Core Studio Services (Penpot)
 
 ```bash
-pnpm penpot:up      # Launch the studio at http://localhost:9005
-pnpm penpot:down    # Shutdown core services
-pnpm penpot:update  # Pull latest images and restart
-pnpm penpot:reset   # Force container recreation
+pnpm penpot:up        # Launch Penpot collaborative editor at http://localhost:9005
+pnpm penpot:down      # Shutdown core docker containers
+pnpm penpot:update    # Pull latest images and restart
+pnpm penpot:reset     # Force complete container and volume recreation
 ```
 
 ### AI Automation & Helpers
 
 ```bash
-pnpm penpot:aide:up # Launch Penpot AI assistant (aide)
-pnpm penpot:aide:down # Stop the AI assistant
+pnpm penpot:aide:up   # Launch Penpot AI assistant (aide) integration
+pnpm penpot:aide:down # Stop the Penpot AI assistant container
+```
+
+### Cloudflare R2 Asset Sync
+
+```bash
+pnpm studio:bucket      # Launch the interactive R2 synchronization menu (Push/Pull/Exit)
 ```
 
 ## Directory Structure
 
-- `studio/penpot/`: Docker orchestration for the self-hosted Penpot instance.
-- `studio/assets/sources/`: Raw design sources (Adobe Illustrator, Photoshop, etc.).
-- `studio/src/icons/`: Canonical SVG icon library (React wrapper).
-- `studio/src/tokens/`: Brand color and typography definitions.
+- `studio/penpot/`: Docker orchestration and self-hosted Penpot setup.
+- `studio/bucket/`: Cloudflare R2 asset synchronization engine and S3 SDK integration.
+- `studio/assets/sources/`: Raw heavy design vector/binary archives.
+- `studio/src/icons/`: Scoped SVG canonical React icon wrappers.
+- `studio/src/tokens/`: Brand color, typography, and variable design token definitions.

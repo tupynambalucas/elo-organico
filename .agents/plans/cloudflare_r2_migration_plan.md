@@ -116,22 +116,22 @@ pnpm --filter @elo-organico/studio add -D @types/mime-types
 
 ### B. Package Configuration (`studio/package.json`)
 
-Modify the scripts to target the new R2 synchronization implementation:
+Modify the scripts to target the new bucket synchronization implementation:
 
 ```json
 "scripts": {
-  "assets:push": "tsx r2/push.ts",
-  "assets:pull": "tsx r2/pull.ts"
+  "assets:push": "tsx bucket/push.ts",
+  "assets:pull": "tsx bucket/pull.ts"
 }
 ```
 
 ### C. Updating the Manifest (`studio/assets-manifest.json`)
 
-Rename the configuration property from `cloudnary` to `r2` to maintain semantic clarity:
+Rename the configuration property from `cloudnary` to `bucket` to maintain semantic clarity:
 
 ```json
 {
-  "r2": {
+  "bucket": {
     "assets": {
       "push": ["/images", "/three", "/raw"],
       "pull": ["/images", "/three", "/raw"],
@@ -141,12 +141,12 @@ Rename the configuration property from `cloudnary` to `r2` to maintain semantic 
 }
 ```
 
-### D. TypeScript Interface & Types (`studio/r2/r2.interface.ts`)
+### D. TypeScript Interface & Types (`studio/bucket/bucket.interface.ts`)
 
 Define explicit types and abstract interfaces for file discovery, upload services, and manifest schemas:
 
 ```typescript
-export interface R2Config {
+export interface BucketConfig {
   accountId: string;
   accessKeyId: string;
   secretAccessKey: string;
@@ -154,8 +154,8 @@ export interface R2Config {
   publicUrl: string;
 }
 
-export interface R2Manifest {
-  r2: {
+export interface BucketManifest {
+  bucket: {
     assets: {
       push: string[];
       pull: string[];
@@ -181,7 +181,7 @@ export interface IAssetDownloaderService {
 }
 ```
 
-### E. Configuration Loader (`studio/r2/config/env-config.ts`)
+### E. Configuration Loader (`studio/bucket/config/env-config.ts`)
 
 Retrieve and validate the R2 credentials. The configuration checks for both a local `.env` and root `.env.dev`:
 
@@ -190,13 +190,13 @@ import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import type { R2Config } from '../r2.interface.js';
+import type { BucketConfig } from '../bucket.interface.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export function loadR2Config(): R2Config {
-  const envPath = path.resolve(__dirname, '../.env');
+export function loadBucketConfig(): BucketConfig {
+  const envPath = path.resolve(__dirname, '../../.env');
   if (fs.existsSync(envPath) === true) {
     dotenv.config({ path: envPath });
   } else {
@@ -238,7 +238,7 @@ export function loadR2Config(): R2Config {
 }
 ```
 
-### F. R2 Services (`studio/r2/services/r2-storage.service.ts`)
+### F. Storage Services (`studio/bucket/services/bucket-storage.service.ts`)
 
 This service manages communication with Cloudflare R2 via `@aws-sdk/client-s3`. It utilizes `mime-types` to determine the proper `Content-Type` for uploads, preventing browser load errors for `.glb` (gltf-binary), `.hdr` (vnd.radiance), images, and fonts.
 
@@ -257,16 +257,16 @@ import type {
   IAssetUploaderService,
   IAssetSearchService,
   IAssetDownloaderService,
-  R2Config,
-} from '../r2.interface.js';
+  BucketConfig,
+} from '../bucket.interface.js';
 
-export class R2StorageService
+export class BucketStorageService
   implements IAssetUploaderService, IAssetSearchService, IAssetDownloaderService
 {
   private s3Client: S3Client;
   private bucketName: string;
 
-  constructor(config: R2Config) {
+  constructor(config: BucketConfig) {
     this.s3Client = new S3Client({
       region: 'auto',
       endpoint: `https://${config.accountId}.r2.cloudflarestorage.com`,
@@ -328,9 +328,9 @@ export class R2StorageService
 }
 ```
 
-### G. Sync Orchestrator (`studio/r2/application/sync.orchestrator.ts`)
+### G. Sync Orchestrator (`studio/bucket/application/sync.orchestrator.ts`)
 
-Coordinate files discovered locally and in R2:
+Coordinate files discovered locally and in Cloudflare R2:
 
 ```typescript
 import path from 'path';
@@ -339,8 +339,8 @@ import type {
   IAssetUploaderService,
   IAssetDownloaderService,
   IAssetSearchService,
-  R2Manifest,
-} from '../r2.interface.js';
+  BucketManifest,
+} from '../bucket.interface.js';
 
 export class AssetSyncOrchestrator {
   constructor(
@@ -350,10 +350,10 @@ export class AssetSyncOrchestrator {
     private searchService: IAssetSearchService,
   ) {}
 
-  async push(studioDir: string, manifest: R2Manifest): Promise<void> {
+  async push(studioDir: string, manifest: BucketManifest): Promise<void> {
     console.info('Starting Cloudflare R2 push synchronization...');
 
-    const pushFolders = manifest.r2.assets.push;
+    const pushFolders = manifest.bucket.assets.push;
     console.info(`Found ${pushFolders.length} folders to synchronize:`, pushFolders);
 
     for (const folder of pushFolders) {
@@ -382,10 +382,10 @@ export class AssetSyncOrchestrator {
     console.info('R2 Push synchronization completed.');
   }
 
-  async pull(studioDir: string, manifest: R2Manifest): Promise<void> {
+  async pull(studioDir: string, manifest: BucketManifest): Promise<void> {
     console.info('Starting Cloudflare R2 pull synchronization...');
 
-    const pullFolders = manifest.r2.assets.pull;
+    const pullFolders = manifest.bucket.assets.pull;
     console.info(`Found ${pullFolders.length} folders to download:`, pullFolders);
 
     for (const folder of pullFolders) {
@@ -438,7 +438,7 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 
 interface StudioManifest {
-  r2: {
+  bucket: {
     assets: {
       push: string[];
       pull: string[];
@@ -455,7 +455,7 @@ export function studioAssetsPlugin(): Plugin {
   try {
     const manifestPath = require.resolve('@elo-organico/studio/assets-manifest.json');
     const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8')) as StudioManifest;
-    buildFolders = manifest.r2.assets.build;
+    buildFolders = manifest.bucket.assets.build;
   } catch {
     console.warn(
       'Vite plugin warning: @elo-organico/studio/assets-manifest.json not found or could not be loaded.',
@@ -511,7 +511,7 @@ export function studioAssetsPlugin(): Plugin {
 
 ## 6. Migration Blueprint & Execution Plan
 
-### Phase 1: Local Development & Functional R2 Testing (Immediate)
+### Phase 1: Local Development & Functional Bucket Testing (Immediate)
 
 This phase establishes full functional compatibility using credentials, requiring no domain purchase or public PRs.
 
@@ -519,7 +519,7 @@ This phase establishes full functional compatibility using credentials, requirin
 2. **Local Environment Config**: Populate the `.env` at root or in `studio/` with the Cloudflare credentials (`CLOUDFLARE_R2_ACCOUNT_ID`, etc.). Leave `VITE_CLOUDFLARE_R2_PUBLIC_URL` blank for now to use local streaming during development.
 3. **Refactor Codebase**:
    - Install the S3 SDK and MIME utilities.
-   - Deploy R2 sync command implementations under `studio/r2/`.
+   - Deploy bucket sync command implementations under `studio/bucket/`.
 4. **Push & Pull Testing**:
    - Run `pnpm --filter @elo-organico/studio assets:push` to push local assets up to the R2 bucket.
    - Run `pnpm --filter @elo-organico/studio assets:pull` to pull assets down.

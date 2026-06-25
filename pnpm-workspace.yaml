@@ -21,6 +21,11 @@ catalog:
   'cloudinary': '^2.5.1'
   'glob': '^11.0.1'
   '@types/glob': '^8.1.0'
+  '@aws-sdk/client-s3': '^3.714.0'
+  '@smithy/node-http-handler': '^4.8.2'
+  'mime-types': '^2.1.35'
+  '@types/mime-types': '^2.1.4'
+  '@clack/prompts': '^0.9.1'
 
 catalogs:
   tooling-stack:

@@ -9,6 +9,7 @@ This file defines the domain rules, local stack services, and directory structur
 Before editing or analyzing design files or brand tokens, read the local rules for the specific workspace:
 
 - **Penpot Collaborative Design**: [penpot/AGENTS.md](./penpot/AGENTS.md) — Self-hosted Penpot setup, S3 bucket mappings, PostgreSQL, and Penpot AI assistant (aide).
+- **Cloudflare R2 Storage Sync**: [bucket/AGENTS.md](./bucket/AGENTS.md) — Dynamic synchronization engine for design assets, vectors, and web-ready vectors with Cloudflare R2 bucket.
 - **Workspace Documentation**: Refer to the studio documentation in [knowledge-base/workspaces/03-studio.mdx](../knowledge-base/workspaces/03-studio.mdx).
 - **Workspace Roadmap**: Refer to the studio roadmap in [knowledge-base/roadmap/04-studio.md](../knowledge-base/roadmap/04-studio.md).
 
@@ -18,16 +19,16 @@ Before editing or analyzing design files or brand tokens, read the local rules f
 
 The Studio workspace centralizes brand visual assets, CSS design tokens, and SVG icon wrappers:
 
-- **`src/tokens/`**: Canonical design token definitions (color variables, typography mappings) consumed by both Instance and Portal clients.
-- **`src/icons/`**: Scoped React SVG wrapper components generated from raw vectors.
-- **`assets/sources/`**: Raw vector archives (Penpot templates, Adobe Illustrator/Photoshop files).
+- **[src/tokens/](./src/tokens/)**: Canonical design token definitions (color variables, typography mappings) consumed by both Instance and Portal clients.
+- **[src/icons/](./src/icons/)**: Scoped React SVG wrapper components generated from raw vectors.
+- **[assets/sources/](./assets/sources/)**: Raw vector archives (Penpot templates, Adobe Illustrator/Photoshop files).
 
 ---
 
 ## Studio Guardrails
 
-1. **Token Invariance**: Brand CSS color tokens and variables must be maintained in this workspace and exported. Avoid defining hardcoded hex values in local application CSS modules.
-2. **Asset Organization**: Do not commit heavy binary design backups to git branches. Keep source design vectors in `assets/sources/` and load final web-ready SVGs into `src/icons/`.
+1. **Token Invariance**: Brand CSS color tokens and variables MUST be maintained in this workspace and exported. AI agents MUST NEVER define hardcoded hex values in local application CSS modules.
+2. **Asset Organization**: AI agents MUST NEVER commit heavy binary design backups to git branches. Keep source design vectors in [assets/sources/](./assets/sources/) and load final web-ready SVGs into [src/icons/](./src/icons/).
 
 ---
 
