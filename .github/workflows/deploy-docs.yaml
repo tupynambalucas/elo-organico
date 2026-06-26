@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'knowledge-base/**'
+      - 'docs/**'
       - '.github/workflows/deploy-docs.yaml'
   workflow_dispatch:
 
@@ -65,5 +65,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy knowledge-base/build --project-name=elo-organico-docs
+          command: pages deploy docs/build --project-name=elo-organico-docs
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}

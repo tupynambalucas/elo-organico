@@ -1,11 +1,11 @@
 ---
 name: docusaurus-kb-expert
-description: Use this skill to create, analyze, or update documentation, configurations, or components within the Docusaurus knowledge-base/ workspace.
+description: Use this skill to create, analyze, or update documentation, configurations, or components within the Docusaurus docs/ workspace.
 ---
 
 # Docusaurus Knowledge Base Expert
 
-This skill defines the standards, structure, design patterns, and validation workflow for technical documentation in the **Elo Orgânico** Docusaurus Knowledge Base (`knowledge-base/`).
+This skill defines the standards, structure, design patterns, and validation workflow for technical documentation in the **Elo Orgânico** Docusaurus Docs Hub (`docs/`).
 
 ## 1. Global Documentation Standards
 
@@ -44,16 +44,16 @@ The following rules apply to all documentation tasks, regardless of file extensi
 
 ## 2. Document Guidelines
 
-Use these guidelines when creating, updating, or analyzing documents within the `knowledge-base/` workspace.
+Use these guidelines when creating, updating, or analyzing documents within the `docs/` workspace.
 
 - **Structure**: Align with the Diátaxis framework (Tutorials, How-to Guides, Reference, Explanation). Never mix quadrants in a single page.
 - **Docusaurus Admonitions**: Use native colon admonitions with strict title bracket format (`:::note[Title]`, `:::tip[Title]`, `:::info[Title]`, `:::caution[Title]`, `:::danger[Title]`) instead of GFM blockquote alerts.
 - **Interactive Elements**: Use `@theme/Tabs` and `@theme/TabItem` to group environment-specific or system-specific instructions.
 - **i18n Translation Protocol**:
-  - When creating or modifying an English document, you must also synchronize its Portuguese (pt-BR) translation under the correct plugin directory in `knowledge-base/i18n/pt-BR/` mirroring the exact path of the English source file:
-    - Files under `knowledge-base/docs/` -> `knowledge-base/i18n/pt-BR/docusaurus-plugin-content-docs/current/...`
-    - Files under `knowledge-base/roadmap/` -> `knowledge-base/i18n/pt-BR/docusaurus-plugin-content-docs-roadmap/current/...`
-    - Files under `knowledge-base/workspaces/` -> `knowledge-base/i18n/pt-BR/docusaurus-plugin-content-docs-workspaces/current/...`
+  - When creating or modifying an English document, you must also synchronize its Portuguese (pt-BR) translation under the correct plugin directory in `docs/i18n/pt-BR/` mirroring the exact path of the English source file:
+    - Files under `docs/handbook/` -> `docs/i18n/pt-BR/docusaurus-plugin-content-docs/current/...`
+    - Files under `docs/roadmap/` -> `docs/i18n/pt-BR/docusaurus-plugin-content-docs-roadmap/current/...`
+    - Files under `docs/workspaces/` -> `docs/i18n/pt-BR/docusaurus-plugin-content-docs-workspaces/current/...`
   - Do not translate frontmatter keys, component names, or imports.
 - **Reference Files**:
   - MDX and Docusaurus components syntax: [references/syntax.md](references/syntax.md)

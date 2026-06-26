@@ -67,14 +67,14 @@ graph LR
 | instance/packages/core | @elo-instance/core   | **Library**   | SSOT for community instances (API & Web App).                  |
 | studio/                | @elo-organico/studio | **Tooling**   | Brand tokens, design assets, and global styling.               |
 | tools/                 | @elo-organico/tools  | **Tooling**   | MCP infrastructure, automation scripts, and project utilities. |
-| knowledge-base/        | @elo-organico/docs   | **Docs Hub**  | Official project documentation hub and technical landing page. |
+| docs/                  | @elo-organico/docs   | **Docs Hub**  | Official project documentation hub and technical landing page. |
 
 ### 2.1. Bounded Context Philosophy
 
 - **Context Isolation**: Each root directory (`instance/`, `portal/`) represents a Bounded Context. Logic and models are duplicated when necessary to maintain independence, following DDD principles.
 - **Deployment**:
   - **Portal**: Designed as a **singleton** layer for future SaaS onboarding. Currently in foundation/skeleton stage.
-  - **Knowledge Base**: The **authoritative project hub** for documentation (EloDocs) and technical specifications.
+  - **Docs Hub**: The **authoritative project hub** for documentation (EloDocs) and technical specifications.
   - **Instance**: Multiple pairs of API/Web will be instantiated in the future SaaS model, one for each community.
 
 ---

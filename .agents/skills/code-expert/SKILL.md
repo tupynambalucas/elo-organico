@@ -39,8 +39,8 @@ Refer to [references/web-patterns.md](references/web-patterns.md) for implementa
 
 ## 📚 Technical Reference
 
-- **Architecture**: `knowledge-base/docs/engineering/architecture.mdx`
-- **Style Guide**: `knowledge-base/docs/engineering/styleguide.mdx`
+- **Architecture**: `docs/handbook/engineering/architecture.mdx`
+- **Style Guide**: `docs/handbook/engineering/styleguide.mdx`
 - **Reference Examples**:
   - API: `instance/apps/api/src/domains/cycle/**`
   - Web: `instance/apps/web/src/features/admin/views/cycle/**`

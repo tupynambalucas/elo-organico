@@ -38,7 +38,7 @@
 **/Thumbs.db
 
 # Documentation (not needed in production images)
-knowledge-base/
+docs/
 README.md
 CHANGELOG.md
 LICENSE.md

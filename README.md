@@ -24,9 +24,9 @@ Future SaaS hub foundation. Currently a skeleton for global orchestration and pl
 - **@elo-portal/api**: Global orchestration and tenant management API foundation.
 - **@elo-portal/core**: Platform-specific logic and schemas.
 
-### Knowledge Base (knowledge-base/)
+### Documentation Hub (docs/)
 
-The project's central Documentation Hub (EloDocs). A professional Docusaurus-based site for technical and product knowledge.
+The project's central Documentation Hub (EloDocs). A professional Docusaurus-based site for technical and product knowledge (Handbook, Workspaces, and Roadmaps).
 
 ### Studio & Tools
 
@@ -73,7 +73,7 @@ Ensure you have Node.js 22+ and PNPM 11+ installed.
 
 ## Documentation Index
 
-For detailed guides, please refer to the knowledge-base/docs/ directory or visit the [Knowledge Base](https://tupynambalucas.github.io/elo-organico):
+For detailed guides, please refer to the docs/handbook/ directory or visit the [Knowledge Base](https://tupynambalucas.github.io/elo-organico):
 
 - [Architecture Overview](https://tupynambalucas.github.io/elo-organico/docs/engineering/architecture): Technical stack and monorepo strategy.
 - [Master Plan](https://tupynambalucas.github.io/elo-organico/docs/product/masterplan): Project roadmap and phases.

@@ -44,7 +44,7 @@ Running a full typecheck across all monorepo packages (`pnpm typecheck`) can tak
    - Files in `instance/` $\rightarrow$ typecheck `@elo-instance/*` packages.
    - Files in `studio/` $\rightarrow$ typecheck `@elo-organico/studio`.
    - Files in `tools/` $\rightarrow$ typecheck `@elo-organico/tools`.
-   - Files in `knowledge-base/` $\rightarrow$ typecheck `@elo-organico/knowledge-base`.
+   - Files in `docs/` $\rightarrow$ typecheck `@elo-organico/docs`.
    - Files in `portal/` $\rightarrow$ typecheck `@elo-portal/*`.
 4. If global configuration or root files (e.g. `package.json`, `eslint.config.ts`, `pnpm-workspace.yaml`) are modified, the script runs a full typecheck (excluding `portal` until it is updated).
 5. It executes the targeted typecheck in parallel using Turborepo filters (e.g., `npx turbo run typecheck --filter=@elo-instance/*`).

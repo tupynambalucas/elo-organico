@@ -9,7 +9,7 @@ Esta seção descreve a arquitetura estratégica do monorepo, configurações de
 ## Marcos Concluídos
 
 ### Arquitetura de Monorepo & Configuração de Workspaces
-- **Segregação de Workspaces no Monorepo**: Estruturação das camadas de workspaces via PNPM Workspaces v11 e Turborepo, segregando os domínios `instance/`, `portal/`, `studio/`, `tools/` e `knowledge-base/`.
+- **Segregação de Workspaces no Monorepo**: Estruturação das camadas de workspaces via PNPM Workspaces v11 e Turborepo, segregando os domínios `instance/`, `portal/`, `studio/`, `tools/` e `docs/`.
 - **Orquestração de Tarefas de Alta Performance**: Integração do **Turborepo** para orquestrar as pipelines do monorepo, permitindo caching inteligente de alvos e execução paralela de scripts.
 - **Herança de Configurações Unificada**: Configuração de arquivos base `tsconfig.base.json` e `eslint.config.ts` no nível da raiz, que são estendidos pelos pacotes individuais via extends do TSConfig e declarações de array de regras do ESLint.
 - **Node 22 & Configuração TypeScript ESM**: Conversão de todos os pacotes para usar ECMAScript Modules (`"type": "module"`) e compilação com target `ESNext` para suporte a sintaxes modernas.

@@ -9,7 +9,7 @@ This section outlines the strategic monorepo architecture, catalog configuration
 ## Completed Milestones
 
 ### Monorepo Architecture & Workspace Setup
-- **Monorepo Workspace Segregation**: Structured workspace layers via PNPM Workspaces v11 and Turborepo, segregating `instance/`, `portal/`, `studio/`, `tools/`, and `knowledge-base/` domains.
+- **Monorepo Workspace Segregation**: Structured workspace layers via PNPM Workspaces v11 and Turborepo, segregating `instance/`, `portal/`, `studio/`, `tools/`, and `docs/` domains.
 - **High-Performance Task Orchestration**: Integrated **Turborepo** to orchestrate pipelines, enabling smart target caching and parallel execution of scripts.
 - **Unified Configuration Inheritances**: Configured root-level `tsconfig.base.json` and `eslint.config.ts` extendable by workspace packages via TSConfig extends and ESLint config array definitions.
 - **Node 22 & TypeScript ESM Configuration**: Converted all packages to use ECMAScript Modules (`"type": "module"`) and compiled with target `ESNext` for modern syntax support.

@@ -52,8 +52,8 @@ for (const file of stagedFiles) {
     filters.add('--filter=@elo-organico/studio');
   } else if (rootDir === 'tools') {
     filters.add('--filter=@elo-organico/tools');
-  } else if (rootDir === 'knowledge-base') {
-    filters.add('--filter=@elo-organico/knowledge-base');
+  } else if (rootDir === 'docs') {
+    filters.add('--filter=@elo-organico/docs');
   } else if (rootDir === 'portal') {
     // Ignore portal changes completely
   } else {

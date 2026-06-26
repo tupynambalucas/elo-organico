@@ -127,6 +127,7 @@ const config: Config = {
       '@docusaurus/preset-classic',
       {
         docs: {
+          path: 'handbook',
           sidebarPath: './sidebars.ts',
         },
         blog: {

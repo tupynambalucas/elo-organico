@@ -1,10 +1,10 @@
-# @elo-organico/knowledge-base - Documentation Hub (EloDocs)
+# @elo-organico/docs - Documentation Hub (EloDocs)
 
 This is the central, authoritative documentation hub for the Elo Orgânico project. Built with Docusaurus v3, it provides a high-performance, strictly-typed technical and product knowledge base.
 
 ## Structure & Content
 
-- **docs/**: Core project documentation (Architecture, Master Plan, Product Vision, Style Guide).
+- **handbook/**: Core project documentation (Architecture, Master Plan, Product Vision, Style Guide).
 - **src/pages/**: Custom interactive landing pages for workspace contexts (Studio, Tools).
 - **releases/**: Official project Changelog and versioned release notes.
 - **i18n/**: Full internationalization support (English and Brazilian Portuguese).

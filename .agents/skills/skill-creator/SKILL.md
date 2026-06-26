@@ -101,7 +101,7 @@ If a skill includes scripts in the `scripts/` directory:
 
 Follow this workflow when generating or modifying custom skills:
 
-1. **Research Project Context**: Read `knowledge-base/docs/engineering/styleguide.mdx` and `architecture.mdx` to align skill logic with project directories.
+1. **Research Project Context**: Read `docs/handbook/engineering/styleguide.mdx` and `docs/handbook/engineering/architecture.mdx` to align skill logic with project directories.
 2. **Write SKILL.md**: Draft the metadata and instructions following the 500-line limit, English rule, and GFM syntax.
 3. **Write Supporting References**: Document advanced steps inside `references/*.md` using plain Markdown.
 4. **Draft Automation Scripts**: If the agent needs to run commands, bundle them into non-interactive scripts inside `scripts/`.

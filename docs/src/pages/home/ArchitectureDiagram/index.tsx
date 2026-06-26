@@ -12,7 +12,7 @@ export default function ArchitectureDiagram({ onSelect, activeId }: Architecture
     { id: 'portal', label: '/portal', color: styles.portalColor, items: ['web', 'api', 'core'] },
     { id: 'studio', label: '/studio', color: styles.studioColor, items: ['tokens', 'assets'] },
     { id: 'tools', label: '/tools', color: styles.toolsColor, items: ['mcp', 'scripts'] },
-    { id: 'knowledge', label: '/knowledge-base', color: styles.docsColor, items: ['docusaurus'] },
+    { id: 'knowledge', label: '/docs', color: styles.docsColor, items: ['docusaurus'] },
   ];
 
   return (

@@ -1,15 +1,15 @@
 ---
-title: Workspace Knowledge Base (EloDocs)
-sidebar_label: Knowledge Base (Docs)
+title: Workspace Docs (EloDocs)
+sidebar_label: Docs (EloDocs)
 ---
 
-O workspace Knowledge Base gerencia o hub oficial de documentação para o projeto Elo Orgânico, conhecido como **EloDocs**. Construído sobre o Docusaurus, ele serve como o portal central do desenvolvedor, abrigando diretrizes arquiteturais, guias de estilo, documentos de planejamento de produto, além de changelogs e roadmaps automatizados do projeto.
+O workspace Docs gerencia o hub oficial de documentação para o projeto Elo Orgânico, conhecido como **EloDocs**. Construído sobre o Docusaurus, ele serve como o portal central do desenvolvedor, abrigando diretrizes arquiteturais, guias de estilo, documentos de planejamento de produto, além de changelogs e roadmaps automatizados do projeto.
 
 ## Estrutura de Diretórios
 
 ```
-knowledge-base/
-├── docs/             # Documentação geral com foco em root (Arquitetura, Guia de Estilo)
+docs/
+├── handbook/         # Manual geral do projeto (Arquitetura, Guia de Estilo, Diretrizes)
 ├── roadmap/          # Documentos de origem do roadmap modular
 ├── releases/         # Atualizações de release formatadas em blog
 ├── workspaces/       # Descrições modulares de workspaces (esta seção)
@@ -25,7 +25,7 @@ knowledge-base/
 
 O EloDocs está configurado com uma estrutura de documentação multi-instância usando plugins do Docusaurus para segmentar as diferentes áreas do portal do desenvolvedor com barras laterais esquerdas independentes:
 
-1.  **Documentação Geral (Docs)**: Localizada em `docs/` e mapeada para `/docs`. Governa resumos arquiteturais de alto nível, estratégias de segurança, guias de estilo de codificação e arquivos de visão mestre.
+1.  **Documentação Geral (Docs)**: Localizada em `handbook/` e mapeada para `/docs`. Governa resumos arquiteturais de alto nível, estratégias de segurança, guias de estilo de codificação e arquivos de visão mestre.
 2.  **Roadmaps Estratégicos (Roadmap)**: Localizado em `roadmap/` e mapeado para `/roadmap`. Governa marcos e objetivos específicos de cada contexto.
 3.  **Workspaces (Workspaces)**: Localizado em `workspaces/` e mapeado para `/workspaces`. Abriga descrições detalhadas de cada contexto de pacote.
 4.  **Changelog (Blog)**: Localizado em `releases/` e mapeado para `/changelog`. Governa o histórico de versões e notas de release.

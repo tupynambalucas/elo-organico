@@ -67,14 +67,14 @@ graph LR
 | instance/packages/core | @elo-instance/core   | **Library**   | SSOT para instâncias de comunidade (API & Web App).            |
 | studio/                | @elo-organico/studio | **Tooling**   | Tokens de marca, ativos de design e estilização global.        |
 | tools/                 | @elo-organico/tools  | **Tooling**   | Infraestrutura MCP, scripts de automação e utilitários de projeto. |
-| knowledge-base/        | @elo-organico/docs   | **Docs Hub**  | Hub oficial de documentação do projeto e landing page técnica. |
+| docs/                  | @elo-organico/docs   | **Docs Hub**  | Hub oficial de documentação do projeto e landing page técnica. |
 
 ### 2.1. Filosofia de Contexto Delimitado (Bounded Context)
 
 - **Isolamento de Contexto**: Cada diretório raiz (`instance/`, `portal/`) representa um Bounded Context. Lógica e modelos são duplicados quando necessário para manter a independência, seguindo princípios de DDD.
 - **Implantação (Deployment)**:
   - **Portal**: Projetado como uma camada **singleton** para futuro onboarding SaaS. Atualmente em estágio de fundação/esqueleto.
-  - **Base de Conhecimento**: O **hub oficial do projeto** para documentação (EloDocs) e especificações técnicas.
+  - **Hub de Documentação**: O **hub oficial do projeto** para documentação (EloDocs) e especificações técnicas.
   - **Instância**: Múltiplos pares de API/Web serão instanciados no futuro modelo SaaS, um para cada comunidade.
 
 ---

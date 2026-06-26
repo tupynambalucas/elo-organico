@@ -119,8 +119,8 @@ export const WORKSPACES: Record<string, WorkspaceInfo> = {
   },
   knowledge: {
     id: 'knowledge',
-    name: 'Knowledge Base',
-    path: '/workspaces/knowledge-base',
+    name: 'Docs Hub',
+    path: '/workspaces/docs',
     description: 'Centralized technical documentation and engineering masterplan.',
     stack: ['Docusaurus v3', 'MDX', 'Mermaid.js'],
     responsibilities: [
@@ -129,7 +129,7 @@ export const WORKSPACES: Record<string, WorkspaceInfo> = {
       'Internal Developer Portal'
     ],
     ptBR: {
-      name: 'Base de Conhecimento',
+      name: 'Hub de Documentação',
       description: 'Documentação técnica centralizada e plano mestre de engenharia.',
       responsibilities: [
         'Docs de Arquitetura de Engenharia',

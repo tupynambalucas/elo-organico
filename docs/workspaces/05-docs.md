@@ -1,15 +1,15 @@
 ---
-title: Knowledge Base Workspace (EloDocs)
-sidebar_label: Knowledge Base (Docs)
+title: Docs Workspace (EloDocs)
+sidebar_label: Docs (EloDocs)
 ---
 
-The Knowledge Base workspace manages the official documentation hub for the Elo Orgânico project, known as **EloDocs**. Built on Docusaurus, it serves as the central developer portal, housing architectural guidelines, style guides, product planning documents, and automated project changelogs and roadmaps.
+The Docs workspace manages the official documentation hub for the Elo Orgânico project, known as **EloDocs**. Built on Docusaurus, it serves as the central developer portal, housing architectural guidelines, style guides, product planning documents, and automated project changelogs and roadmaps.
 
 ## Directory Structure
 
 ```
-knowledge-base/
-├── docs/             # Root-focused general documentation (Architecture, Style Guide)
+docs/
+├── handbook/         # General project handbook (Architecture, Style Guide, Guidelines)
 ├── roadmap/          # Modular roadmap source documents
 ├── releases/         # Blog-formatted release updates
 ├── workspaces/       # Modular workspace descriptions (this section)
@@ -25,7 +25,7 @@ knowledge-base/
 
 EloDocs is configured with a multi-instance documentation setup using Docusaurus plugins to segment the different areas of the developer portal with independent left sidebars:
 
-1.  **General Documentation (Docs)**: Located in `docs/` and mapped to `/docs`. Governs high-level architectural briefs, security strategies, coding style guides, and master vision files.
+1.  **General Documentation (Docs)**: Located in `handbook/` and mapped to `/docs`. Governs high-level architectural briefs, security strategies, coding style guides, and master vision files.
 2.  **Strategic Roadmaps (Roadmap)**: Located in `roadmap/` and mapped to `/roadmap`. Governs context-specific milestones and goals.
 3.  **Workspaces (Workspaces)**: Located in `workspaces/` and mapped to `/workspaces`. Houses detailed modular descriptions of each package context.
 4.  **Changelog (Blog)**: Located in `releases/` and mapped to `/changelog`. Governs version history and release notes.

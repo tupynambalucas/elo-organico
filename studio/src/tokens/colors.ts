@@ -1,6 +1,6 @@
 /**
  * Elo Organico - Canonical Design Tokens
- * Source: @knowledge-base/docs/studio.mdx
+ * Source: @docs/handbook/studio.mdx
  */
 
 export const brandColors = {

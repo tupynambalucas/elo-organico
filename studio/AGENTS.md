@@ -10,8 +10,8 @@ Before editing or analyzing design files or brand tokens, read the local rules f
 
 - **Penpot Collaborative Design**: [penpot/AGENTS.md](./penpot/AGENTS.md) — Self-hosted Penpot setup, S3 bucket mappings, PostgreSQL, and Penpot AI assistant (aide).
 - **Cloudflare R2 Storage Sync**: [bucket/AGENTS.md](./bucket/AGENTS.md) — Dynamic synchronization engine for design assets, vectors, and web-ready vectors with Cloudflare R2 bucket.
-- **Workspace Documentation**: Refer to the studio documentation in [knowledge-base/workspaces/03-studio.mdx](../knowledge-base/workspaces/03-studio.mdx).
-- **Workspace Roadmap**: Refer to the studio roadmap in [knowledge-base/roadmap/04-studio.md](../knowledge-base/roadmap/04-studio.md).
+- **Workspace Documentation**: Refer to the studio documentation in [docs/workspaces/03-studio.mdx](../docs/workspaces/03-studio.mdx).
+- **Workspace Roadmap**: Refer to the studio roadmap in [docs/roadmap/04-studio.md](../docs/roadmap/04-studio.md).
 
 ---
 
