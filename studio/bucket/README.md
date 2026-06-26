@@ -91,6 +91,7 @@ pnpm studio:bucket
 ```
 
 This starts a polished, command-line selection interface. Use the up and down arrow keys to choose:
+
 - **Push**: Scan and synchronize local modified files directly to R2.
 - **Pull**: Check R2 object metadata and download any new or updated files locally.
 - **Exit**: Safely terminate the CLI.

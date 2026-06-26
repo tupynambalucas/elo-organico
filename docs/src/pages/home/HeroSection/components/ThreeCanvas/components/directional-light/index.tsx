@@ -12,9 +12,9 @@ interface SceneDirectionalLightProps {
 
 /**
  * SceneDirectionalLight
- * 
+ *
  * A specialized component for managing a directional light and its target.
- * Following SOLID principles, this component encapsulates the logic for 
+ * Following SOLID principles, this component encapsulates the logic for
  * orienting the light towards a specific point in the scene.
  */
 const SceneDirectionalLight = ({

@@ -25,14 +25,17 @@ export default function HeroSection(): ReactNode {
                   id="homepage.hero.text.primary"
                   description="First line of the introductory paragraph"
                 >
-                  {'High-performance, strictly-typed monorepo engineering for sustainable organic sharing cycles.\n'}
+                  {
+                    'High-performance, strictly-typed monorepo engineering for sustainable organic sharing cycles.\n'
+                  }
                 </Translate>
                 <br />
                 <Translate
                   id="homepage.hero.text.secondary"
                   description="Second line of the introductory paragraph"
                 >
-                  Built with Fastify, React 19, and WebGPU for maximum efficiency and AI-native development.
+                  Built with Fastify, React 19, and WebGPU for maximum efficiency and AI-native
+                  development.
                 </Translate>
               </p>
             </div>

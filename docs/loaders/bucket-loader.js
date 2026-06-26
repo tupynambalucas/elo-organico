@@ -1,4 +1,3 @@
-const path = require('path');
 const fs = require('fs');
 
 module.exports = function (source) {
@@ -24,7 +23,7 @@ module.exports = function (source) {
   if (buildFolders.includes(folderKey) === true) {
     if (bucketUrl === undefined || bucketUrl === '') {
       throw new Error(
-        `[Bucket Loader] BUCKET_URL environment variable is not defined for production build. Required for asset path: ${original}`
+        `[Bucket Loader] BUCKET_URL environment variable is not defined for production build. Required for asset path: ${original}`,
       );
     }
 

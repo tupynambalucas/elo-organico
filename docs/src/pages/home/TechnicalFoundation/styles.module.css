@@ -5,7 +5,7 @@
   justify-content: center;
   min-height: 100vh;
   background-color: var(--color-background-tint);
-  background-image: 
+  background-image:
     linear-gradient(var(--blueprint-grid-color) 0.0625rem, transparent 0.0625rem),
     linear-gradient(90deg, var(--blueprint-grid-color) 0.0625rem, transparent 0.0625rem);
   background-size: var(--blueprint-grid-size) var(--blueprint-grid-size);

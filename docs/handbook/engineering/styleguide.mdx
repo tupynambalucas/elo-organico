@@ -68,11 +68,11 @@ We prioritize maximum type safety through a rigorous TypeScript configuration.
 
 To ensure a fluid, accessible, and modern user interface, the following rules are mandatory for all applications:
 
-- **No Pixels (`px`):** The use of fixed `px` values is strictly forbidden for sizing, spacing, and typography. 
-  - *Exception:* `1px` is allowed for borders when a hairline effect is desired.
+- **No Pixels (`px`):** The use of fixed `px` values is strictly forbidden for sizing, spacing, and typography.
+  - _Exception:_ `1px` is allowed for borders when a hairline effect is desired.
 - **Relative Typography:** Always use `rem` for font sizes. Never use `px` or `em` for typography.
 - **Fluid Spacing:** Use `rem` for consistent spacing or `clamp()` for fluid spacing that scales with the viewport.
-- **Structural Layouts:** Use modern layout primitives: `flexbox`, `grid`, `%`, `vw`, and `vh`. 
+- **Structural Layouts:** Use modern layout primitives: `flexbox`, `grid`, `%`, `vw`, and `vh`.
 - **Logical Functions:** Leverage `clamp()`, `min()`, and `max()` to create boundaries for fluid elements without using media queries for every minor adjustment.
 
 ### Responsive Examples
@@ -107,9 +107,7 @@ export const ResponsiveHero = () => {
   return (
     <section className={styles.heroSection}>
       <div className={styles.container}>
-        <h1 className={styles.heroTitle}>
-          Design Fluido e Responsivo
-        </h1>
+        <h1 className={styles.heroTitle}>Design Fluido e Responsivo</h1>
       </div>
     </section>
   );
@@ -142,6 +140,7 @@ The Docusaurus `live` code block (interactive editor) is EXCLUSIVELY reserved fo
 :::
 
 Its purpose is strictly to demonstrate:
+
 1.  **React Components:** Following rigorous patterns (explicit booleans, strict types, etc.).
 2.  **API Domain Structures:** Visualizing how domain models should be structured.
 
@@ -251,7 +250,9 @@ The example below demonstrates our preferred pattern for interactive components 
   color: white;
   font-weight: 700;
   font-size: 0.95rem;
-  transition: opacity 0.2s, background-color 0.2s;
+  transition:
+    opacity 0.2s,
+    background-color 0.2s;
 }
 
 .submitButton:disabled {
@@ -291,11 +292,11 @@ function AdvancedCycleManager() {
     inputGroup: 'ACM_inputGroup',
     currency: 'ACM_currency',
     priceInput: 'ACM_priceInput',
-    submitButton: 'ACM_submitButton'
+    submitButton: 'ACM_submitButton',
   };
 
   const [products, setProducts] = React.useState([
-    { id: 'uuid-1', name: 'Alface Crespa', price: 4.50, isValid: true },
+    { id: 'uuid-1', name: 'Alface Crespa', price: 4.5, isValid: true },
     { id: 'uuid-2', name: 'Tomate Cereja', price: 0, isValid: false },
   ]);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -306,12 +307,8 @@ function AdvancedCycleManager() {
 
   const updateProductPrice = React.useCallback((id, value) => {
     const numericValue = parseFloat(value) || 0;
-    setProducts((prev) => 
-      prev.map((p) => 
-        p.id === id 
-          ? { ...p, price: numericValue, isValid: numericValue > 0 } 
-          : p
-      )
+    setProducts((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, price: numericValue, isValid: numericValue > 0 } : p)),
     );
   }, []);
 
@@ -336,17 +333,19 @@ function AdvancedCycleManager() {
     <div className={styles.container}>
       <div className={styles.header}>
         <h3 className={styles.title}>Gerenciador de Ciclo</h3>
-        
-        <span className={`${styles.statusBadge} ${
-          hasErrors === true ? styles.statusInvalid : styles.statusReady
-        }`}>
+
+        <span
+          className={`${styles.statusBadge} ${
+            hasErrors === true ? styles.statusInvalid : styles.statusReady
+          }`}
+        >
           {hasErrors === true ? '⚠ ITENS INVÁLIDOS' : '✓ PRONTO PARA SALVAR'}
         </span>
       </div>
 
       <div className={styles.productList}>
         {products.map((product) => (
-          <div 
+          <div
             key={product.id}
             className={`${styles.productItem} ${
               product.isValid === false ? styles.productInvalid : ''
@@ -359,7 +358,7 @@ function AdvancedCycleManager() {
 
             <div className={styles.inputGroup}>
               <span className={styles.currency}>R$</span>
-              <input 
+              <input
                 type="number"
                 value={product.price}
                 onChange={(e) => updateProductPrice(product.id, e.target.value)}
@@ -370,7 +369,7 @@ function AdvancedCycleManager() {
         ))}
       </div>
 
-      <button 
+      <button
         disabled={isSubmitting === true || hasErrors === true}
         onClick={handleAction}
         className={styles.submitButton}
@@ -403,4 +402,5 @@ function AdvancedCycleManager() {
 ```
 
 ---
+
 _Last Updated: June 2026_

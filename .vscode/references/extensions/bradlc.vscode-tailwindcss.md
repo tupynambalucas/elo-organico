@@ -14,12 +14,7 @@ The HTML attributes for which to provide class completions, hover previews, lint
 
 - **Default**:
   ```json
-  [
-    "class",
-    "className",
-    "ngClass",
-    "class:list"
-  ]
+  ["class", "className", "ngClass", "class:list"]
   ```
 
 ### `tailwindCSS.classFunctions`
@@ -70,12 +65,7 @@ Inherits all glob patterns from the `#files.exclude#` setting.
 
 - **Default**:
   ```json
-  [
-    "**/.git/**",
-    "**/node_modules/**",
-    "**/.hg/**",
-    "**/.svn/**"
-  ]
+  ["**/.git/**", "**/node_modules/**", "**/.hg/**", "**/.svn/**"]
   ```
 
 ### `tailwindCSS.hovers`

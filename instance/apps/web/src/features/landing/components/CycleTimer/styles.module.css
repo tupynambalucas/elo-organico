@@ -70,20 +70,20 @@
   font-size: 2.5rem;
   font-weight: 700;
   font-family: 'Courier New', Courier, monospace;
-  
+
   width: 5rem;
   height: 5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   border-radius: 0.75rem;
   border: 0.0625rem solid color-mix(in srgb, var(--color-success) 20%, transparent);
   box-shadow: 0 0.25rem 1.25rem color-mix(in srgb, var(--color-success) 10%, transparent);
-  
+
   position: relative;
   overflow: hidden;
-  will-change: transform; 
+  will-change: transform;
 }
 
 .numberBox::after {
@@ -93,7 +93,7 @@
   left: 0;
   right: 0;
   height: 40%;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.9), transparent);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), transparent);
   pointer-events: none;
 }
 
@@ -109,7 +109,7 @@
   font-size: 2rem;
   color: var(--color-success);
   font-weight: bold;
-  margin-top: 0.9375rem; 
+  margin-top: 0.9375rem;
   opacity: 0.4;
 }
 
@@ -131,7 +131,7 @@
     flex-direction: column;
     gap: 0.2rem;
   }
-  
+
   .dateHighlight {
     margin-left: 0;
   }

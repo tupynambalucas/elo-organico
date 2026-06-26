@@ -8,6 +8,7 @@ Esta seção detalha o roadmap de desenvolvimento para os módulos da loja da co
 ## Marcos Concluídos
 
 ### Motor de Backend em Camadas
+
 - **API Fastify em Camadas Estritas**: Desenvolvimento do `@elo-instance/api` utilizando Fastify v5 estruturado sob uma arquitetura estrita de camadas `Controller -> Service -> Repository -> Model`.
 - **Validação de Domínio com Zod & Integração Core**: Integração do `@elo-instance/core` para validar requisições de entrada utilizando Zod, blindando payloads de autenticação e de catálogo de produtos.
 - **Módulos de Domínio Concluídos**:
@@ -16,13 +17,16 @@ Esta seção detalha o roadmap de desenvolvimento para os módulos da loja da co
   - `cycle`: Modelagem de ciclos de compra cooperativa agrícola, limites de teto de pedidos e lógicas de alocação.
 
 ### Infraestrutura de Banco de Dados & Seeding
+
 - **Configuração de Replica Set do MongoDB em Dev**: Configuração de serviço MongoDB conteinerizado no `compose.dev.yaml` executando um Replica Set (`rs0`) com autenticação baseada em Keyfile e container dedicado de inicialização única (`db-init-dev`).
 - **Plugin de Seeding de Banco em Dev**: Implementação de plugin de inicialização do Fastify (`SeedPlugin`) na API para popular credenciais admin e estruturas base automaticamente ao iniciar.
 
 ### Aplicação Frontend (Client-Side)
+
 - **Aplicação Web em React 19 & Vite**: Desenvolvimento do `@elo-instance/web` usando React 19, CSS Modules para estilizações de layout escopadas, e integração com domínios de frontend (Autenticação, Landing pages, vitrines da Loja e controle de Admin).
 
 ## Foco Planejado
+
 - **Módulo Feirinha**: Expandir funcionalidades para suportar eventos físicos e em tempo real de vendas locais.
 - **Isolamento de Dados**: Configurar coleções e modelos de banco de dados dedicados ao contexto local.
 - **Integração Pix (Pay-as-you-go)**: Integrar fluxos de pagamento imediato via Pix na API do backend.

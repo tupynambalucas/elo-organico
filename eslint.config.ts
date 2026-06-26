@@ -12,6 +12,7 @@ import reactRefreshPlugin from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 import eslintPluginPrettier from 'eslint-plugin-prettier';
 import eslintConfigPrettier from 'eslint-config-prettier';
+import * as mdx from 'eslint-plugin-mdx';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -27,6 +28,7 @@ export default defineConfig([
   {
     name: 'monorepo/global-typescript-config',
     files: ['**/*.{js,mjs,ts,tsx}'],
+    ignores: ['**/*.md/**', '**/*.mdx/**'],
     languageOptions: {
       parserOptions: {
         projectService: {
@@ -49,6 +51,7 @@ export default defineConfig([
           alwaysTryTypes: true,
           project: [
             'tsconfig.json',
+            'docs/tsconfig.json',
             'instance/apps/*/tsconfig.json',
             'instance/packages/*/tsconfig.json',
             'portal/apps/*/tsconfig.json',
@@ -139,7 +142,24 @@ export default defineConfig([
   // ========================================================================
   {
     name: 'monorepo/root-config-files',
-    files: ['*.{js,mjs,ts}', '*.config.{js,mjs,ts}'],
+    files: [
+      '*.{js,mjs,ts}',
+      '*.config.{js,mjs,ts}',
+      '**/*.config.{js,mjs,cjs,ts}',
+      '**/postcss.config.{js,mjs,cjs,ts}',
+      'docs/loaders/**/*.js',
+      'docs/src/mock-asset.js',
+    ],
+    languageOptions: {
+      globals: {
+        module: 'writable',
+        require: 'readonly',
+        process: 'readonly',
+        __dirname: 'readonly',
+        exports: 'writable',
+        URLSearchParams: 'readonly',
+      },
+    },
     rules: {
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
@@ -194,6 +214,7 @@ export default defineConfig([
   {
     name: 'monorepo/domain-core',
     files: ['**/packages/core/**/*.{ts,tsx}'],
+    ignores: ['**/*.md/**', '**/*.mdx/**'],
     rules: {
       '@typescript-eslint/no-unused-vars': [
         'error',
@@ -233,6 +254,7 @@ export default defineConfig([
   {
     name: 'monorepo/domain-web',
     files: ['**/apps/web/**/*.{ts,tsx}'],
+    ignores: ['**/*.md/**', '**/*.mdx/**'],
     plugins: {
       react: fixupPluginRules(reactPlugin),
       'react-hooks': fixupPluginRules(
@@ -269,6 +291,7 @@ export default defineConfig([
   {
     name: 'monorepo/tools-workspace',
     files: ['tools/**/*.ts'],
+    ignores: ['**/*.md/**', '**/*.mdx/**'],
     rules: {
       // Server-side code may log to stdout/stderr for operational visibility
       'no-console': ['warn', { allow: ['info', 'warn', 'error'] }],
@@ -303,6 +326,7 @@ export default defineConfig([
   {
     name: 'monorepo/studio-workspace',
     files: ['studio/**/*.ts', 'studio/**/*.tsx'],
+    ignores: ['**/*.md/**', '**/*.mdx/**'],
     rules: {
       'no-console': ['warn', { allow: ['info', 'warn', 'error'] }],
       '@typescript-eslint/explicit-function-return-type': 'warn',
@@ -326,7 +350,56 @@ export default defineConfig([
   },
 
   // ========================================================================
-  // 9. TEST FILES - Regras Relaxadas para Testes
+  // 9. DOCS WORKSPACE & MDX CONFIGURATIONS
+  // ========================================================================
+  {
+    name: 'monorepo/docs-workspace',
+    files: ['docs/**/*.{ts,tsx,js,jsx}'],
+    rules: {
+      'no-console': ['warn', { allow: ['info', 'warn', 'error'] }],
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-require-imports': 'off',
+      '@typescript-eslint/no-unnecessary-type-assertion': 'off',
+      '@typescript-eslint/consistent-type-definitions': 'off',
+      '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/no-empty-object-type': 'off',
+      'import/no-unresolved': [
+        'error',
+        {
+          ignore: ['^@docusaurus/', '^@theme/', '^@site/'],
+        },
+      ],
+    },
+  },
+  {
+    ...mdx.flat,
+    name: 'monorepo/mdx-files',
+    files: ['**/*.mdx'],
+    processor: mdx.createRemarkProcessor({
+      lintCodeBlocks: false,
+    }),
+  },
+  {
+    name: 'monorepo/disable-typecheck-for-non-ts',
+    files: ['**/*.{js,cjs,mjs,jsx,mdx}'],
+    ...tseslint.configs.disableTypeChecked,
+  },
+  {
+    name: 'monorepo/mdx-prettier',
+    files: ['**/*.mdx'],
+    rules: {
+      'prettier/prettier': ['error', { parser: 'mdx' }],
+    },
+  },
+
+  // ========================================================================
+  // 10. TEST FILES - Regras Relaxadas para Testes
   // ========================================================================
   {
     name: 'monorepo/test-files',
@@ -343,13 +416,11 @@ export default defineConfig([
   },
 
   // ========================================================================
-  // 10. IGNORES GLOBAIS
+  // 11. IGNORES GLOBAIS
   // ========================================================================
   {
     name: 'monorepo/ignores',
     ignores: [
-      'docs/**',
-      'portal/**',
       '**/dist/**',
       '**/node_modules/**',
       '**/build/**',
@@ -368,11 +439,12 @@ export default defineConfig([
       '**/types/**/*.d.ts',
       '**/*.d.ts',
       '**/vite-env.d.ts',
+      '**/.docusaurus/**',
     ],
   },
 
   // ========================================================================
-  // 11. PRETTIER INTEGRATION
+  // 12. PRETTIER INTEGRATION
   // ========================================================================
   {
     name: 'monorepo/prettier',

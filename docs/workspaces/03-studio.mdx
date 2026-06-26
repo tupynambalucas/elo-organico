@@ -84,6 +84,7 @@ The Studio workspace serves as the multi-disciplinary creative and structural nu
     | **Source of Truth (TS)** | `src/tokens/colors.ts` | Strongly-typed object (HEX) for React components, GSAP animations, and Three.js materials. |
     | **Distribution Layer (CSS)** | `src/tokens/theme.css` | Tailwind CSS v4 `@theme` block and base resets for zero-runtime browser delivery. |
     | **Icon Registry** | `src/icons/index.tsx` | Curated barrel of FontAwesome icons and a standardized `Icon` component wrapper (forwardRef). |
+
   </TabItem>
 
   <TabItem value="penpot" label="Penpot & Aide">
@@ -124,6 +125,7 @@ The Studio workspace serves as the multi-disciplinary creative and structural nu
     *   **Token-First Logic:** Design-to-code exports must strictly utilize CSS Custom Properties derived from `src/tokens/` for colors, fonts, and spacing.
     *   **SVG Optimization:** Ensure exported SVG code is optimized, follows the project's icon standards, and is integrated via the `@elo-organico/studio/icons` registry.
     *   **Layer Hierarchy:** Maintenance of semantic grouping is mandatory. Elements must be organized into clear pages and frames (e.g., `Layout/Grid`, `Components/Buttons`).
+
   </TabItem>
 
   <TabItem value="assets" label="Studio & Creative Assets">
@@ -160,5 +162,6 @@ The Studio workspace serves as the multi-disciplinary creative and structural nu
     *   `@elo-organico/studio/logos`: Canonical brand logotypes.
     *   `@elo-organico/studio/tokens`: Strongly-typed design constants for JS/TS logic.
     *   `@elo-organico/studio/theme.css`: Zero-runtime Tailwind CSS v4 theme and global resets.
+
   </TabItem>
 </Tabs>

@@ -16,14 +16,19 @@ export default function ArchitectProfile() {
           <div className={styles.badge}>
             <Translate id="homepage.about.badge">The Architect</Translate>
           </div>
-          
+
           <h2>
             <Translate id="homepage.about.title">Tupynambá Lucas</Translate>
           </h2>
 
           <p className={styles.bio}>
             <Translate id="homepage.about.description">
-              Fullstack Developer with a rare profile that combines over 10 years of programming study with a deep sensitivity for design and UX/UI. I have expertise in the architecture of complete digital solutions, developing performant applications with TypeScript and strategically choosing database technology — PostgreSQL for relational structures or MongoDB for high-flexibility scenarios — to ensure the scalability and efficiency of the final product.
+              Fullstack Developer with a rare profile that combines over 10 years of programming
+              study with a deep sensitivity for design and UX/UI. I have expertise in the
+              architecture of complete digital solutions, developing performant applications with
+              TypeScript and strategically choosing database technology — PostgreSQL for relational
+              structures or MongoDB for high-flexibility scenarios — to ensure the scalability and
+              efficiency of the final product.
             </Translate>
           </p>
 

@@ -33,6 +33,7 @@ O EloDocs está configurado com uma estrutura de documentação multi-instância
 ## Internacionalização (i18n)
 
 O EloDocs suporta totalmente as localidades Inglês (`en`) e Português (`pt-BR`). Os arquivos localizados espelham a estrutura dos documentos em inglês:
+
 - **Docs Gerais**: `i18n/pt-BR/docusaurus-plugin-content-docs/current/`
 - **Docs de Roadmap**: `i18n/pt-BR/docusaurus-plugin-content-docs-roadmap/current/`
 - **Docs de Workspaces**: `i18n/pt-BR/docusaurus-plugin-content-docs-workspaces/current/`
@@ -41,6 +42,7 @@ O EloDocs suporta totalmente as localidades Inglês (`en`) e Português (`pt-BR`
 ## Compiladores Automáticos de Raiz
 
 Para manter padrões de repositório limpos, o EloDocs se integra a scripts de compilação em tempo de build para gravar documentações unificadas em markdown no nível raiz do repositório no momento do deploy:
+
 - **`generate-roadmap.ts`**: Agrega todos os arquivos de contexto dentro de `roadmap/` e gera `/ROADMAP.md` na raiz do repositório.
 - **`generate-changelog.ts`**: Analisa as postagens de blog de release sob `releases/` e gera `/CHANGELOG.md` na raiz do repositório.
 - **Integração de CI/CD**: Ambos os scripts de compilação são executados dentro do workflow `.github/workflows/deploy-docs.yaml` para garantir que os arquivos no nível raiz permaneçam 100% em sincronia com o portal do desenvolvedor.
@@ -49,9 +51,9 @@ Para manter padrões de repositório limpos, o EloDocs se integra a scripts de c
 
 Execute esses comandos a partir do diretório raiz para gerenciar o contexto do EloDocs:
 
-| Comando | Ação |
-| :--- | :--- |
-| `pnpm docs:dev` | Inicializa o servidor de desenvolvimento local do Docusaurus em `http://localhost:3002`. |
-| `pnpm docs:build` | Compila a versão de produção do portal Docusaurus (executa validações de links quebrados). |
-| `pnpm docs:roadmap` | Dispara manualmente a compilação dos documentos de roadmap modulares no arquivo `ROADMAP.md` na raiz. |
-| `pnpm docs:changelog` | Dispara manualmente a compilação das atualizações de release no arquivo `CHANGELOG.md` na raiz. |
+| Comando               | Ação                                                                                                  |
+| :-------------------- | :---------------------------------------------------------------------------------------------------- |
+| `pnpm docs:dev`       | Inicializa o servidor de desenvolvimento local do Docusaurus em `http://localhost:3002`.              |
+| `pnpm docs:build`     | Compila a versão de produção do portal Docusaurus (executa validações de links quebrados).            |
+| `pnpm docs:roadmap`   | Dispara manualmente a compilação dos documentos de roadmap modulares no arquivo `ROADMAP.md` na raiz. |
+| `pnpm docs:changelog` | Dispara manualmente a compilação das atualizações de release no arquivo `CHANGELOG.md` na raiz.       |

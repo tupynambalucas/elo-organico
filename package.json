@@ -12,6 +12,8 @@
   },
   "scripts": {
     "// Docs": "---------------------------------------------",
+    "docs:typecheck": "pnpm --filter @elo-organico/docs typecheck",
+    "docs:lint": "pnpm --filter @elo-organico/docs lint",
     "docs:dev": "pnpm --filter @elo-organico/docs start",
     "docs:dev:pt": "pnpm --filter @elo-organico/docs start:pt",
     "docs:build": "pnpm --filter @elo-organico/docs build",
@@ -95,6 +97,8 @@
     "github:bash:interactive": "pnpm --filter @elo-organico/tools github:bash:interactive",
     "github:reset": "pnpm --filter @elo-organico/tools github:reset",
     "// CI/CD & Quality": "-------------------------------------------------",
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write .",
     "version:changeset": "changeset",
     "version:bump": "changeset version",
     "version:publish": "changeset publish",
@@ -117,6 +121,7 @@
     "eslint-config-prettier": "catalog:tooling-stack",
     "eslint-import-resolver-typescript": "catalog:tooling-stack",
     "eslint-plugin-import": "catalog:tooling-stack",
+    "eslint-plugin-mdx": "catalog:tooling-stack",
     "eslint-plugin-prettier": "catalog:tooling-stack",
     "eslint-plugin-react": "catalog:web-stack",
     "eslint-plugin-react-hooks": "catalog:web-stack",
@@ -132,10 +137,10 @@
     "typescript-eslint": "catalog:tooling-stack"
   },
   "lint-staged": {
-    "**/*.{js,mjs,ts,tsx}": [
-      "eslint --fix --max-warnings=0 --no-warn-ignored"
+    "**/*.{js,mjs,ts,tsx,mdx}": [
+      "eslint --fix --no-warn-ignored"
     ],
-    "**/*.{json,yaml,md,mdx}": [
+    "**/*.{json,yaml,md,css,html}": [
       "prettier --write"
     ]
   }

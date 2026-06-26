@@ -21,13 +21,14 @@ The client layout under `src/` is organized according to Domain-Driven Design (D
 ## Web Coding Guardrails
 
 ### A. Zustand Atomic Selectors Pattern
+
 To prevent redundant rendering, stores MUST separate properties from actions. Components MUST consume state via atomic selector hooks:
 
 ```typescript
 // Define Store
 export const useTenantStore = create<TenantState>((set) => ({
   tenants: [],
-  actions: { setTenants: (tenants) => set({ tenants }) }
+  actions: { setTenants: (tenants) => set({ tenants }) },
 }));
 
 // Atomic Selector Hooks
@@ -36,12 +37,15 @@ export const useTenantActions = () => useTenantStore((state) => state.actions);
 ```
 
 ### B. Explicit JSX Render Checks
+
 Always use explicit comparisons in JSX rendering conditions to prevent parsing bugs:
+
 - **Correct**: `{isValid === true && <Modal />}` or `{tenants.length > 0 && <List />}`.
 - **Incorrect**: `{isValid && <Modal />}` or `{tenants.length && <List />}`.
 
 ### C. Styling and Fluid Design (CSS Modules)
-- **No Pixels (`px`)**: Spacing, sizing, and typography MUST use relative units (`rem`, `em`, `vw/vh`, or percentages). `1px` is allowed *only* for hairline borders.
+
+- **No Pixels (`px`)**: Spacing, sizing, and typography MUST use relative units (`rem`, `em`, `vw/vh`, or percentages). `1px` is allowed _only_ for hairline borders.
 - **Fluid Layouts**: Leverage CSS Modules (`.module.css`) and relative functions (`clamp()`, `calc()`, `min()`, `max()`) for responsive layout scalability.
 
 ---

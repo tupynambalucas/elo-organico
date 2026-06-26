@@ -18,6 +18,7 @@ We follow a hybrid architecture blending Domain-Driven Design (DDD) with Feature
 To prevent monolithic store imports and unnecessary re-renders in React 19, stores MUST separate state from actions and be consumed via atomic selector hooks.
 
 ### 1. Store Definition
+
 ```typescript
 // src/domains/cycle/cycle.store.ts
 import { create } from 'zustand';
@@ -39,6 +40,7 @@ export const useCycleStore = create<CycleState>((set) => ({
 ```
 
 ### 2. Domain Hooks (Atomic Selectors)
+
 ```typescript
 // src/domains/cycle/hooks/useCycle.ts
 import { useCycleStore } from '../cycle.store';
@@ -48,6 +50,7 @@ export const useCycleActions = () => useCycleStore((state) => state.actions);
 ```
 
 ### 3. Component Usage
+
 ```tsx
 // src/features/admin/components/ActiveCycleDashboard.tsx
 import { useActiveCycle } from '@/domains/cycle/hooks/useCycle';

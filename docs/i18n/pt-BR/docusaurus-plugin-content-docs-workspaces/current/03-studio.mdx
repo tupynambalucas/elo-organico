@@ -84,6 +84,7 @@ O workspace Studio serve como o núcleo criativo e estrutural multidisciplinar d
     | **Fonte de Verdade (TS)** | `src/tokens/colors.ts` | Objeto fortemente tipado (HEX) para componentes React, animações GSAP e materiais Three.js. |
     | **Camada de Distribuição (CSS)** | `src/tokens/theme.css` | Bloco `@theme` do Tailwind CSS v4 e resets básicos para entrega sem runtime no navegador. |
     | **Registro de Ícones** | `src/icons/index.tsx` | Barrel com curadoria de ícones do FontAwesome e um wrapper padronizado de componente `Icon` (forwardRef). |
+
   </TabItem>
 
   <TabItem value="penpot" label="Penpot & Aide">
@@ -124,6 +125,7 @@ O workspace Studio serve como o núcleo criativo e estrutural multidisciplinar d
     *   **Lógica de Tokens Primeiro:** As exportações de design para código devem usar estritamente as propriedades personalizadas do CSS (CSS Custom Properties) derivadas de `src/tokens/` para cores, fontes e espaçamento.
     *   **Otimização de SVG:** Certifique-se de que o código SVG exportado está otimizado, segue os padrões de ícones do projeto e está integrado através do registro `@elo-organico/studio/icons`.
     *   **Hierarquia de Camadas:** A manutenção do agrupamento semântico é obrigatória. Os elementos devem ser organizados em páginas e frames claros (ex: `Layout/Grid`, `Components/Buttons`).
+
   </TabItem>
 
   <TabItem value="assets" label="Studio & Ativos Criativos">
@@ -160,5 +162,6 @@ O workspace Studio serve como o núcleo criativo e estrutural multidisciplinar d
     *   `@elo-organico/studio/logos`: Logotipos canônicos da marca.
     *   `@elo-organico/studio/tokens`: Constantes de design fortemente tipadas para a lógica JS/TS.
     *   `@elo-organico/studio/theme.css`: Tema Tailwind CSS v4 sem runtime e resets globais.
+
   </TabItem>
 </Tabs>

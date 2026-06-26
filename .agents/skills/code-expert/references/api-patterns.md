@@ -10,9 +10,11 @@ Each domain context operates under a strict hierarchy:
 Controller -> Service -> Repository -> Model
 
 ### 1. Core First Guardrail
+
 All data contracts, TypeScript interfaces, and Zod schemas MUST reside in the context core package (e.g., `@elo-instance/core` or `@elo-portal/core`) before they are consumed by the API.
 
 ### 2. Controller
+
 Responsible for HTTP I/O, route definitions, extracting parameters, Zod request body validation, and mapping response objects.
 
 ```typescript
@@ -27,7 +29,7 @@ export class AuthController {
   public login = async (req: FastifyRequest, reply: FastifyReply): Promise<void> => {
     const data = loginDTOSchema.parse(req.body);
     const result = await this.authService.authenticate(data, req.ip);
-    
+
     // Set HTTP-Only Cookie for session protection
     void reply
       .setCookie('token', result.token, {
@@ -42,6 +44,7 @@ export class AuthController {
 ```
 
 ### 3. Service
+
 Orchestrates business rules, handles Mongoose replica set database transactions, and manages external service integrations (e.g., Turnstile).
 
 ```typescript
@@ -52,7 +55,7 @@ import type { LoginDTO, IUserRepository } from '@elo-instance/core';
 export class AuthService {
   constructor(
     private readonly userRepo: IUserRepository,
-    private readonly turnstileSecretKey: string
+    private readonly turnstileSecretKey: string,
   ) {}
 
   public async authenticate(data: LoginDTO, ip: string): Promise<AuthResult> {
@@ -64,11 +67,10 @@ export class AuthService {
 
     // 2. Perform credential check with User Enumeration prevention
     const user = await this.userRepo.findByEmail(data.email);
-    
+
     // Perform Bcrypt comparison even if user doesn't exist to prevent timing attacks
-    const isValidPassword = user !== null 
-      ? await user.comparePassword(data.password) 
-      : await this.fakeBcryptCompare();
+    const isValidPassword =
+      user !== null ? await user.comparePassword(data.password) : await this.fakeBcryptCompare();
 
     if (user === null || isValidPassword === false) {
       // 3. User Lockout tracking (handled in repository/model)
@@ -88,6 +90,7 @@ export class AuthService {
 ```
 
 ### 4. Repository (DI & Decoupling)
+
 Abstracts data persistence. Interacts directly with the Mongoose model. Accepts model injections for testability.
 
 ```typescript
@@ -105,11 +108,11 @@ export class UserRepository implements IUserRepository {
   public async incrementFailedAttempts(user: IUser): Promise<void> {
     const attempts = user.loginAttempts + 1;
     const update: Record<string, any> = { loginAttempts: attempts };
-    
+
     if (attempts >= 5) {
       update.lockUntil = new Date(Date.now() + 15 * 60 * 1000); // 15 mins
     }
-    
+
     await this.userModel.updateOne({ _id: user._id }, { $set: update }).exec();
   }
 }

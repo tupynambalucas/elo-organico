@@ -29,7 +29,7 @@ services:
     working_dir: /workspace
     tty: true
     stdin_open: true
-    command: ["-c", "tail -f /dev/null"]
+    command: ['-c', 'tail -f /dev/null']
 
   # Service 3: Long-running git-only container for commits and local git operations
   git-bash:
@@ -54,4 +54,4 @@ services:
     working_dir: /workspace
     tty: true
     stdin_open: true
-    command: ["-c", "tail -f /dev/null"]
+    command: ['-c', 'tail -f /dev/null']

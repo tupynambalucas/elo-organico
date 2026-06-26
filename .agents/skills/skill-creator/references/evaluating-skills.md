@@ -220,12 +220,12 @@ Once every run in the iteration is graded, compute summary statistics per config
       "tokens": { "mean": 3800, "stddev": 400 }
     },
     "without_skill": {
-      "pass_rate": { "mean": 0.33, "stddev": 0.10 },
+      "pass_rate": { "mean": 0.33, "stddev": 0.1 },
       "time_seconds": { "mean": 32.0, "stddev": 8.0 },
       "tokens": { "mean": 2100, "stddev": 300 }
     },
     "delta": {
-      "pass_rate": 0.50,
+      "pass_rate": 0.5,
       "time_seconds": 13.0,
       "tokens": 1700
     }
@@ -244,7 +244,7 @@ Aggregate statistics can hide important patterns. After computing the benchmarks
 
 - **Remove or replace assertions that always pass in both configurations.** These don't tell you anything useful — the model handles them fine without the skill. They inflate the with-skill pass rate without reflecting actual skill value.
 - **Investigate assertions that always fail in both configurations.** Either the assertion is broken (asking for something the model can't do), the test case is too hard, or the assertion is checking for the wrong thing. Fix these before the next iteration.
-- **Study assertions that pass with the skill but fail without.** This is where the skill is clearly adding value. Understand *why* — which instructions or scripts made the difference?
+- **Study assertions that pass with the skill but fail without.** This is where the skill is clearly adding value. Understand _why_ — which instructions or scripts made the difference?
 - **Tighten instructions when results are inconsistent across runs.** If the same eval passes sometimes and fails others (reflected as high `stddev` in the benchmark), the eval may be flaky (sensitive to model randomness), or the skill's instructions may be ambiguous enough that the model interprets them differently each time. Add examples or more specific guidance to reduce ambiguity.
 - **Check time and token outliers.** If one eval takes 3x longer than the others, read its execution transcript (the full log of what the model did during the run) to find the bottleneck.
 
@@ -269,7 +269,7 @@ After grading and reviewing, you have three sources of signal:
 
 - **Failed assertions** point to specific gaps — a missing step, an unclear instruction, or a case the skill doesn't handle.
 - **Human feedback** points to broader quality issues — the approach was wrong, the output was poorly structured, or the skill produced a technically correct but unhelpful result.
-- **Execution transcripts** reveal *why* things went wrong. If the agent ignored an instruction, the instruction may be ambiguous. If the agent spent time on unproductive steps, those instructions may need to be simplified or removed.
+- **Execution transcripts** reveal _why_ things went wrong. If the agent ignored an instruction, the instruction may be ambiguous. If the agent spent time on unproductive steps, those instructions may need to be simplified or removed.
 
 The most effective way to turn these signals into skill improvements is to give all three — along with the current `SKILL.md` — to an LLM and ask it to propose changes. The LLM can synthesize patterns across failed assertions, reviewer complaints, and transcript behavior that would be tedious to connect manually. When prompting the LLM, include these guidelines:
 

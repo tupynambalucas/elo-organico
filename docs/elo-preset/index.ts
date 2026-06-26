@@ -1,10 +1,5 @@
 import { createRequire } from 'node:module';
-import type {
-  Preset,
-  LoadContext,
-  PluginConfig,
-  PluginOptions,
-} from '@docusaurus/types';
+import type { Preset, LoadContext, PluginConfig, PluginOptions } from '@docusaurus/types';
 import type { EloPresetOptions, ThemeConfig } from './options';
 
 const require = createRequire(import.meta.url);
@@ -19,26 +14,12 @@ function makePluginConfig(
   return require.resolve(source);
 }
 
-export default function eloPreset(
-  context: LoadContext,
-  opts: EloPresetOptions = {},
-): Preset {
-  const {siteConfig} = context;
-  const {themeConfig} = siteConfig;
-  const {algolia} = themeConfig as Partial<ThemeConfig>;
+export default function eloPreset(context: LoadContext, opts: EloPresetOptions = {}): Preset {
+  const { siteConfig } = context;
+  const { themeConfig } = siteConfig;
+  const { algolia } = themeConfig as Partial<ThemeConfig>;
   const isProd = process.env.NODE_ENV === 'production';
-  const {
-    debug,
-    docs,
-    blog,
-    pages,
-    sitemap,
-    svgr,
-    theme,
-    gtag,
-    googleTagManager,
-    ...rest
-  } = opts;
+  const { debug, docs, blog, pages, sitemap, svgr, theme, gtag, googleTagManager, ...rest } = opts;
 
   const themes: PluginConfig[] = [];
   themes.push(makePluginConfig('@docusaurus/theme-classic', theme));
@@ -54,7 +35,7 @@ export default function eloPreset(
   const plugins: PluginConfig[] = [];
 
   // Enable CSS cascade layers if opt-in flag is enabled in siteConfig
-  if (siteConfig.future?.v4?.useCssCascadeLayers === true) {
+  if (siteConfig.future.v4.useCssCascadeLayers === true) {
     plugins.push(makePluginConfig('@docusaurus/plugin-css-cascade-layers'));
   }
 
@@ -74,12 +55,7 @@ export default function eloPreset(
     plugins.push(makePluginConfig('@docusaurus/plugin-google-gtag', gtag));
   }
   if (googleTagManager !== undefined) {
-    plugins.push(
-      makePluginConfig(
-        '@docusaurus/plugin-google-tag-manager',
-        googleTagManager,
-      ),
-    );
+    plugins.push(makePluginConfig('@docusaurus/plugin-google-tag-manager', googleTagManager));
   }
   if (sitemap !== false && (isProd === true || debug === true)) {
     plugins.push(makePluginConfig('@docusaurus/plugin-sitemap', sitemap));
@@ -90,13 +66,11 @@ export default function eloPreset(
 
   if (Object.keys(rest).length > 0) {
     throw new Error(
-      `Unrecognized keys ${Object.keys(rest).join(
-        ', ',
-      )} found in preset configuration.`,
+      `Unrecognized keys ${Object.keys(rest).join(', ')} found in preset configuration.`,
     );
   }
 
-  return {themes, plugins};
+  return { themes, plugins };
 }
 
 export type { EloPresetOptions, ThemeConfig };

@@ -16,9 +16,7 @@ Prepend language id with `!` to exclude the language (i.e `!typescript`, `!javas
 
 - **Default**:
   ```json
-  [
-    "*"
-  ]
+  ["*"]
   ```
 
 ### `color-highlight.languages`
@@ -29,9 +27,7 @@ Prepend language id with `!` to exclude the language (i.e `!typescript`, `!javas
 
 - **Default**:
   ```json
-  [
-    "*"
-  ]
+  ["*"]
   ```
 
 ### `color-highlight.markerType`
@@ -73,9 +69,7 @@ Prepend language id with `!` to exclude the language (i.e `!typescript`, `!javas
 
 - **Default**:
   ```json
-  [
-    "*"
-  ]
+  ["*"]
   ```
 
 ### `color-highlight.sass.includePaths`

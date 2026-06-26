@@ -1,8 +1,9 @@
 import * as THREE from 'three/webgpu';
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useGLTF, useAnimations, Float } from '@react-three/drei';
-import { GLTF } from 'three-stdlib';
-import { ThreeElements, useFrame } from '@react-three/fiber';
+import type { GLTF } from 'three-stdlib';
+import type { ThreeElements } from '@react-three/fiber';
+import { useFrame } from '@react-three/fiber';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import { cabinMaterial, peelMaterial, pulpMaterial, seedMaterial } from './avokado.material';
 
@@ -18,14 +19,11 @@ type GLTFResult = GLTF & {
   materials: {};
 };
 
-type ActionName = 'SK_Avokado_PeelAction';
-type GLTFActions = Record<ActionName, THREE.AnimationAction>;
-
 export function Avokado(props: ThreeElements['group']) {
   const modelPath = useBaseUrl(MODEL_FILE);
-  const group = useRef<THREE.Group>(null!);
+  const group = useRef<THREE.Group>(null);
   const { nodes, animations } = useGLTF(modelPath) as unknown as GLTFResult;
-  const { actions } = useAnimations(animations, group);
+  useAnimations(animations, group);
 
   // Store the initial rotation from props, or default to [0,0,0]
   const initialRotation = useRef<THREE.Euler>(new THREE.Euler(0, 0, 0));
@@ -54,8 +52,8 @@ export function Avokado(props: ThreeElements['group']) {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  useFrame((state, delta) => {
-    if (!group.current) return;
+  useFrame((_state, delta) => {
+    if (group.current === null) return;
 
     // Calculate the target rotation based on the initial rotation + global mouse offset.
     // We map Y movement to X rotation (tilt) and X movement to Y rotation (pan).

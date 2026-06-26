@@ -25,8 +25,8 @@ The MCP ecosystem provides a unified, secure gateway allowing LLM agents to exec
 
 ### Architectural Components
 
-*   **Fastify SSE Gateway (`elo-mcp-gateway`)**: Exposes internal HTTP endpoints representing each MCP server. It coordinates cross-network routing on port `3005` (host) and port `3000` (internal bridge network).
-*   **Zero-Dependency SSE Adapters**: Standard input/output (stdio) servers are wrapped in custom Fastify adapters (`sse-adapter.ts`) to stream JSON-RPC messages bi-directionally over HTTP Server-Sent Events.
+- **Fastify SSE Gateway (`elo-mcp-gateway`)**: Exposes internal HTTP endpoints representing each MCP server. It coordinates cross-network routing on port `3005` (host) and port `3000` (internal bridge network).
+- **Zero-Dependency SSE Adapters**: Standard input/output (stdio) servers are wrapped in custom Fastify adapters (`sse-adapter.ts`) to stream JSON-RPC messages bi-directionally over HTTP Server-Sent Events.
 
 ### Configured Servers
 
@@ -49,10 +49,10 @@ To avoid complex manual installations and state corruption on developer host sys
 
 The agent containers bind-mount crucial developer files to ensure workspace parity without leaking files to global host system directories:
 
-*   **Monorepo Working Dir**: Mounted at `/workspace` for zero-latency code generation.
-*   **Docker-out-of-Docker (DooD)**: Mounted `/var/run/docker.sock` socket inside containers to compile and test images against the host daemon.
-*   **Session Persistence**: Mapped `./copilot/data/` and `./antigravity/data/` persist OAuth credentials, preventing session logouts on container rebuilds.
-*   **Shared Agent Skills**: Bind-mounted `./skills/` folder propagates context rules (such as `code-expert` and `doc-expert`) to agents.
+- **Monorepo Working Dir**: Mounted at `/workspace` for zero-latency code generation.
+- **Docker-out-of-Docker (DooD)**: Mounted `/var/run/docker.sock` socket inside containers to compile and test images against the host daemon.
+- **Session Persistence**: Mapped `./copilot/data/` and `./antigravity/data/` persist OAuth credentials, preventing session logouts on container rebuilds.
+- **Shared Agent Skills**: Bind-mounted `./skills/` folder propagates context rules (such as `code-expert` and `doc-expert`) to agents.
 
 :::caution[Boot Sequence Requirement]
 The MCP stack must be running before the agents stack is started. Starting the agents before the MCP stack will produce a Docker network resolution error.
@@ -75,9 +75,10 @@ Aide operates inside the isolated `penpot-net` network via bidirectional WebSock
 ### Code-Design Sync Protocol
 
 AI design-to-code generation must respect the following rules:
-*   **Token-First Design**: Exported color elements must refer to custom CSS properties defined in `src/tokens/`.
-*   **SVG Optimization**: Vector SVGs must be compiled into the central Studio components wrapper registry.
-*   **Component Reuse**: Prioritize existing React components in `@elo-instance/web` before generating new visual elements.
+
+- **Token-First Design**: Exported color elements must refer to custom CSS properties defined in `src/tokens/`.
+- **SVG Optimization**: Vector SVGs must be compiled into the central Studio components wrapper registry.
+- **Component Reuse**: Prioritize existing React components in `@elo-instance/web` before generating new visual elements.
 
 :::info[Detailed Installation]
 For the detailed installation steps, architecture diagrams, command lists, and mandatory component/token reuse rules, refer to the **[Studio Workspace (Creative Assets & Penpot) Setup Guide](../../workspaces/studio)**.

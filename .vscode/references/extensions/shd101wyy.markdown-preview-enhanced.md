@@ -86,9 +86,7 @@ Files matching these schemes won't trigger the automatic preview.
 
 - **Default**:
   ```json
-  [
-    "vscode-notebook-cell"
-  ]
+  ["vscode-notebook-cell"]
   ```
 
 ### `markdown-preview-enhanced.enableCriticMarkupSyntax`
@@ -273,16 +271,7 @@ This is used to determine whether to show the preview button in the markdown fil
 
 - **Default**:
   ```json
-  [
-    ".md",
-    ".markdown",
-    ".mdown",
-    ".mkdn",
-    ".mkd",
-    ".rmd",
-    ".qmd",
-    ".mdx"
-  ]
+  [".md", ".markdown", ".mdown", ".mkdn", ".mkd", ".rmd", ".qmd", ".mdx"]
   ```
 
 ### `markdown-preview-enhanced.markdownParser`
@@ -311,14 +300,8 @@ Use customized Math expression block delimiters.
 - **Default**:
   ```json
   [
-    [
-      "$$",
-      "$$"
-    ],
-    [
-      "\\[",
-      "\\]"
-    ]
+    ["$$", "$$"],
+    ["\\[", "\\]"]
   ]
   ```
 
@@ -329,14 +312,8 @@ Use customized Math expression inline delimiters.
 - **Default**:
   ```json
   [
-    [
-      "$",
-      "$"
-    ],
-    [
-      "\\(",
-      "\\)"
-    ]
+    ["$", "$"],
+    ["\\(", "\\)"]
   ]
   ```
 

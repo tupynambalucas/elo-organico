@@ -27,7 +27,8 @@
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "edit": "npx editsaurus",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@elo-organico/studio": "workspace:*",

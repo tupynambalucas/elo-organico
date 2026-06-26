@@ -22,12 +22,16 @@ instance/
 ## Componentes e Arquitetura Core
 
 ### `@elo-instance/core` (SSOT do Domínio)
+
 Todas as configurações de esquemas, modelos de banco de dados, validadores e regras de negócio core são definidas neste pacote. Ao forçar a API e quaisquer ferramentas secundárias a herdarem definições dessa camada de core, garantimos a paridade estrita do Contexto Delimitado (Bounded Context) e evitamos a duplicação de modelos.
+
 - **Stack Tecnológica**: TypeScript, Mongoose, Zod.
 - **Arquivos Chave**: Definições de esquemas compartilhados para produtos, pedidos, ciclos, usuários e transações.
 
 ### `@elo-instance/api` (Motor Fastify 5)
+
 Uma API REST de alto desempenho construída com Fastify v5, implementando uma arquitetura de software desacoplada e em camadas.
+
 - **Fluxo de Design em Camadas**: `Controller ──> Service ──> Repository ──> Model`
 - **Integrações Chave**:
   - Conexão do Mongoose com o banco de dados MongoDB local/Atlas.
@@ -38,7 +42,9 @@ Uma API REST de alto desempenho construída com Fastify v5, implementando uma ar
   - Comparações booleanas estritas são aplicadas em todos os controladores da API (`if (value === true)`).
 
 ### `@elo-instance/web` (Portal React 19)
+
 A vitrine de loja e painel administrativo dos usuários construídos em React 19 e compilados com Vite.
+
 - **Stack Tecnológica**: React 19, TypeScript, Vite, Zustand (gerenciamento de estado), Studio Tokens (integração de tema).
 - **Paridade de Design**: Herda variáveis de tema, cores e constantes de layout diretamente do pacote `@elo-organico/studio`.
 - **Recursos do React 19**: Implementa padrões modernos do React 19, utilizando o gancho `use()` para carregar promessas de recursos e garantindo comparações booleanas estritas em todos os templates JSX.
@@ -46,6 +52,7 @@ A vitrine de loja e painel administrativo dos usuários construídos em React 19
 ## Configuração de Infraestrutura e Banco de Dados
 
 Para suportar operações financeiras de alta integridade (como confirmações de Pix e controle de estoque durante o fechamento de ciclos), o ambiente local executa um conjunto de réplicas (replica set) do MongoDB orquestrado por Docker:
+
 - **Nome do Replica Set**: `rs0`
 - **Serviço de Inicialização**: `db-init` (em `compose.dev.yaml`) inicializa a configuração do replica set (`rs.initiate()`) após o MongoDB estar pronto.
 - **Camada de Cache**: O container do Redis gerencia o armazenamento de chave-valor de alta velocidade e a limitação de taxa.
@@ -54,9 +61,9 @@ Para suportar operações financeiras de alta integridade (como confirmações d
 
 Execute esses comandos a partir do diretório raiz para gerenciar o contexto Instance:
 
-| Comando | Ação |
-| :--- | :--- |
-| `pnpm instance:up` | Inicializa os containers locais de banco de dados (MongoDB Replica Set) e Redis. |
-| `pnpm instance:dev` | Executa o servidor de API (via `tsx watch`) e o cliente Web (via servidor dev do Vite) concorrentemente. |
-| `pnpm instance:down` | Interrompe e remove os containers do Docker. |
+| Comando              | Ação                                                                                                     |
+| :------------------- | :------------------------------------------------------------------------------------------------------- |
+| `pnpm instance:up`   | Inicializa os containers locais de banco de dados (MongoDB Replica Set) e Redis.                         |
+| `pnpm instance:dev`  | Executa o servidor de API (via `tsx watch`) e o cliente Web (via servidor dev do Vite) concorrentemente. |
+| `pnpm instance:down` | Interrompe e remove os containers do Docker.                                                             |
 | `pnpm instance:prod` | Constrói e inicializa imagens de containers de produção usando as configurações de ambiente de produção. |

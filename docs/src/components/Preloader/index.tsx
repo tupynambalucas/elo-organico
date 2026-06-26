@@ -22,35 +22,41 @@ export default function Preloader() {
     };
   }, []);
 
-  useGSAP(() => {
-    // Only trigger exit when progress is 100% and no longer active
-    if (progress === 100 && !active) {
-      const tl = gsap.timeline({
-        delay: 0.4, // Reduced buffer
-      });
+  useGSAP(
+    () => {
+      // Only trigger exit when progress is 100% and no longer active
+      if (progress === 100 && !active) {
+        const tl = gsap.timeline({
+          delay: 0.4, // Reduced buffer
+        });
 
-      // Start re-enabling scroll slightly before the fade finishes
-      tl.to(contentRef.current, {
-        opacity: 0,
-        y: -30,
-        filter: 'blur(10px)',
-        duration: 0.4,
-        ease: 'power4.in',
-      })
-      .to(containerRef.current, {
-        opacity: 0,
-        duration: 0.6,
-        ease: 'power2.out',
-        onStart: () => {
-          // Re-enable scroll as soon as the main container starts fading
-          document.body.style.overflow = '';
-        },
-        onComplete: () => {
-          setIsFinished(true);
-        }
-      }, '-=0.2'); // Overlap with content fade
-    }
-  }, { dependencies: [progress, active], scope: containerRef });
+        // Start re-enabling scroll slightly before the fade finishes
+        tl.to(contentRef.current, {
+          opacity: 0,
+          y: -30,
+          filter: 'blur(10px)',
+          duration: 0.4,
+          ease: 'power4.in',
+        }).to(
+          containerRef.current,
+          {
+            opacity: 0,
+            duration: 0.6,
+            ease: 'power2.out',
+            onStart: () => {
+              // Re-enable scroll as soon as the main container starts fading
+              document.body.style.overflow = '';
+            },
+            onComplete: () => {
+              setIsFinished(true);
+            },
+          },
+          '-=0.2',
+        ); // Overlap with content fade
+      }
+    },
+    { dependencies: [progress, active], scope: containerRef },
+  );
 
   if (isFinished) return null;
 
@@ -63,17 +69,14 @@ export default function Preloader() {
           <span className={styles.bracket}>]</span>
         </div>
         <div className={styles.progressBarContainer}>
-          <div 
-            className={styles.progressBar} 
-            style={{ width: `${progress}%` }} 
-          />
+          <div className={styles.progressBar} style={{ width: `${progress}%` }} />
         </div>
         <div className={styles.status}>
           <span className={styles.loadingText}>INITIALIZING_CORE_SYSTEMS</span>
           <span className={styles.percentage}>{Math.round(progress)}%</span>
         </div>
       </div>
-      
+
       {/* Decorative background grid */}
       <div className={styles.gridOverlay} />
     </div>

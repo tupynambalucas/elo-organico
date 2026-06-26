@@ -83,7 +83,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: 
+  background-image:
     linear-gradient(rgba(142, 166, 55, 0.03) 0.0625rem, transparent 0.0625rem),
     linear-gradient(90deg, rgba(142, 166, 55, 0.03) 0.0625rem, transparent 0.0625rem);
   background-size: var(--blueprint-grid-size) var(--blueprint-grid-size);
@@ -97,7 +97,11 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at center, transparent 30%, var(--color-identity-tertiary) 90%);
+  background: radial-gradient(
+    circle at center,
+    transparent 30%,
+    var(--color-identity-tertiary) 90%
+  );
   pointer-events: none;
   z-index: 1;
 }

@@ -141,9 +141,9 @@ Nosso workflow de CI/CD gerencia o bump de versão de forma automatizada quando 
 1. **Pull Request & Integração**: Os desenvolvedores abrem um Pull Request direcionado à branch `develop`.
 2. **Merge para `develop`**: Uma vez aprovado e mesclado na `develop`, o workflow de GitHub Actions **Manage Version Bumps and Releases** é acionado automaticamente.
 3. **Geração do PR de Release**:
-   * O pipeline analisa os arquivos `.changeset/*.md` presentes na branch.
-   * Ele calcula as novas versões, consome (deleta) os arquivos markdown temporários de changeset, faz o bump dos respectivos arquivos `package.json` e atualiza os arquivos de changelog de cada pacote.
-   * Ele comita essas mudanças automaticamente e abre (ou atualiza) um Pull Request no GitHub intitulado `chore(release): version packages` com destino à branch `develop`.
+   - O pipeline analisa os arquivos `.changeset/*.md` presentes na branch.
+   - Ele calcula as novas versões, consome (deleta) os arquivos markdown temporários de changeset, faz o bump dos respectivos arquivos `package.json` e atualiza os arquivos de changelog de cada pacote.
+   - Ele comita essas mudanças automaticamente e abre (ou atualiza) um Pull Request no GitHub intitulado `chore(release): version packages` com destino à branch `develop`.
 
 ### 3. Finalizando a Release (Apenas Mantenedores)
 

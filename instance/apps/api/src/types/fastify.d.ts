@@ -5,7 +5,7 @@ import {
   FastifySchema,
   RouteHandlerMethod,
   ContextConfigDefault,
-  RawServerDefault
+  RawServerDefault,
 } from 'fastify';
 import { ZodTypeProvider } from 'fastify-type-provider-zod';
 import '@fastify/session';
@@ -66,7 +66,7 @@ declare module 'fastify' {
 
     convertTimeToSeconds(
       type: 'minutes' | 'hours' | 'days',
-      time: number
+      time: number,
     ): Promise<number | undefined>;
 
     genHash(password: string): Promise<string | Error>;

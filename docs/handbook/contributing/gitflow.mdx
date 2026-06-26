@@ -14,15 +14,15 @@ This document outlines the professional branching and release strategy for **Elo
 
 We follow the standard Git Flow model to ensure the stability of our production code, adapted for our monorepo structure.
 
-| Branch          | Purpose                                                  | Stability        |
-| :-------------- | :------------------------------------------------------- | :--------------- |
-| **`main`**      | Production releases. Every commit is a tagged release.   | **Ultra Stable** |
-| **`develop`**   | Next release development. Integration branch.            | **Stable**       |
-| **`feature/*`** | New features or UI changes. Branch off `develop`.        | Experimental     |
-| **`bugfix/*`**  | Bug fixes for the next development cycle.                | Experimental     |
-| **`release/*`** | Preparation for a new production release.                | Final Polish     |
-| **`hotfix/*`**  | Critical bug fixes for the production version.           | Urgent           |
-| **`support/*`** | Long-term support branches for older major releases.     | Stable           |
+| Branch          | Purpose                                                | Stability        |
+| :-------------- | :----------------------------------------------------- | :--------------- |
+| **`main`**      | Production releases. Every commit is a tagged release. | **Ultra Stable** |
+| **`develop`**   | Next release development. Integration branch.          | **Stable**       |
+| **`feature/*`** | New features or UI changes. Branch off `develop`.      | Experimental     |
+| **`bugfix/*`**  | Bug fixes for the next development cycle.              | Experimental     |
+| **`release/*`** | Preparation for a new production release.              | Final Polish     |
+| **`hotfix/*`**  | Critical bug fixes for the production version.         | Urgent           |
+| **`support/*`** | Long-term support branches for older major releases.   | Stable           |
 
 ### Git Flow CLI Configuration
 
@@ -141,9 +141,9 @@ Our CI/CD workflow handles the version bumping automatically when code is integr
 1. **Pull Request & Integration**: Developers open a Pull Request targeting the `develop` branch.
 2. **Merge to `develop`**: Once approved and merged into `develop`, the **Manage Version Bumps and Releases** GitHub Action is triggered.
 3. **Release PR Generation**:
-   * The workflow parses the `.changeset/*.md` files present in the branch.
-   * It calculates the new versions, consumes (deletes) the temporary changeset markdown files, bumps the respective `package.json` files, and updates the local package changelogs.
-   * It automatically commits these changes and creates (or updates) an open Pull Request on GitHub named `chore(release): version packages` targeting `develop`.
+   - The workflow parses the `.changeset/*.md` files present in the branch.
+   - It calculates the new versions, consumes (deletes) the temporary changeset markdown files, bumps the respective `package.json` files, and updates the local package changelogs.
+   - It automatically commits these changes and creates (or updates) an open Pull Request on GitHub named `chore(release): version packages` targeting `develop`.
 
 ### 3. Finalizing the Release (Maintainers Only)
 

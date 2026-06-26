@@ -1,10 +1,10 @@
 ---
 title: Migrate to v10.x
 eleventyNavigation:
-    key: migrate to v10
-    parent: use eslint
-    title: Migrate to v10.x
-    order: 9
+  key: migrate to v10
+  parent: use eslint
+  title: Migrate to v10.x
+  order: 9
 ---
 
 ESLint v10.0.0 is a major release of ESLint, and as such, has several breaking changes that you need to be aware of. This guide is intended to walk you through the breaking changes.
@@ -85,9 +85,9 @@ In ESLint v9, the alternate config lookup behavior could be enabled with the `v1
 **To address:**
 
 - Remove any usage of the flag in your setup:
-    - CLI: remove `--flag v10_config_lookup_from_file`.
-    - Environment: remove `v10_config_lookup_from_file` from `ESLINT_FLAGS`.
-    - API: remove `"v10_config_lookup_from_file"` from the `flags` array passed to `new ESLint()` or `new Linter()`.
+  - CLI: remove `--flag v10_config_lookup_from_file`.
+  - Environment: remove `v10_config_lookup_from_file` from `ESLINT_FLAGS`.
+  - API: remove `"v10_config_lookup_from_file"` from the `flags` array passed to `new ESLint()` or `new Linter()`.
 - If you relied on the previous (cwd-based) lookup behavior, provide an explicit config path with `--config path/to/eslint.config.js`.
 
 **Related issue(s):** [RFC120](https://github.com/eslint/rfcs/tree/main/designs/2024-config-lookup-from-file), [#19967](https://github.com/eslint/eslint/issues/19967)
@@ -113,10 +113,10 @@ ESLint v10.0.0 now tracks JSX references, enabling correct scope analysis of JSX
 Previously, ESLint did not track references created by JSX identifiers, which could lead to incorrect results from rules that rely on scope information. For example:
 
 ```jsx
-import { Card } from "./card.jsx";
+import { Card } from './card.jsx';
 
 export function createCard(name) {
-	return <Card name={name} />;
+  return <Card name={name} />;
 }
 ```
 
@@ -125,8 +125,8 @@ Prior to v10.0.0, ESLint did not recognize that `<Card>` is a reference to the i
 **To address:**
 
 - For users:
-    - New linting reports may appear in files with JSX. Update your code accordingly or adjust rule configurations if needed.
-    - Rules previously used to work around ESLint’s lack of JSX reference tracking (for example, [`@eslint-react/jsx-uses-vars`](https://www.eslint-react.xyz/docs/rules/jsx-uses-vars)) are no longer needed. Remove or disable them in your configuration.
+  - New linting reports may appear in files with JSX. Update your code accordingly or adjust rule configurations if needed.
+  - Rules previously used to work around ESLint’s lack of JSX reference tracking (for example, [`@eslint-react/jsx-uses-vars`](https://www.eslint-react.xyz/docs/rules/jsx-uses-vars)) are no longer needed. Remove or disable them in your configuration.
 - For plugin developers: Custom rules relying on scope analysis may now encounter `JSXIdentifier` references. Update rules to handle these correctly.
 
 **Related issue(s):** [#19495](https://github.com/eslint/eslint/issues/19495)
@@ -174,10 +174,10 @@ Here, `[[:upper:]]` is a POSIX character class that matches uppercase letters in
 Starting in ESLint v10.0.0, the built-in [`stylish`](./formatters#stylish) formatter no longer depends on the third-party [`chalk`](https://github.com/chalk/chalk) library for colorized output. Instead, it now uses Node.js's native [`styleText`](https://nodejs.org/api/util.html#utilstyletextformat-text-options) API, which introduces two breaking changes regarding how colorized output is determined:
 
 1. First, `styleText` checks more environment variables when determining whether to disable colorized output and follows Node.js's own rules for when to enable or disable colors. This means it respects a wider set of environment variables and terminal capabilities than ESLint's previous `chalk`-based logic. For example:
-    - [`NO_COLOR`](https://nodejs.org/api/cli.html#no_colorany) now disables colors consistently across tools that honor this convention.
-    - [`NODE_DISABLE_COLORS`](https://nodejs.org/api/cli.html#node_disable_colors1) is also respected, aligning ESLint's behavior with Node.js itself.
+   - [`NO_COLOR`](https://nodejs.org/api/cli.html#no_colorany) now disables colors consistently across tools that honor this convention.
+   - [`NODE_DISABLE_COLORS`](https://nodejs.org/api/cli.html#node_disable_colors1) is also respected, aligning ESLint's behavior with Node.js itself.
 
-    Please note that the [`FORCE_COLOR`](https://nodejs.org/api/cli.html#force_color1-2-3) environment variable is still supported to force-enable colors.
+   Please note that the [`FORCE_COLOR`](https://nodejs.org/api/cli.html#force_color1-2-3) environment variable is still supported to force-enable colors.
 
 2. Second, `--color` and `--no-color` CLI flags now have higher precedence than environment variables when determining whether to use colorized output. This change ensures that explicit user preferences via CLI flags are prioritized. However, if neither flag is provided, environment variables will be considered as before.
 
@@ -213,9 +213,9 @@ In ESLint v10.0.0, the [`no-shadow-restricted-names`](../rules/no-shadow-restric
 
 ```json
 {
-	"rules": {
-		"no-shadow-restricted-names": ["error", { "reportGlobalThis": false }]
-	}
+  "rules": {
+    "no-shadow-restricted-names": ["error", { "reportGlobalThis": false }]
+  }
 }
 ```
 
@@ -234,8 +234,8 @@ For example, this configuration is now invalid due to the extra element `"foo"`:
 **To address:**
 
 - Remove any extra array elements from your `func-names` configuration so that it contains only:
-    - a base string option: `"always" | "as-needed" | "never"`, and
-    - optionally, an object option: `{ "generators": "always" | "as-needed" | "never" }`.
+  - a base string option: `"always" | "as-needed" | "never"`, and
+  - optionally, an object option: `{ "generators": "always" | "as-needed" | "never" }`.
 
 **Related issue(s):** [#20134](https://github.com/eslint/eslint/issues/20134)
 
@@ -402,14 +402,14 @@ Example of invalid usage:​
 ```js
 // This will now throw an error in ESLint v10.0.0
 const validTestCases = [
-	{
-		code: "const foo = 'bar';",
-		errors: 0, // ❌ Not allowed in valid test cases
-		output: "const foo = 'bar';", // ❌ Not allowed in valid test cases
-	},
+  {
+    code: "const foo = 'bar';",
+    errors: 0, // ❌ Not allowed in valid test cases
+    output: "const foo = 'bar';", // ❌ Not allowed in valid test cases
+  },
 ];
 
-ruleTester.run("rule-id", rule, { valid: validTestCases, invalid: [] });
+ruleTester.run('rule-id', rule, { valid: validTestCases, invalid: [] });
 ```
 
 **To address:** Remove any `errors`/`output` properties from valid test cases.

@@ -1,7 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import * as THREE from 'three/webgpu';
 import { Canvas, extend, type CanvasProps } from '@react-three/fiber';
-import { OrbitControls, Environment } from '@react-three/drei';
+import { Environment } from '@react-three/drei';
+
+interface NavigatorGPU {
+  gpu: {
+    getPreferredCanvasFormat(): GPUTextureFormat;
+  };
+}
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import SceneCamera from './components/camera';
 import SceneDirectionalLight from './components/directional-light';
@@ -67,11 +73,11 @@ function ThreeCanvasScene() {
         canvas.style.opacity = '0';
         document.body.appendChild(canvas);
 
-        const context = canvas.getContext('webgpu') as any;
-        if (context) {
+        const context = canvas.getContext('webgpu') as unknown as GPUCanvasContext | null;
+        if (context !== null) {
           context.configure({
             device,
-            format: (navigator as any).gpu.getPreferredCanvasFormat(),
+            format: (navigator as unknown as NavigatorGPU).gpu.getPreferredCanvasFormat(),
             alphaMode: 'premultiplied',
           });
 

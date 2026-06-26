@@ -129,11 +129,11 @@
 }
 
 .footer > button:hover {
-    background: color-mix(in srgb, var(--color-error) 20%, transparent);
+  background: color-mix(in srgb, var(--color-error) 20%, transparent);
 }
 
 .footer > button svg {
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 }
 
 @media (max-width: 75rem) {

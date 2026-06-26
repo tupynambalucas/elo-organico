@@ -22,13 +22,14 @@ The client layout under `src/` is organized according to Domain-Driven Design (D
 ## Web Coding Guardrails
 
 ### A. Zustand Atomic Selectors Pattern
+
 To prevent redundant rendering, stores MUST separate properties from actions. Components MUST consume state via atomic selector hooks:
 
 ```typescript
 // Define Store
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
-  actions: { setUser: (user) => set({ user }) }
+  actions: { setUser: (user) => set({ user }) },
 }));
 
 // Atomic Selector Hooks
@@ -37,12 +38,15 @@ export const useAuthActions = () => useAuthStore((state) => state.actions);
 ```
 
 ### B. Explicit JSX Render Checks
+
 Always use explicit comparisons in JSX rendering conditions to prevent parsing bugs:
+
 - **Correct**: `{isValid === true && <Modal />}` or `{items.length > 0 && <List />}`.
 - **Incorrect**: `{isValid && <Modal />}` or `{items.length && <List />}`.
 
 ### C. Styling and Fluid Design (CSS Modules)
-- **No Pixels (`px`)**: Spacing, sizing, and typography MUST use relative units (`rem`, `em`, `vw/vh`, or percentages). `1px` is allowed *only* for hairline borders.
+
+- **No Pixels (`px`)**: Spacing, sizing, and typography MUST use relative units (`rem`, `em`, `vw/vh`, or percentages). `1px` is allowed _only_ for hairline borders.
 - **Fluid Layouts**: Leverage CSS Modules (`.module.css`) and relative functions (`clamp()`, `calc()`, `min()`, `max()`) for responsive layout scalability.
 - **Tailwind Integration**: Tailwind classes are permitted inside CSS Modules using `@apply`.
 
@@ -54,6 +58,7 @@ Always use explicit comparisons in JSX rendering conditions to prevent parsing b
 ```
 
 ### D. Build Constraints
+
 - **Console Log Prohibitions**: Any instance of `console.log` will fail production builds. Use `console.info`, `console.warn`, or `console.error` for runtime logging.
 - **React 19 Hook Usage**: Consume promises/context using the native `use()` hook when possible. Never read or mutate `ref.current` during rendering.
 

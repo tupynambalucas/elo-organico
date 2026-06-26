@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   background-color: #0d0d0d; /* Onyx Deep */
-  background-image: 
+  background-image:
     linear-gradient(rgba(255, 255, 255, 0.03) 0.0625rem, transparent 0.0625rem),
     linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0.0625rem, transparent 0.0625rem);
   background-size: var(--blueprint-grid-size) var(--blueprint-grid-size);
@@ -48,8 +48,13 @@
 }
 
 @keyframes subtleFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-0.75rem); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-0.75rem);
+  }
 }
 
 .content {

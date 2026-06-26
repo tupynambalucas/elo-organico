@@ -21,17 +21,23 @@ portal/
 ## Componentes e Arquitetura Core
 
 ### `@elo-portal/core` (SSOT da Plataforma)
+
 Coordena os esquemas de inquilinos, planos de assinatura de usuários e definições de autenticação de workspace. Ele mantém modelos de dados separados de `instance/` para preservar um limite arquitetônico limpo.
+
 - **Stack Tecnológica**: TypeScript, Mongoose, Zod.
 - **Escopo**: Esquemas de registros multi-inquilino, metadados de inquilinos e configurações de cobrança do SaaS.
 
 ### `@elo-portal/api` (Motor Portal Fastify 5)
+
 Expõe rotas de endpoints para operações em toda a plataforma: registro de novos hubs de comunidades, autenticação de administradores globais e roteamento de fluxos de pagamento para planos SaaS.
+
 - **Fluxo em Camadas**: Utiliza a arquitetura padrão: `Controller ──> Service ──> Repository ──> Model`
 - **Integrações Chave**: Plugins do Fastify v5, configurações de instância do MongoDB e Redis.
 
 ### `@elo-portal/web` (Landing Page SaaS React 19)
+
 A landing page oficial e o hub administrativo onde os usuários podem se cadastrar, adquirir assinaturas e provisionar uma nova instância de loja comunitária.
+
 - **Stack Tecnológica**: React 19, Vite, Tailwind CSS v4, Zustand.
 - **Diretrizes Estritas**: Totalmente alinhada com as variáveis de marca do `@elo-organico/studio` e padrões de renderização do React 19.
 
@@ -39,9 +45,9 @@ A landing page oficial e o hub administrativo onde os usuários podem se cadastr
 
 Execute esses comandos a partir do diretório raiz para gerenciar o contexto Portal:
 
-| Comando | Ação |
-| :--- | :--- |
-| `pnpm portal:up` | Inicializa os containers de banco de dados local e cache Redis para a stack do Portal. |
-| `pnpm portal:dev` | Executa a API do Portal (via `tsx watch`) e o Web do Portal (via Vite) concorrentemente. |
-| `pnpm portal:down` | Interrompe e remove a stack de containers Docker do Portal. |
-| `pnpm portal:prod` | Inicializa a stack do Portal pronta para produção usando as configurações de produção. |
+| Comando            | Ação                                                                                     |
+| :----------------- | :--------------------------------------------------------------------------------------- |
+| `pnpm portal:up`   | Inicializa os containers de banco de dados local e cache Redis para a stack do Portal.   |
+| `pnpm portal:dev`  | Executa a API do Portal (via `tsx watch`) e o Web do Portal (via Vite) concorrentemente. |
+| `pnpm portal:down` | Interrompe e remove a stack de containers Docker do Portal.                              |
+| `pnpm portal:prod` | Inicializa a stack do Portal pronta para produção usando as configurações de produção.   |

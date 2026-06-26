@@ -4,13 +4,8 @@
   "definitions": {
     "person": {
       "description": "A person who has been involved in creating or maintaining this package.",
-      "type": [
-        "object",
-        "string"
-      ],
-      "required": [
-        "name"
-      ],
+      "type": ["object", "string"],
+      "required": ["name"],
       "properties": {
         "name": {
           "type": "string"
@@ -141,10 +136,7 @@
       "x-intellij-language-injection": "Shell Script"
     },
     "packageExportsEntryPath": {
-      "type": [
-        "string",
-        "null"
-      ],
+      "type": ["string", "null"],
       "description": "The module path that is resolved when this specifier is imported. Set to `null` to disallow importing this module.",
       "pattern": "^\\./"
     },
@@ -218,10 +210,7 @@
       ]
     },
     "packageImportsEntryPath": {
-      "type": [
-        "string",
-        "null"
-      ],
+      "type": ["string", "null"],
       "description": "The module path that is resolved when this specifier is imported. Set to `null` to disallow importing this module."
     },
     "packageImportsEntryObject": {
@@ -306,16 +295,12 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "url"
-      ]
+      "required": ["url"]
     },
     "devEngineDependency": {
       "description": "Specifies requirements for development environment components such as operating systems, runtimes, or package managers. Used to ensure consistent development environments across the team.",
       "type": "object",
-      "required": [
-        "name"
-      ],
+      "required": ["name"],
       "properties": {
         "name": {
           "type": "string",
@@ -327,12 +312,7 @@
         },
         "onFail": {
           "type": "string",
-          "enum": [
-            "ignore",
-            "warn",
-            "error",
-            "download"
-          ],
+          "enum": ["ignore", "warn", "error", "download"],
           "description": "What action to take if validation fails"
         }
       }
@@ -340,9 +320,7 @@
     "runtimeEngineDependency": {
       "description": "Specifies a supported JavaScript runtime.",
       "type": "object",
-      "required": [
-        "name"
-      ],
+      "required": ["name"],
       "properties": {
         "name": {
           "type": "string",
@@ -354,12 +332,7 @@
         },
         "onFail": {
           "type": "string",
-          "enum": [
-            "ignore",
-            "warn",
-            "error",
-            "download"
-          ],
+          "enum": ["ignore", "warn", "error", "download"],
           "description": "What action to take if runtime validation fails"
         }
       }
@@ -400,10 +373,7 @@
     },
     "bugs": {
       "description": "The url to your project's issue tracker and / or the email address to which issues should be reported. These are helpful for people who encounter issues with your package.",
-      "type": [
-        "object",
-        "string"
-      ],
+      "type": ["object", "string"],
       "properties": {
         "url": {
           "type": "string",
@@ -510,10 +480,7 @@
       "additionalProperties": false
     },
     "bin": {
-      "type": [
-        "string",
-        "object"
-      ],
+      "type": ["string", "object"],
       "additionalProperties": {
         "type": "string"
       }
@@ -521,10 +488,7 @@
     "type": {
       "description": "When set to \"module\", the type field allows a package to specify all .js files within are ES modules. If the \"type\" field is omitted or set to \"commonjs\", all .js files are treated as CommonJS.",
       "type": "string",
-      "enum": [
-        "commonjs",
-        "module"
-      ],
+      "enum": ["commonjs", "module"],
       "default": "commonjs"
     },
     "types": {
@@ -572,10 +536,7 @@
       }
     },
     "man": {
-      "type": [
-        "array",
-        "string"
-      ],
+      "type": ["array", "string"],
       "description": "Specify either a single file or an array of filenames to put in place for the man program to find.",
       "items": {
         "type": "string"
@@ -611,10 +572,7 @@
     },
     "repository": {
       "description": "Specify the place where your code lives. This is helpful for people who want to contribute.",
-      "type": [
-        "object",
-        "string"
-      ],
+      "type": ["object", "string"],
       "properties": {
         "type": {
           "type": "string"
@@ -976,10 +934,7 @@
           "type": "boolean"
         },
         {
-          "enum": [
-            "false",
-            "true"
-          ]
+          "enum": ["false", "true"]
         }
       ]
     },
@@ -988,10 +943,7 @@
       "properties": {
         "access": {
           "type": "string",
-          "enum": [
-            "public",
-            "restricted"
-          ]
+          "enum": ["public", "restricted"]
         },
         "tag": {
           "type": "string"
@@ -1026,10 +978,7 @@
     },
     "esnext": {
       "description": "A module ID with untranspiled code that is the primary entry point to your program.",
-      "type": [
-        "string",
-        "object"
-      ],
+      "type": ["string", "object"],
       "properties": {
         "main": {
           "type": "string"
@@ -1299,21 +1248,14 @@
         },
         "startCommand": {
           "description": "A terminal command to be executed when opening the project, after installing npm dependencies.",
-          "type": [
-            "string",
-            "boolean"
-          ]
+          "type": ["string", "boolean"]
         },
         "compileTrigger": {
           "description": "The compileTrigger option controls how file changes in the editor are written to the WebContainers in-memory filesystem. ",
           "oneOf": [
             {
               "type": "string",
-              "enum": [
-                "auto",
-                "keystroke",
-                "save"
-              ]
+              "enum": ["auto", "keystroke", "save"]
             }
           ]
         },

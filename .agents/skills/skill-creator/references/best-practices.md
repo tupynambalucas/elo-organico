@@ -19,7 +19,7 @@ Complete a real task in conversation with an agent, providing context, correctio
 
 ### Synthesize from existing project artifacts
 
-When you have a body of existing knowledge, you can feed it into an LLM and ask it to synthesize a skill. A data-pipeline skill synthesized from your team's actual incident reports and runbooks will outperform one synthesized from a generic "data engineering best practices" article, because it captures *your* schemas, failure modes, and recovery procedures. The key is project-specific material, not generic references.
+When you have a body of existing knowledge, you can feed it into an LLM and ask it to synthesize a skill. A data-pipeline skill synthesized from your team's actual incident reports and runbooks will outperform one synthesized from a generic "data engineering best practices" article, because it captures _your_ schemas, failure modes, and recovery procedures. The key is project-specific material, not generic references.
 
 Good source material includes:
 
@@ -46,10 +46,11 @@ Once a skill activates, its full `SKILL.md` body loads into the agent's context 
 
 ### Add what the agent lacks, omit what it knows
 
-Focus on what the agent *wouldn't* know without your skill: project-specific conventions, domain-specific procedures, non-obvious edge cases, and the particular tools or APIs to use. You don't need to explain what a PDF is, how HTTP works, or what a database migration does.
+Focus on what the agent _wouldn't_ know without your skill: project-specific conventions, domain-specific procedures, non-obvious edge cases, and the particular tools or APIs to use. You don't need to explain what a PDF is, how HTTP works, or what a database migration does.
 
-```markdown
+````markdown
 <!-- Too verbose — the agent already knows what PDFs are -->
+
 ## Extract PDF text
 
 PDF (Portable Document Format) files are a common file format that contains
@@ -57,6 +58,7 @@ text, images, and other content. To extract text from a PDF, you'll need to
 use a library. pdfplumber is recommended because it handles most cases well.
 
 <!-- Better — jumps straight to what the agent wouldn't know on its own -->
+
 ## Extract PDF text
 
 Use pdfplumber for text extraction. For scanned documents, fall back to
@@ -68,7 +70,9 @@ import pdfplumber
 with pdfplumber.open("file.pdf") as pdf:
     text = pdf.pages[0].extract_text()
 ```
-```
+````
+
+````
 
 Ask yourself about each piece of content: "Would the agent get this wrong without this instruction?" If the answer is no, cut it. If you're unsure, test it. And if the agent already handles the entire task well without the skill, the skill may not be adding value. See [Evaluating skill output quality](evaluating-skills.md) for how to test this systematically.
 
@@ -101,11 +105,11 @@ Not every part of a skill needs the same level of prescriptiveness. Match the sp
 2. Verify authentication checks on every endpoint
 3. Look for race conditions in concurrent code paths
 4. Confirm error messages don't leak internal details
-```
+````
 
 **Be prescriptive** when operations are fragile, consistency matters, or a specific sequence must be followed:
 
-```markdown
+````markdown
 ## Database migration
 
 Run exactly this sequence:
@@ -113,9 +117,11 @@ Run exactly this sequence:
 ```bash
 python scripts/migrate.py --verify --backup
 ```
+````
 
 Do not modify the command or add additional flags.
-```
+
+````
 
 Most skills have a mix. Calibrate each part independently.
 
@@ -132,10 +138,11 @@ Use pdfplumber for text extraction:
 
 ```python
 import pdfplumber
-```
+````
 
 For scanned PDFs requiring OCR, use pdf2image with pytesseract instead.
-```
+
+````
 
 ### Favor procedures over declarations
 
@@ -151,9 +158,9 @@ Join the `orders` table to `customers` on `customer_id`, filter where
 2. Join tables using the `_id` foreign key convention
 3. Apply any filters from the user's request as WHERE clauses
 4. Aggregate numeric columns as needed and format as a markdown table
-```
+````
 
-This doesn't mean skills can't include specific details — output format templates (see [Templates for output format](#templates-for-output-format)), constraints like "never output PII," and tool-specific instructions are all valuable. The point is that the *approach* should generalize even when individual details are specific.
+This doesn't mean skills can't include specific details — output format templates (see [Templates for output format](#templates-for-output-format)), constraints like "never output PII," and tool-specific instructions are all valuable. The point is that the _approach_ should generalize even when individual details are specific.
 
 ## Patterns for effective instructions
 
@@ -184,7 +191,7 @@ Keep gotchas in `SKILL.md` where the agent reads them before encountering the si
 
 When you need the agent to produce output in a specific format, provide a template. This is more reliable than describing the format in prose, because agents pattern-match well against concrete structures. Short templates can live inline in `SKILL.md`; for longer templates, or templates only needed in certain cases, store them in `assets/` and reference them from `SKILL.md` so they only load when needed.
 
-```markdown
+````markdown
 ## Report structure
 
 Use this template, adapting sections as needed for the specific analysis:
@@ -193,17 +200,22 @@ Use this template, adapting sections as needed for the specific analysis:
 # [Analysis Title]
 
 ## Executive summary
+
 [One-paragraph overview of key findings]
 
 ## Key findings
+
 - Finding 1 with supporting data
 - Finding 2 with supporting data
 
 ## Recommendations
+
 1. Specific actionable recommendation
 2. Specific actionable recommendation
 ```
-```
+````
+
+````
 
 ### Checklists for multi-step workflows
 
@@ -218,7 +230,7 @@ Progress:
 - [ ] Step 3: Validate mapping (run `scripts/validate_fields.py`)
 - [ ] Step 4: Fill the form (run `scripts/fill_form.py`)
 - [ ] Step 5: Verify output (run `scripts/verify_output.py`)
-```
+````
 
 ### Validation loops
 

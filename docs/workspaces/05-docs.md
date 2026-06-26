@@ -33,6 +33,7 @@ EloDocs is configured with a multi-instance documentation setup using Docusaurus
 ## Internationalization (i18n)
 
 EloDocs fully supports English (`en`) and Portuguese (`pt-BR`) locales. Localized files mirror the structure of English documents:
+
 - **General Docs**: `i18n/pt-BR/docusaurus-plugin-content-docs/current/`
 - **Roadmap Docs**: `i18n/pt-BR/docusaurus-plugin-content-docs-roadmap/current/`
 - **Workspaces Docs**: `i18n/pt-BR/docusaurus-plugin-content-docs-workspaces/current/`
@@ -41,6 +42,7 @@ EloDocs fully supports English (`en`) and Portuguese (`pt-BR`) locales. Localize
 ## Automated Root Compilers
 
 To maintain clean repository standards, EloDocs integrates with build-time script compiles to write unified markdown documentation at the repository root level on deployment:
+
 - **`generate-roadmap.ts`**: Aggregates all context files inside `roadmap/` and generates `/ROADMAP.md` at the repository root.
 - **`generate-changelog.ts`**: Parses the release blog posts under `releases/` and generates `/CHANGELOG.md` at the repository root.
 - **CI/CD Integration**: Both compiler scripts run inside the `.github/workflows/deploy-docs.yaml` workflow to ensure root-level files stay 100% in sync with the developer portal.
@@ -49,9 +51,9 @@ To maintain clean repository standards, EloDocs integrates with build-time scrip
 
 Run these commands from the root directory to manage the EloDocs context:
 
-| Command | Action |
-| :--- | :--- |
-| `pnpm docs:dev` | Launches the local Docusaurus development server at `http://localhost:3002`. |
-| `pnpm docs:build` | Compiles the production build of the Docusaurus portal (runs link check validations). |
-| `pnpm docs:roadmap` | Manually triggers compiling the modular roadmap documents into the root `ROADMAP.md`. |
-| `pnpm docs:changelog` | Manually triggers compiling the release updates into the root `CHANGELOG.md`. |
+| Command               | Action                                                                                |
+| :-------------------- | :------------------------------------------------------------------------------------ |
+| `pnpm docs:dev`       | Launches the local Docusaurus development server at `http://localhost:3002`.          |
+| `pnpm docs:build`     | Compiles the production build of the Docusaurus portal (runs link check validations). |
+| `pnpm docs:roadmap`   | Manually triggers compiling the modular roadmap documents into the root `ROADMAP.md`. |
+| `pnpm docs:changelog` | Manually triggers compiling the release updates into the root `CHANGELOG.md`.         |

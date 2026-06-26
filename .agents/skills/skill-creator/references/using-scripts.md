@@ -104,19 +104,21 @@ List available scripts in your `SKILL.md` so the agent knows they exist:
 
 Then instruct the agent to run them:
 
-```markdown
+````markdown
 ## Workflow
 
 1. Run the validation script:
    ```bash
    bash scripts/validate.sh "$INPUT_FILE"
    ```
+````
 
 2. Process the results:
    ```bash
    python3 scripts/process.py --input results.json
    ```
-```
+
+````
 
 > [!NOTE]
 > The same relative-path convention works in support files like `references/*.md` — script execution paths (in code blocks) are relative to the **skill directory root**, because the agent runs commands from there.
@@ -142,7 +144,7 @@ from bs4 import BeautifulSoup
 
 html = '<html><body><h1>Welcome</h1><p class="info">This is a test.</p></body></html>'
 print(BeautifulSoup(html, "html.parser").select_one("p.info").get_text())
-```
+````
 
 Run with [uv](https://docs.astral.sh/uv/) (recommended):
 
@@ -163,11 +165,11 @@ Deno's `npm:` and `jsr:` import specifiers make every script self-contained by d
 ```typescript
 #!/usr/bin/env -S deno run
 
-import * as cheerio from "npm:cheerio@1.0.0";
+import * as cheerio from 'npm:cheerio@1.0.0';
 
 const html = `<html><body><h1>Welcome</h1><p class="info">This is a test.</p></body></html>`;
 const $ = cheerio.load(html);
-console.log($("p.info").text());
+console.log($('p.info').text());
 ```
 
 ```bash
@@ -186,11 +188,11 @@ Bun auto-installs missing packages at runtime when no `node_modules` directory i
 ```typescript
 #!/usr/bin/env bun
 
-import * as cheerio from "cheerio@1.0.0";
+import * as cheerio from 'cheerio@1.0.0';
 
 const html = `<html><body><h1>Welcome</h1><p class="info">This is a test.</p></body></html>`;
 const $ = cheerio.load(html);
-console.log($("p.info").text());
+console.log($('p.info').text());
 ```
 
 ```bash

@@ -33,7 +33,13 @@ services:
         aliases:
           - elo.portal.prod
     healthcheck:
-      test: ['CMD', 'node', '-e', 'const http = require("http"); const req = http.request("http://localhost:3001/health", (res) => { process.exit(res.statusCode === 200 ? 0 : 1); }); req.on("error", () => process.exit(1)); req.end();']
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          'const http = require("http"); const req = http.request("http://localhost:3001/health", (res) => { process.exit(res.statusCode === 200 ? 0 : 1); }); req.on("error", () => process.exit(1)); req.end();',
+        ]
       interval: 30s
       timeout: 10s
       retries: 3

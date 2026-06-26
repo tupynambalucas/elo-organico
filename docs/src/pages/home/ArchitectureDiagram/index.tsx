@@ -8,7 +8,12 @@ interface ArchitectureDiagramProps {
 
 export default function ArchitectureDiagram({ onSelect, activeId }: ArchitectureDiagramProps) {
   const contexts = [
-    { id: 'instance', label: '/instance', color: styles.instanceColor, items: ['web', 'api', 'core'] },
+    {
+      id: 'instance',
+      label: '/instance',
+      color: styles.instanceColor,
+      items: ['web', 'api', 'core'],
+    },
     { id: 'portal', label: '/portal', color: styles.portalColor, items: ['web', 'api', 'core'] },
     { id: 'studio', label: '/studio', color: styles.studioColor, items: ['tokens', 'assets'] },
     { id: 'tools', label: '/tools', color: styles.toolsColor, items: ['mcp', 'scripts'] },

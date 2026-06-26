@@ -36,7 +36,7 @@ jobs:
         uses: changeset/action@v3
         with:
           version: pnpm version:bump
-          commit: "chore(release): bump package versions and update changelogs"
-          title: "chore(release): version packages"
+          commit: 'chore(release): bump package versions and update changelogs'
+          title: 'chore(release): version packages'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

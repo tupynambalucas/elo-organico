@@ -23,16 +23,20 @@ The source code under `src/` follows a domain-driven, layered responsibility mod
 ## API Coding Guardrails
 
 ### A. Layered Architecture
+
 Every workflow MUST adhere to the following sequence:
+
 ```
 Controller (Validation/Routing) ➔ Service (Business Logic) ➔ Repository (Persistence) ➔ Model (Mongoose)
 ```
+
 - **Controllers**: Define routes, request schemas (Zod via `fastify-type-provider-zod`), and handle HTTP responses.
 - **Services**: Contain business workflows and billing transactions.
 - **Repositories**: Abstract database access. **You MUST inject the Mongoose model into the repository constructor.**
 - **Models**: Declare Mongoose schemas. Avoid placing business rules inside models.
 
 ### B. Security & Billing Standards
+
 - **Payment Verification**: Webhook handlers for payment gateways (e.g. Stripe) must verify signature validity using official cryptographic headers before processing.
 - **Access Control**: Enforce strict validation policies on routes managing tenant orchestration to restrict access solely to authenticated platform admins.
 

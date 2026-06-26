@@ -74,8 +74,12 @@
   background: var(--color-identity-primary);
   border-radius: 50%;
 }
-.contextGrid::before { top: 0; }
-.contextGrid::after { bottom: 0; }
+.contextGrid::before {
+  top: 0;
+}
+.contextGrid::after {
+  bottom: 0;
+}
 
 .contextNode {
   background: rgba(255, 255, 255, 0.04);

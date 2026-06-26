@@ -6,7 +6,15 @@ import fs from 'node:fs';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
-const webpack = require('webpack') as any;
+
+interface WebpackMock {
+  NormalModuleReplacementPlugin: new (
+    resourceRegExp: RegExp,
+    newResourceCallback: (resource: { request: string }) => void,
+  ) => { apply: (...args: unknown[]) => void };
+}
+
+const webpack = require('webpack') as unknown as WebpackMock;
 const studioPath = path.dirname(require.resolve('@elo-organico/studio/package.json'));
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
@@ -61,25 +69,30 @@ const config: Config = {
     ],
     () => ({
       name: 'docusaurus-plugin-studio-assets',
-      configureWebpack(config, isServer, utils) {
+      configureWebpack(_config, _isServer, _utils) {
         const isProd = process.env.NODE_ENV === 'production';
         if (isProd === false) {
           return {};
         }
 
         const manifestPath = require.resolve('@elo-organico/studio/assets-manifest.json');
-        const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-        const buildFolders = manifest.bucket.assets.docs as string[];
+        const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8')) as {
+          bucket: { assets: { docs: string[] } };
+        };
+        const buildFolders = manifest.bucket.assets.docs;
         const folderPattern = buildFolders.map((f: string) => f.replace(/^\//, '')).join('|');
         const matchRegex = new RegExp(`^@elo-organico\\/studio\\/(${folderPattern})\\/.*`);
 
         return {
           plugins: [
-            new webpack.NormalModuleReplacementPlugin(matchRegex, (resource: any) => {
-              const originalRequest = resource.request as string;
-              const mockAssetPath = path.resolve(__dirname, 'src/mock-asset.js');
-              resource.request = `${mockAssetPath}?original=${encodeURIComponent(originalRequest)}`;
-            }),
+            new webpack.NormalModuleReplacementPlugin(
+              matchRegex,
+              (resource: { request: string }) => {
+                const originalRequest = resource.request;
+                const mockAssetPath = path.resolve(__dirname, 'src/mock-asset.js');
+                resource.request = `${mockAssetPath}?original=${encodeURIComponent(originalRequest)}`;
+              },
+            ),
           ],
           module: {
             rules: [

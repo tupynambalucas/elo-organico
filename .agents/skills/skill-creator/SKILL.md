@@ -26,10 +26,12 @@ Every custom skill MUST reside in the `.agents/skills/<skill-name>/` directory a
 The `SKILL.md` file is the entry point for the skill. It MUST contain YAML frontmatter and a structured body.
 
 ### A. Frontmatter Configuration
+
 - **`name`**: The exact directory name in `kebab-case`.
 - **`description`**: Imperative phrasing detailing when the skill triggers ("Use this skill when..."). Focus on user intent, not internal mechanics. Max 1024 characters.
 
 Example:
+
 ```yaml
 ---
 name: database-helper
@@ -38,10 +40,12 @@ description: Use this skill when the user wants to execute database migrations, 
 ```
 
 ### B. Instruction Body Constraints
+
 - **Conciseness & progressive disclosure**: Keep `SKILL.md` under 500 lines (5,000 tokens). Move detailed APIs, schemas, or large tables to plain Markdown files in `references/`.
 - **Strict English (en-US)**: The entire document (including code block comments and definitions) MUST be in English.
 - **Zero Emojis**: Emojis are strictly forbidden to maintain a professional, corporate appearance.
 - **GFM Callouts**: Use GitHub Flavored Markdown blockquote alerts for callouts:
+
   ```markdown
   > [!NOTE]
   > Useful information that the user should know.
@@ -75,13 +79,15 @@ description: Use this skill when the user wants to execute database migrations, 
 When creating code examples, templates, or scripts inside a skill, you MUST strictly adhere to the project's non-negotiable coding conventions:
 
 ### A. TypeScript Guardrails (Strict Mode)
+
 - **Strict Booleans**: Expressions must be explicit. Use `if (value === true)` or `if (value !== undefined)`, never `if (value)`.
 - **No Floating Promises**: Use the `void` operator for intentional unawaited async calls: `void asyncFn()`.
 - **Type Imports**: Always use `import type` for types, separated from value imports.
 - **Forbidden Types**: Never use `any`. Use specific interfaces or types.
 
 ### B. Architecture Guardrails
-- **Bounded Context Isolation**: Never cross-import packages or modules between `instance/` and `portal/`. 
+
+- **Bounded Context Isolation**: Never cross-import packages or modules between `instance/` and `portal/`.
 - **Layered Backend**: Respect the layered structure: `Controller -> Service -> Repository -> Model`.
 - **React 19 Standards**: In JSX, always use explicit comparisons: `{isValid === true && <Component />}`. Use the `use()` hook for promises and context.
 - **CSS Modules & Fluid Design**: Use `.module.css`. Fixed pixels (`px`) are forbidden (except for `1px` borders). Spacing, typography, and sizing must use relative units (`rem`, `clamp()`, `vw/vh`).
@@ -91,6 +97,7 @@ When creating code examples, templates, or scripts inside a skill, you MUST stri
 ## 5. Script Design Patterns
 
 If a skill includes scripts in the `scripts/` directory:
+
 - **No Interactive Prompts**: Shell execution must be completely non-interactive. Accept all parameters via CLI flags, environment variables, or stdin.
 - **Inline Dependencies**: For Python scripts, use [PEP 723](https://peps.python.org/pep-0723/) inline script metadata and execute using `uv run`. For TypeScript, use Deno or Bun with inline import specifiers.
 - **Composability**: Output structured data (JSON, CSV) to `stdout` and diagnostic details to `stderr` so they can be parsed by subsequent tools.
