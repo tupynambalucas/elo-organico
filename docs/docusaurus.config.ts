@@ -1,6 +1,6 @@
 import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
-import type * as Preset from '@docusaurus/preset-classic';
+import type { EloPresetOptions, ThemeConfig } from './elo-preset';
 import path from 'node:path';
 import fs from 'node:fs';
 import { createRequire } from 'node:module';
@@ -124,7 +124,7 @@ const config: Config = {
 
   presets: [
     [
-      '@docusaurus/preset-classic',
+      './elo-preset/index.ts',
       {
         docs: {
           path: 'handbook',
@@ -160,7 +160,7 @@ const config: Config = {
         theme: {
           customCss: ['./src/css/custom.css'],
         },
-      } satisfies Preset.Options,
+      } satisfies EloPresetOptions,
     ],
   ],
 
@@ -276,7 +276,7 @@ const config: Config = {
     mermaid: {
       theme: { light: 'neutral', dark: 'forest' },
     },
-  } satisfies Preset.ThemeConfig,
+  } satisfies ThemeConfig,
 };
 
 export default config;
