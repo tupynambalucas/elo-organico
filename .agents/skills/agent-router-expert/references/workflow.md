@@ -33,7 +33,7 @@ This reference defines the verification steps required when creating, updating, 
 
 ### D. LLM-Optimized Checklist
 
-- **Relative Links**: Verify that every referenced file, folder, schema, or configuration has a clickable relative markdown link.
+- **Relative Links**: Verify that every referenced file, folder, schema, or configuration has a clickable relative markdown link. Ensure there are no absolute file system paths or external web URLs present inside the file. Localhost dev links (e.g. `http://localhost:3000`) are acceptable in running commands examples only.
 - **Phrasing Check**: Verify that instructions use imperative, rule-based constraints ("MUST", "NEVER", "ALWAYS") instead of passive or descriptive phrasing.
 - **Redundancy Audit**: Verify that global rules (English-First, Zero Emojis, Zero Placeholders) are NOT duplicated in local sub-workspace `AGENTS.md` files.
 - **Snippet Audit**: Verify that the files include copy-pasteable blocks demonstrating patterns rather than just raw descriptions.

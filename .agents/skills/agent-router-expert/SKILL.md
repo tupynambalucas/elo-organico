@@ -49,6 +49,7 @@ Use these guidelines when creating, updating, or analyzing `AGENTS.md` context f
 - **Purpose**: Act as local and root routers/guardrail lists to provide high-fidelity context for AI agents without cluttering developer-facing READMEs.
 - **Rules**:
   - Every referenced file, schema, or configuration directory MUST use clickable relative markdown links (e.g. `[tsconfig.json](./tsconfig.json)`) to facilitate rapid tool-based navigation.
+  - Absolute file system paths (e.g. `D:\projects\...`, `/projects/...`) and external web URLs (e.g. `https://github.com/...`, `https://docusaurus.io/...`) MUST NEVER be used inside `AGENTS.md` files. Local development localhost links (e.g. `http://localhost:3000`) are permitted solely in commands execution logs/guidance.
   - Write using clear, absolute constraints ("NEVER", "MUST", "ALWAYS") rather than conversational prose.
   - Do not duplicate global rules (English-First, Zero Emojis, Zero Placeholders) in local sub-workspace context files.
 - **Reference Files**:

@@ -8,23 +8,23 @@ This directory contains the community-specific domain workspace, which manages t
 
 The workspace is split into three main packages:
 
-### 1. [Community Web Client](file:///D:/projects/elo-organico/instance/apps/web/README.md) (`apps/web/`)
+### 1. [Community Web Client](./apps/web/README.md) (`apps/web/`)
 
 A React 19 Single Page Application serving the Customer Shop and local Administration Dashboard.
 
-- **Detailed Guide:** Refer to the [Web Client README](file:///D:/projects/elo-organico/instance/apps/web/README.md).
+- **Detailed Guide:** Refer to the [Web Client README](./apps/web/README.md).
 
-### 2. [Community REST API](file:///D:/projects/elo-organico/instance/apps/api/README.md) (`apps/api/`)
+### 2. [Community REST API](./apps/api/README.md) (`apps/api/`)
 
 A Fastify 5 REST API handling domain routing, database persistence, and community-specific service logic.
 
-- **Detailed Guide:** Refer to the [REST API README](file:///D:/projects/elo-organico/instance/apps/api/README.md).
+- **Detailed Guide:** Refer to the [REST API README](./apps/api/README.md).
 
-### 3. [Instance Core Library](file:///D:/projects/elo-organico/instance/packages/core/README.md) (`packages/core/`)
+### 3. [Instance Core Library](./packages/core/README.md) (`packages/core/`)
 
 The Single Source of Truth (SSOT) for data contracts, validation rules, schemas, and type definitions shared across the instance.
 
-- **Detailed Guide:** Refer to the [Core Library README](file:///D:/projects/elo-organico/instance/packages/core/README.md).
+- **Detailed Guide:** Refer to the [Core Library README](./packages/core/README.md).
 
 ---
 

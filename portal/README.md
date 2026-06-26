@@ -8,23 +8,23 @@ This directory contains the global orchestration and platform-wide domain packag
 
 The workspace is split into three main packages:
 
-### 1. [Global Web Client](file:///D:/projects/elo-organico/portal/apps/web/README.md) (`apps/web/`)
+### 1. [Global Web Client](./apps/web/README.md) (`apps/web/`)
 
 A React 19 Single Page Application serving the global landing page, SaaS dashboard, and onboarding forms.
 
-- **Detailed Guide:** Refer to the [Web Client README](file:///D:/projects/elo-organico/portal/apps/web/README.md).
+- **Detailed Guide:** Refer to the [Web Client README](./apps/web/README.md).
 
-### 2. [Global Orchestration API](file:///D:/projects/elo-organico/portal/apps/api/README.md) (`apps/api/`)
+### 2. [Global Orchestration API](./apps/api/README.md) (`apps/api/`)
 
 A Fastify 5 REST API handling global tenant configurations, platform subscriptions, and SaaS administration logic.
 
-- **Detailed Guide:** Refer to the [Orchestration API README](file:///D:/projects/elo-organico/portal/apps/api/README.md).
+- **Detailed Guide:** Refer to the [Orchestration API README](./apps/api/README.md).
 
-### 3. [Portal Core Library](file:///D:/projects/elo-organico/portal/packages/core/README.md) (`packages/core/`)
+### 3. [Portal Core Library](./packages/core/README.md) (`packages/core/`)
 
 The Single Source of Truth (SSOT) for data contracts, global validation schemas, and types shared across the platform domain.
 
-- **Detailed Guide:** Refer to the [Core Library README](file:///D:/projects/elo-organico/portal/packages/core/README.md).
+- **Detailed Guide:** Refer to the [Core Library README](./packages/core/README.md).
 
 ---
 

@@ -6,9 +6,9 @@ This workspace houses the containerized gateway and backend services for Model C
 
 The ecosystem operates on a decoupled gateway proxy model:
 
-1.  **Fastify Proxy Gateway:** A Node.js Fastify service ([server.ts](file:///D:/projects/elo-organico/tools/mcp/gateway/server.ts)) that exposes port `3005` to the host machine. It intercepts CORS preflight options and routes path prefixes (e.g., `/github`) directly to downstream servers using `@fastify/http-proxy`.
-2.  **Downstream Fastify SSE Adapters:** Each MCP container runs a custom Fastify utility ([sse-adapter.ts](file:///D:/projects/elo-organico/tools/mcp/infrastructure/common/sse-adapter.ts)) wrapping stdio-based CLI binaries (Node/Python) and exposing them via Server-Sent Events (SSE).
-3.  **Context Handshake Injection:** The downstream adapters read localized instructions files from the [context/](file:///D:/projects/elo-organico/tools/mcp/context) directory mounted at runtime and inject them into the `InitializeResult` handshake response, updating the LLM client's system prompt dynamically.
+1.  **Fastify Proxy Gateway:** A Node.js Fastify service ([server.ts](./gateway/server.ts)) that exposes port `3005` to the host machine. It intercepts CORS preflight options and routes path prefixes (e.g., `/github`) directly to downstream servers using `@fastify/http-proxy`.
+2.  **Downstream Fastify SSE Adapters:** Each MCP container runs a custom Fastify utility ([sse-adapter.ts](./infrastructure/common/sse-adapter.ts)) wrapping stdio-based CLI binaries (Node/Python) and exposing them via Server-Sent Events (SSE).
+3.  **Context Handshake Injection:** The downstream adapters read localized instructions files from the [context/](./context) directory mounted at runtime and inject them into the `InitializeResult` handshake response, updating the LLM client's system prompt dynamically.
 4.  **Isolated Bridge Network:** Services communicate internally over the bridge network `elo-mcp-net`. No ports other than `3005` on the gateway are exposed to the host machine.
 
 ```
@@ -41,10 +41,10 @@ The ecosystem operates on a decoupled gateway proxy model:
 
 ## Directory Layout
 
-- [compose.yaml](file:///D:/projects/elo-organico/tools/mcp/compose.yaml): Docker Compose orchestration defining internal networks, volumes, and service constraints.
+- [compose.yaml](./compose.yaml): Docker Compose orchestration defining internal networks, volumes, and service constraints.
 - `gateway/`: Gateway Fastify proxy server configuration.
 - `infrastructure/`: Containerized setups and Dockerfiles for the downstream servers.
-- `context/`: Specific markdown files containing context parameters injected into each MCP (e.g., [github/instructions.md](file:///D:/projects/elo-organico/tools/mcp/context/github/instructions.md)).
+- `context/`: Specific markdown files containing context parameters injected into each MCP (e.g., [github/instructions.md](./context/github/instructions.md)).
 - `config/`: Template environment configurations and git-ignored secrets.
 
 ---
@@ -84,7 +84,7 @@ Run these scripts from the monorepo root:
 
 ## Client Connection Mapping
 
-For standard IDE extensions or local command-line runners (e.g., Google Antigravity CLI on the host), map the gateway paths inside your [.agents/mcp_config.json](file:///D:/projects/elo-organico/.agents/mcp_config.json):
+For standard IDE extensions or local command-line runners (e.g., Google Antigravity CLI on the host), map the gateway paths inside your [.agents/mcp_config.json](../../.agents/mcp_config.json):
 
 ```json
 {
