@@ -1,7 +1,16 @@
 {
   "name": "@elo-organico/knowledge-base",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
+  "author": "Tupynambá Lucas Varela Rodrigues <tupynambalucas.dev>",
+  "description": "Elo Orgânico Knowledge Base Package",
+  "license": "https://github.com/tupynambalucas/elo-organico/tree/main#license",
+  "homepage": "https://github.com/tupynambalucas/elo-organico/tree/main/knowledge-base#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tupynambalucas/elo-organico.git",
+    "directory": "knowledge-base"
+  },
   "exports": {
     "./package.json": "./package.json",
     "./roadmap/*": "./roadmap/*",

@@ -16,12 +16,28 @@ We follow the standard Git Flow model to ensure the stability of our production 
 
 | Branch          | Purpose                                                  | Stability        |
 | :-------------- | :------------------------------------------------------- | :--------------- |
-| **`main`**      | Production-ready code. Every commit is a tagged release. | **Ultra Stable** |
-| **`develop`**   | Integration branch for features. The "working" version.  | **Stable**       |
+| **`main`**      | Production releases. Every commit is a tagged release.   | **Ultra Stable** |
+| **`develop`**   | Next release development. Integration branch.            | **Stable**       |
 | **`feature/*`** | New features or UI changes. Branch off `develop`.        | Experimental     |
-| **`bugfix/*`**  | New bug fixes for the next development cycle.            | Experimental     |
+| **`bugfix/*`**  | Bug fixes for the next development cycle.                | Experimental     |
 | **`release/*`** | Preparation for a new production release.                | Final Polish     |
-| **`hotfix/*`**  | Critical bug fixes for the current production version.   | Urgent           |
+| **`hotfix/*`**  | Critical bug fixes for the production version.           | Urgent           |
+| **`support/*`** | Long-term support branches for older major releases.     | Stable           |
+
+### Git Flow CLI Configuration
+
+Our local repository is configured with the following prefixes and tag rules:
+
+```ini
+Branch name for production releases: main
+Branch name for "next release" development: develop
+Feature branch prefix: feature/
+Bugfix branch prefix: bugfix/
+Release branch prefix: release/
+Hotfix branch prefix: hotfix/
+Support branch prefix: support/
+Version tag prefix: v
+```
 
 ---
 
@@ -96,22 +112,50 @@ To keep the `develop` history clean and meaningful, we use **Squash Merges**. Th
 
 ---
 
-## Release Workflow (Maintainers Only)
+## Release & Versioning Workflow (Changesets)
 
-When the `develop` branch is ready for a new version:
+We use **Changesets** combined with **GitHub Actions** to automate our versioning, changelog compilation, and release Pull Requests. Developers do not bump package versions manually in `package.json` files.
 
-1.  **Start Release**: `git flow release start 0.2.0`
-2.  **Versioning**: Update `package.json` files and `CHANGELOG.md`.
-3.  **Finish Release**: `git flow release finish 0.2.0` (Use prefix `v` for tags).
-4.  **Sync**:
-    ```powershell
-    git push origin develop
-    git push origin main --tags
-    ```
-5.  **GitHub Release**:
-    ```powershell
-    gh release create v0.2.0 --target main --generate-notes
-    ```
+### 1. Generating a Changeset (Local)
+
+When your feature or bug fix is ready and before opening a Pull Request:
+
+1. Run the interactive changeset tool from the repository root:
+   ```powershell
+   pnpm version:changeset
+   ```
+2. Select the package(s) that were modified using the spacebar.
+3. Choose the appropriate SemVer bump level (Major for breaking changes, Minor for new backwards-compatible features, or Patch for bug fixes).
+4. Provide a clear, technical description of the change (in English, conforming to our commit standards).
+5. A temporary markdown file will be created under the `.changeset/` directory (e.g., `.changeset/warm-dogs-run.md`).
+6. Commit this markdown file alongside your code and push it with your feature branch.
+
+:::tip[Keep Changesets Small]
+Create one changeset per isolated change. If a feature branch has multiple independent fixes or additions, you can run `pnpm version:changeset` multiple times to generate separate notes for each.
+:::
+
+### 2. Automated Versioning Pipeline (GitHub Actions)
+
+Our CI/CD workflow handles the version bumping automatically when code is integrated:
+
+1. **Pull Request & Integration**: Developers open a Pull Request targeting the `develop` branch.
+2. **Merge to `develop`**: Once approved and merged into `develop`, the **Manage Version Bumps and Releases** GitHub Action is triggered.
+3. **Release PR Generation**:
+   * The workflow parses the `.changeset/*.md` files present in the branch.
+   * It calculates the new versions, consumes (deletes) the temporary changeset markdown files, bumps the respective `package.json` files, and updates the local package changelogs.
+   * It automatically commits these changes and creates (or updates) an open Pull Request on GitHub named `chore(release): version packages` targeting `develop`.
+
+### 3. Finalizing the Release (Maintainers Only)
+
+To publish and finalize the release:
+
+1. Open the automated Pull Request `chore(release): version packages` in GitHub.
+2. Review the compiled version changes and changelogs.
+3. Merge the Pull Request into `develop`. Because the changeset files have already been consumed and deleted, merging this PR consolidates the bumped package versions in the repository.
+
+:::info[No Manual Version Bumps]
+Never edit the `"version"` field in a package's `package.json` manually during a normal feature branch. Always rely on `pnpm version:changeset` and let the GitHub Action pipeline manage the releases.
+:::
 
 ---
 

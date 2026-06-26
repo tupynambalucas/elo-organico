@@ -11,10 +11,6 @@
     "url": "git+https://github.com/tupynambalucas/elo-organico.git"
   },
   "scripts": {
-    "dev": "pnpm instance:up && pnpm portal:up && turbo run dev",
-    "build": "turbo run build",
-    "lint": "turbo run lint",
-    "typecheck": "turbo run typecheck",
     "// Docs": "---------------------------------------------",
     "docs:dev": "pnpm --filter @elo-organico/knowledge-base start",
     "docs:dev:pt": "pnpm --filter @elo-organico/knowledge-base start:pt",
@@ -105,7 +101,10 @@
     "project:clean": "npx npkill",
     "husky:test": "tsx tools/scripts/test-hooks.ts",
     "husky:validate": "npx husky validate",
-    "prepare": "husky"
+    "prepare": "husky",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck"
   },
   "devDependencies": {
     "@changesets/cli": "catalog:",

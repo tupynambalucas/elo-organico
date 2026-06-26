@@ -4,7 +4,8 @@
   "type": "module",
   "private": true,
   "author": "Tupynambá Lucas Varela Rodrigues <tupynambalucas.dev>",
-  "license": "CC-BY-NC-4.0",
+  "description": "Elo Orgânico Instance API Application",
+  "license": "https://github.com/tupynambalucas/elo-organico/tree/main#license",
   "homepage": "https://github.com/tupynambalucas/elo-organico/tree/main/instance/apps/api#readme",
   "repository": {
     "type": "git",

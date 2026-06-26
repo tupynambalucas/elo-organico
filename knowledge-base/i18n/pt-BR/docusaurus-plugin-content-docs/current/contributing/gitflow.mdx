@@ -16,12 +16,28 @@ Seguimos o modelo padrão Git Flow para garantir a estabilidade do nosso código
 
 | Branch          | Propósito                                                          | Estabilidade      |
 | :-------------- | :----------------------------------------------------------------- | :---------------- |
-| **`main`**      | Código pronto para produção. Cada commit é uma release tagueada.   | **Ultra Estável** |
-| **`develop`**   | Branch de integração para funcionalidades. A versão de "trabalho". | **Estável**       |
+| **`main`**      | Lançamentos de produção. Cada commit é uma release tagueada.       | **Ultra Estável** |
+| **`develop`**   | Desenvolvimento da próxima release. Branch de integração.          | **Estável**       |
 | **`feature/*`** | Novas funcionalidades ou mudanças de UI. Ramifica de `develop`.    | Experimental      |
-| **`bugfix/*`**  | Novas correções de bugs para o próximo ciclo de desenvolvimento.   | Experimental      |
+| **`bugfix/*`**  | Correções de bugs para o próximo ciclo de desenvolvimento.         | Experimental      |
 | **`release/*`** | Preparação para uma nova release de produção.                      | Polimento Final   |
-| **`hotfix/*`**  | Correções de bugs críticos para a versão de produção atual.        | Urgente           |
+| **`hotfix/*`**  | Correções de bugs críticos para a versão de produção.              | Urgente           |
+| **`support/*`** | Ramificações de suporte de longo prazo para versões major antigas. | Estável           |
+
+### Configuração da CLI do Git Flow
+
+Nosso repositório local está configurado com os seguintes prefixos e regras de tag:
+
+```ini
+Branch name for production releases: main
+Branch name for "next release" development: develop
+Feature branch prefix: feature/
+Bugfix branch prefix: bugfix/
+Release branch prefix: release/
+Hotfix branch prefix: hotfix/
+Support branch prefix: support/
+Version tag prefix: v
+```
 
 ---
 
@@ -96,22 +112,50 @@ Para manter o histórico da `develop` limpo e significativo, usamos **Squash Mer
 
 ---
 
-## Fluxo de Release (Apenas Mantenedores)
+## Fluxo de Release & Versionamento (Changesets)
 
-Quando a branch `develop` estiver pronta para uma nova versão:
+Utilizamos o **Changesets** combinado com o **GitHub Actions** para automatizar o nosso versionamento, compilação de changelogs e criação de Pull Requests de release. Os desenvolvedores não alteram manualmente as versões dos pacotes nos arquivos `package.json`.
 
-1.  **Iniciar Release**: `git flow release start 0.2.0`
-2.  **Versão**: Atualize os arquivos `package.json` e o `CHANGELOG.md`.
-3.  **Finalizar Release**: `git flow release finish 0.2.0` (Use o prefixo `v` para as tags).
-4.  **Sincronizar**:
-    ```powershell
-    git push origin develop
-    git push origin main --tags
-    ```
-5.  **GitHub Release**:
-    ```powershell
-    gh release create v0.2.0 --target main --generate-notes
-    ```
+### 1. Gerando um Changeset (Local)
+
+Quando sua funcionalidade ou correção de bug estiver pronta e antes de abrir um Pull Request:
+
+1. Execute a ferramenta interativa de changeset a partir da raiz do repositório:
+   ```powershell
+   pnpm version:changeset
+   ```
+2. Selecione o(s) pacote(s) que foram modificados utilizando a barra de espaço.
+3. Escolha o nível de SemVer apropriado (Major para alterações que quebram compatibilidade, Minor para novas funcionalidades retrocompatíveis ou Patch para correções de bugs).
+4. Forneça uma descrição técnica e clara da alteração (em inglês, em conformidade com nossos padrões de commit).
+5. Um arquivo markdown temporário será criado no diretório `.changeset/` (por exemplo, `.changeset/warm-dogs-run.md`).
+6. Comite esse arquivo markdown junto com seu código e envie-o com sua branch de funcionalidade.
+
+:::tip[Mantenha os Changesets Pequenos]
+Crie um changeset por alteração isolada. Se uma branch de funcionalidade contiver várias correções ou adições independentes, você pode executar `pnpm version:changeset` múltiplas vezes para gerar notas separadas para cada uma.
+:::
+
+### 2. Pipeline de Versionamento Automatizado (GitHub Actions)
+
+Nosso workflow de CI/CD gerencia o bump de versão de forma automatizada quando o código é integrado:
+
+1. **Pull Request & Integração**: Os desenvolvedores abrem um Pull Request direcionado à branch `develop`.
+2. **Merge para `develop`**: Uma vez aprovado e mesclado na `develop`, o workflow de GitHub Actions **Manage Version Bumps and Releases** é acionado automaticamente.
+3. **Geração do PR de Release**:
+   * O pipeline analisa os arquivos `.changeset/*.md` presentes na branch.
+   * Ele calcula as novas versões, consome (deleta) os arquivos markdown temporários de changeset, faz o bump dos respectivos arquivos `package.json` e atualiza os arquivos de changelog de cada pacote.
+   * Ele comita essas mudanças automaticamente e abre (ou atualiza) um Pull Request no GitHub intitulado `chore(release): version packages` com destino à branch `develop`.
+
+### 3. Finalizando a Release (Apenas Mantenedores)
+
+Para publicar e consolidar a release:
+
+1. Abra o Pull Request automatizado `chore(release): version packages` no GitHub.
+2. Revise as alterações de versão e changelogs gerados.
+3. Faça o merge do Pull Request na branch `develop`. Como os arquivos de changeset já foram consumidos e removidos, mesclar este PR consolida as novas versões de pacotes no repositório.
+
+:::info[Sem Bumps de Versão Manuais]
+Nunca edite o campo `"version"` no `package.json` de um pacote manualmente durante o desenvolvimento de uma branch. Sempre use `pnpm version:changeset` e permita que o pipeline do GitHub Actions gerencie os lançamentos.
+:::
 
 ---
 
