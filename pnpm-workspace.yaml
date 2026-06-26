@@ -27,6 +27,7 @@ catalog:
   '@types/mime-types': '^2.1.4'
   '@clack/prompts': '^0.9.1'
   '@changesets/cli': ^2.31.0
+  'wrangler': '^3.90.0'
 
 catalogs:
   tooling-stack:
@@ -141,4 +142,6 @@ allowBuilds:
   'core-js': true
   'esbuild': true
   'msgpackr-extract': true
+  'sharp': true
   'unrs-resolver': true
+  'workerd': true

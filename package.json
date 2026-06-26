@@ -134,7 +134,8 @@
     "tsx": "catalog:",
     "turbo": "catalog:",
     "typescript": "catalog:",
-    "typescript-eslint": "catalog:tooling-stack"
+    "typescript-eslint": "catalog:tooling-stack",
+    "wrangler": "catalog:"
   },
   "lint-staged": {
     "**/*.{js,mjs,ts,tsx,mdx}": [
