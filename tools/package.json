@@ -17,6 +17,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "build": "tsc",
+    "generate:changelog": "tsx github/scripts/generate-changelog.ts",
+    "generate:roadmap": "tsx github/scripts/generate-roadmap.ts",
     "mcp:up": "docker compose -f mcp/compose.dev.yaml --env-file mcp/.env.dev up -d",
     "mcp:down": "docker compose -f mcp/compose.dev.yaml --env-file mcp/.env.dev down",
     "mcp:reset": "docker compose -f mcp/compose.dev.yaml --env-file mcp/.env.dev down --volumes && docker compose -f mcp/compose.dev.yaml --env-file mcp/.env.dev up -d --build",
@@ -53,6 +55,7 @@
     "github:bash:reset": "docker compose -f github/compose.github.yaml --env-file github/.env.github stop git-bash && docker compose -f github/compose.github.yaml --env-file github/.env.github rm -f git-bash && docker compose -f github/compose.github.yaml --env-file github/.env.github up -d --build git-bash"
   },
   "dependencies": {
+    "@elo-organico/knowledge-base": "workspace:*",
     "fastify": "catalog:api-stack",
     "@fastify/sse": "catalog:api-stack",
     "@fastify/http-proxy": "catalog:api-stack"

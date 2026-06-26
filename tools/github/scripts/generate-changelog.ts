@@ -1,12 +1,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const require = createRequire(import.meta.url);
+const kbPkgPath = require.resolve('@elo-organico/knowledge-base/package.json');
+const kbDir = path.dirname(kbPkgPath);
 
-const RELEASES_DIR = path.join(__dirname, '../../knowledge-base/releases');
-const CHANGELOG_PATH = path.join(__dirname, '../../CHANGELOG.md');
+const RELEASES_DIR = path.join(kbDir, 'releases');
+const CHANGELOG_PATH = path.join(kbDir, '../CHANGELOG.md');
 
 function generateChangelog(): void {
   console.info('🔄 Verifying release notes in the knowledge base...');

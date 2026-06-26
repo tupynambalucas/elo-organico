@@ -1,8 +1,9 @@
 FROM alpine:3.18
 
-# Install only what is necessary for git command line: git, bash, openssh-client, and ca-certificates
+# Install necessary tools for git command line, including git-flow (AVH Edition)
 RUN apk add --no-cache \
     git \
+    git-flow \
     bash \
     openssh-client \
     ca-certificates

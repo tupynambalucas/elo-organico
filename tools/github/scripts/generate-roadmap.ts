@@ -1,12 +1,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const require = createRequire(import.meta.url);
+const kbPkgPath = require.resolve('@elo-organico/knowledge-base/package.json');
+const kbDir = path.dirname(kbPkgPath);
 
-const ROADMAP_DIR = path.join(__dirname, '../../knowledge-base/roadmap');
-const ROADMAP_PATH = path.join(__dirname, '../../ROADMAP.md');
+const ROADMAP_DIR = path.join(kbDir, 'roadmap');
+const ROADMAP_PATH = path.join(kbDir, '../ROADMAP.md');
 
 const ROADMAP_FILES = [
   '01-core.md',
