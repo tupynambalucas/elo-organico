@@ -10,12 +10,12 @@ const ROADMAP_DIR = path.join(kbDir, 'roadmap');
 const ROADMAP_PATH = path.join(kbDir, '../ROADMAP.md');
 
 const ROADMAP_FILES = [
-  '01-core.md',
-  '02-instance.md',
-  '03-portal.md',
-  '04-studio.md',
-  '05-tools.md',
-  '06-docs.md',
+  '01-core.mdx',
+  '02-instance.mdx',
+  '03-portal.mdx',
+  '04-studio.mdx',
+  '05-tools.mdx',
+  '06-docs.mdx',
 ];
 
 function generateRoadmap(): void {
