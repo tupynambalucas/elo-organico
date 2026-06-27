@@ -12,10 +12,10 @@ The portal core ensures architectural consistency and **Logical Isolation** for 
 
 ### Documentation
 
-Detailed technical documentation is available in our [Knowledge Base](https://tupynambalucas.github.io/elo-organico):
+Detailed technical documentation is available in our [Knowledge Base](https://elo-docs.pages.dev):
 
-- [Architecture Overview](https://tupynambalucas.github.io/elo-organico/docs/engineering/architecture): SSOT principles and isolation rules.
-- [Style Guide](https://tupynambalucas.github.io/elo-organico/docs/engineering/styleguide): Coding standards and quality requirements.
+- [Architecture Overview](https://elo-docs.pages.dev/docs/engineering/architecture): SSOT principles and isolation rules.
+- [Style Guide](https://elo-docs.pages.dev/docs/engineering/styleguide): Coding standards and quality requirements.
 
 ---
 

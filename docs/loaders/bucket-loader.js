@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 
 module.exports = function (source) {
   const urlParams = new URLSearchParams(this.resourceQuery);
@@ -18,9 +19,32 @@ module.exports = function (source) {
   const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
   const buildFolders = manifest.bucket.assets.docs;
 
-  const bucketUrl = process.env.BUCKET_URL;
+  let bucketUrl = process.env.BUCKET_URL;
 
   if (buildFolders.includes(folderKey) === true) {
+    if (bucketUrl === undefined || bucketUrl === '') {
+      const secretsPath = path.join(
+        __dirname,
+        '..',
+        '..',
+        'tools',
+        'github',
+        'infrastructure',
+        'gh',
+        'features',
+        'security-quality',
+        'secrets',
+        '.env.actions.secrets',
+      );
+      if (fs.existsSync(secretsPath) === true) {
+        const content = fs.readFileSync(secretsPath, 'utf8');
+        const match = content.match(/^BUCKET_URL=(.*)$/m);
+        if (match !== null && match[1] !== undefined) {
+          bucketUrl = match[1].trim();
+        }
+      }
+    }
+
     if (bucketUrl === undefined || bucketUrl === '') {
       throw new Error(
         `[Bucket Loader] BUCKET_URL environment variable is not defined for production build. Required for asset path: ${original}`,

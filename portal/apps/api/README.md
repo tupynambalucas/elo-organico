@@ -13,10 +13,10 @@ As the central authority for the multi-tenant SaaS model, the Portal API handles
 
 ### Documentation
 
-Detailed technical documentation is available in our [Knowledge Base](https://tupynambalucas.github.io/elo-organico):
+Detailed technical documentation is available in our [Knowledge Base](https://elo-docs.pages.dev):
 
-- [Architecture Overview](https://tupynambalucas.github.io/elo-organico/docs/engineering/architecture): Technical decisions and global domain modeling.
-- [Style Guide](https://tupynambalucas.github.io/elo-organico/docs/engineering/styleguide): Coding standards and Fastify 5 architecture.
+- [Architecture Overview](https://elo-docs.pages.dev/docs/engineering/architecture): Technical decisions and global domain modeling.
+- [Style Guide](https://elo-docs.pages.dev/docs/engineering/styleguide): Coding standards and Fastify 5 architecture.
 
 ---
 

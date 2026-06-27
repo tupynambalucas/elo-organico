@@ -96,18 +96,9 @@ O **Turborepo** é o motor por trás da nossa produtividade no monorepo. Ele lid
 
 ## 4. Comandos Operacionais
 
-Utilizamos uma interface unificada no `package.json` raiz para gerenciar todo o monorepo.
+Utilizamos uma interface de CLI unificada definida no `package.json` raiz para orquestrar e gerenciar o monorepo em todos os ambientes (**desenvolvimento**, **homologação/staging** e **produção**).
 
-| Comando              | Descrição                                             | Orquestração           |
-| :------------------- | :---------------------------------------------------- | :--------------------- |
-| `pnpm instance:dev`  | Stack de Comunidade Completo (Infra + API + Web)      | Turbo + Docker Compose |
-| `pnpm instance:up`   | Apenas Infraestrutura de Comunidade (MongoDB + Redis) | Docker Compose         |
-| `pnpm instance:down` | Para o Stack de Comunidade e limpa as portas          | Docker Compose + Shell |
-| `pnpm portal:dev`    | Stack de Plataforma Completo (Fundação)               | Turbo + Docker Compose |
-| `pnpm mcp:up`        | Inicia a infraestrutura de ferramentas de IA (MCP)    | Docker Compose         |
-| `pnpm docs:dev`      | Inicia a Base de Conhecimento (Modo Desenvolvimento)  | PNPM Filter            |
-| `pnpm typecheck`     | Valida o TypeScript em todo o monorepo                | Turbo                  |
-| `pnpm lint`          | Executa a lintagem para todos os workspaces           | Turbo                  |
+Para uma lista de referência completa de scripts de orquestração, comandos de serviço e fluxos de trabalho da stack de desenvolvimento, consulte o **[Guia de Orquestração do Monorepo](../contributing/orchestration.mdx)**.
 
 ---
 
@@ -115,10 +106,13 @@ Utilizamos uma interface unificada no `package.json` raiz para gerenciar todo o 
 
 - **Fonte Única de Verdade (SSOT):** Estruturas de dados da comunidade devem ser definidas em `@elo-instance/core`. Regras da plataforma estão em `@elo-portal/core`.
 - **Configuração Herdada:** ESLint e TSConfig são centralizados na raiz, com extensões localizadas fornecendo refinamentos específicos de contexto sem duplicar o rigor base.
-- **Domain-Driven Design (DDD):** A lógica de negócio é organizada em domínios (`auth`, `cycle`, `product`) para facilitar a modularidade.
-  - **Isolamento Estrito de Domínio:** Importações entre contextos (ex: Portal importando da Instância) são estritamente proibidas via regras de ESLint para evitar vazamentos arquiteturais.
+- **Domain-Driven Design (DDD) & Feature-Sliced Design (FSD):** A arquitetura frontend combina os contextos delimitados do DDD com a modularidade do Feature-Sliced Design (FSD) para alcançar escala corporativa.
+  - **Domínios Globais (`src/domains`):** Contêm entidades (ex: `auth`, `product`, `cycle`), suas stores de estado, clientes de API e **Domain Hooks**.
+  - **Features (`src/features`):** Representam fluxos de trabalho de usuários ou módulos de aplicação (ex: `admin`, `shop`). Features orquestram múltiplos domínios, mas são estritamente isoladas umas das outras.
+  - **Domínios Privados Específicos de Feature (`src/features/*/domains`):** Subdomínios que só fazem sentido dentro de uma feature específica (ex: `cart` dentro da feature `shop`). Isso previne a poluição do domínio global.
+  - **Camada de UI Compartilhada (`src/shared/ui`):** Componentes reutilizáveis e agnósticos de domínio (ex: loaders genéricos, botões). Domínios ou entidades globais **NÃO PODEM** importar de features.
 - **Princípios SOLID:**
-  - **Responsabilidade Única:** Cada módulo tem um propósito específico.
+  - **Responsabilidade Única:** Logic é separada. Stores gerenciam estado, funções puras realizam cálculos e hooks lidam com a orquestração.
   - **Aberto/Fechado:** Aberto para extensão, fechado para modificação.
   - **Substituição de Liskov:** Comportamento consistente de subtipos.
   - **Segregação de Interface:** Interfaces enxutas e específicas.
@@ -146,7 +140,7 @@ Utilizamos uma interface unificada no `package.json` raiz para gerenciar todo o 
 ### 6.3. Frontend (Camada de UI)
 
 - **Framework**: React 19.
-- **Gestão de Estado**: Zustand (Estado atômico e performático).
+- **Gestão de Estado**: Zustand (Estado atômico e performático utilizando Slices e Selectors).
 - **Estilização**: TailwindCSS v4 + CSS Modules para estilos escopados.
 - **Animações**: GSAP (Feedback interativo de alta fidelidade).
 
@@ -186,7 +180,30 @@ export class AuthRepository {
 }
 ```
 
-### 7.2. Injeção de Dependência
+### 7.2. Orquestração de Estado no Frontend (Zustand & FSD)
+
+Para evitar stores monolíticas e renderizações desnecessárias no React 19, o frontend adota um padrão estrito de **Seletores Atômicos (Atomic Selectors Pattern)** acoplado com **Domain Hooks**:
+
+1. **Separação de Estado e Ações**: A store do Zustand separa o `state` (estado) das `actions` (ações). Lógica de domínio pura (como cálculos de preço) é extraída para fora da store para manter a **Fonte Única de Verdade** e a testabilidade.
+2. **Seletores Atômicos**: Exportações monolíticas (`export const useAuthStore = create(...)`) são envelopadas em hooks específicos.
+3. **Domain Hooks (`src/domains/*/hooks`)**: Seletores são expostos como hooks individuais (ex: `useAuthUser()`, `useProductActions()`). Isso garante que um componente só seja renderizado novamente quando o pedaço exato de estado ao qual ele se inscreveu for alterado.
+
+#### Exemplo de Implementação (Zustand Atomic Selectors)
+
+```typescript
+// instance/apps/web/src/domains/cart/hooks/useCart.ts
+import { useCartStore } from '../cart.store';
+
+// Seletores Atômicos
+export const useCartItems = () => useCartStore((state) => state.items);
+export const useCartActions = () => useCartStore((state) => state.actions);
+
+// Seletor de Estado Derivado (Nunca armazenado no estado)
+export const useCartTotal = () =>
+  useCartStore((state) => state.items.reduce((acc, item) => acc + calculateItemPrice(item), 0));
+```
+
+### 7.3. Injeção de Dependência
 
 Gestão modular através de decoradores do Fastify e um registro centralizado para desacoplar componentes e facilitar testes.
 
@@ -196,14 +213,127 @@ Gestão modular através de decoradores do Fastify e um registro centralizado pa
 
 Projetado para **Excelência Self-Hosted** na Hetzner Cloud.
 
-### 7.1. Orquestração
+### 8.1. Estratégia do Docker Compose (Desenvolvimento vs. Produção)
 
-- **Docker Compose**: Orquestra todo o stack (Apps, DB, Cache, servidores MCP).
-- **Nginx**: Opera como Proxy Reverso e servidor de arquivos estáticos para builds de produção.
+Cada contexto delimitado (`instance/`, `portal/`) mantém dois arquivos Compose distintos com responsabilidades claramente separadas:
 
-### 7.2. Rede & Latência
+| Arquivo             | Ambiente                       | Serviços                    | Banco de Dados         |
+| :------------------ | :----------------------------- | :-------------------------- | :--------------------- |
+| `compose.dev.yaml`  | Desenvolvimento                | MongoDB Replica Set + Redis | Container Docker local |
+| `compose.prod.yaml` | Produção & Homologação/Staging | API + Web/Nginx + Redis     | MongoDB Atlas (nuvem)  |
 
-Todos os componentes residem em uma rede privada do Docker para latência sub-milissegundo entre APIs e Bancos de Dados.
+**Fluxo de desenvolvimento:**
+
+```
+pnpm instance:up   →  compose.dev.yaml inicia [MongoDB, Redis] no Docker
+pnpm instance:dev  →  API (tsx watch) + Web (vite) rodam no host
+                       API se conecta a localhost:27017 (MongoDB no Docker)
+                       Web faz proxy de /api → localhost:3000 (via proxy do Vite)
+```
+
+**Fluxo de produção:**
+
+```
+pnpm instance:prod  →  compose.prod.yaml --env-file .env.prod compila e inicia:
+                           [Nginx:80] → [instance-api:3000] → [Redis (interno)]
+                                               ↕
+                                    [MongoDB Atlas (nuvem)]
+
+pnpm instance:staging  →  compose.prod.yaml --env-file .env.staging (mesma topologia)
+```
+
+O `compose.prod.yaml` não possui serviço MongoDB por design. Em produção e homologação/staging, a API se conecta a um cluster MongoDB Atlas hospedado na nuvem via URI injetada a partir do arquivo `.env.prod` ou `.env.staging` específico do ambiente.
+
+#### 8.1.1. Convenções de Nomenclatura de Projetos e Containers
+
+Para evitar colisões de nomes em hosts que executam múltiplas stacks ou ambientes simultaneamente (como homologação/staging e produção no mesmo servidor), as seguintes convenções são aplicadas:
+
+- **Nomes de Projetos**: Os arquivos de compose de desenvolvimento definem `name: elo-[context]-dev` (ex: `elo-instance-dev`), enquanto os arquivos de compose de produção/staging definem `name: elo-[context]-prod` (ex: `elo-instance-prod`).
+- **Ambientes de Desenvolvimento**: Os nomes dos containers possuem um sufixo explícito `-dev` (ex: `elo-instance-redis-dev`, `elo-instance-db-dev`).
+- **Homologação vs. Produção**: Os containers de produção/staging anexam dinamicamente o sufixo do nome do ambiente usando a variável `APP_ENV` (ex: `container_name: elo-instance-redis-${APP_ENV:-prod}`). Isso isola os containers no nível do daemon do host Docker, permitindo que os containers de staging e produção coexistam na mesma máquina virtual sem colisões.
+
+#### 8.1.2. Por que Produção e Homologação/Staging Compartilham um Único Arquivo Compose
+
+A decisão de usar um único `compose.prod.yaml` para produção e staging é uma escolha arquitetural deliberada, não um atalho de simplificação. A justificativa fundamenta-se no **Princípio de Responsabilidade Única (SRP)**:
+
+Um arquivo Compose deve ter exatamente uma razão para mudar: uma **mudança na topologia da stack** (novos serviços, configuração de rede diferente, intervalos de healthcheck alterados, containers adicionais). Nem a produção nem o staging requerem uma topologia de serviço diferente — ambos executam o conjunto idêntico de serviços (API, Web/Nginx, Redis) conectados à mesma rede e com a mesma estratégia de healthcheck.
+
+As únicas diferenças entre os dois ambientes são **valores de configuração** (URI do cluster MongoDB Atlas, chaves do Cloudflare Turnstile, segredos de API, tags de imagem). Esta é uma preocupação de configuração, não de topologia, e é de responsabilidade exclusiva dos arquivos `.env` específicos de cada ambiente (`.env.prod`, `.env.staging`).
+
+Criar um `compose.staging.yaml` separado como uma cópia estrutural de `compose.prod.yaml` violaria o SRP ao introduzir dois arquivos com o mesmo motivo para mudar. Qualquer alteração futura de topologia (adicionar um container de monitoramento, atualizar intervalos de healthcheck) exigiria edições idênticas em ambos os arquivos, gerando risco de divergência. O nível correto de segregação é a flag `--env-file`, que é o mecanismo recomendado pelo Docker para injeção de configurações específicas de ambiente.
+
+### 8.2. Arquitetura dos Dockerfiles
+
+Cada aplicação possui seu próprio `Dockerfile` localizado dentro do seu respectivo diretório, seguindo os princípios de **Responsabilidade Única** e de **Contexto Delimitado**:
+
+```
+instance/apps/api/Dockerfile    # Multi-stage: turbo prune → build → pnpm deploy → runner
+instance/apps/web/Dockerfile    # Multi-stage: turbo prune → vite build → nginx:alpine
+portal/apps/api/Dockerfile      # Mesmo padrão que instance/api
+portal/apps/web/Dockerfile      # Mesmo padrão que instance/web
+```
+
+Serviços de infraestrutura compartilhados (MongoDB, Redis) possuem seus Dockerfiles em `instance/infrastructure/` porque são preocupações que cruzam múltiplas aplicações, não pertencendo a nenhuma aplicação individualmente.
+
+Os Dockerfiles de API utilizam a **poda do Turborepo** (`turbo prune`) e o **`pnpm deploy`** para produzir imagens mínimas — sem código-fonte, sem devDependencies e sem symlinks do monorepo em produção.
+
+Os Dockerfiles Web utilizam uma compilação de dois estágios (two-stage build): um construtor Node.js compila o SPA React via Vite (com variáveis `VITE_*` injetadas como `ARG` do Docker) e o estágio final serve os arquivos estáticos a partir do `nginx:alpine` (imagem de aproximadamente 25MB).
+
+### 8.3. Estratégia de Variáveis de Ambiente
+
+Os arquivos de ambiente seguem os princípios de **Contexto Delimitado** e **Responsabilidade Única** — cada arquivo possui exatamente um dono e reside ao lado dele:
+
+| Padrão de Arquivo                 | Dono / Alvo          | Propósito / Escopo                                                                                                      | Git           |
+| :-------------------------------- | :------------------- | :---------------------------------------------------------------------------------------------------------------------- | :------------ |
+| `[context]/.env.dev`              | `compose.dev.yaml`   | Variáveis de ambiente de infraestrutura de desenvolvimento e inicialização do replica set (MongoDB/Redis)               | ignorado      |
+| `[context]/.env.prod`             | `compose.prod.yaml`  | Argumentos de compilação de container de produção, nomes de redes e portas do host                                      | ignorado      |
+| `[context]/.env.staging`          | `compose.prod.yaml`  | Argumentos de compilação de container de homologação/staging, nomes de redes e portas do host                           | ignorado      |
+| `[context]/apps/api/.env.dev`     | `@elo-[context]/api` | Configuração de execução da API Fastify de dev (chaves locais de banco de dados, segredos, opções de limitador de taxa) | ignorado      |
+| `[context]/apps/api/.env.prod`    | `@elo-[context]/api` | Configuração de execução da API Fastify de produção (MongoDB Atlas na nuvem, segredos de produção)                      | ignorado      |
+| `[context]/apps/api/.env.staging` | `@elo-[context]/api` | Configuração de execução da API Fastify de homologação (MongoDB Atlas de staging, segredos de homologação)              | ignorado      |
+| `[context]/apps/web/.env.dev`     | `@elo-[context]/web` | Parâmetros públicos em tempo de build da Web de dev (ex: chave do site Turnstile)                                       | ignorado      |
+| `[context]/apps/web/.env.prod`    | `@elo-[context]/web` | Parâmetros públicos em tempo de build da Web de produção (injetados como build ARGs do Docker)                          | ignorado      |
+| `[context]/apps/web/.env.staging` | `@elo-[context]/web` | Parâmetros públicos em tempo de build da Web de homologação (injetados como build ARGs do Docker)                       | ignorado      |
+| `*.env.*.example`                 | Repositório          | Modelos de configuração de onboarding para cada contexto e aplicação                                                    | **rastreado** |
+
+_Nota: Na tabela acima, `[context]` representa o diretório `instance` ou `portal`._
+
+As variáveis `VITE_*` (como `VITE_TURNSTILE_SITE_KEY`) são apenas para o **tempo de build (compilação)** — o Vite as grava estaticamente no bundle JavaScript durante o `vite build`. Em builds Docker, elas são transmitidas via `ARG` → `ENV` antes do início da etapa de compilação.
+
+### 8.4. Rede & Latência
+
+Todos os componentes em uma stack de implantação residem em uma rede privada bridge nomeada do Docker (ex: `elo-instance-network`) para latência sub-milissegundo entre a API e o Redis. O container Nginx é o único serviço com um mapeamento de porta externa; a API só é alcançável através do proxy reverso do Nginx na rede interna.
+
+### 8.5. Configuração do Nginx
+
+Os containers Web (Nginx) lidam com duas preocupações principais:
+
+1. **Roteamento SPA**: Todos os caminhos desconhecidos retornam para o `index.html` via `try_files $uri $uri/ /index.html`, permitindo que o React Router gerencie a navegação no lado do cliente sem gerar erros 404 ao atualizar a página.
+2. **Proxy Reverso de API**: As requisições para `/api/*` são direcionadas ao container da API usando o nome do seu serviço Docker como hostname (`http://instance-api:3000/`). A barra invertida final remove o prefixo `/api` antes de encaminhar a requisição para o Fastify.
+
+### 8.6. Nomenclatura e Semeadura de Banco de Dados
+
+Para manter paridade estrita entre os diferentes ambientes (desenvolvimento, staging e produção), la conexão de banco de dados e a arquitetura de semeadura (seeding) são desacopladas da camada de infraestrutura e gerenciadas diretamente na camada de aplicação.
+
+#### 8.6.1. Padronização do Nome do Banco de Dados
+
+O sistema impõe `elodb` as o nome canônico do banco de dados em todos os ambientes. O plugin de conexão de banco de dados analisa a string de conexão `MONGO_URI` configurada e substitui o caminho do banco de dados por `/elodb`. Isso evita conexões acidentais a bancos de dados padrão (como `test` no MongoDB Atlas) e garante que as instâncias de desenvolvimento, staging e produção utilizem o nome correto do data store.
+
+#### 8.6.2. Semeadura Integrada Nativamente (`SeedPlugin`)
+
+La semeadura do banco de dados é integrada ao ciclo de vida da aplicação API através de um plugin dedicado do Fastify (`seedPlugin.ts`). Ela é disparada durante o hook `onReady` do servidor Fastify. Como é executada no nível da aplicação, ocorre automaticamente em todos os ambientes (desenvolvimento, staging e produção).
+
+#### 8.6.3. Estratégia de Upsert Idempotente
+
+As operações de semeadura devem ser totalmente seguras para execução repetida sem duplicar ou corromper dados. A semeadura do usuário administrativo utiliza uma operação atômica do Mongoose `findOneAndUpdate` com as seguintes configurações:
+
+- **Filtro de Upsert**: Verifica a existência de um usuário com o papel de `admin`.
+- **Set On Insert (`$setOnInsert`)**: Grava os campos do usuário (email, username, password, icon, role) apenas se nenhum documento correspondente for encontrado.
+- **Idempotência**: Se um usuário administrador já estiver presente, a consulta é resolvida como um no-op (sem operação), evitando que credenciais existentes sejam sobrescritas ou duplicadas em reinicializações subsequentes do servidor.
+
+#### 8.6.4. Separação de Preocupações na Infraestrutura (`db-init`)
+
+No desenvolvimento local (`compose.dev.yaml`), o container `db-init` (antigo `db-seed`) lida exclusivamente com a inicialização do replica set. Ele aguarda a prontidão do MongoDB e executa `rs.initiate()` para configurar o replica set de nó único (`rs0`) necessário para suporte a transações. Ele não realiza semeadura de banco de dados. Todas as responsabilidades de semeadura administrativa e operacional pertencem inteiramente ao container da API.
 
 ---
 

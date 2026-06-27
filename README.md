@@ -73,12 +73,12 @@ Ensure you have Node.js 22+ and PNPM 11+ installed.
 
 ## Documentation Index
 
-For detailed guides, please refer to the docs/handbook/ directory or visit the [Knowledge Base](https://tupynambalucas.github.io/elo-organico):
+For detailed guides, please refer to the docs/handbook/ directory or visit the [Knowledge Base](https://elo-docs.pages.dev):
 
-- [Architecture Overview](https://tupynambalucas.github.io/elo-organico/docs/engineering/architecture): Technical stack and monorepo strategy.
-- [Master Plan](https://tupynambalucas.github.io/elo-organico/docs/product/masterplan): Project roadmap and phases.
-- [Product Vision](https://tupynambalucas.github.io/elo-organico/docs/product/vision): Product mission and value proposition.
-- [Style Guide](https://tupynambalucas.github.io/elo-organico/docs/engineering/styleguide): Coding standards and conventions.
+- [Architecture Overview](https://elo-docs.pages.dev/docs/engineering/architecture): Technical stack and monorepo strategy.
+- [Master Plan](https://elo-docs.pages.dev/docs/product/masterplan): Project roadmap and phases.
+- [Product Vision](https://elo-docs.pages.dev/docs/product/vision): Product mission and value proposition.
+- [Style Guide](https://elo-docs.pages.dev/docs/engineering/styleguide): Coding standards and conventions.
 
 ---
 

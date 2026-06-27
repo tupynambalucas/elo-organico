@@ -72,6 +72,31 @@ const config: Config = {
       configureWebpack(_config, _isServer, _utils) {
         const isProd = process.env.NODE_ENV === 'production';
 
+        let bucketUrl = process.env.BUCKET_URL;
+        if (bucketUrl === undefined || bucketUrl === '') {
+          const secretsPath = path.join(
+            __dirname,
+            '..',
+            'tools',
+            'github',
+            'infrastructure',
+            'gh',
+            'features',
+            'security-quality',
+            'secrets',
+            '.env.actions.secrets',
+          );
+          if (fs.existsSync(secretsPath) === true) {
+            const content = fs.readFileSync(secretsPath, 'utf8');
+            const match = /^BUCKET_URL=(.*)$/m.exec(content);
+            if (match?.[1] !== undefined) {
+              bucketUrl = match[1].trim();
+            }
+          }
+        }
+
+        const hasBucketUrl = bucketUrl !== undefined && bucketUrl !== '';
+
         const manifestPath = require.resolve('@elo-organico/studio/assets-manifest.json');
         const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8')) as {
           bucket: { assets: { docs: string[] } };
@@ -88,7 +113,7 @@ const config: Config = {
           },
         ];
 
-        if (isProd === false) {
+        if (isProd === false || hasBucketUrl === false) {
           return {
             module: {
               rules: assetRules,

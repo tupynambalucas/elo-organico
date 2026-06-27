@@ -12,10 +12,10 @@ While the project currently focuses on "Single-Instance Mastery", the frontend i
 
 ### Documentation
 
-Detailed technical documentation is available in our [Knowledge Base](https://tupynambalucas.github.io/elo-organico):
+Detailed technical documentation is available in our [Knowledge Base](https://elo-docs.pages.dev):
 
-- [Architecture Overview](https://tupynambalucas.github.io/elo-organico/docs/engineering/architecture): Technical decisions and stack details.
-- [Style Guide](https://tupynambalucas.github.io/elo-organico/docs/engineering/styleguide): UI patterns and React 19 standards.
+- [Architecture Overview](https://elo-docs.pages.dev/docs/engineering/architecture): Technical decisions and stack details.
+- [Style Guide](https://elo-docs.pages.dev/docs/engineering/styleguide): UI patterns and React 19 standards.
 
 ---
 

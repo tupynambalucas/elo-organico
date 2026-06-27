@@ -151,7 +151,7 @@ Wrap the text in square brackets `[ ]` and the URL in parentheses `( )`.
 Relative paths can be used to link to files within the repository.
 
 > [!IMPORTANT]
-> **Prohibited Absolute Paths**: Do not use absolute filesystem paths or `file:///` URLs (e.g., `file:///D:/projects/elo-organico/docs/CONTRIBUTING.md` or `/D:/...`). You must always use relative paths starting with `./` or `../` (or simply `path/to/file` if resolving from the current directory) or fully-qualified public web URLs with explicit domains (e.g., `https://tupynambalucas.github.io/elo-organico/`).
+> **Prohibited Absolute Paths**: Do not use absolute filesystem paths or `file:///` URLs (e.g., `file:///D:/projects/elo-organico/docs/CONTRIBUTING.md` or `/D:/...`). You must always use relative paths starting with `./` or `../` (or simply `path/to/file` if resolving from the current directory) or fully-qualified public web URLs with explicit domains (e.g., `https://elo-docs.pages.dev/`).
 
 #### Syntax
 

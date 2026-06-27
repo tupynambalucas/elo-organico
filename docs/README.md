@@ -37,10 +37,10 @@ The static site will be generated in the build/ directory using an optimized SSG
 
 ## Deployment
 
-The documentation is automatically deployed to GitHub Pages via GitHub Actions on every push to main.
+The documentation is automatically deployed to Cloudflare Pages via GitHub Actions.
 
 - **Workflow:** .github/workflows/deploy-docs.yaml
-- **Authoritative URL:** [https://tupynambalucas.github.io/elo-organico](https://tupynambalucas.github.io/elo-organico)
+- **Authoritative URL:** [https://elo-docs.pages.dev](https://elo-docs.pages.dev)
 
 ---
 

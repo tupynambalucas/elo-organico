@@ -4,11 +4,11 @@ This workspace centralizes brand identity management, design assets, and self-ho
 
 ## Detailed Documentation
 
-Technical documentation is centralized in our [Knowledge Base](https://tupynambalucas.github.io/elo-organico):
+Technical documentation is centralized in our [Knowledge Base](https://elo-docs.pages.dev):
 
-- [Studio Workspace Overview](https://tupynambalucas.github.io/elo-organico/studio): Strategy, visual language, and coded constants.
-- [Design System & Tokens](https://tupynambalucas.github.io/elo-organico/docs/engineering/styleguide): Detailed specifications for colors, typography, and UI patterns.
-- [Design Engineering](https://tupynambalucas.github.io/elo-organico/studio): Infrastructure, S3 configuration, and design workflows with Penpot.
+- [Studio Workspace Overview](https://elo-docs.pages.dev/studio): Strategy, visual language, and coded constants.
+- [Design System & Tokens](https://elo-docs.pages.dev/docs/engineering/styleguide): Detailed specifications for colors, typography, and UI patterns.
+- [Design Engineering](https://elo-docs.pages.dev/studio): Infrastructure, S3 configuration, and design workflows with Penpot.
 
 ## Configuration
 

@@ -14,10 +14,10 @@ services:
     environment:
       - GH_TOKEN=${GH_TOKEN}
     working_dir: /workspace
-    command: ['/workspace/infrastructure/gh/features/security-quality/sync_security_quality.sh']
+    command: ['/workspace/infrastructure/gh/features/security/sync_repo_secrets_variables.sh']
 
   # Service 2: Long-running interactive GitHub CLI service for docker exec use
-  gh-cli:
+  gh:
     build:
       context: ./infrastructure/gh
       dockerfile: Dockerfile
@@ -32,7 +32,7 @@ services:
     command: ['-c', 'tail -f /dev/null']
 
   # Service 3: Long-running git-only container for commits and local git operations
-  git-bash:
+  git:
     build:
       context: ./infrastructure/git
       dockerfile: Dockerfile

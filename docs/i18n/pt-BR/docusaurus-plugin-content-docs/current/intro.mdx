@@ -87,7 +87,7 @@ Embora arquitetado para um modelo SaaS Multi-tenant futuro, nossa prioridade atu
 
 ## Início Rápido
 
-Certifique-se de ter o **Node.js 22+** e o **PNPM 11+** instalados.
+Certifique-se de ter o **Node.js 22+**, **PNPM 11+** e o **Docker** instalados.
 
 1.  **Instalar Dependências:**
 
@@ -95,28 +95,48 @@ Certifique-se de ter o **Node.js 22+** e o **PNPM 11+** instalados.
     pnpm install
     ```
 
-2.  **Configurar Ambiente:**
-    Copie o arquivo `.env.example` para `.env` e configure suas variáveis locais.
-
-3.  **Executar Ambiente de Desenvolvimento:**
-    Utilizamos o **Turborepo** para orquestrar tanto a infraestrutura quanto os processos da aplicação em um único ciclo de vida. Na maioria dos casos, você deve usar os comandos unificados:
+2.  **Configurar Arquivos de Ambiente:**
+    Cada contexto delimitado e aplicação possui seu próprio arquivo de ambiente. Copie cada `.env.*.example` para o seu respectivo arquivo sem a extensão `.example` e preencha com seus valores locais:
 
     ```bash
-    pnpm instance:dev       # Orquestrar Comunidade (Infra + Web + API + Core)
-    pnpm portal:dev         # Orquestrar Plataforma (Infra + Web + API + Core)
+    # Infraestrutura de instância (para compose.yaml)
+    cp instance/.env.dev.example instance/.env.dev
+
+    # API de instância runtime
+    cp instance/apps/api/.env.dev.example instance/apps/api/.env.dev
+
+    # Variáveis de compilação da Web de instância
+    cp instance/apps/web/.env.dev.example instance/apps/web/.env.dev
     ```
 
-    Você também pode direcionar componentes específicos usando nossos scripts com namespace:
+    Repita para `portal/` quando estiver trabalhando no contexto de Portal.
+
+3.  **Iniciar Infraestrutura Local:**
+    Suba os containers de banco de dados e cache antes de iniciar as aplicações:
 
     ```bash
-    pnpm docs:dev           # Iniciar Documentation Hub (Docusaurus)
-    pnpm instance:web       # Iniciar apenas loja/admin da comunidade
-    pnpm instance:api       # Iniciar apenas API da comunidade
-    pnpm portal:web         # Iniciar apenas futuro portal oficial
-    pnpm portal:api         # Iniciar apenas API do portal (foundation)
+    pnpm instance:up   # Inicia MongoDB (Replica Set) + Redis para Instância
     ```
 
-    Consulte a **[Referência de Orquestração](./contributing/orchestration.mdx)** para uma lista completa de comandos.
+4.  **Executar Ambiente de Desenvolvimento:**
+    Com a infraestrutura em execução, inicie as aplicações:
+
+    ```bash
+    pnpm instance:dev       # Inicia API (tsx watch) + Web (Vite) para Instância
+    pnpm portal:dev         # Inicia a stack do Portal
+    ```
+
+    Você também pode direcionar componentes específicos:
+
+    ```bash
+    pnpm docs:dev           # Inicia o Hub de Documentação (Docusaurus)
+    pnpm instance:web       # Inicia apenas a Web da comunidade
+    pnpm instance:api       # Inicia apenas a API da comunidade
+    pnpm portal:web         # Inicia apenas a Web do Portal
+    pnpm portal:api         # Inicia apenas a API do Portal
+    ```
+
+    Consulte a **[Referência de Orquestração](./contributing/orchestration.mdx)** para uma lista completa de comandos, incluindo comandos de implantação em produção.
 
 ---
 
@@ -131,4 +151,4 @@ Para guias detalhados, consulte o diretório `docs/`:
 
 ---
 
-_Gestão profissional para uma economia orgânica sustentável._
+_Última Atualização: Junho de 2026_
