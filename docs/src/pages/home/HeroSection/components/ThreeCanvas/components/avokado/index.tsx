@@ -4,10 +4,8 @@ import { useGLTF, useAnimations, Float } from '@react-three/drei';
 import type { GLTF } from 'three-stdlib';
 import type { ThreeElements } from '@react-three/fiber';
 import { useFrame } from '@react-three/fiber';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 import { cabinMaterial, peelMaterial, pulpMaterial, seedMaterial } from './avokado.material';
-
-const MODEL_FILE = '/three/models/Avokado.glb';
+import MODEL_FILE from '@elo-organico/studio/three/models/avokado.glb';
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -20,7 +18,7 @@ type GLTFResult = GLTF & {
 };
 
 export function Avokado(props: ThreeElements['group']) {
-  const modelPath = useBaseUrl(MODEL_FILE);
+  const modelPath = MODEL_FILE;
   const group = useRef<THREE.Group>(null);
   const { nodes, animations } = useGLTF(modelPath) as unknown as GLTFResult;
   useAnimations(animations, group);
