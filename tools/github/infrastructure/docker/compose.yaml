@@ -13,8 +13,6 @@ services:
       - ../../services/gh/.env.gh.example
     environment:
       - GH_TOKEN=${GH_TOKEN}
-      - SECRETS_DIR=/workspace/config/security
-      - LOG_DIR=/workspace/logs/scripts
     working_dir: /workspace
     command: ['/workspace/services/gh/src/sync_repo_secrets_variables.sh']
 
@@ -27,7 +25,7 @@ services:
     volumes:
       - ../../:/workspace
     env_file:
-      - ../../services/gh/.env.gh.example
+      - ../../services/gh/.env.gh
     working_dir: /workspace
     tty: true
     stdin_open: true
@@ -42,17 +40,7 @@ services:
     volumes:
       - ../../../../:/workspace
     env_file:
-      - ../../services/git/.env.git.example
-    environment:
-      - GH_TOKEN=${GH_TOKEN}
-      # Configure Git to automatically authenticate HTTPS requests to github.com using the GH_TOKEN
-      - GIT_CONFIG_COUNT=2
-      - GIT_CONFIG_KEY_0=credential.https://github.com.username
-      - GIT_CONFIG_VALUE_0=x-access-token
-      - GIT_CONFIG_KEY_1=credential.https://github.com.helper
-      - GIT_CONFIG_VALUE_1=!f() { test "$1" = get && echo "password=${GH_TOKEN}"; }; f
-      - EDITOR=${EDITOR:-nano}
-      - PAGER=${PAGER:-less}
+      - ../../services/git/.env.git
     working_dir: /workspace
     tty: true
     stdin_open: true
