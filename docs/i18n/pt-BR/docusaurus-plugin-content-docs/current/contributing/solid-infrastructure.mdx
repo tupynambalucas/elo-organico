@@ -36,7 +36,7 @@ Todos os serviços conteinerizados devem estar em conformidade com um contrato d
 
 Cada serviço deve receber apenas os inputs e privilégios de sistema necessários para realizar sua tarefa específica.
 
-- **Segregação Estrita de Env**: Não passe um arquivo `.env` monolítico contendo todos os segredos do sistema para todos os containers. Em vez disso, defina arquivos de ambiente separados (por exemplo, `.env.gh-cli` e `.env.git-agent`) para que cada container opere dentro de sua superfície de segurança mínima.
+- **Segregação Estrita de Env**: Não passe um arquivo `.env` monolítico contendo todos os segredos do sistema diretamente para todos os containers. Em vez disso, defina arquivos de ambiente separados (por exemplo, `.env.gh` e `.env.git`) para que cada container opere dentro de sua superfície de segurança mínima.
 
 ### Princípio da Inversão de Dependência (DIP)
 
@@ -62,23 +62,23 @@ tools/github/
 ├── infrastructure/                # Camada de Orquestração
 │   ├── docker/
 │   │   ├── compose.yaml           # Compositor Central Multi-Serviço
-│   │   ├── .env.infra
-│   │   └── .env.infra.example
+│   │   ├── .env
+│   │   └── .env.example
 │   └── logs/                      # Logs de sistema isolados
 ├── scripts/                       # Automação TS Executada no Host
 │   ├── generate-changelog.ts
 │   └── generate-roadmap.ts
 └── services/                      # Módulos de Serviço Plugáveis
-    ├── gh-cli/                    # Serviço de Sincronização do GitHub CLI
+    ├── gh/                        # Serviço de Sincronização do GitHub CLI
     │   ├── Dockerfile
     │   ├── entrypoint.sh          # Contrato de entrypoint unificado
-    │   ├── .env.gh-cli.example
+    │   ├── .env.gh.example
     │   └── src/
     │       └── sync_repo_secrets_variables.sh
-    └── git-agent/                 # Automação de Commit / Assinatura do Git
+    └── git/                       # Automação de Commit / Assinatura do Git
         ├── Dockerfile
         ├── entrypoint.sh
-        ├── .env.git-agent.example
+        ├── .env.git.example
         └── src/
 ```
 
@@ -163,26 +163,23 @@ log_info "Sincronização concluída com sucesso."
 
 ### Orquestrador Desacoplado: `compose.yaml` (DIP & ISP)
 
-O orquestrador mapeia arquivos físicos locais para os alvos abstratos exigidos pelo limite do container:
+O orquestrador mapeia arquivos físicos locais para os alvos abstratos exigidos pelo limite do container e injeta as variáveis do host carregadas automaticamente do `.env`:
 
 ```yaml
 services:
-  gh-cli:
+  gh-secrets:
     build:
-      context: ../../services/gh-cli
+      context: ../../services/gh
       dockerfile: Dockerfile
-    container_name: elo-tools-gh-cli
-    env_file:
-      - .env.infra
-    environment:
-      - SECRETS_DIR=/etc/github-tool/secrets
-      - VARIABLES_FILE=/etc/github-tool/variables/variables.json
-      - GITHUB_TOKEN=${GITHUB_TOKEN}
+    container_name: github-gh-secrets
     volumes:
-      - ../../config/security/secrets:/etc/github-tool/secrets:ro
-      - ../../config/security/variables:/etc/github-tool/variables:ro
-      - ../../infrastructure/logs:/var/log/gh-cli:rw
-    restart: 'no'
+      - ../../:/workspace
+    env_file:
+      - ../../services/gh/.env.gh
+    environment:
+      - GH_TOKEN=${GH_TOKEN}
+    working_dir: /workspace
+    command: ['/workspace/services/gh/src/sync_repo_secrets_variables.sh']
 ```
 
 ---

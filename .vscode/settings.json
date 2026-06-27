@@ -90,7 +90,7 @@
   /* --- Prettier Formatting --- */
   "prettier.requireConfig": true,
   "prettier.useEditorConfig": true,
-  "prettier.configPath": "shared/config/.prettierrc.json",
+  "prettier.configPath": "shared/config/prettierrc.json",
   "prettier.ignorePath": "shared/config/.prettierignore",
 
   /* --- Tailwind CSS IntelliSense --- */

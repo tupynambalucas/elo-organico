@@ -36,7 +36,7 @@ All containerized services must conform to a standardized interface contract.
 
 Each service must only receive the inputs and system privileges it needs to perform its task.
 
-- **Strict Env Segregation**: Do not pass a monolithic `.env` file containing all system secrets to every container. Instead, define separated environment files (e.g., `.env.gh-cli` and `.env.git-agent`) so that each container operates within its minimal security surface.
+- **Strict Env Segregation**: Do not pass a monolithic `.env` file containing all system secrets directly to every container. Instead, define separated environment files (e.g., `.env.gh` and `.env.git`) so that each container operates within its minimal security surface.
 
 ### Dependency Inversion Principle (DIP)
 
@@ -62,23 +62,23 @@ tools/github/
 ├── infrastructure/                # Orchestration Layer
 │   ├── docker/
 │   │   ├── compose.yaml           # Central Multi-Service Composer
-│   │   ├── .env.infra
-│   │   └── .env.infra.example
+│   │   ├── .env
+│   │   └── .env.example
 │   └── logs/                      # Isolated system logs
 ├── scripts/                       # Host-Executed TS Automation
 │   ├── generate-changelog.ts
 │   └── generate-roadmap.ts
 └── services/                      # Pluggable Service Modules
-    ├── gh-cli/                    # GitHub CLI Sync Service
+    ├── gh/                        # GitHub CLI Sync Service
     │   ├── Dockerfile
     │   ├── entrypoint.sh          # Unified entrypoint contract
-    │   ├── .env.gh-cli.example
+    │   ├── .env.gh.example
     │   └── src/
     │       └── sync_repo_secrets_variables.sh
-    └── git-agent/                 # Git Commit / Signing Automation
+    └── git/                       # Git Commit / Signing Automation
         ├── Dockerfile
         ├── entrypoint.sh
-        ├── .env.git-agent.example
+        ├── .env.git.example
         └── src/
 ```
 
@@ -163,26 +163,23 @@ log_info "Synchronization completed successfully."
 
 ### Decoupled Orchestrator: `compose.yaml` (DIP & ISP)
 
-The orchestrator maps concrete files to the abstract targets required by the container boundary:
+The orchestrator maps concrete files to the abstract targets required by the container boundary and injects host-level variables loaded automatically from `.env`:
 
 ```yaml
 services:
-  gh-cli:
+  gh-secrets:
     build:
-      context: ../../services/gh-cli
+      context: ../../services/gh
       dockerfile: Dockerfile
-    container_name: elo-tools-gh-cli
-    env_file:
-      - .env.infra
-    environment:
-      - SECRETS_DIR=/etc/github-tool/secrets
-      - VARIABLES_FILE=/etc/github-tool/variables/variables.json
-      - GITHUB_TOKEN=${GITHUB_TOKEN}
+    container_name: github-gh-secrets
     volumes:
-      - ../../config/security/secrets:/etc/github-tool/secrets:ro
-      - ../../config/security/variables:/etc/github-tool/variables:ro
-      - ../../infrastructure/logs:/var/log/gh-cli:rw
-    restart: 'no'
+      - ../../:/workspace
+    env_file:
+      - ../../services/gh/.env.gh
+    environment:
+      - GH_TOKEN=${GH_TOKEN}
+    working_dir: /workspace
+    command: ['/workspace/services/gh/src/sync_repo_secrets_variables.sh']
 ```
 
 ---

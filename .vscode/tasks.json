@@ -44,17 +44,6 @@
       "problemMatcher": []
     },
     {
-      "label": "Terminal (New Window)",
-      "type": "shell",
-      "command": "wt",
-      "args": ["-d", "${workspaceFolder}", "pwsh", "-NoExit", "-Command", "agy"],
-      "presentation": {
-        "reveal": "silent",
-        "panel": "new"
-      },
-      "problemMatcher": []
-    },
-    {
       "label": "[Docker] Copilot CLI",
       "type": "shell",
       "command": "wt",
