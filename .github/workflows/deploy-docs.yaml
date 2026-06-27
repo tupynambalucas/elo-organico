@@ -65,5 +65,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy docs/build --project-name=elo-organico-docs
+          command: pages deploy docs/build --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT_DOCS }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}

@@ -86,7 +86,6 @@
     "github:generate:changelog": "pnpm --filter @elo-organico/tools generate:changelog",
     "github:generate:roadmap": "pnpm --filter @elo-organico/tools generate:roadmap",
     "github:sync:security-quality": "pnpm --filter @elo-organico/tools github:sync:security-quality",
-    "github:secrets:push": "pnpm --filter @elo-organico/tools github:secrets:push",
     "github:cli:up": "pnpm --filter @elo-organico/tools github:cli:up",
     "github:cli:down": "pnpm --filter @elo-organico/tools github:cli:down",
     "github:cli:reset": "pnpm --filter @elo-organico/tools github:cli:reset",
