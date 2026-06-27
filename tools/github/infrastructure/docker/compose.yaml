@@ -4,28 +4,30 @@ services:
   # Service 1: One-shot execution to push secrets to the repository and shut down
   gh-secrets:
     build:
-      context: ./infrastructure/gh
+      context: ../../services/gh-cli
       dockerfile: Dockerfile
     container_name: github-gh-secrets
     volumes:
-      - .:/workspace
+      - ../../:/workspace
     env_file:
-      - ./infrastructure/gh/.env.github.gh
+      - ../../services/gh-cli/.env.github.gh
     environment:
       - GH_TOKEN=${GH_TOKEN}
+      - SECRETS_DIR=/workspace/config/security
+      - LOG_DIR=/workspace/logs/scripts
     working_dir: /workspace
-    command: ['/workspace/infrastructure/gh/features/security/sync_repo_secrets_variables.sh']
+    command: ['/workspace/services/gh-cli/features/security/sync_repo_secrets_variables.sh']
 
   # Service 2: Long-running interactive GitHub CLI service for docker exec use
   gh:
     build:
-      context: ./infrastructure/gh
+      context: ../../services/gh-cli
       dockerfile: Dockerfile
     container_name: github-gh-cli
     volumes:
-      - .:/workspace
+      - ../../:/workspace
     env_file:
-      - ./infrastructure/gh/.env.github.gh
+      - ../../services/gh-cli/.env.github.gh
     working_dir: /workspace
     tty: true
     stdin_open: true
@@ -34,13 +36,13 @@ services:
   # Service 3: Long-running git-only container for commits and local git operations
   git:
     build:
-      context: ./infrastructure/git
+      context: ../../services/git-agent
       dockerfile: Dockerfile
     container_name: github-git-bash
     volumes:
-      - ../../:/workspace
+      - ../../../../:/workspace
     env_file:
-      - ./infrastructure/git/.env.github.git
+      - ../../services/git-agent/.env.github.git
     environment:
       - GH_TOKEN=${GH_TOKEN}
       # Configure Git to automatically authenticate HTTPS requests to github.com using the GH_TOKEN

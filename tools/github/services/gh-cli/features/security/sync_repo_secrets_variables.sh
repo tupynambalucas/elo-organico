@@ -19,9 +19,9 @@
 
 set -euo pipefail
 
-# Directory where secrets/variables files are located inside the container
-BASE_DIR="/workspace/infrastructure/gh/features/security-quality"
-LOG_DIR="/workspace/logs/scripts"
+# DIP: Allow injecting paths via environment variables, falling back to container standard paths
+BASE_DIR="${SECRETS_DIR:-/workspace/config/security}"
+LOG_DIR="${LOG_DIR:-/workspace/logs/scripts}"
 LOG_FILE="$LOG_DIR/$(basename "$0" .sh).log"
 
 # Temporary files to accumulate keys/warnings for the run log
