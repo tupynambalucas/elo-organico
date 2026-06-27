@@ -25,10 +25,10 @@ const config: Config = {
   favicon: 'logos/logo-mark-positive-favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://elo-organico.com',
+  url: 'https://elo-docs.pages.dev',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/elo-organico/',
+  baseUrl: '/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -277,7 +277,7 @@ const config: Config = {
       ],
       copyright: `
         <div class="footer__banner-container">
-          <img src="/elo-organico/logos/logo-horizontal-positive.svg" alt="Elo Orgânico" class="footer__banner" />
+          <img src="/logos/logo-horizontal-positive.svg" alt="Elo Orgânico" class="footer__banner" />
         </div>
         <p>Copyright © ${new Date().getFullYear()} Elo Orgânico. Professional management for a sustainable organic economy. Built with Docusaurus.</p>
       `,
