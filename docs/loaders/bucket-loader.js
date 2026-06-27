@@ -27,7 +27,7 @@ module.exports = function (source) {
       );
     }
 
-    const url = `${bucketUrl.replace(/\/$/, '')}/studio/${subPath}`;
+    const url = `${bucketUrl.replace(/\/$/, '')}/${subPath}`;
     return `module.exports = ${JSON.stringify(url)};`;
   }
 

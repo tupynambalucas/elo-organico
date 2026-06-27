@@ -71,9 +71,6 @@ const config: Config = {
       name: 'docusaurus-plugin-studio-assets',
       configureWebpack(_config, _isServer, _utils) {
         const isProd = process.env.NODE_ENV === 'production';
-        if (isProd === false) {
-          return {};
-        }
 
         const manifestPath = require.resolve('@elo-organico/studio/assets-manifest.json');
         const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8')) as {
@@ -82,6 +79,22 @@ const config: Config = {
         const buildFolders = manifest.bucket.assets.docs;
         const folderPattern = buildFolders.map((f: string) => f.replace(/^\//, '')).join('|');
         const matchRegex = new RegExp(`^@elo-organico\\/studio\\/(${folderPattern})\\/.*`);
+
+        // Heavy/3D assets rule so Webpack can resolve direct imports of .exr/.glb files
+        const assetRules = [
+          {
+            test: /\.(exr|glb|gltf)$/,
+            type: 'asset/resource',
+          },
+        ];
+
+        if (isProd === false) {
+          return {
+            module: {
+              rules: assetRules,
+            },
+          };
+        }
 
         return {
           plugins: [
@@ -104,6 +117,7 @@ const config: Config = {
                   },
                 ],
               },
+              ...assetRules,
             ],
           },
         };

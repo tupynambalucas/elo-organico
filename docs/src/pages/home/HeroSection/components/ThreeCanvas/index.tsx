@@ -8,12 +8,10 @@ interface NavigatorGPU {
     getPreferredCanvasFormat(): GPUTextureFormat;
   };
 }
-import useBaseUrl from '@docusaurus/useBaseUrl';
 import SceneCamera from './components/camera';
 import SceneDirectionalLight from './components/directional-light';
 import Avokado from './components/avokado';
-
-const EXR_FILE = '/three/exr/farm_field.exr';
+import EXR_FILE from '@elo-organico/studio/three/exr/farm_field.exr';
 
 // Extend R3F to recognize the WebGPU version of THREE.js components.
 // This is necessary because R3F's default is WebGL.
@@ -29,7 +27,7 @@ extend(THREE as unknown as Record<string, new (...args: unknown[]) => unknown>);
  * ensuring the application runs on a wider range of hardware.
  */
 function ThreeCanvasScene() {
-  const exrPath = useBaseUrl(EXR_FILE);
+  const exrPath = EXR_FILE;
 
   // State to manage the renderer mode: 'pending' (while checking), 'webgpu', or 'webgl'.
   const [rendererMode, setRendererMode] = useState<'pending' | 'webgpu' | 'webgl'>('pending');
