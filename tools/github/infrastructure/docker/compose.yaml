@@ -10,7 +10,7 @@ services:
     volumes:
       - ../../:/workspace
     env_file:
-      - ../../services/gh/.env.gh.example
+      - ../../services/gh/.env.gh
     environment:
       - GH_TOKEN=${GH_TOKEN}
     working_dir: /workspace
