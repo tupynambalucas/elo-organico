@@ -45,13 +45,13 @@
     "copilot:prod:auth": "docker exec -it agent-copilot-prod copilot login",
     "antigravity:staging:auth": "docker exec -it agent-antigravity-staging agy",
     "copilot:staging:auth": "docker exec -it agent-copilot-staging copilot login",
-    "github:sync:security-quality": "docker compose -f github/infrastructure/docker/compose.yaml --env-file github/.env.github up --build --force-recreate gh-secrets",
-    "github:cli:up": "docker compose -f github/infrastructure/docker/compose.yaml --env-file github/.env.github up -d gh",
-    "github:cli:down": "docker compose -f github/infrastructure/docker/compose.yaml --env-file github/.env.github stop gh && docker compose -f github/infrastructure/docker/compose.yaml --env-file github/.env.github rm -f gh",
-    "github:cli:reset": "docker compose -f github/infrastructure/docker/compose.yaml --env-file github/.env.github stop gh && docker compose -f github/infrastructure/docker/compose.yaml --env-file github/.env.github rm -f gh && docker compose -f github/infrastructure/docker/compose.yaml --env-file github/.env.github up -d --build gh",
-    "github:bash:up": "docker compose -f github/infrastructure/docker/compose.yaml --env-file github/.env.github up -d git",
-    "github:bash:down": "docker compose -f github/infrastructure/docker/compose.yaml --env-file github/.env.github stop git && docker compose -f github/infrastructure/docker/compose.yaml --env-file github/.env.github rm -f git",
-    "github:bash:reset": "docker compose -f github/infrastructure/docker/compose.yaml --env-file github/.env.github stop git && docker compose -f github/infrastructure/docker/compose.yaml --env-file github/.env.github rm -f git && docker compose -f github/infrastructure/docker/compose.yaml --env-file github/.env.github up -d --build git"
+    "github:sync:security-quality": "docker compose -f github/infrastructure/docker/compose.yaml --env-file github/infrastructure/docker/.env.infra up --build --force-recreate gh-secrets",
+    "github:cli:up": "docker compose -f github/infrastructure/docker/compose.yaml --env-file github/infrastructure/docker/.env.infra up -d gh",
+    "github:cli:down": "docker compose -f github/infrastructure/docker/compose.yaml --env-file github/infrastructure/docker/.env.infra stop gh && docker compose -f github/infrastructure/docker/compose.yaml --env-file github/infrastructure/docker/.env.infra rm -f gh",
+    "github:cli:reset": "docker compose -f github/infrastructure/docker/compose.yaml --env-file github/infrastructure/docker/.env.infra stop gh && docker compose -f github/infrastructure/docker/compose.yaml --env-file github/infrastructure/docker/.env.infra rm -f gh && docker compose -f github/infrastructure/docker/compose.yaml --env-file github/infrastructure/docker/.env.infra up -d --build gh",
+    "github:bash:up": "docker compose -f github/infrastructure/docker/compose.yaml --env-file github/infrastructure/docker/.env.infra up -d git",
+    "github:bash:down": "docker compose -f github/infrastructure/docker/compose.yaml --env-file github/infrastructure/docker/.env.infra stop git && docker compose -f github/infrastructure/docker/compose.yaml --env-file github/infrastructure/docker/.env.infra rm -f git",
+    "github:bash:reset": "docker compose -f github/infrastructure/docker/compose.yaml --env-file github/infrastructure/docker/.env.infra stop git && docker compose -f github/infrastructure/docker/compose.yaml --env-file github/infrastructure/docker/.env.infra rm -f git && docker compose -f github/infrastructure/docker/compose.yaml --env-file github/infrastructure/docker/.env.infra up -d --build git"
   },
   "dependencies": {
     "@elo-organico/docs": "workspace:*",

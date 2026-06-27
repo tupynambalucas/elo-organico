@@ -9,6 +9,9 @@ RUN apk add --no-cache \
 
 WORKDIR /workspace
 
-# Set default entrypoint to run bash
-ENTRYPOINT ["/bin/bash"]
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["/bin/bash"]
 
