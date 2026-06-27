@@ -60,6 +60,7 @@
     "@fastify/http-proxy": "catalog:api-stack"
   },
   "devDependencies": {
+    "@elo-organico/config": "workspace:*",
     "@types/node": "catalog:",
     "tsx": "catalog:",
     "typescript": "catalog:"

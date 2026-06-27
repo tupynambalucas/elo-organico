@@ -594,6 +594,9 @@ importers:
         specifier: catalog:shared-stack
         version: 4.4.3
     devDependencies:
+      '@elo-organico/config':
+        specifier: workspace:*
+        version: link:../../../shared/config
       '@types/bcrypt':
         specifier: catalog:api-stack
         version: 6.0.0
@@ -658,6 +661,9 @@ importers:
         specifier: catalog:web-stack
         version: 5.0.13(@types/react@19.2.14)(react@19.2.6)(use-sync-external-store@1.6.0(react@19.2.6))
     devDependencies:
+      '@elo-organico/config':
+        specifier: workspace:*
+        version: link:../../../shared/config
       '@tailwindcss/vite':
         specifier: catalog:web-stack
         version: 4.3.0(vite@8.0.13(@types/node@25.8.0)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.47.1)(tsx@4.22.0)(yaml@2.9.0))
@@ -698,6 +704,9 @@ importers:
         specifier: catalog:shared-stack
         version: 4.4.3
     devDependencies:
+      '@elo-organico/config':
+        specifier: workspace:*
+        version: link:../../../shared/config
       '@types/node':
         specifier: 'catalog:'
         version: 25.8.0
@@ -783,6 +792,9 @@ importers:
         specifier: catalog:shared-stack
         version: 4.4.3
     devDependencies:
+      '@elo-organico/config':
+        specifier: workspace:*
+        version: link:../../../shared/config
       '@types/bcrypt':
         specifier: catalog:api-stack
         version: 6.0.0
@@ -844,6 +856,9 @@ importers:
         specifier: catalog:web-stack
         version: 5.0.13(@types/react@19.2.14)(react@19.2.6)(use-sync-external-store@1.6.0(react@19.2.6))
     devDependencies:
+      '@elo-organico/config':
+        specifier: workspace:*
+        version: link:../../../shared/config
       '@tailwindcss/vite':
         specifier: catalog:web-stack
         version: 4.3.0(vite@8.0.13(@types/node@25.8.0)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.47.1)(tsx@4.22.0)(yaml@2.9.0))
@@ -884,6 +899,9 @@ importers:
         specifier: catalog:shared-stack
         version: 4.4.3
     devDependencies:
+      '@elo-organico/config':
+        specifier: workspace:*
+        version: link:../../../shared/config
       '@types/node':
         specifier: 'catalog:'
         version: 25.8.0
@@ -945,6 +963,9 @@ importers:
         specifier: catalog:studio-stack
         version: 5.6.0(react@19.2.6)
     devDependencies:
+      '@elo-organico/config':
+        specifier: workspace:*
+        version: link:../shared/config
       '@types/glob':
         specifier: 'catalog:'
         version: 8.1.0
@@ -979,6 +1000,9 @@ importers:
         specifier: catalog:api-stack
         version: 5.8.5
     devDependencies:
+      '@elo-organico/config':
+        specifier: workspace:*
+        version: link:../shared/config
       '@types/node':
         specifier: 'catalog:'
         version: 25.8.0

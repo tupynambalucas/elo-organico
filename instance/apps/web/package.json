@@ -38,6 +38,7 @@
     "@marsidev/react-turnstile": "catalog:web-stack"
   },
   "devDependencies": {
+    "@elo-organico/config": "workspace:*",
     "prettier": "catalog:tooling-stack",
     "eslint": "catalog:tooling-stack",
     "@types/node": "catalog:",

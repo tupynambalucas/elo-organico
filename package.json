@@ -103,6 +103,8 @@
     "version:publish": "changeset publish",
     "project:clear": "npx npkill",
     "husky:test": "tsx tools/scripts/test-hooks.ts",
+    "git:ignore-compiled-docs": "git update-index --skip-worktree CHANGELOG.md ROADMAP.md",
+    "git:track-compiled-docs": "git update-index --no-skip-worktree CHANGELOG.md ROADMAP.md",
     "prepare": "pnpm --filter @elo-organico/config prepare",
     "build": "turbo run build",
     "lint": "turbo run lint",

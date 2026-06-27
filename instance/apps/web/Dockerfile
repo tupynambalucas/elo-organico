@@ -39,7 +39,6 @@ RUN --mount=type=cache,id=pnpm-instance-web,target=/pnpm/store \
 
 # Copy full source and build
 COPY --from=pruner /app/out/full/ .
-COPY --from=pruner /app/tsconfig.base.json ./tsconfig.base.json
 RUN pnpm --filter @elo-instance/web... build
 
 # ---- Stage 4: Runner (Nginx) ----

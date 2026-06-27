@@ -4,6 +4,12 @@
   "private": true,
   "type": "module",
   "main": "./prettierrc.json",
+  "exports": {
+    ".": "./prettierrc.json",
+    "./tsconfig.base.json": "./tsconfig.base.json",
+    "./prettierrc.json": "./prettierrc.json",
+    "./.prettierignore": "./.prettierignore"
+  },
   "scripts": {
     "prepare": "cd ../.. && husky shared/config/.husky"
   },

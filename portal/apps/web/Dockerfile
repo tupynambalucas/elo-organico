@@ -30,7 +30,6 @@ RUN --mount=type=cache,id=pnpm-portal-web,target=/pnpm/store \
     pnpm install --frozen-lockfile
 
 COPY --from=pruner /app/out/full/ .
-COPY --from=pruner /app/tsconfig.base.json ./tsconfig.base.json
 RUN pnpm --filter @elo-portal/web... build
 
 # ---- Stage 4: Runner (Nginx) ----

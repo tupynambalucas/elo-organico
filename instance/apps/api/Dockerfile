@@ -32,7 +32,6 @@ RUN --mount=type=cache,id=pnpm-instance-api,target=/pnpm/store \
     pnpm install --frozen-lockfile
 # Copy full source and build
 COPY --from=pruner /app/out/full/ .
-COPY --from=pruner /app/tsconfig.base.json ./tsconfig.base.json
 RUN pnpm --filter @elo-instance/api... build
 
 # ---- Stage 4: Deployer ----

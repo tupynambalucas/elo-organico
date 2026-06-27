@@ -36,6 +36,7 @@
     "zod": "catalog:shared-stack"
   },
   "devDependencies": {
+    "@elo-organico/config": "workspace:*",
     "@types/node": "catalog:",
     "prettier": "catalog:tooling-stack",
     "eslint": "catalog:tooling-stack",
