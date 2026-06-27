@@ -96,20 +96,20 @@
     "github:bash:interactive": "pnpm --filter @elo-organico/tools github:bash:interactive",
     "github:reset": "pnpm --filter @elo-organico/tools github:reset",
     "// CI/CD & Quality": "-------------------------------------------------",
-    "format:check": "prettier --check .",
-    "format:write": "prettier --write .",
+    "format:check": "prettier --check --ignore-path shared/config/.prettierignore .",
+    "format:write": "prettier --write --ignore-path shared/config/.prettierignore .",
     "version:changeset": "changeset",
     "version:bump": "changeset version",
     "version:publish": "changeset publish",
     "project:clear": "npx npkill",
     "husky:test": "tsx tools/scripts/test-hooks.ts",
-    "husky:validate": "npx husky validate",
-    "prepare": "husky",
+    "prepare": "pnpm --filter @elo-organico/config prepare",
     "build": "turbo run build",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck"
   },
   "devDependencies": {
+    "@elo-organico/config": "workspace:*",
     "@changesets/cli": "catalog:",
     "@clack/prompts": "catalog:",
     "@eslint/compat": "catalog:tooling-stack",
@@ -136,12 +136,13 @@
     "typescript-eslint": "catalog:tooling-stack",
     "wrangler": "catalog:"
   },
+  "prettier": "@elo-organico/config",
   "lint-staged": {
     "**/*.{js,mjs,ts,tsx,mdx}": [
       "eslint --fix --no-warn-ignored"
     ],
     "**/*.{json,yaml,md,css,html}": [
-      "prettier --write"
+      "prettier --write --ignore-path shared/config/.prettierignore"
     ]
   }
 }

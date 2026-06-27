@@ -1,0 +1,15 @@
+{
+  "name": "@elo-organico/config",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./prettierrc.json",
+  "scripts": {
+    "prepare": "cd ../.. && husky shared/config/.husky"
+  },
+  "dependencies": {
+    "husky": "catalog:",
+    "lint-staged": "catalog:",
+    "prettier": "catalog:tooling-stack"
+  }
+}

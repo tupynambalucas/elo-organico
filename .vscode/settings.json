@@ -90,6 +90,7 @@
   /* --- Prettier Formatting --- */
   "prettier.requireConfig": true,
   "prettier.useEditorConfig": true,
+  "prettier.ignorePath": "shared/config/.prettierignore",
 
   /* --- Tailwind CSS IntelliSense --- */
   "tailwindCSS.showPixelEquivalents": true,

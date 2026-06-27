@@ -5,6 +5,7 @@ packages:
   - 'instance/packages/*'
   - 'portal/apps/*'
   - 'portal/packages/*'
+  - 'shared/*'
   - 'studio'
   - 'tools'
   - 'docs'

@@ -6,7 +6,7 @@ All updates, improvements, and new features of Elo Orgânico documented in the K
 
 The foundational release of Elo Orgânico (v0.1.0) establishes the core monorepo architecture, workspace isolation boundaries, and domain foundations for the local community shop and global platform hub.
 
-{/* truncate */}
+{/_ truncate _/}
 
 ### Monorepo Architecture & Bounded Contexts
 
