@@ -263,11 +263,11 @@ const config: Config = {
             },
             {
               label: 'Architecture',
-              to: '/docs/engineering/architecture',
+              to: '/docs/engineering/architecture/overview',
             },
             {
               label: 'Style Guide',
-              to: '/docs/engineering/styleguide',
+              to: '/docs/contributing/styleguide',
             },
             {
               label: 'Orchestration Reference',

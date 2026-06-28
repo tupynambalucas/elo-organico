@@ -3,6 +3,8 @@ title: Arquitetura Técnica
 description: Visão geral abrangente da estrutura do monorepo do Elo Orgânico, contextos delimitados e stack tecnológica.
 ---
 
+import DocCardList from '@theme/DocCardList';
+
 # Arquitetura Técnica
 
 ## 1. Resumo Executivo
@@ -98,25 +100,48 @@ O **Turborepo** é o motor por trás da nossa produtividade no monorepo. Ele lid
 
 Utilizamos uma interface de CLI unificada definida no `package.json` raiz para orquestrar e gerenciar o monorepo em todos os ambientes (**desenvolvimento**, **homologação/staging** e **produção**).
 
-Para uma lista de referência completa de scripts de orquestração, comandos de serviço e fluxos de trabalho da stack de desenvolvimento, consulte o **[Guia de Orquestração do Monorepo](../contributing/orchestration.mdx)**.
+Para uma lista de referência completa de scripts de orquestração, comandos de serviço e fluxos de trabalho da stack de desenvolvimento, consulte o **[Guia de Orquestração do Monorepo](../../contributing/orchestration.mdx)**.
 
 ---
 
-## 5. Princípios Arquiteturais
+## 5. Princípios de Arquitetura
 
-- **Fonte Única de Verdade (SSOT):** Estruturas de dados da comunidade devem ser definidas em `@elo-instance/core`. Regras da plataforma estão em `@elo-portal/core`.
-- **Configuração Herdada:** ESLint e TSConfig são centralizados na raiz, com extensões localizadas fornecendo refinamentos específicos de contexto sem duplicar o rigor base.
-- **Domain-Driven Design (DDD) & Feature-Sliced Design (FSD):** A arquitetura frontend combina os contextos delimitados do DDD com a modularidade do Feature-Sliced Design (FSD) para alcançar escala corporativa.
-  - **Domínios Globais (`src/domains`):** Contêm entidades (ex: `auth`, `product`, `cycle`), suas stores de estado, clientes de API e **Domain Hooks**.
-  - **Features (`src/features`):** Representam fluxos de trabalho de usuários ou módulos de aplicação (ex: `admin`, `shop`). Features orquestram múltiplos domínios, mas são estritamente isoladas umas das outras.
-  - **Domínios Privados Específicos de Feature (`src/features/*/domains`):** Subdomínios que só fazem sentido dentro de uma feature específica (ex: `cart` dentro da feature `shop`). Isso previne a poluição do domínio global.
-  - **Camada de UI Compartilhada (`src/shared/ui`):** Componentes reutilizáveis e agnósticos de domínio (ex: loaders genéricos, botões). Domínios ou entidades globais **NÃO PODEM** importar de features.
-- **Princípios SOLID:**
-  - **Responsabilidade Única:** Logic é separada. Stores gerenciam estado, funções puras realizam cálculos e hooks lidam com a orquestração.
-  - **Aberto/Fechado:** Aberto para extensão, fechado para modificação.
-  - **Substituição de Liskov:** Comportamento consistente de subtipos.
-  - **Segregação de Interface:** Interfaces enxutas e específicas.
-  - **Inversão de Dependência:** Depender de abstrações, não de concreções.
+Para garantir extrema manutenibilidade, legibilidade a longo prazo e limites claros entre nossos contextos de domínio, o Elo Orgânico segue quatro princípios de arquitetura fundamentais.
+
+Clique em qualquer cartão abaixo para explorar uma análise detalhada de cada princípio:
+
+<DocCardList
+  items={[
+    {
+      type: 'link',
+      href: '/docs/engineering/architecture/principles/solid',
+      label: 'Princípios SOLID',
+      description:
+        'Responsabilidade Única, Aberto/Fechado, Substituição de Liskov, Segregação de Interface e Inversão de Dependência.',
+    },
+    {
+      type: 'link',
+      href: '/docs/engineering/architecture/principles/ssot',
+      label: 'Fonte Única de Verdade (SSOT)',
+      description:
+        'Garantir que cada elemento de dados tenha uma representação única, inequívoca e autoritativa.',
+    },
+    {
+      type: 'link',
+      href: '/docs/engineering/architecture/principles/inherited-configuration',
+      label: 'Configuração Herdada',
+      description:
+        'Cascateamento de configurações hierárquicas entre os contextos de workspace para promover reutilização.',
+    },
+    {
+      type: 'link',
+      href: '/docs/engineering/architecture/principles/ddd-fsd',
+      label: 'DDD & Feature-Sliced Design (FSD)',
+      description:
+        'Aplicação de Domain-Driven Design e Feature-Sliced Design para organização modular e escalável da base de código.',
+    },
+  ]}
+/>
 
 ---
 
@@ -258,7 +283,7 @@ A decisão de usar um único `compose.prod.yaml` para produção e staging é um
 
 Um arquivo Compose deve ter exatamente uma razão para mudar: uma **mudança na topologia da stack** (novos serviços, configuração de rede diferente, intervalos de healthcheck alterados, containers adicionais). Nem a produção nem o staging requerem uma topologia de serviço diferente — ambos executam o conjunto idêntico de serviços (API, Web/Nginx, Redis) conectados à mesma rede e com a mesma estratégia de healthcheck.
 
-As únicas diferenças entre os dois ambientes são **valores de configuração** (URI do cluster MongoDB Atlas, chaves do Cloudflare Turnstile, segredos de API, tags de imagem). Esta é uma preocupação de configuração, não de topologia, e é de responsabilidade exclusiva dos arquivos `.env` específicos de cada ambiente (`.env.prod`, `.env.staging`).
+As únicas diferenças entre os dois ambientes são **valores de configuração** (URI do cluster MongoDB Atlas, chaves do Cloudflare Turnstile, segredos de API, chaves de tag de imagem). Esta é uma preocupação de configuração, não de topologia, e é de responsabilidade exclusiva dos arquivos `.env` específicos de cada ambiente (`.env.prod`, `.env.staging`).
 
 Criar um `compose.staging.yaml` separado como uma cópia estrutural de `compose.prod.yaml` violaria o SRP ao introduzir dois arquivos com o mesmo motivo para mudar. Qualquer alteração futura de topologia (adicionar um container de monitoramento, atualizar intervalos de healthcheck) exigiria edições idênticas em ambos os arquivos, gerando risco de divergência. O nível correto de segregação é a flag `--env-file`, que é o mecanismo recomendado pelo Docker para injeção de configurações específicas de ambiente.
 
@@ -348,7 +373,7 @@ Os workspaces de Studio e Tools fornecem a infraestrutura para o alinhamento ent
 
 ## 10. Padrões de Segurança
 
-O Elo Orgânico segue uma estratégia de segurança em múltiplas camadas. Para detalhes detalhados de implementação, consulte o documento de **[Arquitetura de Segurança](./security.mdx)**.
+O Elo Orgânico segue uma estratégia de segurança em múltiplas camadas. Para detalhes detalhados de implementação, consulte o documento de **[Arquitetura de Segurança](../security.mdx)**.
 
 - **Proteção contra Bots**: Integração com Cloudflare Turnstile para todos os pontos de entrada de autenticação.
 - **Mitigação de Brute-Force**: Limitação de taxa baseada em IP e lógica de bloqueio de conta.

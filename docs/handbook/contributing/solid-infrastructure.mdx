@@ -17,7 +17,6 @@ To keep the **Elo Orgânico** infrastructure, DevOps tooling, and repository aut
 Each directory and configuration file must serve exactly one operational purpose.
 
 - **Separation of Concerns**: We separate runtime-specific service environments from host-executed automation scripts, configuration schema templates, and orchestration files.
-- **Reusable CI Modules**: Workflows under `.github/workflows/` must not duplicate environment setup logic. Shared behaviors (such as node execution, PNPM installations, and cache configurations) are extracted into independent **GitHub Composite Actions** in `.github/actions/`.
 
 ### Open/Closed Principle (OCP)
 

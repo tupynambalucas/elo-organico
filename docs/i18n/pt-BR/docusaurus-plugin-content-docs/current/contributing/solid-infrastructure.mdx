@@ -17,7 +17,6 @@ Para manter a infraestrutura do **Elo Orgânico**, as ferramentas de DevOps e as
 Cada diretório e arquivo de configuração deve atender a exatamente um propósito operacional.
 
 - **Separação de Preocupações**: Separamos os ambientes de serviço específicos de tempo de execução (runtime) dos scripts de automação executados no host, modelos de esquemas de configuração e arquivos de orquestração.
-- **Módulos de CI Reutilizáveis**: Os fluxos de trabalho sob `.github/workflows/` não devem duplicar a lógica de configuração do ambiente. Comportamentos compartilhados (como execução do node, instalações do PNPM e configurações de cache) são extraídos em **GitHub Composite Actions** independentes em `.github/actions/`.
 
 ### Princípio Aberto/Fechado (OCP)
 

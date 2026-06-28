@@ -3,6 +3,8 @@ title: Technical Architecture
 description: Comprehensive overview of Elo Orgânico's monorepo structure, bounded contexts, and technology stack.
 ---
 
+import DocCardList from '@theme/DocCardList';
+
 # Technical Architecture
 
 ## 1. Executive Summary
@@ -98,25 +100,48 @@ We employ a **Hybrid High-Performance Architecture** optimized by **Turborepo** 
 
 We use a unified CLI interface defined in the root [package.json](file:///D:/projects/elo-organico/package.json) to orchestrate and manage the monorepo across all environments (**development**, **staging**, and **production**).
 
-For a complete reference list of orchestration scripts, service commands, and dev stack workflows, please refer to the **[Monorepo Orchestration Guide](../contributing/orchestration.mdx)**.
+For a complete reference list of orchestration scripts, service commands, and dev stack workflows, please refer to the **[Monorepo Orchestration Guide](../../contributing/orchestration.mdx)**.
 
 ---
 
 ## 5. Architectural Principles
 
-- **Single Source of Truth (SSOT):** Community data structures must be defined in `@elo-instance/core`. Platform rules are in `@elo-portal/core`.
-- **Inherited Configuration:** ESLint and TSConfig are centralized at the root, with localized extensions providing context-specific refinements without duplicating the base rigor.
-- **Domain-Driven Design (DDD) & Feature-Sliced Design (FSD):** The frontend architecture blends DDD bounded contexts with FSD modularity to achieve enterprise scale.
-  - **Global Domains (`src/domains`):** Contain entities (e.g., `auth`, `product`, `cycle`), their state stores, API clients, and **Domain Hooks**.
-  - **Features (`src/features`):** Represent user workflows or application modules (e.g., `admin`, `shop`). Features orchestrate multiple domains but are strictly isolated from one another.
-  - **Feature-Specific Private Domains (`src/features/*/domains`):** Sub-domains that only make sense within a specific feature (e.g., `cart` inside the `shop` feature). This prevents global domain pollution.
-  - **Shared UI Layer (`src/shared/ui`):** Reusable, domain-agnostic components (e.g., generic loaders, buttons). Global domains or entities **MUST NOT** import from features.
-- **SOLID Principles:**
-  - **Single Responsibility:** Logic is separated. Stores handle state, pure functions handle calculations, and hooks handle orchestration.
-  - **Open/Closed:** Open for extension, closed for modification.
-  - **Liskov Substitution:** Consistent subtype behavior.
-  - **Interface Segregation:** Lean, specific interfaces.
-  - **Dependency Inversion:** Depend on abstractions, not concretions.
+To ensure extreme maintainability, long-term readability, and clean boundaries across our domain contexts, Elo Orgânico follows four foundational architectural principles.
+
+Click on any card below to explore a deep dive into each principle:
+
+<DocCardList
+  items={[
+    {
+      type: 'link',
+      href: '/docs/engineering/architecture/principles/solid',
+      label: 'SOLID Principles',
+      description:
+        'Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, and Dependency Inversion.',
+    },
+    {
+      type: 'link',
+      href: '/docs/engineering/architecture/principles/ssot',
+      label: 'Single Source of Truth (SSOT)',
+      description:
+        'Ensuring that every data element has a single, unambiguous, and authoritative representation.',
+    },
+    {
+      type: 'link',
+      href: '/docs/engineering/architecture/principles/inherited-configuration',
+      label: 'Inherited Configuration',
+      description:
+        'Cascading hierarchical settings across workspace contexts to promote reuse and strict defaults.',
+    },
+    {
+      type: 'link',
+      href: '/docs/engineering/architecture/principles/ddd-fsd',
+      label: 'DDD & Feature-Sliced Design (FSD)',
+      description:
+        'Applying Domain-Driven Design and Feature-Sliced Design principles for modular and scalable codebase organization.',
+    },
+  ]}
+/>
 
 ---
 
@@ -281,7 +306,7 @@ The Web Dockerfiles use a two-stage build: a Node.js builder compiles the React 
 
 ### 8.3. Environment Variable Strategy
 
-Environment files follow the **Bounded Context** and **Single Responsibility** principles — each file has exactly one owner and lives alongside it:
+Environment variables follow the **Bounded Context** and **Single Responsibility** principles — each file has exactly one owner and lives alongside it:
 
 | File Pattern                      | Owner / Target       | Purpose / Scope                                                                         | Git         |
 | :-------------------------------- | :------------------- | :-------------------------------------------------------------------------------------- | :---------- |
@@ -348,7 +373,7 @@ The Studio and Tools workspaces provide the infrastructure for design-to-code al
 
 ## 10. Security Standards
 
-Elo Orgânico follows a multi-layered security strategy. For detailed implementation details, refer to the **[Security Architecture](./security.mdx)** document.
+Elo Orgânico follows a multi-layered security strategy. For detailed implementation details, refer to the **[Security Architecture](../security.mdx)** document.
 
 - **Bot Protection**: Integration with Cloudflare Turnstile for all authentication entry points.
 - **Brute-Force Mitigation**: IP-based rate limiting and account lockout logic.
