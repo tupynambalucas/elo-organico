@@ -1,10 +1,10 @@
 ---
-title: Fluxo de Trabalho Git & Padrões
+title: GitHub Standards
 description: Estratégia profissional de ramificação (branching), commits e releases para o monorepo Elo Orgânico.
 sidebar_position: 2
 ---
 
-# Guia de Fluxo de Trabalho Git
+# Padrões do GitHub
 
 Este documento descreve a estratégia profissional de ramificação e lançamento para o **Elo Orgânico**, combinando a disciplina estrutural do **Git Flow** com o poder de colaboração da **GitHub CLI (`gh`)**.
 
@@ -174,6 +174,112 @@ Se um bug for encontrado em produção:
 - **Sem commits diretos na `main` ou `develop`**: Sempre use branches de funcionalidade e PRs.
 - **Sem Force Pushes**: A menos que seja em sua própria branch de funcionalidade isolada e necessário para um rebase.
 - **Sem Dirty Merges**: Evite fazer merge da `main` de volta para `feature/*`. Sempre faça **rebase** sobre a `develop` se sua branch de funcionalidade ficar desatualizada.
+
+---
+
+## Modelos de Implementação
+
+### Componente de CI Reutilizável: `.github/actions/setup-pnpm-env/action.yml` (SRP)
+
+Em vez de duplicar configurações de dependências nos workflows do GitHub, extraia-os em uma ação composta:
+
+```yaml
+name: 'Setup PNPM Environment'
+description: 'Installs Node, PNPM, and configures dependency caching'
+
+inputs:
+  node-version:
+    description: 'Node.js version to use'
+    required: false
+    default: '22'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
+
+    - name: Install pnpm
+      uses: pnpm/action-setup@v6
+
+    - name: Setup Node
+      uses: actions/setup-node@v6
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: 'pnpm'
+
+    - name: Install Dependencies
+      shell: bash
+      run: pnpm install
+```
+
+### Contrato de Script Desacoplado: `sync_repo_secrets_variables.sh` (DIP)
+
+Este script depende estritamente de parâmetros injetados pelo ambiente, abrindo mão totalmente dos caminhos físicos de disco na máquina executora:
+
+```bash
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+log_info() {
+  echo "[GH-CLI INFO] $(date '+%Y-%m-%d %H:%M:%S') - $1"
+}
+
+log_error() {
+  echo "[GH-CLI ERROR] $(date '+%Y-%m-%d %H:%M:%S') - $1" >&2
+}
+
+# Verifica se as dependências foram injetadas via ambiente
+if [[ -z "${SECRETS_DIR:-}" ]]; then
+  log_error "A variável de ambiente obrigatória SECRETS_DIR não está definida."
+  exit 1
+fi
+
+if [[ -z "${VARIABLES_FILE:-}" ]]; then
+  log_error "A variável de ambiente obrigatória VARIABLES_FILE não está definida."
+  exit 1
+fi
+
+log_info "Lendo variáveis de: $VARIABLES_FILE"
+log_info "Escaneando diretório de segredos: $SECRETS_DIR"
+
+if [[ ! -f "$VARIABLES_FILE" ]]; then
+  log_error "Arquivo de variáveis não encontrado em: $VARIABLES_FILE"
+  exit 1
+fi
+
+log_info "Sincronização concluída com sucesso."
+```
+
+### Orquestrador Desacoplado: `compose.yaml` (DIP & ISP)
+
+O orquestrador mapeia arquivos físicos locais para os alvos abstratos exigidos pelo limite do container e injeta as variáveis do host carregadas automaticamente do `.env`:
+
+```yaml
+services:
+  gh-secrets:
+    build:
+      context: ../../services/gh
+      dockerfile: Dockerfile
+    container_name: github-gh-secrets
+    volumes:
+      - ../../:/workspace
+    env_file:
+      - ../../services/gh/.env.gh
+    environment:
+      - GH_TOKEN=${GH_TOKEN}
+    working_dir: /workspace
+    command: ['/workspace/services/gh/src/sync_repo_secrets_variables.sh']
+```
+
+---
+
+:::tip[Benefícios de Extensibilidade]
+Sob este layout, adicionar um novo container de ferramentas (por exemplo, `sentry-uploader` ou `sonar-scanner`) é tão simples quanto colocar uma pasta sob `services/`, estabelecer seus requisitos de `.env` e registrá-lo em `/infrastructure/docker/compose.yaml`. As ações de core, fluxos de trabalho e diretórios de configuração existentes permanecem bloqueados e completamente seguros.
+:::
 
 ---
 
