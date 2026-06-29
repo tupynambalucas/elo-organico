@@ -271,7 +271,7 @@ const config: Config = {
             },
             {
               label: 'Orchestration Reference',
-              to: '/docs/contributing/orchestration',
+              to: '/docs/engineering/architecture/infra-orchestration-deploy/orchestration',
             },
           ],
         },

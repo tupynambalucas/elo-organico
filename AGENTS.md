@@ -14,7 +14,7 @@ To understand local requirements, directories, and stack-specific behaviors, you
 - **Studio Context (Visual Identity & Design System)**: Refer to the local [studio/AGENTS.md](./studio/AGENTS.md) for color tokens, SVG icon library, and self-hosted Penpot setup.
 - **Handbook Documentation**: Refer to general guides in [docs/handbook/](./docs/handbook/):
   - [Introduction](./docs/handbook/intro.mdx)
-  - [Orchestration Reference](./docs/handbook/contributing/orchestration.mdx)
+  - [Orchestration Reference](./docs/handbook/engineering/architecture/infra-orchestration-deploy/orchestration.mdx)
 - **Core Platform Roadmap**: Refer to the core roadmap in [docs/roadmap/01-core.md](./docs/roadmap/01-core.md).
 
 ---

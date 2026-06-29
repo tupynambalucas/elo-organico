@@ -29,12 +29,14 @@ Please verify that your code adheres to all project quality standards before req
 ## Testing & Quality Assurance
 
 ### Manual Test Steps
+
 <!-- Detail how to manually verify these changes. Provide exact steps, configuration setup, or commands to execute inside containers. -->
 
-1. 
-2. 
+1.
+2.
 
 ### Automated Test Coverage
+
 - [ ] Automated tests added/updated.
 - [ ] No test regressions.
 

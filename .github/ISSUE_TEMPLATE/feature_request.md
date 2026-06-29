@@ -16,6 +16,7 @@ A clear and concise description of what you want to happen. Describe the archite
 ## Workspace / Bounded Context Scope
 
 Please specify the affected workspace(s):
+
 - [ ] `instance` (Community Instance)
 - [ ] `portal` (SaaS Platform Portal)
 - [ ] `studio` (Design Tokens / Penpot / Assets)
@@ -26,6 +27,7 @@ Please specify the affected workspace(s):
 ## Technical Architecture & Impact
 
 How should this feature be integrated under SOLID principles?
+
 - Describe the impact on any `packages/core` library files (Core First Design).
 - Highlight any necessary environment variables or Docker configuration updates.
 

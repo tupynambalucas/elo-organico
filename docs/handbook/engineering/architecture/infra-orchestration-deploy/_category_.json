@@ -1,0 +1,8 @@
+{
+  "label": "Infra, Orchestration & Deployment",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "Infrastructure standards, monorepo orchestration, and self-hosted deployment processes."
+  }
+}

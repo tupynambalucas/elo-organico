@@ -104,7 +104,7 @@ export interface IFileStorageAdapter {
 }
 ```
 
-No desenvolvimento local, injetamos um `LocalDiskStorageAdapter` que grava em `tmp/`. Em produção e homologação, injetamos um `CloudinaryStorageAdapter` ou `S3StorageAdapter`. Ambos implementam `IFileStorageAdapter` perfeitamente. O serviço consumidor (ex: `ProductImageService`) permanece 100% agnóstico ao sistema subjacente, e podemos substituí-los de forma transparente sem quebrar a lógica de negócio do serviço.
+No desenvolvimento local, injetamos um `LocalDiskStorageAdapter` que grava em `tmp/`. Em produção e homologação, injetamos um `CloudflareR2StorageAdapter` ou `S3StorageAdapter`. Ambos implementam `IFileStorageAdapter` perfeitamente. O serviço consumidor (ex: `ProductImageService`) permanece 100% agnóstico ao sistema subjacente, e podemos substituí-los de forma transparente sem quebrar a lógica de negócio do serviço.
 
 ---
 

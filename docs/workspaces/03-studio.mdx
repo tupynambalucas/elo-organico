@@ -98,7 +98,7 @@ The Studio workspace serves as the multi-disciplinary creative and structural nu
 
     *   **Orchestration:** Managed via `studio/penpot/compose.yaml` (Frontend, Backend, Exporter, Valkey).
     *   **Database Layer:** PostgreSQL persistence hosted on Neon.tech for serverless transactional integrity.
-    *   **Object Storage:** Binary assets are persisted in S3-compatible buckets (Backblaze B2 or Filebase), ensuring a minimal Git footprint.
+    *   **Object Storage:** Binary assets are persisted in S3-compatible Cloudflare R2 buckets, ensuring a minimal Git footprint.
 
     #### Aide: AI-Native Integration
 
@@ -154,6 +154,28 @@ The Studio workspace serves as the multi-disciplinary creative and structural nu
     *   **3D Models:** Blender master files are exported to GLB format for runtime rendering.
     *   **Tokens:** Visual constants are exported as strongly-typed TypeScript definitions from `src/tokens/`.
 
+    #### Cloudflare R2 Asset Synchronizer
+
+    To keep our Git repository lightweight, production-ready static assets are not committed directly to the codebase. Instead, they are managed and synchronized bidirectionally with Cloudflare R2 Object Storage using our dedicated CLI synchronizer package `@elo-organico/studio/bucket`.
+
+    ##### Dynamic Synchronization & Verification
+
+    The synchronization engine uses local MD5 hashing and remote ETag validation to guarantee zero redundant operations.
+
+    *   **Registry Config:** The paths to sync are configured dynamically in `studio/assets-manifest.json`.
+    *   **Upload/Push:** Scans local assets, validates headers, and pushes new/modified static files to the R2 bucket.
+    *   **Download/Pull:** Checks remote metadata, compares with local files, and pulls updated resources.
+
+    ##### Operational Commands
+
+    Run the interactive Clack CLI directly from the root of the monorepo:
+
+    ```bash
+    pnpm studio:bucket
+    ```
+
+    From the CLI menu, choose **Push** to upload local changes or **Pull** to download the latest assets.
+
     #### Namespaced Workspace Exports
 
     Internal packages access creative assets via strictly defined exports to ensure architectural isolation:
@@ -162,6 +184,7 @@ The Studio workspace serves as the multi-disciplinary creative and structural nu
     *   `@elo-organico/studio/logos`: Canonical brand logotypes.
     *   `@elo-organico/studio/tokens`: Strongly-typed design constants for JS/TS logic.
     *   `@elo-organico/studio/theme.css`: Zero-runtime Tailwind CSS v4 theme and global resets.
+    *   `@elo-organico/studio/bucket`: Asset synchronization engine and S3-compatible client wrappers.
 
   </TabItem>
 </Tabs>

@@ -104,7 +104,7 @@ export interface IFileStorageAdapter {
 }
 ```
 
-In development, we inject a `LocalDiskStorageAdapter` that writes to `tmp/`. In production and staging, we inject a `CloudinaryStorageAdapter` or `S3StorageAdapter`. Both adapters implement `IFileStorageAdapter` perfectly. The consuming service (e.g., `ProductImageService`) remains 100% oblivious to the actual underlying system, and we can swap them out seamlessly without breaking service logic.
+In development, we inject a `LocalDiskStorageAdapter` that writes to `tmp/`. In production and staging, we inject a `CloudflareR2StorageAdapter` or `S3StorageAdapter`. Both adapters implement `IFileStorageAdapter` perfectly. The consuming service (e.g., `ProductImageService`) remains 100% oblivious to the actual underlying system, and we can swap them out seamlessly without breaking service logic.
 
 ---
 

@@ -98,7 +98,7 @@ O workspace Studio serve como o núcleo criativo e estrutural multidisciplinar d
 
     *   **Orquestração:** Gerenciada via `studio/penpot/compose.yaml` (Frontend, Backend, Exporter, Valkey).
     *   **Camada de Banco de Dados:** Persistência do PostgreSQL hospedada no Neon.tech para integridade transacional sem servidor (serverless).
-    *   **Armazenamento de Objetos:** Ativos binários são persistidos em buckets compatíveis com S3 (Backblaze B2 ou Filebase), garantindo um footprint mínimo no Git.
+    *   **Armazenamento de Objetos:** Ativos binários são persistidos em buckets compatíveis com S3 do Cloudflare R2, garantindo um footprint mínimo no Git.
 
     #### Aide: Integração Nativa de IA
 
@@ -154,6 +154,28 @@ O workspace Studio serve como o núcleo criativo e estrutural multidisciplinar d
     *   **Modelos 3D:** Os arquivos mestre do Blender são exportados para o formato GLB para renderização em tempo de execução.
     *   **Tokens:** Constantes visuais são exportadas como definições do TypeScript fortemente tipadas de `src/tokens/`.
 
+    #### Sincronizador de Ativos Cloudflare R2
+
+    Para manter nosso repositório Git leve, ativos estáticos prontos para produção não são commitados diretamente no código-fonte. Em vez disso, eles são gerenciados e sincronizados bidirecionalmente com o Cloudflare R2 Object Storage usando nosso pacote de sincronização CLI dedicado `@elo-organico/studio/bucket`.
+
+    ##### Sincronização Dinâmica e Verificação
+
+    O motor de sincronização utiliza hashing MD5 local e validação de ETag remota para garantir zero operações redundantes.
+
+    *   **Configuração de Registro:** Os caminhos a sincronizar são configurados dinamicamente em `studio/assets-manifest.json`.
+    *   **Upload/Push:** Varre ativos locais, valida cabeçalhos e envia arquivos estáticos novos ou modificados para o bucket R2.
+    *   **Download/Pull:** Verifica metadados remotos, compara com arquivos locais e baixa recursos atualizados.
+
+    ##### Comandos Operacionais
+
+    Execute o CLI interativo Clack diretamente a partir da raiz do monorepo:
+
+    ```bash
+    pnpm studio:bucket
+    ```
+
+    No menu do CLI, escolha **Push** para enviar alterações locais ou **Pull** para baixar os ativos mais recentes.
+
     #### Exportações com Namespace do Workspace
 
     Pacotes internos acessam ativos criativos através de exportações estritamente definidas para garantir o isolamento arquitetônico:
@@ -162,6 +184,7 @@ O workspace Studio serve como o núcleo criativo e estrutural multidisciplinar d
     *   `@elo-organico/studio/logos`: Logotipos canônicos da marca.
     *   `@elo-organico/studio/tokens`: Constantes de design fortemente tipadas para a lógica JS/TS.
     *   `@elo-organico/studio/theme.css`: Tema Tailwind CSS v4 sem runtime e resets globais.
+    *   `@elo-organico/studio/bucket`: Motor de sincronização de ativos e wrappers de cliente compatíveis com S3.
 
   </TabItem>
 </Tabs>

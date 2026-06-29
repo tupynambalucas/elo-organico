@@ -27,10 +27,13 @@ All documentation inside the `docs/` workspace is organized into logical directo
 All files placed inside the documentation directories (`handbook/`, `roadmap/`, `workspaces/`, and `releases/`) MUST strictly adhere to the following rules:
 
 ### A. Extension Rule: All-MDX
+
 - **Zero `.md` Files**: All technical documents, guides, and roadmap files must use the `.mdx` file extension to support rich React components and strict MDX parsing. No `.md` files should be created or exist within these directories (the only exception is the repository-standard `README.md` at package and workspace roots).
 
 ### B. MDX Parser Compliance
+
 MDX compiles markdown files directly into React components. Follow these strict parsing rules to avoid compilation crashes:
+
 - **No HTML Comments**: Standard HTML comments (`<!-- comment -->`) are completely forbidden in MDX and will break compilation. Always use JavaScript comments wrapped in curly braces: `{/* comment */}`.
 - **Escaping Special Characters**: Raw curly braces (`{` and `}`) and less-than signs (`<`) will be intercepted by the MDX parser as JSX or expression start tokens. Always escape them when they are intended as raw text: `\{`, `\}`, and `\<`.
 - **Self-Closing Tags**: All HTML or JSX elements must be well-formed. Self-closing tags MUST end with a trailing slash (e.g., `<br />`, `<img src="..." />`, `<hr />`).
@@ -38,7 +41,9 @@ MDX compiles markdown files directly into React components. Follow these strict 
 - **Docusaurus Admonitions**: Use native colon admonitions with a bracketed title (`:::note[Title]`, `:::tip[Title]`, `:::info[Title]`, `:::caution[Title]`, `:::danger[Title]`) instead of standard GFM quote alerts (`> [!NOTE]`).
 
 ### C. Formatting & Prettier Standards
+
 All MDX files must align with the project Prettier configuration:
+
 - Use exactly 2-space indentation.
 - Use hyphens (`-`) for unordered list items; asterisks or pluses are forbidden.
 - Code blocks embedded in MDX must feature semicolons, trailing commas, single quotes for strings (except double quotes in JSX props), and parentheses for arrow functions.

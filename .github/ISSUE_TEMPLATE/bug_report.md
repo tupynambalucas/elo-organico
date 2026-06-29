@@ -12,6 +12,7 @@ A clear and concise description of the bug.
 ## Workspace / Bounded Context Scope
 
 Please specify the affected workspace(s):
+
 - [ ] `instance` (Community Instance)
 - [ ] `portal` (SaaS Platform Portal)
 - [ ] `studio` (Design Tokens / Penpot / Assets)
@@ -21,17 +22,18 @@ Please specify the affected workspace(s):
 
 ## Environment Details
 
-- **Operating System / Version**: 
-- **Node.js Version**: 
-- **PNPM Version**: 
-- **Docker Compose Version (if containerized)**: 
+- **Operating System / Version**:
+- **Node.js Version**:
+- **PNPM Version**:
+- **Docker Compose Version (if containerized)**:
 
 ## Steps to Reproduce
 
 Steps to reproduce the behavior:
-1. 
-2. 
-3. 
+
+1.
+2.
+3.
 
 ## Expected Behavior
 

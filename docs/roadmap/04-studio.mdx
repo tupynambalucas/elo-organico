@@ -15,9 +15,9 @@ This section covers the Penpot environment, design-token sync automation, and cu
 ### Asset Pipelines
 
 - **Branding Assets Export**: Standardized export assets (including SVG vectors, logo marks, and color sheets) in the project repositories, providing raw templates for web applications.
+- **Cloud-Based Asset Hosting**: Implemented a bidirectional asset synchronization CLI engine under `@elo-organico/studio/bucket`, enabling seamless replication of brand-identity sources and web-ready assets with Cloudflare R2 Object Storage, eliminating heavy assets from Git history.
 
 ## Planned Focus
 
 - **Sync Integration**: Automate the pipeline to sync tokens from Penpot directly into codebase design systems.
 - **Extended Suite Assets**: Design custom marketing and UI asset libraries.
-- **Cloud-Based Asset Hosting**: Migrate the studio architecture to host all static assets (images, logos, 3D models) from [studio/src](file:///D:/projects/elo-organico/studio/src) in the cloud (using CDN or buckets) instead of tracking them in the Git repository, keeping the codebase lightweight.

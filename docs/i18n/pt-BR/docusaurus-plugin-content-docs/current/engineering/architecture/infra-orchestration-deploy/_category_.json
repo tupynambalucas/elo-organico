@@ -1,0 +1,8 @@
+{
+  "label": "Infra, Orquestração & Implantação",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "Padrões de infraestrutura, orquestração do monorepo e processos de implantação auto-hospedada."
+  }
+}

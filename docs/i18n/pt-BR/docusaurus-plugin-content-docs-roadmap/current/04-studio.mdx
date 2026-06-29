@@ -15,9 +15,9 @@ Esta seção abrange o ambiente Penpot, automação de sincronização de design
 ### Pipeline de Ativos
 
 - **Exportação de Ativos de Marca**: Padronização de ativos exportados (incluindo vetores SVG, marcas gráficas de logos e esquemas de cores) nos repositórios do projeto, disponibilizando templates puros para consumo das aplicações web.
+- **Hospedagem de Ativos na Nuvem**: Implantação de um motor CLI de sincronização bidirecional de ativos sob `@elo-organico/studio/bucket`, permitindo replicação direta de fontes de identidade visual e assets prontos para web com o Cloudflare R2 Object Storage, eliminando arquivos pesados do histórico do Git.
 
 ## Foco Planejado
 
 - **Integração de Sincronização**: Sincronizar automaticamente tokens do Penpot diretamente para o código-fonte.
 - **Ativos de Suíte Expandidos**: Criação de bibliotecas de ativos de marketing e de interface personalizadas.
-- **Hospedagem de Ativos na Nuvem**: Migrar a arquitetura do studio para hospedar todos os arquivos de assets estáticos (imagens, logotipos, modelos 3D) da pasta [studio/src](file:///D:/projects/elo-organico/studio/src) na nuvem (utilizando CDN ou buckets) em vez de rastreá-los no repositório Git, mantendo a base de código leve.

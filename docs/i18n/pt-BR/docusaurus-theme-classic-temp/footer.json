@@ -17,7 +17,7 @@
   },
   "link.item.label.Orchestration Reference": {
     "message": "Referência de Orquestração",
-    "description": "The label of footer link with label=Orchestration Reference linking to /docs/contributing/orchestration"
+    "description": "The label of footer link with label=Orchestration Reference linking to /docs/engineering/architecture/infra-orchestration-deploy/orchestration"
   },
   "link.item.label.Master Plan": {
     "message": "Plano Mestre",

@@ -21,7 +21,9 @@ To support multi-language parity, follow these rules when editing or creating do
 To optimize execution and avoid redundant checks, you MUST NOT run formatting, linting, typechecking, or compilation commands during intermediate edits. Batch all file creations and modifications, then execute this strict pipeline exactly once from the monorepo root:
 
 ### Step 1: Prettier Formatting Check
+
 Verify and fix MDX formatting using Prettier:
+
 ```bash
 # Verify formatting for all changed MDX/Markdown files
 pnpm exec prettier --check docs/**/*.mdx
@@ -31,28 +33,37 @@ pnpm exec prettier --write docs/**/*.mdx
 ```
 
 ### Step 2: MDX & Code Linting
+
 Run ESLint to validate MDX syntax, JS/TS segments, and code blocks:
+
 ```bash
 pnpm docs:lint
 ```
 
 ### Step 3: TypeScript Validation
+
 Ensure type-safety of custom TS/JSX components, config files, and loaders:
+
 ```bash
 pnpm docs:typecheck
 ```
 
 ### Step 4: Stop any Active Dev Server
+
 To compile the site in production, the dev server must not be running on port 3002. If it is active, the custom build script will skip compiling to prevent a crash. Force stop it:
+
 ```bash
 pnpm docs:down
 ```
 
 ### Step 5: Execute Production Build & link Checking
+
 Run the full production compilation to verify pages and find any broken links or MDX parsing errors:
+
 ```bash
 pnpm docs:build
 ```
+
 Verify that the command exits with code `0`. Any broken markdown links or unresolved components will trigger a throw, halting the build.
 
 ---
