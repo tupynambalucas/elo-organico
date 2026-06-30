@@ -11,7 +11,9 @@ A plataforma **Elo Orgânico** é construída desde o início para suportar flux
 
 ## 1. Visão Geral e Arquitetura
 
-Nossa integração de IA compreende três pilares principais:
+Para uma visão de alto nível de como as ferramentas de IA e os sistemas de design se integram na estrutura global do monorepo, consulte a **[Visão Geral da Arquitetura Técnica](./overview.mdx#9-studio--automação-arquitetura)**.
+
+Nossa integração de IA apoia-se especificamente em três pilares principais:
 
 1. **Ecossistema MCP (`tools/mcp`)**: Expõe a base de código e ferramentas críticas do host (GitHub, navegador, documentação de dependências) para sessões ativas de LLM por meio de gateways Server-Sent Events (SSE).
 2. **Terminais de Desenvolvedor Conteinerizados (`tools/agents`)**: Nós de CLI independentes executando Google Antigravity CLI (`agy`) e GitHub Copilot CLI em Docker. Eles se comunicam com o gateway MCP internamente.
@@ -52,7 +54,7 @@ Os containers de agentes montam arquivos cruciais de desenvolvimento por meio de
 - **Diretório de Trabalho do Monorepo**: Montado em `/workspace` para geração de código com latência zero.
 - **Docker-out-of-Docker (DooD)**: Monta o socket `/var/run/docker.sock` dentro dos containers para compilar e testar imagens contra o daemon do host.
 - **Persistência de Sessão**: O mapeamento de `./copilot/data/` e `./antigravity/data/` persiste credenciais OAuth, evitando deslogar da sessão ao recriar containers.
-- **Shared Agent Skills (Habilidades Compartilhadas)**: A pasta `./skills/` montada propaga regras de contexto (como `code-expert` e `doc-expert`) para os agentes.
+- **Shared Agent Skills (Habilidades Compartilhadas)**: A pasta `./skills/` montada propaga regras de contexto (como `code-expert` e `docusaurus-kb-expert`) para os agentes.
 
 :::caution[Requisito de Sequência de Inicialização]
 A stack do MCP deve estar em execução antes que a dos agentes seja iniciada. Iniciar os agentes antes do MCP produzirá um erro de resolução de rede do Docker.

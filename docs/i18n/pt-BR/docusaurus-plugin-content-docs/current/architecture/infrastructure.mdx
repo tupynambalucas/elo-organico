@@ -21,25 +21,7 @@ Cada contexto delimitado (`instance/`, `portal/`) mantém dois arquivos Compose 
 | `compose.dev.yaml`  | Desenvolvimento                | MongoDB Replica Set + Redis | Container Docker local |
 | `compose.prod.yaml` | Produção & Homologação/Staging | API + Web/Nginx + Redis     | MongoDB Atlas (nuvem)  |
 
-**Fluxo de desenvolvimento:**
-
-```plaintext
-pnpm instance:up   →  compose.dev.yaml inicia [MongoDB, Redis] no Docker
-pnpm instance:dev  →  API (tsx watch) + Web (vite) rodam no host
-                       API se conecta a localhost:27017 (MongoDB no Docker)
-                       Web faz proxy de /api → localhost:3000 (via proxy do Vite)
-```
-
-**Fluxo de produção:**
-
-```plaintext
-pnpm instance:prod  →  compose.prod.yaml --env-file .env.prod compila e inicia:
-                           [Nginx:80] → [instance-api:3000] → [Redis (interno)]
-                                               ↕
-                                    [MongoDB Atlas (nuvem)]
-
-pnpm instance:staging  →  compose.prod.yaml --env-file .env.staging (mesma topologia)
-```
+Para instruções sobre como iniciar esses ambientes, leia a [Referência de Comandos](../commands-reference.mdx).
 
 O `compose.prod.yaml` não possui serviço MongoDB por design. Em produção e homologação/staging, a API se conecta a um cluster MongoDB Atlas hospedado na nuvem via URI injetada a partir do arquivo `.env.prod` ou `.env.staging` específico do ambiente.
 
@@ -107,7 +89,7 @@ As variáveis `VITE_*` (como `VITE_TURNSTILE_SITE_KEY`) são apenas para o **tem
 
 ## 4. Rede & Latência
 
-Todos os componentes em uma stack de implantação residem em uma rede privada bridge nomeada do Docker (ex: `elo-instance-network`) para latência sub-milissegundo entre a API e o Redis. O container Nginx é o único serviço com um mapeamento de porta externa; a API só é alcançável através do proxy reverso do Nginx na rede interna.
+Todos os componentes em uma stack de implantação residem em uma rede privada bridge nomeada do Docker (ex: `elo_instance_network`) para latência sub-milissegundo entre a API e o Redis. O container Nginx é o único serviço com um mapeamento de porta externa; a API só é alcançável através do proxy reverso do Nginx na rede interna.
 
 ---
 
@@ -116,7 +98,7 @@ Todos os componentes em uma stack de implantação residem em uma rede privada b
 Os containers Web (Nginx) lidam com duas preocupações principais:
 
 1. **Roteamento SPA**: Todos os caminhos desconhecidos retornam para o `index.html` via `try_files $uri $uri/ /index.html`, permitindo que o React Router gerencie a navegação no lado do cliente sem gerar erros 404 ao atualizar a página.
-2. **Proxy Reverso de API**: As requisições para `/api/*` são direcionadas ao container da API usando o nome do seu serviço Docker como hostname (`http://instance-api:3000/`). A barra invertida final remove o prefixo `/api` antes de encaminhar a requisição para o Fastify.
+2. **Proxy Reverso de API**: As requisições para `/api/*` são direcionadas ao container da API usando o nome do seu serviço Docker como hostname (`http://instance-api:3000/`). A barra no final remove o prefixo `/api` antes de encaminhar a requisição para o Fastify.
 
 ---
 
@@ -142,7 +124,7 @@ As operações de semeadura devem ser totalmente seguras para execução repetid
 
 ### 6.4. Separação de Preocupações na Infraestrutura (`db-init`)
 
-No desenvolvimento local (`compose.dev.yaml`), the container `db-init` (antigo `db-seed`) lida exclusivamente com a inicialização do replica set. Ele aguarda a prontidão do MongoDB e executa `rs.initiate()` para configurar o replica set de nó único (`rs0`) necessário para suporte a transações. Ele não realiza semeadura de banco de dados. Todas as responsabilidades de semeadura administrativa e operacional pertencem inteiramente ao container da API.
+No desenvolvimento local (`compose.dev.yaml`), o container `db-init` (antigo `db-seed`) lida exclusivamente com a inicialização do replica set. Ele aguarda a prontidão do MongoDB e executa `rs.initiate()` para configurar o replica set de nó único (`rs0`) necessário para suporte a transações. Ele não realiza semeadura de banco de dados. Todas as responsabilidades de semeadura administrativa e operacional pertencem inteiramente ao container da API.
 
 ---
 
@@ -241,7 +223,7 @@ As ferramentas e containers de automação exigem acesso direto aos arquivos no 
 Para impor o **Princípio da Segregação de Interface**:
 
 - As configurações padrão e não sensíveis de serviço são carregadas localmente usando `env_file` referenciando os padrões específicos do serviço (por exemplo, `.env.service`).
-- Segredos de todo o deployment ou sobrescritas externas são injetados explicitamente usando o bloco `environment` (por exemplo, `\$\{API_TOKEN\}`), extraindo valores do arquivo `.env` de orquestração posicionado sob `infrastructure/docker/.env`.
+- Segredos de todo o deployment ou sobrescritas externas são injetados explicitamente usando o bloco `environment` (por exemplo, `${API_TOKEN}`), extraindo valores do arquivo `.env` de orquestração posicionado sob `infrastructure/docker/.env`.
 - Os containers nunca recebem um ambiente global monolítico; eles são vinculados estritamente às entradas de que precisam.
 
 #### 8.2.5. Padrão de Daemon Interativo (`tty` & Keep-Alive)
@@ -406,7 +388,7 @@ Este padrão é exigido para plataformas complexas (inspirado no `studio/penpot/
         condition: service_healthy
   ```
   Isso garante que os containers downstream nunca comecem a ser executados antes que seus pares upstream tenham sido totalmente inicializados e entrado em um estado pronto, mantendo a confiabilidade da stack.
-- **Rede Privada Estrita**: Os serviços de pares residem dentro de uma rede de ponte virtual (bridge) isolada e nomeada, definida no `compose.yaml`. Apenas os pontos de entrada voltados para o exterior (como o serviço de frontend) são vinculados a portas de host externas, enquanto serviços com estado (bancos de dados, caches) ficam inteiramente oculpos da rede do host.
+- **Rede Privada Estrita**: Os serviços de pares residem dentro de uma rede de ponte virtual (bridge) isolada e nomeada, definida no `compose.yaml`. Apenas os pontos de entrada voltados para o exterior (como o serviço de frontend) são vinculados a portas de host externas, enquanto serviços com estado (bancos de dados, caches) ficam inteiramente ocultos da rede do host.
 
 #### 9.6. `compose.yaml` Padrão Ouro (Padrão B)
 

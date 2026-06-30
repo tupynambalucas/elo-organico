@@ -8,18 +8,18 @@ sidebar_position: 6
 
 Comandos padronizados são fornecidos para manter a camada de automação e verificar a integridade dos workspaces em todo o monorepo.
 
-| Comando | Responsabilidade de Engenharia |
-| :--- | :--- |
-| `pnpm typecheck` | Valida a integridade do TypeScript em scripts e código fonte do MCP. |
-| `pnpm build` | Compilação completa de produção, incluindo servidores MCP e ferramentas de automação. |
-| `pnpm clean` | Manutenção agressiva do workspace usando `npkill` para podar dependências antigas. |
+| Comando          | Responsabilidade de Engenharia                                                        |
+| :--------------- | :------------------------------------------------------------------------------------ |
+| `pnpm typecheck` | Valida a integridade do TypeScript em scripts e código fonte do MCP.                  |
+| `pnpm build`     | Compilação completa de produção, incluindo servidores MCP e ferramentas de automação. |
+| `pnpm clean`     | Manutenção agressiva do workspace usando `npkill` para podar dependências antigas.    |
 
 #### Orquestração do Workspace
 
-| Comando | Ação de Engenharia |
-| :--- | :--- |
-| `pnpm mcp:up` | Inicializa todo o gateway conteinerizado e a stack do backend MCP. |
-| `pnpm mcp:down` | Interrompe e remove o gateway e o ambiente de containers MCP. |
+| Comando          | Ação de Engenharia                                                                             |
+| :--------------- | :--------------------------------------------------------------------------------------------- |
+| `pnpm mcp:up`    | Inicializa todo o gateway conteinerizado e a stack do backend MCP.                             |
+| `pnpm mcp:down`  | Interrompe e remove o gateway e o ambiente de containers MCP.                                  |
 | `pnpm mcp:reset` | Limpeza agressiva da stack (volumes removidos) seguida de reconstrução completa de containers. |
 
 #### Estrutura do Workspace

@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react';
 import styles from './styles.module.css';
-import { Icon, type IconType } from '@elo-organico/studio/icons';
+import { Icon, type IconType } from '@elo-studio/assets/icons';
 
 interface AdminContainerProps {
   children: ReactNode;

@@ -1,7 +1,7 @@
 ---
 title: AI Integration
 sidebar_label: AI Integration
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 # AI Integration in Elo Orgânico
@@ -12,7 +12,9 @@ The **Elo Orgânico** platform is built from the ground up to support AI-native 
 
 ## 1. Overview & Architecture
 
-Our AI integration comprises three major pillars:
+For a high-level view of how AI tools and design systems fit into the global monorepo structure, refer to the **[Technical Architecture Overview](./overview.mdx#9-studio--automation-architecture)**.
+
+Our AI integration specifically relies on three major pillars:
 
 1. **MCP Ecosystem (`tools/mcp`)**: Exposes the codebase and critical host tools (GitHub, browser, dependencies documentation) to active LLM sessions through Server-Sent Events (SSE) gateways.
 2. **Containerized Developer Terminals (`tools/agents`)**: Self-contained CLI nodes running Google Antigravity CLI (`agy`) and GitHub Copilot CLI in Docker. They communicate with the MCP gateway internally.
@@ -53,7 +55,7 @@ The agent containers bind-mount crucial developer files to ensure workspace pari
 - **Monorepo Working Dir**: Mounted at `/workspace` for zero-latency code generation.
 - **Docker-out-of-Docker (DooD)**: Mounted `/var/run/docker.sock` socket inside containers to compile and test images against the host daemon.
 - **Session Persistence**: Mapped `./copilot/data/` and `./antigravity/data/` persist OAuth credentials, preventing session logouts on container rebuilds.
-- **Shared Agent Skills**: Bind-mounted `./skills/` folder propagates context rules (such as `code-expert` and `doc-expert`) to agents.
+- **Shared Agent Skills**: Bind-mounted `./skills/` folder propagates context rules (such as `code-expert` and `docusaurus-kb-expert`) to agents.
 
 :::caution[Boot Sequence Requirement]
 The MCP stack must be running before the agents stack is started. Starting the agents before the MCP stack will produce a Docker network resolution error.

@@ -22,7 +22,7 @@ export default defineConfig(({ mode }) => {
 
     optimizeDeps: {
       include: ['react', 'react-dom', 'react/jsx-runtime'],
-      exclude: ['@elo-instance/core', '@elo-organico/studio'],
+      exclude: ['@elo-instance/core', '@elo-studio/assets'],
     },
 
     base: './',

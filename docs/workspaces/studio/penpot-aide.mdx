@@ -28,16 +28,16 @@ Aide functions as a Model Context Protocol (MCP) bridge, enabling AI agents to i
 
 ##### Operational Scripts
 
-| Command | Technical Responsibility |
-| :--- | :--- |
-| `pnpm penpot:up` | Initializes core design services at `http://localhost:9005`. |
-| `pnpm penpot:update` | Pulls latest service images and performs a rolling restart. |
-| `pnpm aide:up` | Activates the Aide bridge (Penpot MCP) for AI design manipulation. |
-| `pnpm aide:down` | Deactivates the automation bridge. |
+| Command              | Technical Responsibility                                           |
+| :------------------- | :----------------------------------------------------------------- |
+| `pnpm penpot:up`     | Initializes core design services at `http://localhost:9005`.       |
+| `pnpm penpot:update` | Pulls latest service images and performs a rolling restart.        |
+| `pnpm aide:up`       | Activates the Aide bridge (Penpot MCP) for AI design manipulation. |
+| `pnpm aide:down`     | Deactivates the automation bridge.                                 |
 
 ##### Mandatory AI Manipulation Rules
 
 - **Component Reuse:** Always check the existing component library (Penpot) or the UI library (`instance/apps/web/src/components`) before creating new elements. Aide must prioritize existing design system tokens and components.
 - **Token-First Logic:** Design-to-code exports must strictly utilize CSS Custom Properties derived from `src/tokens/` for colors, fonts, and spacing.
-- **SVG Optimization:** Ensure exported SVG code is optimized, follows the project's icon standards, and is integrated via the `@elo-organico/studio/icons` registry.
+- **SVG Optimization:** Ensure exported SVG code is optimized, follows the project's icon standards, and is integrated via the `@elo-studio/assets/icons` registry.
 - **Layer Hierarchy:** Maintenance of semantic grouping is mandatory. Elements must be organized into clear pages and frames (e.g., `Layout/Grid`, `Components/Buttons`).

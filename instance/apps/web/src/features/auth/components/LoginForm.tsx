@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Icon, faEye, faEyeSlash } from '@elo-organico/studio/icons';
+import { Icon, faEye, faEyeSlash } from '@elo-studio/assets/icons';
 import type { AuthFormData, AuthFieldErrors, AuthFormRefs } from '../types';
 import styles from '../styles.module.css';
 

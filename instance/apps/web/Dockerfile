@@ -13,7 +13,7 @@ RUN corepack enable pnpm
 
 # ---- Stage 2: Pruner ----
 # Extracts ONLY files needed by @elo-instance/web and its workspace deps
-# (@elo-instance/core, @elo-organico/studio).
+# (@elo-instance/core, @elo-studio/assets).
 FROM base AS pruner
 WORKDIR /app
 RUN pnpm add -g turbo@latest

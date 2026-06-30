@@ -9,13 +9,13 @@ module.exports = function (source) {
     return source;
   }
 
-  // Example: "@elo-organico/studio/images/farmer.jpg" -> "images/farmer.jpg"
+  // Example: "@elo-studio/assets/images/farmer.jpg" -> "images/farmer.jpg"
   const subPath = original.replace(/^@elo-organico\/studio\//, '');
   const firstSegment = subPath.split('/')[0];
   const folderKey = `/${firstSegment}`;
 
   // Load assets manifest
-  const manifestPath = require.resolve('@elo-organico/studio/assets-manifest.json');
+  const manifestPath = require.resolve('@elo-studio/assets/assets-manifest.json');
   const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
   const buildFolders = manifest.bucket.assets.docs;
 

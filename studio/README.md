@@ -1,4 +1,4 @@
-# @elo-organico/studio - Design & Automation Hub
+# @elo-studio/assets - Design & Automation Hub
 
 This workspace centralizes brand identity management, design assets, and self-hosted collaborative design tools for the Elo Orgânico project.
 

@@ -29,7 +29,7 @@ export default defineConfig(({ mode }) => {
         '@fortawesome/free-regular-svg-icons',
         '@fortawesome/free-brands-svg-icons',
       ],
-      exclude: ['@elo-organico/portal-core', '@elo-organico/studio'],
+      exclude: ['@elo-organico/portal-core', '@elo-studio/assets'],
     },
 
     base: './',

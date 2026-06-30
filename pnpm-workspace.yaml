@@ -6,7 +6,7 @@ packages:
   - 'portal/apps/*'
   - 'portal/packages/*'
   - 'shared/*'
-  - 'studio'
+  - 'studio/*'
   - 'tools'
   - 'docs'
 

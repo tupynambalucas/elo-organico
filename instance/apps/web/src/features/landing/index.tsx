@@ -2,8 +2,8 @@ import { lazy, Suspense, useRef } from 'react';
 import { useIsAuthenticated } from '@/domains/auth';
 import { useActiveCycle, useCycleLoading } from '@/domains/cycle';
 import { useGSAP } from '@gsap/react';
-import { LogoHorizontalNegative } from '@elo-organico/studio/logos';
-import Farmer from '@elo-organico/studio/images/farmer.jpg';
+import { LogoHorizontalNegative } from '@elo-studio/assets/logos';
+import Farmer from '@elo-studio/assets/images/farmer.jpg';
 import { animateLandingIntro } from './animations';
 import styles from './styles.module.css';
 

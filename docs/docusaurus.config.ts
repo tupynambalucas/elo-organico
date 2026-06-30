@@ -15,7 +15,7 @@ interface WebpackMock {
 }
 
 const webpack = require('webpack') as unknown as WebpackMock;
-const studioPath = path.dirname(require.resolve('@elo-organico/studio/package.json'));
+const studioPath = path.dirname(require.resolve('@elo-studio/assets/package.json'));
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
@@ -97,7 +97,7 @@ const config: Config = {
 
         const hasBucketUrl = bucketUrl !== undefined && bucketUrl !== '';
 
-        const manifestPath = require.resolve('@elo-organico/studio/assets-manifest.json');
+        const manifestPath = require.resolve('@elo-studio/assets/assets-manifest.json');
         const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8')) as {
           bucket: { assets: { docs: string[] } };
         };
@@ -270,8 +270,8 @@ const config: Config = {
               to: '/docs/contributing/styleguide',
             },
             {
-              label: 'Orchestration Reference',
-              to: '/docs/architecture/infra-orchestration-deploy/orchestration',
+              label: 'Command Reference',
+              to: '/docs/commands-reference',
             },
           ],
         },
@@ -300,12 +300,8 @@ const config: Config = {
           title: 'Product',
           items: [
             {
-              label: 'Vision',
-              to: '/docs/product/vision',
-            },
-            {
-              label: 'Master Plan',
-              to: '/docs/product/masterplan',
+              label: 'Master Plan & Vision',
+              to: '/docs/intro',
             },
             {
               label: 'Roadmap',

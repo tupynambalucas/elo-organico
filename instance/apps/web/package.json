@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@elo-instance/core": "workspace:*",
-    "@elo-organico/studio": "workspace:*",
+    "@elo-studio/assets": "workspace:*",
     "@gsap/react": "catalog:web-stack",
     "gsap": "catalog:web-stack",
     "react": "catalog:web-stack",

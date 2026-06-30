@@ -45,7 +45,7 @@ graph TD
 
 1.  **Phase 1: Development & Local Testing (No Domain Required)**:
     - **Asset Synchronization**: Upload and download assets directly from the local machine using the AWS S3 SDK pointed to Cloudflare R2's private API endpoint (`https://${CLOUDFLARE_R2_ACCOUNT_ID}.r2.cloudflarestorage.com`). This requires only credentials (R2 Access Keys), with zero domain configuration.
-    - **Local Resolution**: Client applications resolve and stream assets directly from the local monorepo source files (`@elo-organico/studio/src/...`) in development mode (`isDev === true`).
+    - **Local Resolution**: Client applications resolve and stream assets directly from the local monorepo source files (`@elo-studio/assets/src/...`) in development mode (`isDev === true`).
     - **R2 Direct Resolution (Optional)**: If cloud asset testing is needed during dev, developers can enable the default, temporary R2 public bucket URL (`*.r2.dev`) on the Cloudflare bucket dashboard.
 2.  **Phase 2: Staging & Production (Professional Custom Domain)**:
     - **Custom Zone Acquisition**: Purchase a cheap, professional domain directly via Cloudflare Registrar (e.g., `elo-organico.link` or similar) for wholesale pricing ($2 to $12 per year). This registers the domain instantly with zero verification delays.
@@ -109,9 +109,9 @@ This section details the TypeScript implementations required to replace the exis
 Navigate to the `studio` package and run the command to install S3 client utilities and automatic MIME-type detection.
 
 ```bash
-pnpm --filter @elo-organico/studio remove cloudinary axios @types/glob
-pnpm --filter @elo-organico/studio add @aws-sdk/client-s3 mime-types
-pnpm --filter @elo-organico/studio add -D @types/mime-types
+pnpm --filter @elo-studio/assets remove cloudinary axios @types/glob
+pnpm --filter @elo-studio/assets add @aws-sdk/client-s3 mime-types
+pnpm --filter @elo-studio/assets add -D @types/mime-types
 ```
 
 ### B. Package Configuration (`studio/package.json`)
@@ -453,12 +453,12 @@ export function studioAssetsPlugin(): Plugin {
   let publicUrl = ''; // Falls back to local streaming if blank in dev
 
   try {
-    const manifestPath = require.resolve('@elo-organico/studio/assets-manifest.json');
+    const manifestPath = require.resolve('@elo-studio/assets/assets-manifest.json');
     const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8')) as StudioManifest;
     buildFolders = manifest.bucket.assets.build;
   } catch {
     console.warn(
-      'Vite plugin warning: @elo-organico/studio/assets-manifest.json not found or could not be loaded.',
+      'Vite plugin warning: @elo-studio/assets/assets-manifest.json not found or could not be loaded.',
     );
   }
 
@@ -479,7 +479,7 @@ export function studioAssetsPlugin(): Plugin {
       }
     },
     resolveId(source) {
-      if (isDev === false && source.startsWith('@elo-organico/studio/') === true) {
+      if (isDev === false && source.startsWith('@elo-studio/assets/') === true) {
         const subPath = source.replace(/^@elo-organico\/studio\//, '');
         const firstSegment = subPath.split('/')[0];
         const folderKey = `/${firstSegment}`;
@@ -491,7 +491,7 @@ export function studioAssetsPlugin(): Plugin {
       return null;
     },
     load(id) {
-      if (id.startsWith('\0@elo-organico/studio/') === true) {
+      if (id.startsWith('\0@elo-studio/assets/') === true) {
         const cleanSource = id.replace(/^\0/, '');
         const subPath = cleanSource.replace(/^@elo-organico\/studio\//, '');
 
@@ -521,8 +521,8 @@ This phase establishes full functional compatibility using credentials, requirin
    - Install the S3 SDK and MIME utilities.
    - Deploy bucket sync command implementations under `studio/bucket/`.
 4. **Push & Pull Testing**:
-   - Run `pnpm --filter @elo-organico/studio assets:push` to push local assets up to the R2 bucket.
-   - Run `pnpm --filter @elo-organico/studio assets:pull` to pull assets down.
+   - Run `pnpm --filter @elo-studio/assets assets:push` to push local assets up to the R2 bucket.
+   - Run `pnpm --filter @elo-studio/assets assets:pull` to pull assets down.
    - Verify that all files match perfectly and mime-types are assigned correctly inside the R2 bucket file list.
 5. **Vite Local Verification**: Run the local dev server (`pnpm instance:dev`) and verify client applications render the static models/graphics successfully via local filesystem streaming (`isDev === true`).
 

@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { Icon, faPen } from '@elo-organico/studio/icons';
+import { Icon, faPen } from '@elo-studio/assets/icons';
 import type { IProduct, ProductResponse } from '@elo-instance/core';
 import { ProductSearchFilter } from '../../../../components';
 import styles from './styles.module.css';

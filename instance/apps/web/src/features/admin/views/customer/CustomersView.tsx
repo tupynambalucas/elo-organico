@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { AdminContainer } from '../../components';
-import { faUsers } from '@elo-organico/studio/icons';
+import { faUsers } from '@elo-studio/assets/icons';
 
 const CustomersView: FC = () => {
   return (

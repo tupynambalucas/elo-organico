@@ -1,8 +1,8 @@
 import { Suspense, type FC } from 'react';
 import { useShop } from './hooks/useShop';
 import styles from './styles.module.css';
-import { Icon, faUser, faShoppingCart, faCalendarAlt } from '@elo-organico/studio/icons';
-import { LogoHorizontalNegative } from '@elo-organico/studio/logos';
+import { Icon, faUser, faShoppingCart, faCalendarAlt } from '@elo-studio/assets/icons';
+import { LogoHorizontalNegative } from '@elo-studio/assets/logos';
 import { ProductSearchFilter } from '../admin/components';
 import ProductCard from './components/Product/ProductCard';
 import CartDrawer from './components/Cart/CartDrawer';

@@ -1,5 +1,5 @@
 ---
-title: GitHub Standards
+title: Padrões do GitHub
 description: Estratégia profissional de ramificação (branching), commits e releases para o monorepo Elo Orgânico.
 sidebar_position: 2
 ---
@@ -118,7 +118,7 @@ Rodar a checagem completa de tipos em todas as aplicações (`pnpm typecheck`) a
 2. Identifica as extensões: se nenhum arquivo de código (JavaScript ou TypeScript) foi alterado, ele pula a checagem de tipos inteiramente.
 3. Mapeia os arquivos modificados para seus respectivos pacotes do monorepo:
    - Alterações em `instance/` $\rightarrow$ typecheck de `@elo-instance/*`.
-   - Alterações em `studio/` $\rightarrow$ typecheck de `@elo-organico/studio`.
+   - Alterações em `studio/` $\rightarrow$ typecheck de `@elo-studio/assets`.
    - Alterações em `tools/` $\rightarrow$ typecheck de `@elo-organico/tools`.
    - Alterações em `docs/` $\rightarrow$ typecheck de `@elo-organico/docs`.
    - Alterações em `portal/` $\rightarrow$ typecheck de `@elo-portal/*`.
@@ -141,17 +141,17 @@ As regras de filtros estão declaradas no arquivo [package.json](file:///D:/proj
 
 ```json
   "lint-staged": {
-    "**/*.{js,mjs,ts,tsx}": [
+    "**/*.{js,mjs,ts,tsx,mdx}": [
       "eslint --fix"
     ],
-    "**/*.{json,yaml,md,mdx}": [
+    "**/*.{json,yaml,md,css,html}": [
       "prettier --write"
     ]
   }
 ```
 
 :::note[Integração do Prettier]
-Para arquivos de código JavaScript e TypeScript, não rodamos o Prettier como ferramenta separada. Ele é executado de forma embutida como uma regra do ESLint (`eslint-plugin-prettier`). Assim, o comando `eslint --fix` formata o arquivo conforme o [.prettierrc.json](file:///D:/projects/elo-organico/.prettierrc.json) e valida as regras de código de uma só vez.
+Para arquivos de código JavaScript e TypeScript, não rodamos o Prettier como ferramenta separada. Ele é executado de forma embutida como uma regra do ESLint (`eslint-plugin-prettier`). Assim, o comando `eslint --fix` formata o arquivo conforme o [shared/config/prettierrc.json](file:///D:/projects/elo-organico/shared/config/prettierrc.json) e valida as regras de código de uma só vez.
 :::
 
 ---
@@ -176,29 +176,20 @@ Administradores do repositório devem ativar regras de Branch Protection no GitH
 
 ### 1. Iniciando uma Nova Funcionalidade
 
-Sempre ramifique a partir de `develop`.
-
-```powershell
-git flow feature start minha-funcionalidade-incrivel
-```
+Sempre ramifique a partir de `develop`. Consulte a [Referência de Comandos](../commands-reference.mdx#git--version-control) para o comando `git flow` exato.
 
 ### 2. Colaborando e Propondo Mudanças
 
 Em vez de realizar o merge localmente, usamos **Pull Requests** para revisão de código e validação de CI.
 
-1.  **Envie sua branch**: `git push -u origin feature/minha-funcionalidade-incrivel`
-2.  **Crie um Pull Request**:
-    ```powershell
-    gh pr create --base develop --fill --web
-    ```
-    _Use `--fill` para usar automaticamente suas mensagens de commit para a descrição do PR._
+1.  **Envie sua branch** para o repositório remoto.
+2.  **Crie um Pull Request** direcionado à `develop` (consulte a [Referência de Comandos](../commands-reference.mdx#git--version-control) para o comando `gh pr`).
 
 ### 3. Estratégia de Merge Sênior (Squash & Merge)
 
 Para manter o histórico da `develop` limpo e significativo, usamos **Squash Merges**. Isso combina todos os commits de uma branch de funcionalidade em um único commit bem descrito na `develop`.
 
-- **Ação**: Merge via interface do GitHub ou CLI usando o método `squash`.
-- **Comando CLI**: `gh pr merge --squash --delete-branch`
+- **Ação**: Merge via interface do GitHub ou CLI usando o método `squash` (consulte a [Referência de Comandos](../commands-reference.mdx#git--version-control) para o comando CLI exato).
 
 ---
 
@@ -210,10 +201,7 @@ Utilizamos o **Changesets** combinado com o **GitHub Actions** para automatizar 
 
 Quando sua funcionalidade ou correção de bug estiver pronta e antes de abrir um Pull Request:
 
-1. Execute a ferramenta interativa de changeset a partir da raiz do repositório:
-   ```powershell
-   pnpm version:changeset
-   ```
+1. Execute a ferramenta interativa de changeset a partir da raiz do repositório (consulte a [Referência de Comandos](../commands-reference.mdx#git--version-control)).
 2. Selecione o(s) pacote(s) que foram modificados utilizando a barra de espaço.
 3. Escolha o nível de SemVer apropriado (Major para alterações que quebram compatibilidade, Minor para novas funcionalidades retrocompatíveis ou Patch para correções de bugs).
 4. Forneça uma descrição técnica e clara da alteração (em inglês, em conformidade com nossos padrões de commit).
@@ -253,8 +241,8 @@ Nunca edite o campo `"version"` no `package.json` de um pacote manualmente duran
 
 Se um bug for encontrado em produção:
 
-1.  `git flow hotfix start fix-crash`
-2.  Aplique a correção e finalize: `git flow hotfix finish fix-crash`
+1.  Inicie e finalize uma branch de hotfix.
+2.  Consulte a [Referência de Comandos](../commands-reference.mdx#git--version-control) para os comandos exatos do `git flow hotfix`.
 3.  Sincronize tanto a `main` quanto a `develop`.
 
 ---

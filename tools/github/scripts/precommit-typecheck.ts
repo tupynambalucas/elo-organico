@@ -49,7 +49,7 @@ for (const file of stagedFiles) {
   if (rootDir === 'instance') {
     filters.add('--filter=@elo-instance/*');
   } else if (rootDir === 'studio') {
-    filters.add('--filter=@elo-organico/studio');
+    filters.add('--filter=@elo-studio/assets');
   } else if (rootDir === 'tools') {
     filters.add('--filter=@elo-organico/tools');
   } else if (rootDir === 'docs') {

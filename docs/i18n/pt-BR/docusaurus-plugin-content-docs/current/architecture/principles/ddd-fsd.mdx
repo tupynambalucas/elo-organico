@@ -13,7 +13,7 @@ A arquitetura frontend combina os contextos delimitados do DDD com a modularidad
 
 ### Domain-Driven Design (DDD)
 
-O Domain-Driven Design (DDD) organiza a lógica de negócios complexa em módulos isolados e centrados em domínios chamado **Contextos Delimitados (Bounded Contexts)**, onde cada domínio mantém a integridade e vocabulário de seus próprios modelos. Isso evita o acoplamento excessivo entre diferentes áreas da aplicação e mantém os modelos focados.
+O Domain-Driven Design (DDD) organiza a lógica de negócios complexa em módulos isolados e centrados em domínios chamados **Contextos Delimitados (Bounded Contexts)**, onde cada domínio mantém a integridade e vocabulário de seus próprios modelos. Isso evita o acoplamento excessivo entre diferentes áreas da aplicação e mantém os modelos focados.
 
 ### Feature-Sliced Design (FSD)
 
@@ -29,7 +29,7 @@ No Elo Orgânico, a combinação de DDD e FSD governa tanto a estrutura de pasta
 
 ### A. Segregação de Contexto Delimitado
 
-O monorepo é dividido em contextos distintos (`instance/` e `portal/`) no nível de workspace. Esses limites garantem que as operações da comunidade (Instância) e os fluxos de integração SaaS globais (Portal) permaneçam estruturalmente e logicamente independentes. Tokens de design ou ativos de marca compartilhados são importados exclusivamente do pacote `@elo-organico/studio`.
+O monorepo é dividido em contextos distintos (`instance/` e `portal/`) no nível de workspace. Esses limites garantem que as operações da comunidade (Instância) e os fluxos de integração SaaS globais (Portal) permaneçam estruturalmente e logicamente independentes. Tokens de design ou ativos de marca compartilhados são importados exclusivamente do pacote `@elo-studio/assets`.
 
 ### B. Hierarquia de Camadas do Frontend (FSD)
 

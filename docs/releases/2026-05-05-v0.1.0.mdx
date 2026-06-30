@@ -31,7 +31,7 @@ The foundational release of Elo Orgânico (v0.1.0) establishes the core monorepo
 
 ### Studio & Branding Assets
 
-- **Design Tokens**: Standardized colors, spacing, typography, and visual assets in `@elo-organico/studio` to export a unified theme.
+- **Design Tokens**: Standardized colors, spacing, typography, and visual assets in `@elo-studio/assets` to export a unified theme.
 - **Design Ops Integration**: Deployed a self-hosted Penpot instance to maintain visual strategy designs and design-to-code asset generation.
 
 ### Development Tooling & Context Gateways

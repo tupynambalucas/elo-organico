@@ -21,12 +21,12 @@ export function studioAssetsPlugin(): Plugin {
   let cloudName = 'elo-organico';
 
   try {
-    const manifestPath = require.resolve('@elo-organico/studio/assets-manifest.json');
+    const manifestPath = require.resolve('@elo-studio/assets/assets-manifest.json');
     const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8')) as StudioManifest;
     buildFolders = manifest.cloudnary.assets.build;
   } catch {
     console.warn(
-      'Vite plugin warning: @elo-organico/studio/assets-manifest.json not found or could not be loaded.',
+      'Vite plugin warning: @elo-studio/assets/assets-manifest.json not found or could not be loaded.',
     );
   }
 
@@ -47,7 +47,7 @@ export function studioAssetsPlugin(): Plugin {
       }
     },
     resolveId(source) {
-      if (isDev === false && source.startsWith('@elo-organico/studio/') === true) {
+      if (isDev === false && source.startsWith('@elo-studio/assets/') === true) {
         const subPath = source.replace(/^@elo-organico\/studio\//, '');
         const firstSegment = subPath.split('/')[0];
         const folderKey = `/${firstSegment}`;
@@ -59,7 +59,7 @@ export function studioAssetsPlugin(): Plugin {
       return null;
     },
     load(id) {
-      if (id.startsWith('\0@elo-organico/studio/') === true) {
+      if (id.startsWith('\0@elo-studio/assets/') === true) {
         const cleanSource = id.replace(/^\0/, '');
         const subPath = cleanSource.replace(/^@elo-organico\/studio\//, '');
 
@@ -88,7 +88,7 @@ export function studioAssetsPlugin(): Plugin {
           const relativePath = cleanUrl.replace(/^\/@studio-assets\//, '');
 
           // Resolve the studio package location dynamically
-          const studioPackageJson = require.resolve('@elo-organico/studio/package.json');
+          const studioPackageJson = require.resolve('@elo-studio/assets/package.json');
           const studioDir = path.dirname(studioPackageJson);
           const studioSrcDir = path.join(studioDir, 'src');
 

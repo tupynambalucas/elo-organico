@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import '@elo-organico/studio/theme.css';
+@import '@elo-studio/assets/theme.css';
 
 @custom-variant dark (&:where(.dark, .dark *));
 

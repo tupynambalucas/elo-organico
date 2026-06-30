@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { AdminContainer } from '../../components';
-import { faGear } from '@elo-organico/studio/icons';
+import { faGear } from '@elo-studio/assets/icons';
 
 const ConfigView: FC = () => {
   return (

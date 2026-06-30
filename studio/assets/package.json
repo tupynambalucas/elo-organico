@@ -1,16 +1,16 @@
 {
-  "name": "@elo-organico/studio",
+  "name": "@elo-studio/assets",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "author": "Tupynambá Lucas Varela Rodrigues <tupynambalucas.dev>",
   "description": "Elo Orgânico Studio Package",
   "license": "https://github.com/tupynambalucas/elo-organico/tree/main#license",
-  "homepage": "https://github.com/tupynambalucas/elo-organico/tree/main/studio#readme",
+  "homepage": "https://github.com/tupynambalucas/elo-organico/tree/main/studio/assets#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tupynambalucas/elo-organico.git",
-    "directory": "studio"
+    "directory": "studio/assets"
   },
   "files": [
     "src",
@@ -31,12 +31,6 @@
   },
   "scripts": {
     "bucket": "tsx bucket/bucket.ts",
-    "penpot:up": "docker compose -f penpot/compose.yaml up -d",
-    "penpot:down": "docker compose -f penpot/compose.yaml down",
-    "penpot:reset": "docker compose -f penpot/compose.yaml down --volumes && docker compose -f penpot/compose.yaml up -d --build",
-    "penpot:update": "docker compose -f penpot/compose.yaml pull && docker compose -f penpot/compose.yaml up -d",
-    "aide:up": "docker compose -f penpot/compose.yaml up -d aide",
-    "aide:down": "docker compose -f penpot/compose.yaml stop aide",
     "typecheck": "tsc --noEmit",
     "lint": "eslint ."
   },

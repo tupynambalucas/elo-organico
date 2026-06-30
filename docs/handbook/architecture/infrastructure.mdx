@@ -1,6 +1,7 @@
 ---
-title: Infrastructure Standards
+title: Infrastructure
 description: Multi-service topologies, containerization standards, environment configurations, and Docker topologies in Elo Orgânico.
+sidebar_position: 2
 ---
 
 # Infrastructure Standards
@@ -20,25 +21,7 @@ Each bounded context (`instance/`, `portal/`) maintains two distinct Compose fil
 | `compose.dev.yaml`  | Development          | MongoDB Replica Set + Redis | Local Docker container |
 | `compose.prod.yaml` | Production & Staging | API + Web/Nginx + Redis     | MongoDB Atlas (cloud)  |
 
-**Development flow:**
-
-```plaintext
-pnpm instance:up   →  compose.dev.yaml starts [MongoDB, Redis] in Docker
-pnpm instance:dev  →  API (tsx watch) + Web (vite) run on the host
-                       API connects to localhost:27017 (MongoDB in Docker)
-                       Web proxies /api → localhost:3000 (via Vite proxy)
-```
-
-**Production flow:**
-
-```plaintext
-pnpm instance:prod  →  compose.prod.yaml --env-file .env.prod builds and starts:
-                          [Nginx:80] → [instance-api:3000] → [Redis (internal)]
-                                              ↕
-                                   [MongoDB Atlas (cloud)]
-
-pnpm instance:staging  →  compose.prod.yaml --env-file .env.staging (same topology)
-```
+For instructions on starting these environments, read the [Command Reference](../commands-reference.mdx).
 
 The `compose.prod.yaml` has no MongoDB service by design. In production and staging, the API connects to a cloud-hosted MongoDB Atlas cluster via URI injected from the environment-specific `.env.prod` or `.env.staging` file.
 
@@ -106,7 +89,7 @@ _Note: In the table above, `[context]` represents either the `instance` or `port
 
 ## 4. Network & Latency
 
-All components in a deployment stack reside in a private named Docker bridge network (e.g., `elo-instance-network`) for sub-millisecond latency between the API and Redis. The Nginx container is the only service with an external port binding; the API is only reachable via the Nginx reverse proxy on the internal network.
+All components in a deployment stack reside in a private named Docker bridge network (e.g., `elo_instance_network`) for sub-millisecond latency between the API and Redis. The Nginx container is the only service with an external port binding; the API is only reachable via the Nginx reverse proxy on the internal network.
 
 ---
 
@@ -240,7 +223,7 @@ Tooling and automation containers require direct access to the files in the repo
 To enforce the **Interface Segregation Principle**:
 
 - Default, non-sensitive service configurations are loaded locally using `env_file` referencing service-specific defaults (e.g., `.env.service`).
-- Deployment-wide secrets or external overrides are injected explicitly using the `environment` block (e.g., `\$\{API_TOKEN\}`), drawing values from the orchestration `.env` file placed under `infrastructure/docker/.env`.
+- Deployment-wide secrets or external overrides are injected explicitly using the `environment` block (e.g., `${API_TOKEN}`), drawing values from the orchestration `.env` file placed under `infrastructure/docker/.env`.
 - Containers never receive a monolithic global environment; they are bound strictly to their required inputs.
 
 #### 8.2.5. Interactive Daemon Pattern (`tty` & Keep-Alive)

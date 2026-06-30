@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { AdminContainer } from '../../components';
-import { faChartSimple } from '@elo-organico/studio/icons';
+import { faChartSimple } from '@elo-studio/assets/icons';
 
 const ReportsView: FC = () => {
   return (

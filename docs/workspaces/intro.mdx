@@ -5,68 +5,55 @@ sidebar_label: Introduction
 sidebar_position: 1
 ---
 
-# Workspaces
+import DocCardList from '@theme/DocCardList';
 
-Welcome to the **Elo Orgânico Workspaces Documentation Hub**. This section provides a comprehensive technical breakdown of the architectural units, packages, and services that construct our monorepo.
+# Workspaces Documentation Hub
 
-To sustain a highly modular, decoupled, and scalable architecture, our engineering design is structured around the principles of **Domain-Driven Design (DDD)**, specifically utilizing **Bounded Contexts** to establish clear boundaries for domain models, system state, and deployment architectures.
+Welcome to the **Elo Orgânico Workspaces Documentation Hub**. This section provides dedicated deep-dives into the architecture, design, and internal engineering of each specific Bounded Context within the monorepo.
 
----
+For high-level project architectural decisions and global principles, please refer to the [Architecture Handbook](/docs/architecture/overview).
 
-## Bounded Contexts in Elo Orgânico
+## Explore Workspaces
 
-A Bounded Context defines a strict logical boundary within which a particular domain model is valid, consistent, and applicable. In our monorepo, rather than building a single monolithic codebase with overlapping data definitions, we separate distinct business domains and technical concerns into autonomous workspaces:
+Select a workspace below to read its technical documentation and overview:
 
-```mermaid
-graph TD
-  subgraph "Business Contexts"
-    Instance["Instance Context (Community Shop)"]
-    Portal["Portal Context (SaaS Platform Hub)"]
-  end
-  
-  subgraph "Support Contexts"
-    Studio["Studio Context (Visual Identity)"]
-    Tools["Tools Context (AI & Automation)"]
-    Docs["Docs Context (EloDocs Hub)"]
-  end
-
-  Instance <..- "Uses Assets & Tokens" -.. Studio
-  Portal <..- "Uses Assets & Tokens" -.. Studio
-  Tools <..- "Orchestrates & Automates" -.. Instance
-  Tools <..- "Orchestrates & Automates" -.. Portal
-  Docs <..- "Documents" -.. BusinessContexts["All Contexts"]
-```
-
-### 1. Instance Context (`instance/`)
-*   **Domain & Concern:** Local agricultural community shops.
-*   **Responsibility:** Manages the localized ecommerce flow, community-specific purchase cycles, stock management, order logistics, payment integrations (Pix), and local administrative storefronts.
-*   **State Parity:** Strictly sandboxed database model and rate limits, allowing independent standalone deployments for single community hubs.
-
-### 2. Portal Context (`portal/`)
-*   **Domain & Concern:** Multi-tenant subscription hub (SaaS Platform).
-*   **Responsibility:** Orchestrates platform-wide tenant provisioning, SaaS registration, billing and payment models, and global developer configurations.
-*   **Integration Boundary:** Operates in a distinct database namespace, preventing tenant billing schemas from bleeding into local ecommerce catalogs.
-
-### 3. Studio Context (`studio/`)
-*   **Domain & Concern:** Visual identity and design system governance.
-*   **Responsibility:** Establishes the brand color tokens, typography, optimized SVGs, and 3D resources. Houses the docker stack for our self-hosted Penpot design workspace and provides type-safe assets to downstream frontend clients.
-
-### 4. Tools Context (`tools/`)
-*   **Domain & Concern:** Infrastructure and AI developer automation.
-*   **Responsibility:** Packs our secure, high-context Model Context Protocol (MCP) gateways (GitHub, Context7, headless Playwright browsers, Docker Hub) and orchestrates containerized development assistants (Google Antigravity, GitHub Copilot).
-
-### 5. Docs Context (`docs/`)
-*   **Domain & Concern:** Developer portal and architectural knowledge base.
-*   **Responsibility:** Provides the Docusaurus platform engine (EloDocs) for authoring, translating, and compiling documentation, strategic roadmaps, and modular changelogs.
-
-### 6. Shared Workspace (`shared/`)
-*   **Domain & Concern:** Monorepo-wide configuration parity and global helper packages.
-*   **Responsibility:** Houses global development configuration standards (`@elo-organico/config`) including base TypeScript configurations, Prettier styling patterns, and Git hooks. Future home of `@elo-organico/ui` shared React component layouts.
-
----
-
-## Why Use a Monorepo with Autonomous Workspaces?
-
-1.  **Strict Architectural Isolation:** Ensures that changes to SaaS tenant provisioning (`portal`) have zero runtime impact on active storefront cycles (`instance`).
-2.  **Shared Source of Truth (SSOT):** Centralizes colors, icons, and themes in `studio` and domain contracts inside respective `packages/core` directories, ensuring downstream apps (`apps/api` and `apps/web`) inherit verified contracts.
-3.  **Development Velocity & Parity:** Containerized developer environments in `tools` ensure that both engineers and AI agents execute instructions under identical, isolated dependencies.
+<DocCardList
+  items={[
+    {
+      type: 'link',
+      href: '/workspaces/instance',
+      label: 'Instance Workspace',
+      description: 'Local agricultural community shops and ecommerce logic.',
+    },
+    {
+      type: 'link',
+      href: '/workspaces/portal',
+      label: 'Portal Workspace',
+      description: 'Multi-tenant subscription hub and SaaS platform orchestration.',
+    },
+    {
+      type: 'link',
+      href: '/workspaces/studio',
+      label: 'Studio Workspace',
+      description: 'Visual identity, design tokens, and self-hosted Penpot design system.',
+    },
+    {
+      type: 'link',
+      href: '/workspaces/tools',
+      label: 'Tools Workspace',
+      description: 'Infrastructure, AI developer automation, and MCP context servers.',
+    },
+    {
+      type: 'link',
+      href: '/workspaces/docs',
+      label: 'Docs Workspace',
+      description: 'Developer portal and Docusaurus architectural knowledge base.',
+    },
+    {
+      type: 'link',
+      href: '/workspaces/shared',
+      label: 'Shared Workspace',
+      description: 'Global configuration parity and monorepo-wide helpers.',
+    },
+  ]}
+/>

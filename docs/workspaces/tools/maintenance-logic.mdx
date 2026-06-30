@@ -8,18 +8,18 @@ sidebar_position: 6
 
 Standardized commands are provided for maintaining the automation layer and verifying workspace health across the monorepo.
 
-| Command | Engineering Responsibility |
-| :--- | :--- |
-| `pnpm typecheck` | Validates TypeScript integrity across scripts and MCP source code. |
-| `pnpm build` | Full production build including MCP servers and automation tools. |
-| `pnpm clean` | Aggressive workspace maintenance using `npkill` to prune legacy dependencies. |
+| Command          | Engineering Responsibility                                                    |
+| :--------------- | :---------------------------------------------------------------------------- |
+| `pnpm typecheck` | Validates TypeScript integrity across scripts and MCP source code.            |
+| `pnpm build`     | Full production build including MCP servers and automation tools.             |
+| `pnpm clean`     | Aggressive workspace maintenance using `npkill` to prune legacy dependencies. |
 
 #### Workspace Orchestration
 
-| Command | Engineering Action |
-| :--- | :--- |
-| `pnpm mcp:up` | Launches the entire Dockerized gateway and backend MCP stack. |
-| `pnpm mcp:down` | Tears down the gateway and MCP container environment. |
+| Command          | Engineering Action                                                          |
+| :--------------- | :-------------------------------------------------------------------------- |
+| `pnpm mcp:up`    | Launches the entire Dockerized gateway and backend MCP stack.               |
+| `pnpm mcp:down`  | Tears down the gateway and MCP container environment.                       |
 | `pnpm mcp:reset` | Aggressive stack wipe (volumes removed) followed by full container rebuild. |
 
 #### Workspace Structure

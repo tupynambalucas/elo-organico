@@ -7,14 +7,14 @@ services:
   frontend:
     container_name: elo-penpot-frontend
     build:
-      context: ./infrastructure/frontend
+      context: ../../services/frontend
       dockerfile: Dockerfile
     restart: always
     ports:
       - '9005:8080'
     env_file:
       - .env
-      - config/.env.frontend
+      - ../../services/frontend/.env.frontend
     depends_on:
       - backend
       - exporter
@@ -27,7 +27,7 @@ services:
   backend:
     container_name: elo-penpot-backend
     build:
-      context: ./infrastructure/backend
+      context: ../../services/backend
       dockerfile: Dockerfile
     restart: always
     depends_on:
@@ -37,7 +37,7 @@ services:
       - penpot-net
     env_file:
       - .env
-      - config/.env.backend
+      - ../../services/backend/.env.backend
     extra_hosts:
       - 'host.docker.internal:host-gateway'
       - 'elo.internal:host-gateway'
@@ -45,12 +45,12 @@ services:
   exporter:
     container_name: elo-penpot-exporter
     build:
-      context: ./infrastructure/exporter
+      context: ../../services/exporter
       dockerfile: Dockerfile
     restart: always
     env_file:
       - .env
-      - config/.env.exporter
+      - ../../services/exporter/.env.exporter
     depends_on:
       valkey:
         condition: service_healthy
@@ -63,7 +63,7 @@ services:
   valkey:
     container_name: elo-penpot-valkey
     build:
-      context: ./infrastructure/valkey
+      context: ../../services/valkey
       dockerfile: Dockerfile
     restart: always
     volumes:
@@ -79,11 +79,11 @@ services:
   aide:
     container_name: elo-penpot-aide
     build:
-      context: ./infrastructure/aide
+      context: ../../services/aide
       dockerfile: Dockerfile
     restart: no
     env_file:
-      - ./config/.env.aide
+      - ../../services/aide/.env.aide
     ports:
       - '4400:4400'
       - '4401:4401'

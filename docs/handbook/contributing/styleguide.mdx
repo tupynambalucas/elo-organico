@@ -11,7 +11,7 @@ This document defines the strict coding conventions and quality requirements for
 
 ## 1. Code Formatting (Prettier)
 
-Code must follow the rules defined in `.prettierrc`:
+Code must follow the rules defined in `shared/config/prettierrc.json`:
 
 - **Indentation:** 2 spaces.
 - **Semicolons:** Always use (true).
@@ -128,7 +128,7 @@ To maintain global accessibility, scalability, and code consistency across all c
 
 - **Source Code & Comments:** All source code (variable names, functions, classes, interfaces, properties, schemas, files) and comments within code files MUST be written exclusively in **English (en-US)**.
 - **Documentation:** All technical and product documentation, READMEs, security guidelines, and architectural briefs MUST be written in English.
-- **Git History:** Commit messages and Pull Request titles/descriptions MUST follow the Conventional Commits specification and be written in English.
+- **Git History:** Commit messages and Pull Request titles/descriptions MUST follow the Conventional Commits specification and be written in English (see [GitHub Standards](./github-standards.mdx)).
 - **Localization & i18n Exceptions:** The ONLY exceptions are localization files (e.g., `i18n` configurations, translation tables, dictionary JSON files) and explicit mock data representing end-user text in Portuguese. All internal application logic and definitions must remain strictly in English.
 
 ---
@@ -144,7 +144,7 @@ Its purpose is strictly to demonstrate:
 1.  **React Components:** Following rigorous patterns (explicit booleans, strict types, etc.).
 2.  **API Domain Structures:** Visualizing how domain models should be structured.
 
-### 7.1. Rigorous React & CSS Module Pattern Example
+### 8.1. Rigorous React & CSS Module Pattern Example
 
 The example below demonstrates our preferred pattern for interactive components using **CSS Modules**. It showcases the integration of state management, memoization, and asynchronous handling while strictly adhering to our TypeScript, boolean logic, and styling rules.
 

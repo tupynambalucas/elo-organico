@@ -14,7 +14,7 @@ A segurança e a previsibilidade do ambiente são mantidas por meio de redes bri
 - **Tratamento de CORS e SSE no nível da rede:** O gateway intercepta requisições `OPTIONS` e injeta os cabeçalhos CORS apropriados globalmente. Ele desativa os timeouts HTTP padrão nos proxies para evitar que as conexões ativas de Server-Sent Events (SSE) caiam durante tarefas de longa duração.
 - **Roteamento de Domínio Interno:** Dentro da stack MCP, o gateway é apelidado como `elo.internal.tools.mcp`. Containers de agentes executados em namespaces de rede separados podem rotear requisições diretamente através de `http://elo.internal.tools.mcp:3005/[service]/sse` via mapeamento de ponte do host.
 - **Ponte Host-para-Container:** Clientes de desenvolvimento local (como o Google Antigravity CLI) se comunicam com o gateway a partir da interface de loopback da máquina host usando:
-    ```
-    http://localhost:3005/github/sse
-    ```
+  ```
+  http://localhost:3005/github/sse
+  ```
 - **Mapeamento de Fluxo stdio Bufferizado:** O wrapper executa processos filhos localmente, evitando a fragmentação do stdout. Ao verificar os `id`s das transações JSON-RPC linha por linha, o adaptador resolve as requisições HTTP com payloads completos e sem truncamento.

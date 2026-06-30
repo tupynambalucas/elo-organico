@@ -70,18 +70,18 @@ tools/agents/
 
 All configuration is injected via Docker bind mounts at container startup. No files are baked into the image layers, ensuring that settings changes take effect without rebuilding images.
 
-| Mount Source | Container Destination | Purpose |
-| :--- | :--- | :--- |
-| `../../` | `/workspace` | Full monorepo working directory |
-| `./skills/` | `/workspace/.agents/skills` | Shared skills visible to both CLIs |
-| `./mcp_config.json` | `/workspace/.agents/mcp_config.json` | Unified MCP endpoint configuration |
-| `./antigravity/data/` | `/root/.gemini/antigravity-cli/` | Persistent runtime data |
-| `./antigravity/settings.json` | `/root/.gemini/antigravity-cli/settings.json` | Version-controlled TUI settings |
-| `./copilot/data/` | `/root/.copilot/` | Persistent Copilot session state |
-| `./copilot/gh-config/` | `/root/.config/gh/` | Persistent GitHub CLI credentials |
-| `/var/run/docker.sock` | `/var/run/docker.sock` | Docker-out-of-Docker orchestration |
-| `~/.ssh` | `/root/.ssh` (read-only) | Host SSH keys for Git operations |
-| `~/.gitconfig` | `/root/.gitconfig` (read-only) | Host Git identity |
+| Mount Source                  | Container Destination                         | Purpose                            |
+| :---------------------------- | :-------------------------------------------- | :--------------------------------- |
+| `../../`                      | `/workspace`                                  | Full monorepo working directory    |
+| `./skills/`                   | `/workspace/.agents/skills`                   | Shared skills visible to both CLIs |
+| `./mcp_config.json`           | `/workspace/.agents/mcp_config.json`          | Unified MCP endpoint configuration |
+| `./antigravity/data/`         | `/root/.gemini/antigravity-cli/`              | Persistent runtime data            |
+| `./antigravity/settings.json` | `/root/.gemini/antigravity-cli/settings.json` | Version-controlled TUI settings    |
+| `./copilot/data/`             | `/root/.copilot/`                             | Persistent Copilot session state   |
+| `./copilot/gh-config/`        | `/root/.config/gh/`                           | Persistent GitHub CLI credentials  |
+| `/var/run/docker.sock`        | `/var/run/docker.sock`                        | Docker-out-of-Docker orchestration |
+| `~/.ssh`                      | `/root/.ssh` (read-only)                      | Host SSH keys for Git operations   |
+| `~/.gitconfig`                | `/root/.gitconfig` (read-only)                | Host Git identity                  |
 
 #### MCP Network Connectivity
 
@@ -90,9 +90,9 @@ Inside the agent containers, MCP services are resolved via the host gateway usin
 ```json
 {
   "mcpServers": {
-    "github":    { "url": "http://elo.internal.tools.mcp:3005/github/sse" },
-    "context7":  { "url": "http://elo.internal.tools.mcp:3005/context7/sse" },
-    "browser":   { "url": "http://elo.internal.tools.mcp:3005/browser/sse" },
+    "github": { "url": "http://elo.internal.tools.mcp:3005/github/sse" },
+    "context7": { "url": "http://elo.internal.tools.mcp:3005/context7/sse" },
+    "browser": { "url": "http://elo.internal.tools.mcp:3005/browser/sse" },
     "dockerhub": { "url": "http://elo.internal.tools.mcp:3005/dockerhub/sse" }
   }
 }
@@ -104,24 +104,24 @@ The agent and MCP stacks are network-decoupled. Either stack can be started or s
 
 #### Lifecycle Commands
 
-| Command | Action |
-| :--- | :--- |
-| `pnpm agents:up` | Build images (if needed) and start both agent containers in detached mode. |
-| `pnpm agents:down` | Stop and remove the agent containers. |
-| `pnpm agents:reset` | Full teardown with volume removal followed by a clean rebuild and restart. |
-| `pnpm antigravity:auth` | Execute Google OAuth authentication flow in the active terminal window. |
-| `pnpm copilot:auth` | Execute GitHub OAuth device authentication flow in the active terminal window. |
+| Command                 | Action                                                                         |
+| :---------------------- | :----------------------------------------------------------------------------- |
+| `pnpm agents:up`        | Build images (if needed) and start both agent containers in detached mode.     |
+| `pnpm agents:down`      | Stop and remove the agent containers.                                          |
+| `pnpm agents:reset`     | Full teardown with volume removal followed by a clean rebuild and restart.     |
+| `pnpm antigravity:auth` | Execute Google OAuth authentication flow in the active terminal window.        |
+| `pnpm copilot:auth`     | Execute GitHub OAuth device authentication flow in the active terminal window. |
 
 #### VS Code Task Integration
 
 Agent CLIs are invoked via `docker exec` tasks registered in `.vscode/tasks.json`. Tasks are labeled with a `[Docker]` or `[Host]` prefix to distinguish containerized execution from host-level global installations.
 
-| Task Label | Execution Target |
-| :--- | :--- |
+| Task Label                 | Execution Target                        |
+| :------------------------- | :-------------------------------------- |
 | `[Docker] Antigravity CLI` | `docker exec -it agent-antigravity agy` |
-| `[Docker] Copilot CLI` | `docker exec -it agent-copilot copilot` |
-| `[Host] Antigravity CLI` | Host-global `agy` installation |
-| `[Host] Copilot CLI` | Host-global `copilot` installation |
+| `[Docker] Copilot CLI`     | `docker exec -it agent-copilot copilot` |
+| `[Host] Antigravity CLI`   | Host-global `agy` installation          |
+| `[Host] Copilot CLI`       | Host-global `copilot` installation      |
 
 #### Authentication and Session Persistence
 
@@ -130,10 +130,12 @@ Both CLIs use OAuth device-flow authentication. To authenticate the containerize
 ##### Persistent Storage & No-Rebuild Architecture
 
 Because the credentials directories are bind-mounted to the host:
+
 - `agent-copilot` mounts `./copilot/data/` to `/root/.copilot/` and `./copilot/gh-config/` to `/root/.config/gh/`
 - `agent-antigravity` mounts `./antigravity/data/` to `/root/.gemini/antigravity-cli/`
 
 Any authentication token generated during the first-time setup is directly written to these host directories in real time. As a result:
+
 - **No container rebuild is required:** Rebuilding or restarting the container does not erase credentials, as the container reads tokens dynamically from the mounted host volumes.
 - **Host Isolation:** While the container is authenticated, these credentials do not leak into the host user's global folders (e.g., `~/.gemini` or `~/.config/gh`), ensuring a clean separation between the container stack and host-global CLI installations.
 - **Automated Synced Access:** As soon as the user completes the device authorization flow, the credentials immediately become active and functional. No manual file copies or restarts are necessary.

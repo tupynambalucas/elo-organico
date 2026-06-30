@@ -1,91 +1,151 @@
 ---
+title: Introdução
+description: Introdução e visão geral do projeto.
 sidebar_position: 1
 ---
 
-# Introdução
+import DocCardList from '@theme/DocCardList';
 
-Bem-vindo ao ambiente de desenvolvimento do **Elo Orgânico**. Este projeto é uma plataforma de gestão especializada para ciclos de compartilhamento de produtos orgânicos, construída como um monorepo de alta performance e tipagem estrita.
+# Projeto EloOrgânico
 
-## Estrutura de Contextos Delimitados (Bounded Contexts)
+Este projeto é uma plataforma de gestão especializada projetada para preencher a lacuna entre produtores orgânicos e consumidores conscientes através de **Ciclos de Compartilhamento Agendados**. Mais do que apenas uma ferramenta de e-commerce, é um sistema de gestão orientado pela comunidade que automatiza a complexa logística de colheitas sazonais e compras em grupo.
 
-Utilizamos **PNPM Workspaces** com um layout de **Context-Driven Root** para isolar estritamente nossos domínios de negócio. Esta arquitetura garante escalabilidade e uma separação clara de responsabilidades.
+_"Tornar a comida local, orgânica e sustentável tão acessível e fácil de comprar quanto qualquer produto industrial comum, sem perder a conexão humana."_
 
-```mermaid
-graph TD
-    Root["Elo Organico Monorepo"]
-    Root --> Instance["Contexto de Instância: /instance"]
-    Root --> Portal["Contexto de Portal: /portal"]
-    Root --> Studio["Contexto de Studio: /studio"]
-    Root --> Tools["Contexto de Ferramentas: /tools"]
-    Root --> Knowledge["Hub de Documentação: /docs"]
+## 1. Visão Geral do Produto e Proposta de Valor
 
-    Instance --> I_Web["Web App: React"]
-    Instance --> I_API["API: Fastify"]
-    Instance --> I_Core["Lógica de Core"]
+Antes do Elo Orgânico, o processo de compartilhamento era dificultado por:
 
-    Portal --> P_Web["Web App: React"]
-    Portal --> P_API["API: Fastify"]
-    Portal --> P_Core["Lógica de Core"]
+- **Caos Operacional:** Dependência de planilhas massivas e mensagens de WhatsApp fragmentadas.
+- **Erros Manuais:** Equívocos humanos na consolidação de pedidos e rastreamento de pagamentos.
+- **Atrito de Escalonamento:** Alta sobrecarga administrativa tornava impossível o crescimento da comunidade sem sobrecarga (burnout).
+- **Latência de Pagamento:** Conciliação financeira atrasada devido à verificação manual de transferências bancárias.
 
-    Studio --> Tokens["Tokens de Design"]
-    Studio --> Assets["Ativos de Marca"]
+Nós transformamos esse processo em um fluxo de trabalho profissional e automatizado:
 
-    Tools --> MCP["Servidores MCP"]
-    Tools --> Scripts["Scripts de Automação"]
+| Para Consumidores                                                                        | Para Administradores/Fornecedores                                                                 |
+| :--------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------ |
+| **Conveniência:** Uma loja limpa e moderna (`@elo-instance/web`) para navegar e comprar. | **Automação:** Ingestão inteligente de listas de produtos em dados estruturados.                  |
+| **Transparência:** Acesso em tempo real à disponibilidade sazonal e preços.              | **Eficiência:** Consolidação automatizada de pedidos e gestão de estoque via `@elo-instance/api`. |
+| **Velocidade:** Pagamentos Pix instantâneos com conciliação bancária automática.         | **Controle:** Visibilidade total sobre ciclos, logística e saúde financeira.                      |
 
-    I_Web --> Studio
-    P_Web --> Studio
-```
+### Público-Alvo (Personas)
 
-### Contexto de Instância (instance/)
+1. **O Coordenador de Comunidade (Admin):** Gerencia ciclos e fornecedores através das funcionalidades administrativas do `@elo-instance/web`.
+2. **O Consumidor Consciente:** Compra produtos sazonais através da interface do `@elo-instance/web`.
+3. **O Fornecedor:** Atua como a ponte entre os agricultores e a comunidade, fornecendo o catálogo sazonal.
 
-Gerencia as operações específicas da comunidade (a "Loja da Comunidade"). Para documentação detalhada, consulte o **[Workspace Instance](/workspaces)**.
+## 2. Fluxograma Operacional
 
-- **`@elo-instance/web`**: React SPA (Admin & Loja).
-- **`@elo-instance/api`**: Fastify REST API.
-- **`@elo-instance/core`**: Lógica e esquemas específicos do domínio.
+A plataforma Elo Orgânico orquestra o seguinte fluxo operacional para uma instância de comunidade:
 
-### Contexto de Portal (portal/)
+1. **Configuração do Ciclo:** O administrador define e agenda janelas de compra (ciclos) através da interface administrativa do `@elo-instance/web`. `[ESTÁVEL]`
+2. **Ingestão de Produtos:** Uma lista de produtos em texto puro é processada por um **Parser Inteligente** no frontend. `[WIP - Refinando Lógica]`
+3. **Abertura de Compras:** O catálogo estruturado é habilitado automaticamente para os membros na loja `@elo-instance/web`. `[ESTÁVEL]`
+4. **Execução de Pedidos:** Os membros montam cestas personalizadas e enviam seus pedidos. `[ESTÁVEL]`
+5. **Processamento de Pagamento:** Integração direta com a API do **Banco EFI** para pagamentos via Pix. `[WIP - Fase de Especificação Técnica]`
+6. **Confirmação:** O sistema realiza a conciliação bancária e confirma o pedido automaticamente. `[WIP]`
 
-Gerencia a plataforma global e o onboarding do SaaS. Para documentação detalhada, consulte o **[Workspace Portal](/workspaces/portal)**.
+## 3. Estimativa de Custos e Estratégia de Hospedagem
 
-- **`@elo-portal/web`**: Landing page oficial e hub de entrada.
-- **`@elo-portal/api`**: API de orquestração global e gestão de tenants.
-- **`@elo-portal/core`**: Lógica e esquemas específicos da plataforma.
+A estratégia "Self-Hosted" proporciona uma relação custo-benefício altamente favorável e previsível. Propomos duas abordagens principais de hospedagem para a instância.
 
-### Contexto de Studio (studio/)
+### Categoria 1: Infraestrutura e Hospedagem
 
-A fonte única de verdade para a identidade visual do projeto e tokens de UI compartilhados. Para documentação detalhada, consulte o **[Workspace Studio](/workspaces/studio)**.
+**Opção A: Hetzner Cloud (VPS Fixo)**
 
-- **Tokens de Design**: Variáveis CSS e constantes TypeScript centralizadas.
-- **Ativos de Marca**: Logos canônicos, ícones e modelos 3D.
-- **Orquestração de IA**: Ponte de design para contexto de IA.
+- **Estratégia:** Servidor de Alta Performance (Linux VPS) sempre ligado.
+- **Custo Mensal Estimado:** **€5.00 a €7.00** (Fixo).
+- **Banco de Dados & Cache:** Recursos da própria VPS (MongoDB/Redis) sem custo extra.
 
-### Contexto de Ferramentas (tools/)
+**Opção B: Google Cloud Run (Serverless)**
 
-A espinha dorsal de automação e hub de orquestração de infraestrutura. Para documentação detalhada, consulte o **[Workspace Tools](/workspaces/tools)**.
+- **Estratégia:** Containers Serverless, ligados e desligados sob demanda.
+- **Custo Mensal Estimado:** **Variável** (Frequentemente free tier ou centavos se ocioso).
+- **Banco de Dados & Cache:** DBs Gerenciados (ex. Atlas/Redis Cloud) ou Cloud SQL.
 
-- **Servidores MCP**: Servidores Model Context Protocol (GitHub, Context7, Docker Hub) que fornecem contexto estruturado para agentes de IA.
-- **Infraestrutura**: Configurações Docker e ambientes de runtime para ferramentas de desenvolvimento.
-- **Automação**: Scripts técnicos para manutenção, geração de chaves e saúde do workspace.
+### Categoria 2: Gateway de Pagamento (Pix)
 
-### Contexto de Docs (docs/)
+Temos duas opções principais para processamento de pagamentos Pix, ambas oferecendo taxas idênticas por transação, mas diferindo em acessibilidade.
 
-O hub de documentação do desenvolvedor (EloDocs). Para documentação detalhada, consulte o **[Workspace Docs](/workspaces/docs)**.
+**Opção A: Banco EFI**
 
-- **Portal Docusaurus**: Layout de barra lateral de documentação multi-instância.
-- **Localização**: Paridade entre as localidades Inglês (`en`) e Português (`pt-BR`).
-- **Compilação de Raiz**: Pipelines de scripts gerando arquivos de documentação no nível raiz.
+- **Taxa Pix:** **1,19%** por transação recebida via API.
+- **Status:** Totalmente acessível para empresas brasileiras.
 
----
+**Opção B: Stripe**
 
-## Foco Estratégico: Maestria em Instância Única
+- **Taxa Pix:** **1,19%** por transação recebida via API.
+- **Status:** Atualmente disponível apenas para convidados (invite-only) no Brasil, exigindo aprovação.
 
-Embora arquitetado para um modelo SaaS Multi-tenant futuro, nossa prioridade atual é a **entrega perfeita de uma instância de comunidade autônoma (instance/\*)**. Todas as funcionalidades SaaS no escopo `portal-*` são apenas fundacionais nesta etapa.
+### Categoria 3: Domínio e DNS
 
----
+- **Custo:** Custo Anual Padrão (Registro e manutenção do domínio).
 
-## Início Rápido
+### Conclusão Financeira
+
+Ambas as arquiteturas garantem previsibilidade dos custos de infraestrutura. A opção Hetzner fornece um custo mensal fixo e extremamente baixo com performance consistente, enquanto a abordagem Cloud Run minimiza os custos durante períodos ociosos ao ligar e desligar a instância conforme necessário. Para pagamentos, tanto o Banco EFI quanto a Stripe oferecem taxas competitivas de 1,19% para Pix, embora o Banco EFI seja mais imediatamente acessível.
+
+## 4. Arquitetura e Contexto Delimitado
+
+Utilizamos **PNPM Workspaces** com um layout de **Context-Driven Root** para isolar estritamente nossos domínios de negócio em Contextos Delimitados. A base de código é dividida em **Instância** (operações da comunidade) e **Portal** (camada SaaS global).
+
+Para um detalhamento abrangente da nossa filosofia de contexto, estrutura de diretórios e papéis das aplicações, leia nossos guias arquiteturais dedicados:
+
+<DocCardList
+  items={[
+    {
+      type: 'link',
+      href: '/docs/architecture/bounded-context',
+      label: 'Arquitetura de Contextos Delimitados',
+      description:
+        'Explicação detalhada dos Contextos Delimitados, Estrutura do Monorepo e Papéis das Aplicações no Elo Orgânico.',
+    },
+    {
+      type: 'link',
+      href: '/docs/architecture/overview',
+      label: 'Visão Geral da Arquitetura',
+      description: 'Visão geral abrangente da stack técnica e estratégia do monorepo.',
+    },
+  ]}
+/>
+
+## 5. Foco Estratégico: Maestria em Instância Única
+
+Nossa prioridade atual é a **entrega perfeita de uma instância comunitária independente (`@elo-instance/*`)**. O desenvolvimento do SaaS começará apenas após a aplicação principal estar totalmente operacional.
+
+### A Visão SaaS de Longo Prazo
+
+Embora o foco seja a instância, o objetivo de longo prazo é evoluir para uma Plataforma SaaS Multi-tenant:
+
+- **Escopo do Portal (`@elo-portal/web` & `@elo-portal/api`)**: Um ponto de entrada global único para onboarding e descoberta.
+- **Múltiplos Pares de Instância (`@elo-instance/api` & `@elo-instance/web`)**: Cada comunidade recebe seu próprio par de ambiente isolado.
+- **Bibliotecas Core (`@elo-instance/core` & `@elo-portal/core`)**: Fonte única de verdade (SSOT) específica de domínio para cada escopo.
+
+#### Principais Funcionalidades SaaS
+
+- **Isolamento de Tenant:** Dados e configurações independentes para cada instância de comunidade.
+- **Autogestão do Produtor:** Gestão direta de estoque e preços para os produtores.
+- **Gestão de Assinaturas:** Níveis de serviço gerenciados via `@elo-portal/api`.
+
+#### Evolução Arquitetural
+
+- **Implantação Multi-Instância:** Criação automatizada de containers `@elo-instance/*` por tenant.
+- **Roteamento Dinâmico:** Load balancer global roteando usuários para sua instância de comunidade específica.
+
+<DocCardList
+  items={[
+    {
+      type: 'link',
+      href: '/roadmap',
+      label: 'Arquitetura Core e Estratégia',
+      description:
+        'Arquitetura estratégica do monorepo, configurações de catálogo e metas de isolamento lógico multi-tenant.',
+    },
+  ]}
+/>
+
+## 6. Início Rápido
 
 Certifique-se de ter o **Node.js 22+**, **PNPM 11+** e o **Docker** instalados.
 
@@ -99,55 +159,22 @@ Certifique-se de ter o **Node.js 22+**, **PNPM 11+** e o **Docker** instalados.
     Cada contexto delimitado e aplicação possui seu próprio arquivo de ambiente. Copie cada `.env.*.example` para o seu respectivo arquivo sem a extensão `.example` e preencha com seus valores locais:
 
     ```bash
-    # Infraestrutura de instância (para compose.yaml)
+    # Infraestrutura da Instance (para compose.dev.yaml)
     cp instance/.env.dev.example instance/.env.dev
 
-    # API de instância runtime
+    # Runtime da API da Instance
     cp instance/apps/api/.env.dev.example instance/apps/api/.env.dev
 
-    # Variáveis de compilação da Web de instância
+    # Variáveis de build da Web da Instance
     cp instance/apps/web/.env.dev.example instance/apps/web/.env.dev
     ```
 
     Repita para `portal/` quando estiver trabalhando no contexto de Portal.
 
-3.  **Iniciar Infraestrutura Local:**
-    Suba os containers de banco de dados e cache antes de iniciar as aplicações:
+3.  **Inicie a Infraestrutura Local e Aplicações:**
+    Nós fornecemos scripts de orquestração unificados via Turborepo para subir containers Docker e servidores de desenvolvimento local simultaneamente.
 
-    ```bash
-    pnpm instance:up   # Inicia MongoDB (Replica Set) + Redis para Instância
-    ```
-
-4.  **Executar Ambiente de Desenvolvimento:**
-    Com a infraestrutura em execução, inicie as aplicações:
-
-    ```bash
-    pnpm instance:dev       # Inicia API (tsx watch) + Web (Vite) para Instância
-    pnpm portal:dev         # Inicia a stack do Portal
-    ```
-
-    Você também pode direcionar componentes específicos:
-
-    ```bash
-    pnpm docs:dev           # Inicia o Hub de Documentação (Docusaurus)
-    pnpm instance:web       # Inicia apenas a Web da comunidade
-    pnpm instance:api       # Inicia apenas a API da comunidade
-    pnpm portal:web         # Inicia apenas a Web do Portal
-    pnpm portal:api         # Inicia apenas a API do Portal
-    ```
-
-    Consulte a **[Referência de Orquestração](./architecture/infra-orchestration-deploy/orchestration.mdx)** para uma lista completa de comandos, incluindo comandos de implantação em produção.
-
----
-
-## Índice de Documentação
-
-Para guias detalhados, consulte o diretório `docs/`:
-
-- **[Visão Geral da Arquitetura](./architecture/overview.mdx)**: Stack técnica e estratégia de monorepo.
-- **[Plano Mestre](./product/masterplan.mdx)**: Roadmap e fases do projeto.
-- **[Visão do Produto](./product/vision.mdx)**: Missão do produto e proposta de valor.
-- **[Guia de Estilo](./contributing/styleguide.mdx)**: Padrões de codificação e convenções.
+    Consulte a [Referência de Comandos](./commands-reference.mdx) para instruções sobre como iniciar a stack (`pnpm instance:dev`), executar validações ou realizar deploys para produção.
 
 ---
 

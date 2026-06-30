@@ -5,7 +5,7 @@ import {
   faCalendarAlt,
   faChevronLeft,
   faChevronRight,
-} from '@elo-organico/studio/icons';
+} from '@elo-studio/assets/icons';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import type { IProduct, CycleResponse } from '@elo-instance/core';

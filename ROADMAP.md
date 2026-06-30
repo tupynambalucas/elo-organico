@@ -94,8 +94,8 @@ This section covers the Penpot environment, design-token sync automation, and cu
 
 ### Collaborative Design Environment
 
-- **Self-Hosted Design Hub**: Deployed a containerized Penpot v2 instance (Aide-supported design workspace) inside the `@elo-organico/studio` environment, enabling secure local collaborative styling mockups.
-- **Centralized Design System Packages**: Structured `@elo-organico/studio` to serve as the unified package for brand guidelines, typography styles, spacing configurations, and palette design tokens.
+- **Self-Hosted Design Hub**: Deployed a containerized Penpot v2 instance (Aide-supported design workspace) inside the `@elo-studio/assets` environment, enabling secure local collaborative styling mockups.
+- **Centralized Design System Packages**: Structured `@elo-studio/assets` to serve as the unified package for brand guidelines, typography styles, spacing configurations, and palette design tokens.
 
 ### Asset Pipelines
 

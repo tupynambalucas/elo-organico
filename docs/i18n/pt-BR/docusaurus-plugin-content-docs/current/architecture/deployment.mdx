@@ -1,7 +1,7 @@
 ---
-title: Deployment Guide
-description: Production and staging deployment workflows, build-time compilation, environment setups, and self-hosted excellence in Elo Orgânico.
-sidebar_label: Deployment
+title: Guia de Implantação
+description: Fluxos de trabalho de implantação em produção e homologação/staging, compilação em tempo de build, configuração de ambientes e excelência auto-hospedada no Elo Orgânico.
+sidebar_label: Implantação
 sidebar_position: 3
 ---
 
@@ -75,37 +75,7 @@ Nunca injete chaves sensíveis (como segredos JWT, credenciais de banco de dados
 
 As implantações são executadas diretamente na máquina servidora utilizando nossos scripts unificados de CLI na raiz.
 
-### 3.1. Referência de Comandos
-
-| Comando                   | Ambiente Alvo      | Ações Realizadas                                                                  |
-| :------------------------ | :----------------- | :-------------------------------------------------------------------------------- |
-| `pnpm instance:staging`   | Staging            | Baixa as alterações, compila as imagens e inicia os containers com `.env.staging` |
-| `pnpm instance:prod`      | Produção           | Baixa as alterações, compila as imagens e inicia os containers com `.env.prod`    |
-| `pnpm instance:prod:down` | Produção / Staging | Para e remove a topologia de containers em execução                               |
-
-### 3.2. Passos Sequenciais de Release
-
-Ao lançar uma nova versão, execute os seguintes passos no servidor de destino:
-
-1. **Baixar as Últimas Alterações:**
-
-   ```bash
-   git pull origin main
-   ```
-
-2. **Verificar os Arquivos de Ambiente:**
-   Certifique-se de que o arquivo de ambiente de destino (por exemplo, `instance/.env.prod`) esteja preenchido e corresponda ao modelo `instance/.env.prod.example`.
-
-3. **Orquestrar o Lançamento da Stack:**
-
-   ```bash
-   pnpm instance:prod
-   ```
-
-4. **Verificar a Saúde dos Containers:**
-   ```bash
-   docker ps --filter "name=elo-instance"
-   ```
+Consulte a [Referência de Comandos](../commands-reference.mdx#instance-community) para a lista completa de comandos de implantação e passos sequenciais de lançamento.
 
 ---
 
@@ -133,16 +103,9 @@ Para evitar trabalho operacional manual durante os lançamentos, toda a prepara�
 
 ## 6. Logs e Manutenção
 
-Para realizar manutenções ou diagnosticar problemas em tempo real, utilize as ferramentas padrão do Docker:
+Para realizar manutenções ou diagnosticar problemas em tempo real, utilize as ferramentas padrão do Docker.
 
-- **Acompanhar a Saída em Tempo Real:**
-  ```bash
-  docker compose -f compose.prod.yaml --env-file .env.prod logs -f
-  ```
-- **Inspecionar um Container Específico:**
-  ```bash
-  docker logs elo-instance-api-prod
-  ```
+Consulte a [Referência de Comandos](../commands-reference.mdx#docker--infrastructure) para os comandos exatos de acompanhamento de logs em tempo real ou inspeção de containers específicos.
 
 ---
 

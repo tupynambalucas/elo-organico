@@ -6,8 +6,8 @@ import {
   faCarrot,
   faChartSimple,
   faGear,
-} from '@elo-organico/studio/icons';
-import { LogoMarkPositive } from '@elo-organico/studio/logos';
+} from '@elo-studio/assets/icons';
+import { LogoMarkPositive } from '@elo-studio/assets/logos';
 import { useAuthActions } from '@/domains/auth';
 import { useAdminNavigation } from '../../admin.navigation';
 import type { AdminViewType } from '../../admin.navigation';

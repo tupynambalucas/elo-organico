@@ -2,7 +2,7 @@ import { type FC } from 'react';
 import { useAuthUser, useAuthActions } from '@/domains/auth';
 import { IconDisplay } from '@/shared/ui/UserIcon';
 import styles from './styles.module.css';
-import { Icon, faTimes, faList, faUser, faArrowRightFromBracket } from '@elo-organico/studio/icons';
+import { Icon, faTimes, faList, faUser, faArrowRightFromBracket } from '@elo-studio/assets/icons';
 
 interface UserDrawerProps {
   isOpen: boolean;

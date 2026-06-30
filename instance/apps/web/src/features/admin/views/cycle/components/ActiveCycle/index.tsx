@@ -4,7 +4,7 @@ import { useAdminCycleStore } from '../../../../domains/cycle/cycle.store';
 import styles from './styles.module.css';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { Icon, faBoxOpen, faArrowLeft, faTrash, faPen, faCircle } from '@elo-organico/studio/icons';
+import { Icon, faBoxOpen, faArrowLeft, faTrash, faPen, faCircle } from '@elo-studio/assets/icons';
 import type { IProduct } from '@elo-instance/core';
 import { AdminContainer, ProductSearchFilter } from '../../../../components';
 

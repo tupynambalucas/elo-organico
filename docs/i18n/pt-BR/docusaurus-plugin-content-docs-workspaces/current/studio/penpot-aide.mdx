@@ -28,16 +28,16 @@ O Aide funciona como uma ponte Model Context Protocol (MCP), permitindo que agen
 
 ##### Scripts Operacionais
 
-| Comando | Responsabilidade Técnica |
-| :--- | :--- |
-| `pnpm penpot:up` | Inicializa os serviços core de design em `http://localhost:9005`. |
+| Comando              | Responsabilidade Técnica                                                             |
+| :------------------- | :----------------------------------------------------------------------------------- |
+| `pnpm penpot:up`     | Inicializa os serviços core de design em `http://localhost:9005`.                    |
 | `pnpm penpot:update` | Baixa as últimas imagens de serviço e realiza um reinício gradual (rolling restart). |
-| `pnpm aide:up` | Ativa a ponte do Aide (Penpot MCP) para manipulação de design por IA. |
-| `pnpm aide:down` | Desativa a ponte de automação. |
+| `pnpm aide:up`       | Ativa a ponte do Aide (Penpot MCP) para manipulação de design por IA.                |
+| `pnpm aide:down`     | Desativa a ponte de automação.                                                       |
 
 ##### Regras Obrigatórias de Manipulação por IA
 
 - **Reutilização de Componentes:** Sempre verifique a biblioteca de componentes existente (Penpot) ou a biblioteca de UI (`instance/apps/web/src/components`) antes de criar novos elementos. O Aide deve priorizar os tokens e componentes existentes do design system.
 - **Lógica de Tokens Primeiro:** As exportações de design para código devem usar estritamente as propriedades personalizadas do CSS (CSS Custom Properties) derivadas de `src/tokens/` para cores, fontes e espaçamento.
-- **Otimização de SVG:** Certifique-se de que o código SVG exportado está otimizado, segue os padrões de ícones do projeto e está integrado através do registro `@elo-organico/studio/icons`.
+- **Otimização de SVG:** Certifique-se de que o código SVG exportado está otimizado, segue os padrões de ícones do projeto e está integrado através do registro `@elo-studio/assets/icons`.
 - **Hierarquia de Camadas:** A manutenção do agrupamento semântico é obrigatória. Os elementos devem ser organizados em páginas e frames claros (ex: `Layout/Grid`, `Components/Buttons`).

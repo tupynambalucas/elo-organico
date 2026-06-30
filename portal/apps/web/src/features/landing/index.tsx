@@ -2,7 +2,7 @@ import { lazy, Suspense, useRef } from 'react';
 import { useAuthStore } from '@/domains/auth';
 import { useCycleStore } from '@/domains/cycle';
 import { useGSAP } from '@gsap/react';
-import { LogoHorizontalNegative } from '@elo-organico/studio/logos';
+import { LogoHorizontalNegative } from '@elo-studio/assets/logos';
 import { animateLandingIntro } from './animations';
 import styles from './styles.module.css';
 

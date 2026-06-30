@@ -118,7 +118,7 @@ Running a full typecheck across all monorepo packages (`pnpm typecheck`) can tak
 2. It detects the file extensions: if no JavaScript or TypeScript files have changed, it skips typechecking completely.
 3. It maps the changed files to their corresponding monorepo workspaces:
    - Files in `instance/` $\rightarrow$ typecheck `@elo-instance/*` packages.
-   - Files in `studio/` $\rightarrow$ typecheck `@elo-organico/studio`.
+   - Files in `studio/` $\rightarrow$ typecheck `@elo-studio/assets`.
    - Files in `tools/` $\rightarrow$ typecheck `@elo-organico/tools`.
    - Files in `docs/` $\rightarrow$ typecheck `@elo-organico/docs`.
    - Files in `portal/` $\rightarrow$ typecheck `@elo-portal/*`.
@@ -141,17 +141,17 @@ The rules are declared in the root [package.json](file:///D:/projects/elo-organi
 
 ```json
   "lint-staged": {
-    "**/*.{js,mjs,ts,tsx}": [
+    "**/*.{js,mjs,ts,tsx,mdx}": [
       "eslint --fix"
     ],
-    "**/*.{json,yaml,md,mdx}": [
+    "**/*.{json,yaml,md,css,html}": [
       "prettier --write"
     ]
   }
 ```
 
 :::note[Prettier Integration]
-For JavaScript, TypeScript, and TSX files, we do not run the standalone Prettier CLI. Instead, Prettier runs as an ESLint rule via `eslint-plugin-prettier`. Running `eslint --fix` formats the code according to [.prettierrc.json](file:///D:/projects/elo-organico/.prettierrc.json) and checks for code quality issues in a single execution.
+For JavaScript, TypeScript, and TSX files, we do not run the standalone Prettier CLI. Instead, Prettier runs as an ESLint rule via `eslint-plugin-prettier`. Running `eslint --fix` formats the code according to [shared/config/prettierrc.json](file:///D:/projects/elo-organico/shared/config/prettierrc.json) and checks for code quality issues in a single execution.
 :::
 
 ---
@@ -176,29 +176,20 @@ Repository administrators must configure branch protection rules on GitHub for `
 
 ### 1. Starting a New Feature
 
-Always branch off from `develop`.
-
-```powershell
-git flow feature start my-awesome-feature
-```
+Always branch off from `develop`. See the [Command Reference](../commands-reference.mdx#git--version-control) for the exact `git flow` command.
 
 ### 2. Collaborating and Proposing Changes
 
 Instead of merging locally, we use **Pull Requests** for code review and CI validation.
 
-1.  **Push your branch**: `git push -u origin feature/my-awesome-feature`
-2.  **Create a Pull Request**:
-    ```powershell
-    gh pr create --base develop --fill --web
-    ```
-    _Use `--fill` to automatically use your commit messages for the PR description._
+1.  **Push your branch** to the remote repository.
+2.  **Create a Pull Request** targeting `develop` (refer to the [Command Reference](../commands-reference.mdx#git--version-control) for the `gh pr` command).
 
 ### 3. Senior Merge Strategy (Squash & Merge)
 
 To keep the `develop` history clean and meaningful, we use **Squash Merges**. This combines all commits from a feature branch into a single, well-described commit in `develop`.
 
-- **Action**: Merge via GitHub UI or CLI using the `squash` method.
-- **CLI Command**: `gh pr merge --squash --delete-branch`
+- **Action**: Merge via GitHub UI or CLI using the `squash` method (see the [Command Reference](../commands-reference.mdx#git--version-control) for the exact CLI command).
 
 ---
 
@@ -210,10 +201,7 @@ We use **Changesets** combined with **GitHub Actions** to automate our versionin
 
 When your feature or bug fix is ready and before opening a Pull Request:
 
-1. Run the interactive changeset tool from the repository root:
-   ```powershell
-   pnpm version:changeset
-   ```
+1. Run the interactive changeset tool from the repository root (see the [Command Reference](../commands-reference.mdx#git--version-control)).
 2. Select the package(s) that were modified using the spacebar.
 3. Choose the appropriate SemVer bump level (Major for breaking changes, Minor for new backwards-compatible features, or Patch for bug fixes).
 4. Provide a clear, technical description of the change (in English, conforming to our commit standards).
@@ -253,8 +241,8 @@ Never edit the `"version"` field in a package's `package.json` manually during a
 
 If a bug is found in production:
 
-1.  `git flow hotfix start fix-crash`
-2.  Apply the fix and finish: `git flow hotfix finish fix-crash`
+1.  Start and finish a hotfix branch.
+2.  See the [Command Reference](../commands-reference.mdx#git--version-control) for the exact `git flow hotfix` commands.
 3.  Sync both `main` and `develop`.
 
 ---

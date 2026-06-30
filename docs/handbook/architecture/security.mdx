@@ -1,7 +1,7 @@
 ---
-title: Security Architecture
+title: Security
 description: Comprehensive overview of security measures, bot protection, and brute-force mitigation in Elo Orgânico.
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 # Security Architecture
@@ -90,7 +90,9 @@ The following security keys are mandatory for the **Instance** stack to operate.
 | :------------------------ | :-------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `VITE_TURNSTILE_SITE_KEY` | Public site key for rendering the Turnstile widget. | Local dev: read from `.env.dev` by Vite (`--mode dev`). Production: injected as Docker `ARG` during image build — baked statically into the JS bundle. |
 
-> **Important:** `VITE_TURNSTILE_SITE_KEY` is a **public** key (safe to embed in client bundles). The `TURNSTILE_SECRET_KEY` is **private** and must only ever exist in the API environment, never in the Web app or committed to version control.
+:::warning
+**Important:** `VITE_TURNSTILE_SITE_KEY` is a **public** key (safe to embed in client bundles). The `TURNSTILE_SECRET_KEY` is **private** and must only ever exist in the API environment, never in the Web app or committed to version control.
+:::
 
 ---
 

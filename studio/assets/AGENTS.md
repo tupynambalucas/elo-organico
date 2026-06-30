@@ -1,6 +1,6 @@
 # Workspace Context: Studio Bucket Synchronizer
 
-This file establishes the localized rules, stack-specific standards, and engineering guardrails for AI agents working within the `@elo-organico/studio` asset synchronization tool (`[studio/bucket/](./)`).
+This file establishes the localized rules, stack-specific standards, and engineering guardrails for AI agents working within the `@elo-studio/assets` asset synchronization tool (`[studio/bucket/](./)`).
 
 ---
 

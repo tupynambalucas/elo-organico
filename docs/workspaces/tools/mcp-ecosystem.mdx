@@ -21,10 +21,13 @@ Standard CLI-based MCP servers communicate via standard input/output (stdio) str
 <summary><strong>GitHub MCP Server</strong></summary>
 
 ##### Overview & Project Utility
+
 The GitHub MCP server connects our containerized development environment directly to the GitHub API. It enables AI agents to coordinate version control tasks, manage issue lifecycles, and perform code search or automated pull request reviews.
-*   **Upstream:** `http://elo-mcp-github:3001/github/sse`
+
+- **Upstream:** `http://elo-mcp-github:3001/github/sse`
 
 ##### Tool Registry & Capabilities
+
 - `search_repositories`: Search for repositories matching a query.
 - `create_repository`: Create a new GitHub repository.
 - `search_code`: Search for code snippets across repositories.
@@ -66,29 +69,37 @@ The GitHub MCP server connects our containerized development environment directl
 - `get_teams`: List teams in the organization.
 - `get_team_members`: List members of a specific team.
 - `fork_repository`: Fork a repository to your account.
+
 </details>
 
 <details>
 <summary><strong>Context7 MCP Server</strong></summary>
 
 ##### Overview & Project Utility
+
 The Context7 MCP server interfaces with the Context7 API to provide real-time documentation searches. This is a critical context engine for AI agents to query the latest API syntaxes, usage patterns, and version changes of our core dependencies (React 19, Fastify 5, Three.js) without relying on stale model training data.
-*   **Upstream:** `http://elo-mcp-context7:3002/context7/sse`
+
+- **Upstream:** `http://elo-mcp-context7:3002/context7/sse`
 
 ##### Tool Registry & Capabilities
+
 - `resolve-library-id`: Resolves a package or library name to a Context7-compatible unique ID.
 - `query-docs`: Retrieves up-to-date documentation sections, API methods, and code examples for a resolved library ID.
+
 </details>
 
 <details>
 <summary><strong>Browser MCP Server (Playwright)</strong></summary>
 
 ##### Overview & Project Utility
+
 The Browser MCP server is a headless Google Chrome instance managed via Playwright. It allows AI agents to interact directly with the project's web interfaces, enabling visual regression checks, console error auditing, accessibility tree inspection, and network request sniping in a fully containerized sandbox.
-*   **Upstream:** `http://elo-mcp-browser:3003/browser/sse`
-*   **Host-to-Container Routing:** Automatically rewrites destination URLs targeting `localhost` or `127.0.0.1` to `host.docker.internal` to route requests successfully from the container bridge to the host machine (e.g., accessing Docusaurus on port 3002 or React app on port 5173).
+
+- **Upstream:** `http://elo-mcp-browser:3003/browser/sse`
+- **Host-to-Container Routing:** Automatically rewrites destination URLs targeting `localhost` or `127.0.0.1` to `host.docker.internal` to route requests successfully from the container bridge to the host machine (e.g., accessing Docusaurus on port 3002 or React app on port 5173).
 
 ##### Tool Registry & Capabilities
+
 - `browser_navigate`: Navigate to a specified URL.
 - `browser_navigate_back`: Navigate back to the previous page in history.
 - `browser_wait_for`: Pause execution until a specific selector or page state is resolved.
@@ -112,16 +123,20 @@ The Browser MCP server is a headless Google Chrome instance managed via Playwrig
 - `browser_run_code_unsafe`: Execute arbitrary Node.js code within the container sandbox.
 - `browser_close`: Close the browser instance.
 - `browser_resize`: Resize the viewport dimensions.
+
 </details>
 
 <details>
 <summary><strong>Docker Hub MCP Server</strong></summary>
 
 ##### Overview & Project Utility
+
 The Docker Hub MCP server manages interactions with the Docker Hub registry. It allows the system to discover images, check tags, and inspect container repository metadata, ensuring that our monorepo infrastructure remains aligned with upstream container images.
-*   **Upstream:** `http://elo-mcp-dockerhub:3004/dockerhub/sse`
+
+- **Upstream:** `http://elo-mcp-dockerhub:3004/dockerhub/sse`
 
 ##### Tool Registry & Capabilities
+
 - `search`: Search for repositories on Docker Hub.
 - `getRepositoryInfo`: Retrieve metadata information for a specific repository.
 - `updateRepositoryInfo`: Update metadata details of a repository.
@@ -133,4 +148,5 @@ The Docker Hub MCP server manages interactions with the Docker Hub registry. It 
 - `getPersonalNamespace`: Get the authenticated user's personal namespace.
 - `listAllNamespacesMemberOf`: List all organizations/namespaces the user is a member of.
 - `dockerHardenedImages`: Fetch a list of recommended security-hardened base images.
+
 </details>

@@ -2,7 +2,7 @@ import { type FC } from 'react';
 import type { IProduct } from '@elo-instance/core';
 import { useCartItems, useCartActions } from '@/features/shop/domains/cart';
 import styles from './styles.module.css';
-import { Icon, faPlus, faMinus } from '@elo-organico/studio/icons';
+import { Icon, faPlus, faMinus } from '@elo-studio/assets/icons';
 
 interface ProductCardProps {
   product: IProduct;

@@ -89,7 +89,9 @@ As seguintes chaves de segurança são obrigatórias para a operação da stack 
 | :------------------------ | :----------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `VITE_TURNSTILE_SITE_KEY` | Chave pública do site para renderizar o widget do Turnstile. | Dev local: lido de `.env.dev` pelo Vite (`--mode dev`). Produção: injetado como `ARG` do Docker durante o build da imagem — gravado estaticamente no bundle JS. |
 
-> **Importante:** `VITE_TURNSTILE_SITE_KEY` é uma chave **pública** (segura para ser embutida nos pacotes do cliente). A `TURNSTILE_SECRET_KEY` é **privada** e deve apenas existir no ambiente da API, nunca na aplicação Web ou commitada no controle de versão.
+:::warning
+**Importante:** `VITE_TURNSTILE_SITE_KEY` é uma chave **pública** (segura para ser embutida nos pacotes do cliente). A `TURNSTILE_SECRET_KEY` é **privada** e deve apenas existir no ambiente da API, nunca na aplicação Web ou commitada no controle de versão.
+:::
 
 ---
 

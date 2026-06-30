@@ -15,69 +15,21 @@ A arquitetura é projetada para um modelo de **"Plataforma Singleton / Instânci
 
 ---
 
-## 2. Estrutura do Monorepo & Papéis das Aplicações
+## 2. Estrutura do Monorepo & Contextos Delimitados
 
-A base de código é organizada em **Contextos de Domínio** na raiz. Distinguimos entre **Portal (Plataforma)** e **Instância (Comunidade)**. O diagrama a seguir ilustra as relações entre os pacotes e o fluxo de dependências:
+A base de código do Elo Orgânico é organizada em **Contextos de Domínio** no nível raiz. Para um detalhamento completo dos papéis das aplicações, filosofia de contexto e estruturas de diretórios, consulte a documentação dedicada sobre Contextos Delimitados (Bounded Contexts).
 
-```mermaid
-graph LR
-    subgraph Studio
-        S_Tokens["Tokens do Studio"]
-        S_Assets["Ativos de Marca"]
-    end
-
-    subgraph Tools["Ferramentas (Tools)"]
-        T_MCP["Servidores MCP"]
-        T_Scripts["Scripts de Automação"]
-    end
-
-    subgraph Contexto_Portal
-        P_Web["@elo-portal/web"]
-        P_API["@elo-portal/api"]
-        P_Core["@elo-portal/core"]
-    end
-
-    subgraph Contexto_Instancia
-        I_Web["@elo-instance/web"]
-        I_API["@elo-instance/api"]
-        I_Core["@elo-instance/core"]
-    end
-
-    P_Web --> P_Core
-    P_API --> P_Core
-
-    I_Web --> I_Core
-    I_API --> I_Core
-
-    P_Core --> S_Tokens
-    I_Core --> S_Tokens
-
-    P_Web --> Studio
-    I_Web --> Studio
-
-    Contexto_Portal -.-> Tools
-    Contexto_Instancia -.-> Tools
-```
-
-| Diretório              | Nome do Pacote       | Papel         | Responsabilidade                                                     |
-| :--------------------- | :------------------- | :------------ | :------------------------------------------------------------------- |
-| portal/apps/web        | @elo-portal/web      | **Singleton** | Esqueleto do futuro hub de onboarding SaaS e fundação da plataforma. |
-| portal/apps/api        | @elo-portal/api      | **Singleton** | Fundação da API de gestão global, orquestração de tenants.           |
-| portal/packages/core   | @elo-portal/core     | **Library**   | SSOT para a fundação da plataforma global.                           |
-| instance/apps/api      | @elo-instance/api    | **Instância** | API REST Fastify para uma instância de comunidade específica.        |
-| instance/apps/web      | @elo-instance/web    | **Instância** | React SPA (Admin/Loja) para uma instância de comunidade específica.  |
-| instance/packages/core | @elo-instance/core   | **Library**   | SSOT para instâncias de comunidade (API & Web App).                  |
-| studio/                | @elo-organico/studio | **Tooling**   | Tokens de marca, ativos de design e estilização global.              |
-| tools/                 | @elo-organico/tools  | **Tooling**   | Infraestrutura MCP, scripts de automação e utilitários de projeto.   |
-| docs/                  | @elo-organico/docs   | **Docs Hub**  | Hub oficial de documentação do projeto e landing page técnica.       |
-
-### 2.1. Filosofia de Contexto Delimitado (Bounded Context)
-
-- **Isolamento de Contexto**: Cada diretório raiz (`instance/`, `portal/`) representa um Bounded Context. Lógica e modelos são duplicados quando necessário para manter a independência, seguindo princípios de DDD.
-- **Implantação (Deployment)**:
-  - **Portal**: Projetado como uma camada **singleton** para futuro onboarding SaaS. Atualmente em estágio de fundação/esqueleto.
-  - **Hub de Documentação**: O **hub oficial do projeto** para documentação (EloDocs) e especificações técnicas.
-  - **Instância**: Múltiplos pares de API/Web serão instanciados no futuro modelo SaaS, um para cada comunidade.
+<DocCardList
+  items={[
+    {
+      type: 'link',
+      href: './bounded-context',
+      label: 'Contextos Delimitados & Papéis das Aplicações',
+      description:
+        'Explicação detalhada dos Contextos Delimitados, Estrutura do Monorepo e Papéis das Aplicações no Elo Orgânico.',
+    },
+  ]}
+/>
 
 ---
 
@@ -100,8 +52,19 @@ O **Turborepo** é o motor por trás da nossa produtividade no monorepo. Ele lid
 
 Utilizamos uma interface de CLI unificada definida no `package.json` raiz para orquestrar e gerenciar o monorepo em todos os ambientes (**desenvolvimento**, **homologação/staging** e **produção**).
 
-Para uma lista de referência completa de scripts de orquestração, comandos de serviço e fluxos de trabalho da stack de desenvolvimento, consulte o **[Guia de Orquestração do Monorepo](./infra-orchestration-deploy/orchestration.mdx)**.
+Para uma lista de referência completa de scripts de orquestração, comandos de serviço e fluxos de trabalho da stack de desenvolvimento, consulte o documento:
 
+<DocCardList
+  items={[
+    {
+      type: 'link',
+      href: '../commands-reference',
+      label: 'Referência de Comandos',
+      description:
+        'Referência centralizada para todos os comandos de CLI, scripts e fluxos de trabalho de orquestração.',
+    },
+  ]}
+/>
 ---
 
 ## 5. Princípios de Arquitetura
@@ -131,7 +94,7 @@ Clique em qualquer cartão abaixo para explorar uma análise detalhada de cada p
       href: '/docs/architecture/principles/inherited-configuration',
       label: 'Configuração Herdada',
       description:
-        'Cascateamento de configurações hierárquicas entre os contextos de workspace para promover reutilização.',
+        'Cascateamento de configurações hierárquicas entre os contextos de workspace para promover reutilização e padrões estritos.',
     },
     {
       type: 'link',
@@ -153,7 +116,7 @@ Clique em qualquer cartão abaixo para explorar uma análise detalhada de cada p
 - **Gerenciador de Pacotes**: PNPM v11 (Gestão estrita de dependências via symlinks e armazenamento de conteúdo via hard-link).
 - **Gestão de Dependências**: **PNPM Catalogs** (Controle de versão centralizado para dependências compartilhadas usando o protocolo `catalog:`).
 - **Orquestrador de Tarefas**: **Turborepo** (Cache otimizado e execução paralela).
-- **Tooling**: TypeScript 6, ESLint 9 (Flat Config), Prettier 3, Vite 8.
+- **Tooling**: TypeScript 6, ESLint 10 (Flat Config), Prettier 3, Vite 8.
 
 ### 6.2. Backend (Camada de API)
 
@@ -238,7 +201,7 @@ Gestão modular através de decoradores do Fastify e um registro centralizado pa
 
 Projetado para **Excelência Self-Hosted** na Hetzner Cloud, nossos padrões de conteinerização, topologias multi-serviços do Docker Compose, estratégia de variáveis de ambiente e padrões de rede são gerenciados centralmente.
 
-Para um guia completo e detalhado sobre estruturas de diretórios, modelos de Docker Compose padrão ouro e padrões multi-serviços avançados (incluindo os padrões Gateway e Distributed Stack), consulte as documentações dedicadas de [Padrões de Infraestrutura](./infra-orchestration-deploy/infrastructure.mdx) e [Guia de Implantação](./infra-orchestration-deploy/deployment.mdx).
+Para um guia completo e detalhado sobre estruturas de diretórios, modelos de Docker Compose padrão ouro e padrões multi-serviços avançados (incluindo os padrões Gateway e Distributed Stack), consulte as documentações dedicadas de [Padrões de Infraestrutura](./infrastructure.mdx) e [Guia de Implantação](./deployment.mdx).
 
 ---
 
@@ -253,7 +216,7 @@ Os workspaces de Studio e Tools fornecem a infraestrutura para o alinhamento ent
 
 ## 10. Padrões de Segurança
 
-O Elo Orgânico segue uma estratégia de segurança em múltiplas camadas. Para detalhes detalhados de implementação, consulte o documento de **[Arquitetura de Segurança](./security.mdx)**.
+O Elo Orgânico segue uma estratégia de segurança em múltiplas camadas. Para detalhes de implementação, consulte o documento de **[Arquitetura de Segurança](./security.mdx)**.
 
 - **Proteção contra Bots**: Integração com Cloudflare Turnstile para todos os pontos de entrada de autenticação.
 - **Mitigação de Brute-Force**: Limitação de taxa baseada em IP e lógica de bloqueio de conta.

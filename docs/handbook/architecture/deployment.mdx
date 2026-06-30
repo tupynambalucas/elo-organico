@@ -1,6 +1,7 @@
 ---
-title: Deployment Guide
+title: Deployment
 description: Production and staging deployment workflows, build-time compilation, environment setups, and self-hosted excellence in Elo Orgânico.
+sidebar_position: 6
 ---
 
 # Deployment Guide
@@ -73,37 +74,7 @@ Never inject sensitive keys (such as JWT secrets, database credentials, or email
 
 Deployments are executed directly on the host machine using our unified root CLI scripts.
 
-### 3.1. Command Reference
-
-| Command                   | Target Environment   | Actions Performed                                                      |
-| :------------------------ | :------------------- | :--------------------------------------------------------------------- |
-| `pnpm instance:staging`   | Staging              | Pulls latest, builds images, and starts containers with `.env.staging` |
-| `pnpm instance:prod`      | Production           | Pulls latest, builds images, and starts containers with `.env.prod`    |
-| `pnpm instance:prod:down` | Production / Staging | Stops and destroys the running container topology                      |
-
-### 3.2. Sequential Release Steps
-
-When releasing a new version, execute the following steps on the target server:
-
-1. **Pull Latest Changes:**
-
-   ```bash
-   git pull origin main
-   ```
-
-2. **Verify Environment Files:**
-   Ensure that the target environment file (e.g., `instance/.env.prod`) is populated and matches the blueprint `instance/.env.prod.example`.
-
-3. **Orchestrate Stack Rollout:**
-
-   ```bash
-   pnpm instance:prod
-   ```
-
-4. **Verify Container Health:**
-   ```bash
-   docker ps --filter "name=elo-instance"
-   ```
+Check the [Command Reference](../commands-reference.mdx#instance-community) for more start/stop scenarios.
 
 ---
 
@@ -131,16 +102,7 @@ To avoid manual operational overhead during releases, all database preparation i
 
 ## 6. Logs & Maintenance
 
-To perform maintenance or diagnose live issues, use standard Docker tooling:
-
-- **Follow Live Output:**
-  ```bash
-  docker compose -f compose.prod.yaml --env-file .env.prod logs -f
-  ```
-- **Inspect Specific Container:**
-  ```bash
-  docker logs elo-instance-api-prod
-  ```
+`pnpm deploy`: Creates an isolated, pruned Docker context containing only the target app. Used internally inside the CI pipeline or `compose.prod.yaml` files. Read the [Command Reference](../commands-reference.mdx#docker--infrastructure) for more info.
 
 ---
 

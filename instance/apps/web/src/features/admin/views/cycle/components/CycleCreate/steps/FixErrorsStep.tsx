@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon, faSync } from '@elo-organico/studio/icons';
+import { Icon, faSync } from '@elo-studio/assets/icons';
 import styles from '../styles.module.css';
 import type { FixingItem } from '../types';
 

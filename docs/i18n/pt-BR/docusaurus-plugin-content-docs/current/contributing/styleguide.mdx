@@ -11,7 +11,7 @@ Este documento define as convenções estritas de codificação e requisitos de 
 
 ## 1. Formatação de Código (Prettier)
 
-O código deve seguir as regras definidas em `.prettierrc`:
+O código deve seguir as regras definidas em `shared/config/prettierrc.json`:
 
 - **Indentação:** 2 espaços.
 - **Ponto e vírgula:** Sempre utilizar (true).
@@ -36,7 +36,7 @@ Priorizamos a máxima segurança de tipos através de uma configuração rigoros
 ## 3. Gestão de Código Assíncrono (Crítico)
 
 - **Sem Promessas Flutuantes (No Floating Promises):** Nunca deixe promessas "flutuando" sem tratamento ou `await`.
-- **O Operador `void`:** Quando uma função assíncrona é chamada por seus efeitos colaterais e NÃO é aguardada (awaited), prefixe-a com `void` (ex: `void startServer()`). Isso signals execução não bloqueante intencional.
+- **O Operador `void`:** Quando uma função assíncrona é chamada por seus efeitos colaterais e NÃO é aguardada (awaited), prefixe-a com `void` (ex: `void startServer()`). Isso sinaliza execução não bloqueante intencional.
 - **Handlers do Fastify:** Handlers de rota devem usar o tipo `FastifyZodHandler` e retornar `Promise<void>`. Use `void reply.send()` quando não retornar a resposta diretamente.
 - **Plugins do Fastify:** Se um `FastifyPluginAsync` não usar `await`, remova a palavra-chave `async` e retorne `Promise.resolve()` para cumprir com o `require-await` mantendo a integridade do tipo.
 - **Tratamento de Erros:** Cada operação `await` deve estar dentro de um bloco `try/catch` ou fazer parte de uma cadeia `.catch()`.
@@ -61,7 +61,7 @@ Priorizamos a máxima segurança de tipos através de uma configuração rigoros
 - **Booleanos Estritos na UI:** No JSX, sempre use comparações explícitas: `{isValid === true && <Component />}` para evitar a renderização acidental de `0` ou `NaN` na interface.
 - **Sincronização de Estado:** Evite chamar `setState` de forma síncrona dentro de `useEffect` se a atualização for derivada de props ou outro estado. Em vez disso, sincronize o estado durante a renderização (o padrão "prevProps") ou inicialize o estado com uma função.
 - **Chaves de Lista (Keys):** Sempre use IDs estáveis e únicos (ex: `_id`) como chaves em listas. Evite usar índices de array, a menos que a lista seja estática e não possua identificadores únicos. Se os índices precisarem ser usados, documente o motivo.
-- **Estilização e Medidas Responsivas:** Use **CSS Modules** (`.module.css`). Classes utilitárias do Tailwind são permitidas dentro dos módulos via `@apply`. Adhere estritamente aos **Padrões de Responsividade** definidos na Seção 5.
+- **Estilização e Medidas Responsivas:** Use **CSS Modules** (`.module.css`). Classes utilitárias do Tailwind são permitidas dentro dos módulos via `@apply`. Siga estritamente os **Padrões de Responsividade** definidos na Seção 5.
 - **Console Logs:** `console.log` é proibido e causará falha no build de produção. Use `console.info/warn/error` com moderação.
 
 ## 5. Padrões de CSS e Responsividade (Estrito)
@@ -120,13 +120,15 @@ export const ResponsiveHero = () => {
 - **Arquivos:** Seguir o padrão `nome.tipo.ts` (ex: `auth.controller.ts`, `apiPlugin.ts`).
 - **Diretórios:** Usar `camelCase` para nomes de diretórios dentro das pastas fonte.
 
+---
+
 ## 7. Padrões de Idioma (Estrito Inglês-Primeiro)
 
 Para manter a acessibilidade global, escalabilidade e consistência do código em todos os contextos do monorepo:
 
 - **Código Fonte e Comentários:** Todo o código fonte (nomes de variáveis, funções, classes, interfaces, propriedades, schemas, arquivos) e comentários dentro de arquivos de código DEVEM ser escritos exclusivamente em **Inglês (en-US)**.
 - **Documentação:** Toda a documentação técnica e de produto, READMEs, diretrizes de segurança e briefs arquiteturais DEVEM ser escritos em inglês.
-- **Histórico do Git:** Mensagens de commit e títulos/descrições de Pull Request DEVEM seguir a especificação de Commits Convencionais e ser escritos em inglês.
+- **Histórico do Git:** Mensagens de commit e títulos/descrições de Pull Request DEVEM seguir a especificação de Commits Convencionais e ser escritos em inglês (consulte [Padrões do GitHub](./github-standards.mdx)).
 - **Exceções de Localização e i18n:** As ÚNICAS exceções são arquivos de localização (ex: configurações de `i18n`, tabelas de tradução, arquivos JSON de dicionário) e dados simulados (mock) explícitos que representam texto do usuário final em português. Toda a lógica interna da aplicação e as definições devem permanecer estritamente em inglês.
 
 ## 8. Padrões de Blocos de Código (blocos `live`)

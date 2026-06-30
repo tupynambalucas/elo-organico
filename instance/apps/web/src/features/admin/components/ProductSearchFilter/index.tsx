@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { Icon, faSearch, faTimes } from '@elo-organico/studio/icons';
+import { Icon, faSearch, faTimes } from '@elo-studio/assets/icons';
 import { PRODUCT_MEASURE_TYPES, PRODUCT_CATEGORIES } from '@elo-instance/core';
 import styles from './styles.module.css';
 
