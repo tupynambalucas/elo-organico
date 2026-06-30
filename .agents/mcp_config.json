@@ -15,6 +15,10 @@
     "dockerhub": {
       "url": "http://localhost:3005/dockerhub/sse",
       "lifecycle": "eager"
+    },
+    "firecrawl": {
+      "url": "http://localhost:3005/firecrawl/sse",
+      "lifecycle": "lazy"
     }
   }
 }

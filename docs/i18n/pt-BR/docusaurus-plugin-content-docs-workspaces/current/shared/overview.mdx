@@ -17,13 +17,13 @@ shared/
 │   ├── .husky/          # Git hooks globais
 │   ├── prettierrc.json  # Configurações base do Prettier
 │   ├── tsconfig.base.json # Regras base compartilhadas de compilação TypeScript
-│   └── package.json     # Pacote de configuração (@elo-organico/config)
+│   └── package.json     # Pacote de configuração (@elo-shared/config)
 └── ui/                  # (Futuro) Biblioteca de componentes React UI compartilhados
 ```
 
 ## Pacotes Principais
 
-### `@elo-organico/config` (Ferramentas e Qualidade Centralizadas)
+### `@elo-shared/config` (Ferramentas e Qualidade Centralizadas)
 
 Este pacote centraliza as regras de análise estática e estilo de código em todo o monorepo. Em vez de duplicar arquivos de configuração dentro de cada workspace do projeto, o `tsconfig.json` de cada sub-workspace e as configurações de ferramentas herdam diretamente deste pacote.
 
@@ -44,10 +44,10 @@ O futuro pacote `@elo-organico/ui` estabelecerá uma biblioteca de componentes R
 
 ## Gerenciamento do Workspace
 
-As configurações dentro do workspace Shared são consumidas nos níveis raiz e de pacote. Por exemplo, o `package.json` raiz referencia `@elo-organico/config` para coordenar a preparação do git hook:
+As configurações dentro do workspace Shared são consumidas nos níveis raiz e de pacote. Por exemplo, o `package.json` raiz referencia `@elo-shared/config` para coordenar a preparação do git hook:
 
 ```json
-"prepare": "pnpm --filter @elo-organico/config prepare"
+"prepare": "pnpm --filter @elo-shared/config prepare"
 ```
 
 :::info[Regra Estrita de Dependência Seca]

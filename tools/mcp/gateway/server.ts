@@ -67,6 +67,12 @@ void server.register(proxy, {
   replyOptions,
 });
 
+void server.register(proxy, {
+  upstream: 'http://firecrawl:3006',
+  prefix: '/firecrawl',
+  replyOptions,
+});
+
 const start = async (): Promise<void> => {
   try {
     await server.listen({ port: PORT, host: '0.0.0.0' });

@@ -1,5 +1,5 @@
-import { execSync } from 'child_process';
-import path from 'path';
+import { execSync } from 'node:child_process';
+import path from 'node:path';
 
 // 1. Get list of staged files
 let stagedFiles: string[] = [];
@@ -7,7 +7,7 @@ try {
   const output = execSync('git diff --cached --name-only', { encoding: 'utf8' });
   stagedFiles = output
     .split('\n')
-    .map((f) => f.trim())
+    .map((f: string) => f.trim())
     .filter(Boolean);
 } catch (err) {
   console.error('Error getting staged files:', err);
@@ -51,7 +51,7 @@ for (const file of stagedFiles) {
   } else if (rootDir === 'studio') {
     filters.add('--filter=@elo-studio/assets');
   } else if (rootDir === 'tools') {
-    filters.add('--filter=@elo-organico/tools');
+    filters.add('--filter=@elo-tools/*');
   } else if (rootDir === 'docs') {
     filters.add('--filter=@elo-organico/docs');
   } else if (rootDir === 'portal') {

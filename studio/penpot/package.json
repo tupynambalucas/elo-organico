@@ -21,6 +21,6 @@
     "aide:down": "docker compose -f infrastructure/docker/compose.yaml stop aide"
   },
   "devDependencies": {
-    "@elo-organico/config": "workspace:*"
+    "@elo-shared/config": "workspace:*"
   }
 }

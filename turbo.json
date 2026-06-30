@@ -3,10 +3,9 @@
   "globalEnv": ["NODE_ENV"],
   "tasks": {
     "build": {
-      "dependsOn": ["^build", "clean", "typecheck", "lint"],
+      "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": ["dist/**", "build/**"],
-      "env": ["VITE_*", "DOCUSAURUS_*"]
+      "outputs": ["dist/**", "build/**"]
     },
     "clean": {
       "cache": false

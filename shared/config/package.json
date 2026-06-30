@@ -1,5 +1,5 @@
 {
-  "name": "@elo-organico/config",
+  "name": "@elo-shared/config",
   "version": "1.0.0",
   "private": true,
   "type": "module",

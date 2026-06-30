@@ -41,27 +41,26 @@ The ecosystem operates on a decoupled gateway proxy model:
 
 ## Directory Layout
 
-- [compose.yaml](./compose.yaml): Docker Compose orchestration defining internal networks, volumes, and service constraints.
+- `infrastructure/docker/`: Contains the orchestration file ([compose.yaml](./infrastructure/docker/compose.yaml)) and environment configurations.
 - `gateway/`: Gateway Fastify proxy server configuration.
-- `infrastructure/`: Containerized setups and Dockerfiles for the downstream servers.
-- `context/`: Specific markdown files containing context parameters injected into each MCP (e.g., [github/instructions.md](./context/github/instructions.md)).
-- `config/`: Template environment configurations and git-ignored secrets.
+- `services/`: Containerized setups, Dockerfiles, and contexts for the downstream servers (GitHub, Browser, Context7, DockerHub).
 
 ---
 
 ## Configuration & Environment Files
 
-Settings are managed via environment files under `config/`.
+Settings are managed via environment files under `services/` and a global environment file in `infrastructure/docker/`.
 
 ### Setup
 
 Copy the examples and configure your tokens:
 
 ```bash
-cp config/.env.github.example config/.env.github
-cp config/.env.context7.example config/.env.context7
-cp config/.env.browser.example config/.env.browser
-cp config/.env.dockerhub.example config/.env.dockerhub
+cp infrastructure/docker/.env.example infrastructure/docker/.env
+cp services/github/.env.github.example services/github/.env.github
+cp services/context7/.env.context7.example services/context7/.env.context7
+cp services/browser/.env.browser.example services/browser/.env.browser
+cp services/dockerhub/.env.dockerhub.example services/dockerhub/.env.dockerhub
 ```
 
 ### Reference Variables

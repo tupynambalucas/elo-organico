@@ -47,7 +47,7 @@
     "@clack/prompts": "catalog:"
   },
   "devDependencies": {
-    "@elo-organico/config": "workspace:*",
+    "@elo-shared/config": "workspace:*",
     "@types/react": "catalog:web-stack",
     "@types/react-dom": "catalog:web-stack",
     "typescript": "catalog:",

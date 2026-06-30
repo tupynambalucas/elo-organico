@@ -58,7 +58,7 @@ export default defineConfig([
             'portal/packages/*/tsconfig.json',
             'shared/*/tsconfig.json',
             'studio/*/tsconfig.json',
-            'tools/tsconfig.json',
+            'tools/*/tsconfig.json',
           ],
         },
         node: {
