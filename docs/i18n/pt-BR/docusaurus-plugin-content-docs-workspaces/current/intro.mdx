@@ -1,0 +1,72 @@
+---
+slug: /
+title: Introdução às Workspaces
+sidebar_label: Introdução
+sidebar_position: 1
+---
+
+# Workspaces
+
+Bem-vindo ao **Portal de Documentação das Workspaces do Elo Orgânico**. Esta seção fornece um detalhamento técnico aprofundado das unidades arquiteturais, pacotes e serviços que compõem nosso monorepo.
+
+Para sustentar uma arquitetura altamente modular, desacoplada e escalável, nosso design de engenharia é estruturado em torno dos princípios do **Desenho Orientado ao Domínio (DDD)**, utilizando especificamente os **Contextos Delimitados (Bounded Contexts)** para estabelecer limites claros para modelos de domínio, estados de sistema e arquiteturas de implantação.
+
+---
+
+## Contextos Delimitados no Elo Orgânico
+
+Um Contexto Delimitado define um limite lógico estrito no qual um modelo de domínio específico é válido, consistente e aplicável. Em nosso monorepo, em vez de construir uma base de código monolítica única com definições de dados sobrepostas, separamos domínios de negócios e preocupações técnicas distintas em workspaces autônomas:
+
+```mermaid
+graph TD
+  subgraph "Contextos de Negócio"
+    Instance["Contexto Instance (Loja da Comunidade)"]
+    Portal["Contexto Portal (Hub de Plataforma SaaS)"]
+  end
+  
+  subgraph "Contextos de Suporte"
+    Studio["Contexto Studio (Identidade Visual)"]
+    Tools["Contexto Tools (IA e Automação)"]
+    Docs["Contexto Docs (EloDocs Hub)"]
+  end
+
+  Instance <..- "Usa Ativos & Tokens" -.. Studio
+  Portal <..- "Usa Ativos & Tokens" -.. Studio
+  Tools <..- "Orquestra e Automatiza" -.. Instance
+  Tools <..- "Orquestra e Automatiza" -.. Portal
+  Docs <..- "Documenta" -.. BusinessContexts["Todos os Contextos"]
+```
+
+### 1. Contexto Instance (`instance/`)
+*   **Domínio e Foco:** Lojas locais de comunidades agrícolas.
+*   **Responsabilidade:** Gerencia o fluxo de comércio eletrônico localizado, ciclos de compra específicos de comunidades, controle de estoque, logística de pedidos, integrações de pagamento (Pix) e vitrines administrativas locais.
+*   **Paridade de Estado:** Banco de dados e limites de taxa estritamente isolados, permitindo implantações autônomas independentes para hubs de comunidades individuais.
+
+### 2. Contexto Portal (`portal/`)
+*   **Domínio e Foco:** Hub de assinatura multi-inquilino (Plataforma SaaS).
+*   **Responsabilidade:** Orquestra o provisionamento de inquilinos em toda a plataforma, cadastro de SaaS, modelos de cobrança e pagamento, e configurações globais de desenvolvedores.
+*   **Limite de Integração:** Opera em um namespace de banco de dados distinto, evitando que os esquemas de faturamento de inquilinos afetem os catálogos de e-commerce locais.
+
+### 3. Contexto Studio (`studio/`)
+*   **Domínio e Foco:** Identidade visual e governança do design system.
+*   **Responsabilidade:** Estabelece os tokens de cores da marca, tipografia, SVGs otimizados e recursos 3D. Abriga o ambiente Docker para nosso espaço de design self-hosted do Penpot e fornece ativos fortemente tipados para os clientes frontend.
+
+### 4. Contexto Tools (`tools/`)
+*   **Domínio e Foco:** Infraestrutura e automação para desenvolvedores com IA.
+*   **Responsabilidade:** Agrupa nossos gateways seguros e de alto contexto do Model Context Protocol (MCP) (GitHub, Context7, navegadores Playwright headless, Docker Hub) e orquestra assistentes de desenvolvimento em containers (Google Antigravity, GitHub Copilot).
+
+### 5. Contexto Docs (`docs/`)
+*   **Domínio e Foco:** Portal do desenvolvedor e base de conhecimento arquitetural.
+*   **Responsabilidade:** Fornece o mecanismo da plataforma Docusaurus (EloDocs) para criação, tradução e compilação de documentação, roadmaps estratégicos e changelogs modulares.
+
+### 6. Workspace Shared (`shared/`)
+*   **Domínio e Foco:** Paridade de configuração em todo o monorepo e pacotes auxiliares globais.
+*   **Responsabilidade:** Abriga os padrões de configuração de desenvolvimento globais (`@elo-organico/config`), incluindo definições base do TypeScript, padrões de formatação do Prettier e Git hooks. Futuro lar do pacote de componentes compartilhados React `@elo-organico/ui`.
+
+---
+
+## Por que usar um Monorepo com Workspaces Autônomas?
+
+1.  **Isolamento Arquitetural Estrito:** Garante que alterações no provisionamento de inquilinos SaaS (`portal`) tenham impacto em tempo de execução igual a zero sobre os ciclos de compras ativos (`instance`).
+2.  **Fonte Única de Verdade (SSOT):** Centraliza cores, ícones e temas no `studio` e contratos de domínio dentro dos respectivos diretórios `packages/core`, gerando ativos derivados (`apps/api` e `apps/web`) que herdam definições verificadas.
+3.  **Velocidade e Paridade de Desenvolvimento:** Ambientes de desenvolvedores em containers em `tools` garantem que engenheiros e agentes de IA executem instruções sob dependências isoladas idênticas.

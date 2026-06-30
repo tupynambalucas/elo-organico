@@ -11,7 +11,7 @@ Before editing or analyzing code in this context, read the local rules for the s
 - **Core Library**: [packages/core/AGENTS.md](./packages/core/AGENTS.md) — Shared types, Zod schemas, and data validation rules.
 - **REST API**: [apps/api/AGENTS.md](./apps/api/AGENTS.md) — Fastify 5 route definitions, Mongoose models, and Mapped Repository logic.
 - **Web Client**: [apps/web/AGENTS.md](./apps/web/AGENTS.md) — React 19 visual client, Zustand state stores, and fluid CSS styling.
-- **Workspace Documentation**: Refer to the community shop documentation in [docs/workspaces/01-instance.md](../docs/workspaces/01-instance.md).
+- **Workspace Documentation**: Refer to the community shop documentation in [docs/workspaces/instance/overview.mdx](../docs/workspaces/instance/overview.mdx).
 - **Workspace Roadmap**: Refer to the community shop roadmap in [docs/roadmap/02-instance.md](../docs/roadmap/02-instance.md).
 
 ---

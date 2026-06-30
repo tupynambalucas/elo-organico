@@ -263,7 +263,7 @@ const config: Config = {
             },
             {
               label: 'Architecture',
-              to: '/docs/engineering/architecture/overview',
+              to: '/docs/architecture/overview',
             },
             {
               label: 'Style Guide',
@@ -271,7 +271,7 @@ const config: Config = {
             },
             {
               label: 'Orchestration Reference',
-              to: '/docs/engineering/architecture/infra-orchestration-deploy/orchestration',
+              to: '/docs/architecture/infra-orchestration-deploy/orchestration',
             },
           ],
         },

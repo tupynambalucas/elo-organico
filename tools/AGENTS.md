@@ -10,7 +10,7 @@ Before editing or analyzing code in this tools context, read the local rules for
 
 - **MCP Ecosystem**: [mcp/AGENTS.md](./mcp/AGENTS.md) — Fastify SSE adapters, Model Context Protocol routing, and browser/git wrappers.
 - **AI Agents**: [agents/AGENTS.md](./agents/AGENTS.md) — Docker-out-of-Docker containerized terminals and shell environments.
-- **Workspace Documentation**: Refer to the tools documentation in [docs/workspaces/04-tools.mdx](../docs/workspaces/04-tools.mdx).
+- **Workspace Documentation**: Refer to the tools documentation in [docs/workspaces/tools/overview.mdx](../docs/workspaces/tools/overview.mdx).
 - **Workspace Roadmap**: Refer to the tools roadmap in [docs/roadmap/05-tools.md](../docs/roadmap/05-tools.md).
 
 ---

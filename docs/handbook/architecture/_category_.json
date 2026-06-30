@@ -1,0 +1,8 @@
+{
+  "label": "Technical Architecture",
+  "position": 2,
+  "link": {
+    "type": "doc",
+    "id": "architecture/overview"
+  }
+}
