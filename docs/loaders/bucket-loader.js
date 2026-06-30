@@ -19,7 +19,7 @@ module.exports = function (source) {
   const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
   const buildFolders = manifest.bucket.assets.docs;
 
-  let bucketUrl = process.env.BUCKET_URL;
+  let bucketUrl = process.env.DOCUSAURUS_BUCKET_URL;
 
   if (buildFolders.includes(folderKey) === true) {
     if (bucketUrl === undefined || bucketUrl === '') {
@@ -38,7 +38,7 @@ module.exports = function (source) {
       );
       if (fs.existsSync(secretsPath) === true) {
         const content = fs.readFileSync(secretsPath, 'utf8');
-        const match = content.match(/^BUCKET_URL=(.*)$/m);
+        const match = content.match(/^DOCUSAURUS_BUCKET_URL=(.*)$/m);
         if (match !== null && match[1] !== undefined) {
           bucketUrl = match[1].trim();
         }
@@ -47,7 +47,7 @@ module.exports = function (source) {
 
     if (bucketUrl === undefined || bucketUrl === '') {
       throw new Error(
-        `[Bucket Loader] BUCKET_URL environment variable is not defined for production build. Required for asset path: ${original}`,
+        `[Bucket Loader] DOCUSAURUS_BUCKET_URL environment variable is not defined for production build. Required for asset path: ${original}`,
       );
     }
 

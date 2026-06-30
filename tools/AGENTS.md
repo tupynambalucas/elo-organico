@@ -10,6 +10,7 @@ Before editing or analyzing code in this tools context, read the local rules for
 
 - **MCP Ecosystem**: [mcp/AGENTS.md](./mcp/AGENTS.md) — Fastify SSE adapters, Model Context Protocol routing, and browser/git wrappers.
 - **AI Agents**: [agents/AGENTS.md](./agents/AGENTS.md) — Docker-out-of-Docker containerized terminals and shell environments.
+- **Turborepo**: [turborepo/AGENTS.md](./turborepo/AGENTS.md) — Self-hosted Remote Cache server.
 - **Workspace Documentation**: Refer to the tools documentation in [docs/workspaces/tools/overview.mdx](../docs/workspaces/tools/overview.mdx).
 - **Workspace Roadmap**: Refer to the tools roadmap in [docs/roadmap/05-tools.md](../docs/roadmap/05-tools.md).
 
@@ -21,6 +22,7 @@ The Tools workspace manages the infrastructure for development automation, AI in
 
 - **MCP Gateway**: Containerized gateway translating command-line integrations (Context7, GitHub, Playwright) into Model Context Protocol Server-Sent Events (SSE).
 - **Session Containers**: Local developer workspaces mounted with shell agents (Google Antigravity CLI and GitHub Copilot) to ensure environment parity and OAuth persistence.
+- **Turborepo Remote Cache**: Dockerized server storing Turborepo build artifacts to accelerate continuous integration and local builds.
 
 ---
 
@@ -45,6 +47,7 @@ Run these scripts from the monorepo root to manage the tools:
 - `pnpm agents:up`: Launches development containerized AI terminals.
 - `pnpm agents:down`: Stops the development agent containers.
 - `pnpm agents:reset`: Wipes development agent session caches and rebuilds the containers.
+- `pnpm turbo:cache:up` / `pnpm turbo:cache:down`: Manages the development self-hosted remote cache containers.
 - `pnpm agents:prod:up` / `pnpm agents:prod:down`: Manages the production agent stack.
 - `pnpm agents:staging:up` / `pnpm agents:staging:down`: Manages the staging agent stack.
 - `pnpm antigravity:auth` / `pnpm copilot:auth`: Runs OAuth authorization inside development containers.

@@ -46,7 +46,7 @@ jobs:
       - name: Build documentation
         run: pnpm docs:build
         env:
-          BUCKET_URL: ${{ secrets.BUCKET_URL }}
+          DOCUSAURUS_BUCKET_URL: ${{ secrets.DOCUSAURUS_BUCKET_URL }}
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3

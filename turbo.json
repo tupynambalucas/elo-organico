@@ -1,5 +1,9 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "remoteCache": {
+    "apiUrl": "http://localhost:3008",
+    "signature": false
+  },
   "globalEnv": ["NODE_ENV"],
   "tasks": {
     "build": {

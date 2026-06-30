@@ -22,7 +22,14 @@ Deploys long-running Docker services containing terminal-based AI client session
 - **Purpose:** Eliminates manual per-developer CLI installations and guarantees environment parity.
 - **Detailed Guide:** Refer to the [Agents README](./agents/README.md) for Docker-out-of-Docker (DooD) settings, mounting specifications, and OAuth authentication flows.
 
-### 3. [Maintenance Scripts](./scripts)
+### 3. [Turborepo Infrastructure](./turborepo/README.md)
+
+Deploys the self-hosted Turborepo Remote Cache server.
+
+- **Purpose:** Centralizes build caches to drastically speed up local and CI builds using local or cloud volumes.
+- **Detailed Guide:** Refer to the [Turborepo README](./turborepo/README.md) for caching setup and configuration.
+
+### 4. [Maintenance Scripts](./scripts)
 
 TypeScript-based tooling running on top of Node.js (`tsx`) to automate changelog compilations and project roadmaps.
 
@@ -40,6 +47,8 @@ Execute these commands from the monorepo root:
 | `pnpm agents:up`    | Boots Copilot and Antigravity containers              | Agents Stack |
 | `pnpm agents:down`  | Stops the agent containers                            | Agents Stack |
 | `pnpm agents:reset` | Resets agent volumes and mounts                       | Agents Stack |
+| `pnpm turbo:cache:up` | Boots the Turborepo remote cache container          | Turbo Cache  |
+| `pnpm turbo:cache:down` | Stops the Turborepo remote cache container        | Turbo Cache  |
 
 ---
 

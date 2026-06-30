@@ -72,7 +72,7 @@ const config: Config = {
       configureWebpack(_config, _isServer, _utils) {
         const isProd = process.env.NODE_ENV === 'production';
 
-        let bucketUrl = process.env.BUCKET_URL;
+        let bucketUrl = process.env.DOCUSAURUS_BUCKET_URL;
         if (bucketUrl === undefined || bucketUrl === '') {
           const secretsPath = path.join(
             __dirname,
@@ -88,7 +88,7 @@ const config: Config = {
           );
           if (fs.existsSync(secretsPath) === true) {
             const content = fs.readFileSync(secretsPath, 'utf8');
-            const match = /^BUCKET_URL=(.*)$/m.exec(content);
+            const match = /^DOCUSAURUS_BUCKET_URL=(.*)$/m.exec(content);
             if (match?.[1] !== undefined) {
               bucketUrl = match[1].trim();
             }
