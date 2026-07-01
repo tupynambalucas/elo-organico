@@ -14,12 +14,13 @@ To keep the **Elo Orgânico** infrastructure, DevOps tooling, and background run
 
 Designed for **Self-Hosted Excellence** on Hetzner Cloud.
 
-Each bounded context (`instance/`, `portal/`) maintains two distinct Compose files with clearly separated responsibilities:
+Each bounded context (e.g., `instance/`, `portal/`) maintains a modular Compose configuration using environment overrides/inheritance:
 
-| File                | Environment          | Services                    | Database               |
-| :------------------ | :------------------- | :-------------------------- | :--------------------- |
-| `compose.dev.yaml`  | Development          | MongoDB Replica Set + Redis | Local Docker container |
-| `compose.prod.yaml` | Production & Staging | API + Web/Nginx + Redis     | MongoDB Atlas (cloud)  |
+| File                    | Environment          | Services                                    | Database               |
+| :---------------------- | :------------------- | :------------------------------------------ | :--------------------- |
+| `compose.yaml`          | Base Configuration   | API + Web + Redis + MongoDB + Init          | -                      |
+| `compose.override.yaml` | Development (Local)  | MongoDB Replica Set + Redis (Build & Ports) | Local Docker container |
+| `compose.prod.yaml`     | Production & Staging | API + Web + Redis (Build/Limits/Replicas)   | MongoDB Atlas (cloud)  |
 
 For instructions on starting these environments, read the [Command Reference](../commands-reference.mdx).
 
@@ -50,13 +51,13 @@ Creating a separate `compose.staging.yaml` as a structural copy of `compose.prod
 Each application owns its `Dockerfile` co-located within its directory, following the **Single Responsibility** and **Bounded Context** principles:
 
 ```plaintext
-instance/apps/api/Dockerfile    # Multi-stage: turbo prune → build → pnpm deploy → runner
-instance/apps/web/Dockerfile    # Multi-stage: turbo prune → vite build → nginx:alpine
+instance/services/api/Dockerfile    # Multi-stage: turbo prune → build → pnpm deploy → runner
+instance/services/web/Dockerfile    # Multi-stage: turbo prune → vite build → nginx:alpine
 portal/apps/api/Dockerfile      # Same pattern as instance/api
 portal/apps/web/Dockerfile      # Same pattern as instance/web
 ```
 
-Shared infrastructure services (MongoDB, Redis) have their Dockerfiles in `instance/infrastructure/` because they are cross-app concerns, not owned by any single application.
+Shared database and cache services (MongoDB, Redis) have their Dockerfiles and local environment files encapsulated inside `instance/services/mongodb/` and `instance/services/redis/` respectively, keeping them completely self-contained.
 
 The API Dockerfiles use **Turborepo pruning** (`turbo prune`) and **`pnpm deploy`** to produce minimal images — no source code, no devDependencies, no monorepo symlinks in production.
 
@@ -66,24 +67,18 @@ The Web Dockerfiles use a two-stage build: a Node.js builder compiles the React 
 
 ## 3. Environment Variable Strategy
 
-Environment variables follow the **Bounded Context** and **Single Responsibility** principles — each file has exactly one owner and lives alongside it:
+Environment variables follow the **Bounded Context** and **Single Responsibility** principles. To eliminate redundancy and prevent sync drift, all environment configuration files are centralized under the orchestrator scope (`[context]/infrastructure/docker/`). Services are kept completely stateless and load their processes via process-level injection:
 
-| File Pattern                      | Owner / Target       | Purpose / Scope                                                                         | Git         |
-| :-------------------------------- | :------------------- | :-------------------------------------------------------------------------------------- | :---------- |
-| `[context]/.env.dev`              | `compose.dev.yaml`   | Dev infrastructure environment and replica set initialization variables (MongoDB/Redis) | ignored     |
-| `[context]/.env.prod`             | `compose.prod.yaml`  | Production container build args, network names, and host ports                          | ignored     |
-| `[context]/.env.staging`          | `compose.prod.yaml`  | Staging container build args, network names, and host ports                             | ignored     |
-| `[context]/apps/api/.env.dev`     | `@elo-[context]/api` | Dev Fastify API runtime configuration (local DB keys, secrets, rate-limit options)      | ignored     |
-| `[context]/apps/api/.env.prod`    | `@elo-[context]/api` | Production Fastify API runtime configuration (cloud MongoDB Atlas, prod secrets)        | ignored     |
-| `[context]/apps/api/.env.staging` | `@elo-[context]/api` | Staging Fastify API runtime configuration (staging MongoDB Atlas, staging secrets)      | ignored     |
-| `[context]/apps/web/.env.dev`     | `@elo-[context]/web` | Dev Vite build-time public parameters (e.g. Turnstile site key)                         | ignored     |
-| `[context]/apps/web/.env.prod`    | `@elo-[context]/web` | Production Vite build-time parameters (injected as Docker build ARGs)                   | ignored     |
-| `[context]/apps/web/.env.staging` | `@elo-[context]/web` | Staging Vite build-time parameters (injected as Docker build ARGs)                      | ignored     |
-| `*.env.*.example`                 | Repository           | Onboarding config templates for each context and application                            | **tracked** |
+| File Pattern                                     | Owner / Target   | Purpose / Scope                                                                        | Git         |
+| :----------------------------------------------- | :--------------- | :------------------------------------------------------------------------------------- | :---------- |
+| `[context]/infrastructure/docker/.env.dev`       | Local Dev Stack  | Centralized variables for development (API host config, local DB/Redis credentials)    | ignored     |
+| `[context]/infrastructure/docker/.env.prod`      | Production Stack | Centralized production secrets, MongoDB Atlas URIs, Turnstile production credentials   | ignored     |
+| `[context]/infrastructure/docker/.env.staging`   | Staging Stack    | Centralized staging configs, MongoDB Atlas staging URIs, Turnstile staging credentials | ignored     |
+| `[context]/infrastructure/docker/.env.*.example` | Repository       | Onboarding configuration templates for dev, prod, and staging deployment scopes        | **tracked** |
 
 _Note: In the table above, `[context]` represents either the `instance` or `portal` directory._
 
-`VITE_*` variables (e.g., `VITE_TURNSTILE_SITE_KEY`) are **build-time** only — Vite bakes them statically into the JavaScript bundle during `vite build`. In Docker builds they are passed via `ARG` → `ENV` before the build step runs.
+`VITE_*` variables (e.g., `VITE_TURNSTILE_SITE_KEY`) are **build-time** only — Vite bakes them statically into the JavaScript bundle during `vite build`. In Docker builds, they are passed via `ARG` → `ENV` before the build step runs. In local development, Vite loads variables directly from the centralized `[context]/infrastructure/docker/.env.dev` directory via its `envDir` configuration.
 
 ---
 
@@ -124,7 +119,7 @@ Seeding operations must be completely safe to execute repeatedly without duplica
 
 ### 6.4. Infrastructure Separation of Concerns (`db-init`)
 
-In local development (`compose.dev.yaml`), the container `db-init` (formerly `db-seed`) handles replica set initialization only. It awaits MongoDB readiness and executes `rs.initiate()` to configure the single-node replica set (`rs0`) required for transaction support. It does not perform database seeding. All administrative and operational seeding responsibilities belong entirely to the API container.
+In local development, the container `db-init` handles replica set initialization only. It awaits MongoDB readiness and executes a dedicated script (`init-db.sh` inside the `init-scripts/` directory) to configure the single-node replica set (`rs0`) required for transaction support. It does not perform database seeding. All database record seeding responsibilities belong entirely to the API container.
 
 ---
 
@@ -137,23 +132,29 @@ Below is the gold-standard blueprint directory structure required for any contai
 ├── infrastructure/                # Orchestration & Deployment Layer
 │   ├── docker/
 │   │   ├── compose.yaml           # Central Multi-Service Compose Orchestrator
-│   │   ├── .env                   # Deployment-wide variable overrides
-│   │   └── .env.example           # Blueprint for deployment variables
+│   │   ├── compose.override.yaml  # Developer local overrides configuration
+│   │   ├── compose.prod.yaml      # Production & Staging overrides configuration
+│   │   ├── .env.dev               # Centralized dev variables overrides
+│   │   ├── .env.prod              # Centralized prod variables overrides
+│   │   ├── .env.staging           # Centralized staging variables overrides
+│   │   └── scripts/               # HOST-LEVEL SCRIPTS (Run on host VM / local machine)
+│   │       ├── setup.sh           # Checks docker, prepares folders, sets sysctl VM parameters
+│   │       ├── deploy.sh          # Handles image pulls, builds, container restarts, and pruning
+│   │       ├── backup.sh          # Automates database dumps and volume cleanups
+│   │       └── utils/
+│   │           └── healthcheck.sh # Pings HTTP endpoints to verify correct startup
 │   └── logs/                      # Isolated container execution and audit logs
-├── scripts/                       # Host-Executed Automation and lifecycle TS/JS scripts
-│   ├── build-assets.ts
-│   └── run-checks.ts
+├── scripts/                       # Repo-wide automation or helper TS/JS scripts
 └── services/                      # Pluggable, isolated background runtime environments
-    ├── primary-service/           # Primary pluggable daemon module (e.g. CLI or API engine)
+    ├── primary-service/           # Primary daemon module (e.g. CLI or API engine)
     │   ├── Dockerfile             # Multi-stage optimized Docker build specification
-    │   ├── entrypoint.sh          # Unified entrypoint wrapper enforcing signaling/logging
-    │   ├── .env.service.example   # Isolated, minimal local environment default blueprint
-    │   └── src/                   # Service-specific logic, scripts, or application code
-    └── secondary-service/         # Additional helper or specialized daemon module
+    │   └── src/                   # Service-specific logic and application source code
+    └── db-service/                # Stateful database helper (e.g. MongoDB)
         ├── Dockerfile
-        ├── entrypoint.sh
-        ├── .env.service.example
-        └── src/
+        ├── init-scripts/          # INITIALIZATION SCRIPTS (Executed once on bootstrap)
+        │   └── init-db.sh         # Runs replica set initiation (e.g. rs.initiate)
+        └── scripts/               # CONTAINER SCRIPTS (Copied and run inside container daemon)
+            └── entrypoint.sh      # Intercepts daemon launch to generate keyfiles or configs
 ```
 
 ---

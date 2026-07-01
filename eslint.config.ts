@@ -52,7 +52,7 @@ export default defineConfig([
           project: [
             'tsconfig.json',
             'docs/tsconfig.json',
-            'instance/apps/*/tsconfig.json',
+            'instance/services/*/tsconfig.json',
             'instance/packages/*/tsconfig.json',
             'portal/apps/*/tsconfig.json',
             'portal/packages/*/tsconfig.json',
@@ -235,7 +235,7 @@ export default defineConfig([
   // ========================================================================
   {
     name: 'monorepo/domain-api',
-    files: ['**/apps/api/**/*.{ts,tsx}'],
+    files: ['**/apps/api/**/*.{ts,tsx}', '**/services/api/**/*.{ts,tsx}'],
     rules: {
       '@typescript-eslint/no-misused-promises': [
         'error',
@@ -253,7 +253,7 @@ export default defineConfig([
   // ========================================================================
   {
     name: 'monorepo/domain-web',
-    files: ['**/apps/web/**/*.{ts,tsx}'],
+    files: ['**/apps/web/**/*.{ts,tsx}', '**/services/web/**/*.{ts,tsx}'],
     ignores: ['**/*.md/**', '**/*.mdx/**'],
     plugins: {
       react: fixupPluginRules(reactPlugin),

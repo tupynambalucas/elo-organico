@@ -24,14 +24,6 @@
       "cache": false,
       "persistent": true
     },
-    "instance:dev": {
-      "cache": false,
-      "persistent": true
-    },
-    "portal:dev": {
-      "cache": false,
-      "persistent": true
-    },
     "start": {
       "cache": false,
       "persistent": true

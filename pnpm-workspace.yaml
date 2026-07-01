@@ -10,7 +10,7 @@ minimumReleaseAgeExclude:
   - '@turbo/windows-arm64'
 
 packages:
-  - 'instance/apps/*'
+  - 'instance/services/*'
   - 'instance/packages/*'
   - 'portal/apps/*'
   - 'portal/packages/*'

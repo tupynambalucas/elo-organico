@@ -41,17 +41,17 @@ graph TD
     Instance -.-> Tools
 ```
 
-| Directory              | Package Name         | Role          | Responsibility                                                 |
-| :--------------------- | :------------------- | :------------ | :------------------------------------------------------------- |
-| portal/apps/web        | @elo-portal/web      | **Singleton** | Future SaaS onboarding hub skeleton and platform foundation.   |
-| portal/apps/api        | @elo-portal/api      | **Singleton** | Global management API foundation, tenant orchestration.        |
-| portal/packages/core   | @elo-portal/core     | **Library**   | SSOT for the global platform foundation.                       |
-| instance/apps/api      | @elo-instance/api    | **Instance**  | Fastify REST API for a specific community instance.            |
-| instance/apps/web      | @elo-instance/web    | **Instance**  | React SPA (Admin/Shop) for a specific community instance.      |
-| instance/packages/core | @elo-instance/core   | **Library**   | SSOT for community instances (API & Web App).                  |
-| studio/                | @elo-studio/assets | **Tooling**   | Brand tokens, design assets, and global styling.               |
-| tools/                 | @elo-organico/tools  | **Tooling**   | MCP infrastructure, automation scripts, and project utilities. |
-| docs/                  | @elo-organico/docs   | **Docs Hub**  | Official project documentation hub and technical landing page. |
+| Directory              | Package Name        | Role          | Responsibility                                                 |
+| :--------------------- | :------------------ | :------------ | :------------------------------------------------------------- |
+| portal/apps/web        | @elo-portal/web     | **Singleton** | Future SaaS onboarding hub skeleton and platform foundation.   |
+| portal/apps/api        | @elo-portal/api     | **Singleton** | Global management API foundation, tenant orchestration.        |
+| portal/packages/core   | @elo-portal/core    | **Library**   | SSOT for the global platform foundation.                       |
+| instance/services/api  | @elo-instance/api   | **Instance**  | Fastify REST API for a specific community instance.            |
+| instance/services/web  | @elo-instance/web   | **Instance**  | React SPA (Admin/Shop) for a specific community instance.      |
+| instance/packages/core | @elo-instance/core  | **Library**   | SSOT for community instances (API & Web App).                  |
+| studio/                | @elo-studio/assets  | **Tooling**   | Brand tokens, design assets, and global styling.               |
+| tools/                 | @elo-organico/tools | **Tooling**   | MCP infrastructure, automation scripts, and project utilities. |
+| docs/                  | @elo-organico/docs  | **Docs Hub**  | Official project documentation hub and technical landing page. |
 
 ## Bounded Context Philosophy
 

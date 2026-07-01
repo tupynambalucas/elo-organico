@@ -58,4 +58,3 @@ gha-creds-*.json
 # --- Persistent runtime ---
 data/
 logs/
-temp/

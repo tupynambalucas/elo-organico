@@ -14,12 +14,13 @@ Para manter a infraestrutura do **Elo Orgânico**, as ferramentas de DevOps e os
 
 Projetado para **Excelência Self-Hosted** na Hetzner Cloud.
 
-Cada contexto delimitado (`instance/`, `portal/`) mantém dois arquivos Compose distintos com responsabilidades claramente separadas:
+Cada contexto delimitado (ex: `instance/`, `portal/`) mantém uma configuração Compose modular utilizando herança/sobrescrita (overrides) de ambiente:
 
-| Arquivo             | Ambiente                       | Serviços                    | Banco de Dados         |
-| :------------------ | :----------------------------- | :-------------------------- | :--------------------- |
-| `compose.dev.yaml`  | Desenvolvimento                | MongoDB Replica Set + Redis | Container Docker local |
-| `compose.prod.yaml` | Produção & Homologação/Staging | API + Web/Nginx + Redis     | MongoDB Atlas (nuvem)  |
+| Arquivo                 | Ambiente                       | Serviços                                   | Banco de Dados         |
+| :---------------------- | :----------------------------- | :----------------------------------------- | :--------------------- |
+| `compose.yaml`          | Configuração Base              | API + Web + Redis + MongoDB + Init         | -                      |
+| `compose.override.yaml` | Desenvolvimento (Local)        | MongoDB Replica Set + Redis (Build/Portas) | Container Docker local |
+| `compose.prod.yaml`     | Produção & Homologação/Staging | API + Web + Redis (Build/Limites/Réplicas) | MongoDB Atlas (nuvem)  |
 
 Para instruções sobre como iniciar esses ambientes, leia a [Referência de Comandos](../commands-reference.mdx).
 
@@ -50,13 +51,13 @@ Criar um `compose.staging.yaml` separado como uma cópia estrutural de `compose.
 Cada aplicação possui seu próprio `Dockerfile` localizado dentro do seu respectivo diretório, seguindo os princípios de **Responsabilidade Única** e de **Contexto Delimitado**:
 
 ```plaintext
-instance/apps/api/Dockerfile    # Multi-stage: turbo prune → build → pnpm deploy → runner
-instance/apps/web/Dockerfile    # Multi-stage: turbo prune → vite build → nginx:alpine
+instance/services/api/Dockerfile    # Multi-stage: turbo prune → build → pnpm deploy → runner
+instance/services/web/Dockerfile    # Multi-stage: turbo prune → vite build → nginx:alpine
 portal/apps/api/Dockerfile      # Mesmo padrão que instance/api
 portal/apps/web/Dockerfile      # Mesmo padrão que instance/web
 ```
 
-Serviços de infraestrutura compartilhados (MongoDB, Redis) possuem seus Dockerfiles em `instance/infrastructure/` porque são preocupações que cruzam múltiplas aplicações, não pertencendo a nenhuma aplicação individualmente.
+Serviços de banco de dados e cache (MongoDB, Redis) possuem seus Dockerfiles e arquivos de ambiente locais encapsulados dentro de `instance/services/mongodb/` e `instance/services/redis/` respectivamente, mantendo-os completamente autocontidos.
 
 Os Dockerfiles de API utilizam a **poda do Turborepo** (`turbo prune`) e o **`pnpm deploy`** para produzir imagens mínimas — sem código-fonte, sem devDependencies e sem symlinks do monorepo em produção.
 
@@ -66,24 +67,18 @@ Os Dockerfiles Web utilizam uma compilação de dois estágios (two-stage build)
 
 ## 3. Estratégia de Variáveis de Ambiente
 
-Os arquivos de ambiente seguem os princípios de **Contexto Delimitado** e **Responsabilidade Única** — cada arquivo possui exatamente um dono e reside ao lado dele:
+As variáveis de ambiente seguem os princípios de **Contexto Delimitado** e **Responsabilidade Única**. Para eliminar a redundância e evitar a divergência de configurações, todos os arquivos de variáveis de ambiente são centralizados sob o escopo do orquestrador (`[context]/infrastructure/docker/`). Os serviços são mantidos completamente sem estado (stateless) e carregam suas configurações por meio de injeção no nível de processo:
 
-| Padrão de Arquivo                 | Dono / Alvo          | Propósito / Escopo                                                                                                      | Git           |
-| :-------------------------------- | :------------------- | :---------------------------------------------------------------------------------------------------------------------- | :------------ |
-| `[context]/.env.dev`              | `compose.dev.yaml`   | Variáveis de ambiente de infraestrutura de desenvolvimento e inicialização do replica set (MongoDB/Redis)               | ignorado      |
-| `[context]/.env.prod`             | `compose.prod.yaml`  | Argumentos de compilação de container de produção, nomes de redes e portas do host                                      | ignorado      |
-| `[context]/.env.staging`          | `compose.prod.yaml`  | Argumentos de compilação de container de homologação/staging, nomes de redes e portas do host                           | ignorado      |
-| `[context]/apps/api/.env.dev`     | `@elo-[context]/api` | Configuração de execução da API Fastify de dev (chaves locais de banco de dados, segredos, opções de limitador de taxa) | ignorado      |
-| `[context]/apps/api/.env.prod`    | `@elo-[context]/api` | Configuração de execução da API Fastify de produção (MongoDB Atlas na nuvem, segredos de produção)                      | ignorado      |
-| `[context]/apps/api/.env.staging` | `@elo-[context]/api` | Configuração de execução da API Fastify de homologação (MongoDB Atlas de staging, segredos de homologação)              | ignorado      |
-| `[context]/apps/web/.env.dev`     | `@elo-[context]/web` | Parâmetros públicos em tempo de build da Web de dev (ex: chave do site Turnstile)                                       | ignorado      |
-| `[context]/apps/web/.env.prod`    | `@elo-[context]/web` | Parâmetros públicos em tempo de build da Web de produção (injetados como build ARGs do Docker)                          | ignorado      |
-| `[context]/apps/web/.env.staging` | `@elo-[context]/web` | Parâmetros públicos em tempo de build da Web de homologação (injetados como build ARGs do Docker)                       | ignorado      |
-| `*.env.*.example`                 | Repositório          | Modelos de configuração de onboarding para cada contexto e aplicação                                                    | **rastreado** |
+| Padrão de Arquivo                                | Dono / Alvo          | Propósito / Escopo                                                                                            | Git           |
+| :----------------------------------------------- | :------------------- | :------------------------------------------------------------------------------------------------------------ | :------------ |
+| `[context]/infrastructure/docker/.env.dev`       | Stack de Dev Local   | Variáveis centralizadas para desenvolvimento (configuração da API no host, credenciais locais do DB/Redis)    | ignorado      |
+| `[context]/infrastructure/docker/.env.prod`      | Stack de Produção    | Segredos de produção centralizados, URIs do MongoDB Atlas, credenciais de produção do Turnstile               | ignorado      |
+| `[context]/infrastructure/docker/.env.staging`   | Stack de Homologação | Configurações de staging centralizadas, URIs do MongoDB Atlas de staging, credenciais de staging do Turnstile | ignorado      |
+| `[context]/infrastructure/docker/.env.*.example` | Repositório          | Modelos de configuração de onboarding para os escopos de implantação de dev, prod e staging                   | **rastreado** |
 
 _Nota: Na tabela acima, `[context]` representa o diretório `instance` ou `portal`._
 
-As variáveis `VITE_*` (como `VITE_TURNSTILE_SITE_KEY`) são apenas para o **tempo de build (compilação)** — o Vite as grava estaticamente no bundle JavaScript durante o `vite build`. Em builds Docker, elas são transmitidas via `ARG` → `ENV` antes do início da etapa de compilação.
+As variáveis `VITE_*` (como `VITE_TURNSTILE_SITE_KEY`) são apenas para o **tempo de build (compilação)** — o Vite as grava estaticamente no bundle JavaScript durante o `vite build`. Em builds Docker, elas são transmitidas via `ARG` → `ENV` antes do início da etapa de compilação. No desenvolvimento local, o Vite carrega as variáveis diretamente do diretório centralizado `[context]/infrastructure/docker/.env.dev` por meio de sua configuração `envDir`.
 
 ---
 
@@ -124,7 +119,7 @@ As operações de semeadura devem ser totalmente seguras para execução repetid
 
 ### 6.4. Separação de Preocupações na Infraestrutura (`db-init`)
 
-No desenvolvimento local (`compose.dev.yaml`), o container `db-init` (antigo `db-seed`) lida exclusivamente com a inicialização do replica set. Ele aguarda a prontidão do MongoDB e executa `rs.initiate()` para configurar o replica set de nó único (`rs0`) necessário para suporte a transações. Ele não realiza semeadura de banco de dados. Todas as responsabilidades de semeadura administrativa e operacional pertencem inteiramente ao container da API.
+No desenvolvimento local, o container `db-init` lida exclusivamente com a inicialização do replica set. Ele aguarda a prontidão do MongoDB e executa um script dedicado (`init-db.sh` dentro do diretório `init-scripts/`) para configurar o replica set de nó único (`rs0`) necessário para suporte a transações. Ele não realiza semeadura de banco de dados. Todas as responsabilidades de semeadura de registros de banco de dados pertencem inteiramente ao container da API.
 
 ---
 
@@ -137,23 +132,29 @@ Abaixo está a estrutura de diretórios padrão ouro exigida para qualquer works
 ├── infrastructure/                # Camada de Orquestração & Implantação (Deployment)
 │   ├── docker/
 │   │   ├── compose.yaml           # Orquestrador Central Multi-Serviço (Compose)
-│   │   ├── .env                   # Sobrescritas de variáveis para todo o deployment
-│   │   └── .env.example           # Modelo para variáveis de deployment
+│   │   ├── compose.override.yaml  # Configurações de sobrescrita local para desenvolvedor
+│   │   ├── compose.prod.yaml      # Configurações de sobrescrita para produção e staging
+│   │   ├── .env.dev               # Sobrescritas de variáveis centralizadas de desenvolvimento
+│   │   ├── .env.prod              # Sobrescritas de variáveis centralizadas de produção
+│   │   ├── .env.staging           # Sobrescritas de variáveis centralizadas de staging
+│   │   └── scripts/               # SCRIPTS DE HOST (Executados na máquina virtual / host local)
+│   │       ├── setup.sh           # Valida o docker, prepara pastas do host e limites de kernel
+│   │       ├── deploy.sh          # Realiza o pull, build, reinicialização e limpeza de containers
+│   │       ├── backup.sh          # Automatiza o dump do banco de dados e arquivos locais
+│   │       └── utils/
+│   │           └── healthcheck.sh # Pings de verificação de disponibilidade HTTP pós-deploy
 │   └── logs/                      # Logs de execução e auditoria de containers isolados
-├── scripts/                       # Automação Executada no Host e scripts TS/JS de ciclo de vida
-│   ├── build-assets.ts
-│   └── run-checks.ts
+├── scripts/                       # Scripts de automação ou utilitários gerais do repositório
 └── services/                      # Ambientes de execução em segundo plano isolados e plugáveis
-    ├── primary-service/           # Módulo daemon plugável primário (ex: engine de CLI ou API)
+    ├── primary-service/           # Módulo daemon plugável (ex: api)
     │   ├── Dockerfile             # Especificação otimizada de build Docker multi-stage
-    │   ├── entrypoint.sh          # Wrapper de entrypoint unificado que impõe sinais/logs
-    │   ├── .env.service.example   # Modelo isolado e minimalista de variáveis locais padrão
-    │   └── src/                   # Lógica específica do serviço, scripts ou código da aplicação
-    └── secondary-service/         # Módulo daemon helper ou especializado adicional
+    │   └── src/                   # Lógica específica do serviço e código da aplicação
+    └── db-service/                # Módulo de banco de dados persistente (ex: mongodb)
         ├── Dockerfile
-        ├── entrypoint.sh
-        ├── .env.service.example
-        └── src/
+        ├── init-scripts/          # SCRIPTS DE INICIALIZAÇÃO (Executados uma vez no bootstrap)
+        │   └── init-db.sh         # Inicializa o replica set do banco de dados (ex: rs.initiate)
+        └── scripts/               # SCRIPTS DE CONTAINER (Copiados e executados dentro do container)
+            └── entrypoint.sh      # Intercepta a inicialização do container para gerar arquivos de chave
 ```
 
 ---

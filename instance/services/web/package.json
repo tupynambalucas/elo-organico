@@ -1,26 +1,28 @@
 {
-  "name": "@elo-portal/web",
+  "name": "@elo-instance/web",
   "version": "0.1.0",
   "type": "module",
   "private": true,
   "author": "Tupynambá Lucas Varela Rodrigues <tupynambalucas.dev>",
-  "license": "CC-BY-NC-4.0",
-  "homepage": "https://github.com/tupynambalucas/elo-organico/tree/main/portal/apps/web#readme",
+  "description": "Elo Orgânico Instance Web Application",
+  "license": "https://github.com/tupynambalucas/elo-organico/tree/main#license",
+  "homepage": "https://github.com/tupynambalucas/elo-organico/tree/main/instance/services/web#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tupynambalucas/elo-organico.git",
-    "directory": "portal/apps/web"
+    "directory": "instance/services/web"
   },
   "scripts": {
     "clean": "rimraf dist tsconfig.tsbuildinfo",
-    "dev": "vite",
+    "dev": "vite --mode dev",
     "build": "tsc -p tsconfig.build.json && vite build",
-    "lint": "echo Skipping lint for @elo-portal/web...",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix --ext .ts,.tsx .",
     "preview": "vite preview",
-    "typecheck": "echo Skipping typecheck for @elo-portal/web..."
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@elo-portal/core": "workspace:*",
+    "@elo-instance/core": "workspace:*",
     "@elo-studio/assets": "workspace:*",
     "@gsap/react": "catalog:web-stack",
     "gsap": "catalog:web-stack",
@@ -31,7 +33,8 @@
     "react-datepicker": "catalog:web-stack",
     "date-fns": "catalog:shared-stack",
     "axios": "catalog:shared-stack",
-    "zustand": "catalog:web-stack"
+    "zustand": "catalog:web-stack",
+    "@marsidev/react-turnstile": "catalog:web-stack"
   },
   "devDependencies": {
     "@elo-shared/config": "workspace:*",

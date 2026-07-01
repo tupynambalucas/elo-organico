@@ -41,17 +41,17 @@ graph TD
     Instance -.-> Tools
 ```
 
-| Diretório              | Nome do Pacote       | Papel         | Responsabilidade                                                     |
-| :--------------------- | :------------------- | :------------ | :------------------------------------------------------------------- |
-| portal/apps/web        | @elo-portal/web      | **Singleton** | Esqueleto do futuro hub de onboarding SaaS e fundação da plataforma. |
-| portal/apps/api        | @elo-portal/api      | **Singleton** | Fundação da API de gestão global, orquestração de tenants.           |
-| portal/packages/core   | @elo-portal/core     | **Library**   | SSOT para a fundação da plataforma global.                           |
-| instance/apps/api      | @elo-instance/api    | **Instância** | API REST Fastify para uma instância de comunidade específica.        |
-| instance/apps/web      | @elo-instance/web    | **Instância** | React SPA (Admin/Loja) para uma instância de comunidade específica.  |
-| instance/packages/core | @elo-instance/core   | **Library**   | SSOT para instâncias de comunidade (API & Web App).                  |
-| studio/                | @elo-studio/assets | **Tooling**   | Tokens de marca, ativos de design e estilização global.              |
-| tools/                 | @elo-organico/tools  | **Tooling**   | Infraestrutura MCP, scripts de automação e utilitários de projeto.   |
-| docs/                  | @elo-organico/docs   | **Docs Hub**  | Hub oficial de documentação do projeto e landing page técnica.       |
+| Diretório              | Nome do Pacote      | Papel         | Responsabilidade                                                     |
+| :--------------------- | :------------------ | :------------ | :------------------------------------------------------------------- |
+| portal/apps/web        | @elo-portal/web     | **Singleton** | Esqueleto do futuro hub de onboarding SaaS e fundação da plataforma. |
+| portal/apps/api        | @elo-portal/api     | **Singleton** | Fundação da API de gestão global, orquestração de tenants.           |
+| portal/packages/core   | @elo-portal/core    | **Library**   | SSOT para a fundação da plataforma global.                           |
+| instance/services/api  | @elo-instance/api   | **Instância** | API REST Fastify para uma instância de comunidade específica.        |
+| instance/services/web  | @elo-instance/web   | **Instância** | React SPA (Admin/Loja) para uma instância de comunidade específica.  |
+| instance/packages/core | @elo-instance/core  | **Library**   | SSOT para instâncias de comunidade (API & Web App).                  |
+| studio/                | @elo-studio/assets  | **Tooling**   | Tokens de marca, ativos de design e estilização global.              |
+| tools/                 | @elo-organico/tools | **Tooling**   | Infraestrutura MCP, scripts de automação e utilitários de projeto.   |
+| docs/                  | @elo-organico/docs  | **Docs Hub**  | Hub oficial de documentação do projeto e landing page técnica.       |
 
 ## Filosofia de Contexto Delimitado (Bounded Context)
 

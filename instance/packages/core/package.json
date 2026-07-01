@@ -29,7 +29,6 @@
     "clean": "rimraf dist tsconfig.tsbuildinfo",
     "build": "tsc -b",
     "dev": "pnpm clean && tsc -b -w",
-    "instance:dev": "pnpm dev",
     "typecheck": "tsc --noEmit",
     "lint": "eslint ."
   },

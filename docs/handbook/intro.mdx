@@ -80,7 +80,7 @@ We have two primary options for processing Pix payments, both offering identical
 
 ### Category 3: Domain and DNS
 
-- **Cost:** Standard Annual Cost (Domain registration and maintenance).
+- **Cost:** Standard Annual Cost (Domain registration and maintenance). The project domain will be purchased and managed directly through **Cloudflare** for secure DNS resolution and proxy routing.
 
 ### Financial Conclusion
 
@@ -159,14 +159,18 @@ Ensure you have **Node.js 22+**, **PNPM 11+**, and **Docker** installed.
     Each bounded context and application has its own environment file. Copy every `.env.*.example` to its non-example counterpart and fill in your local values:
 
     ```bash
-    # Instance infrastructure (for compose.dev.yaml)
-    cp instance/.env.dev.example instance/.env.dev
+    # Instance orchestration (for compose)
+    cp instance/infrastructure/docker/.env.example instance/infrastructure/docker/.env
 
     # Instance API runtime
-    cp instance/apps/api/.env.dev.example instance/apps/api/.env.dev
+    cp instance/services/api/.env.dev.example instance/services/api/.env.dev
 
     # Instance Web build-time vars
-    cp instance/apps/web/.env.dev.example instance/apps/web/.env.dev
+    cp instance/services/web/.env.dev.example instance/services/web/.env.dev
+
+    # Local databases configuration
+    cp instance/services/mongodb/.env.example instance/services/mongodb/.env.dev
+    cp instance/services/redis/.env.example instance/services/redis/.env.dev
     ```
 
     Repeat for `portal/` when working on the Portal context.
