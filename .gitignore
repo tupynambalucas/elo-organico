@@ -20,8 +20,10 @@ coverage/
 # --- Ambiente e Segredos (CRÍTICO) ---
 # Ignores all env files (any name/suffix variation)
 .env
+*.env.*
 .env.*
 # Exceptions: Keep example/template files tracked
+!*.env.example*
 !.env.example
 !.env.*.example
 

@@ -4,8 +4,8 @@
 #  Elo Orgânico - GitHub Security & Quality (Secrets & Variables) JSON Sync Script
 # ==============================================================================
 # This script scans JSON configuration files inside tools/github/services/gh/config:
-#   - secrets.config.json    (mapped by categories: ACTIONS, CODESPACES, DEPENDABOT)
-#   - variables.config.json  (mapped by category: ACTIONS)
+#   - secrets.env.json    (mapped by categories: ACTIONS, CODESPACES, DEPENDABOT)
+#   - variables.env.json  (mapped by category: ACTIONS)
 #
 # Features:
 #   - Parses configurations natively inside the container using 'jq'.
@@ -33,8 +33,8 @@ BASE_DIR="${CONFIG_DIR:-/workspace/tools/github/services/gh/config}"
 LOG_DIR="${LOG_DIR:-/workspace/tools/github/infrastructure/logs}"
 LOG_FILE="$LOG_DIR/$(basename "$0" .sh).log"
 
-SECRETS_JSON="$BASE_DIR/secrets.config.json"
-VARIABLES_JSON="$BASE_DIR/variables.config.json"
+SECRETS_JSON="$BASE_DIR/secrets.env.json"
+VARIABLES_JSON="$BASE_DIR/variables.env.json"
 
 # Temporary files to accumulate keys/warnings for the run log
 TMP_ACTIONS_SECRETS="/tmp/actions_secrets.keys"
