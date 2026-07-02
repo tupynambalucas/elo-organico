@@ -22,12 +22,16 @@
       "url": "./.vscode/schemas/schema-package.json"
     },
     {
-      "fileMatch": ["tsconfig.json", "**/tsconfig.json", "tsconfig.*.json"],
+      "fileMatch": ["tsconfig.json", "**/tsconfig.json", "**/tsconfig.*.json"],
       "url": "./.vscode/schemas/schema-tsconfig.json"
     },
     {
-      "fileMatch": [".prettierrc", ".prettierrc.json"],
+      "fileMatch": [".prettierrc", "**/prettierrc.json"],
       "url": "./.vscode/schemas/schema-prettierrc.json"
+    },
+    {
+      "fileMatch": [".changeset/config.json"],
+      "url": "./.vscode/schemas/schema-changesets.json"
     }
   ],
 
