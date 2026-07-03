@@ -27,6 +27,8 @@
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "edit": "npx editsaurus",
+    "docs:generate:changelog": "tsx tooling/generate-changelog.ts",
+    "docs:generate:roadmap": "tsx tooling/generate-roadmap.ts",
     "typecheck": "tsc",
     "lint": "eslint ."
   },

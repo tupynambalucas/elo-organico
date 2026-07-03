@@ -10,12 +10,8 @@
     "./prettierrc.json": "./prettierrc.json",
     "./.prettierignore": "./.prettierignore"
   },
-  "scripts": {
-    "prepare": "cd ../.. && husky shared/config/.husky"
-  },
+  "scripts": {},
   "dependencies": {
-    "husky": "catalog:",
-    "lint-staged": "catalog:",
     "prettier": "catalog:tooling-stack"
   }
 }

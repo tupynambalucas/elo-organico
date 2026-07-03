@@ -28,8 +28,8 @@ jobs:
 
       - name: Generate Global Documents
         run: |
-          pnpm github:generate:changelog
-          pnpm github:generate:roadmap
+          pnpm docs:generate:changelog
+          pnpm docs:generate:roadmap
 
       - name: Commit and Push Compiled Documents
         run: |

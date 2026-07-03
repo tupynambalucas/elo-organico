@@ -6,6 +6,6 @@
     "rootDir": ".",
     "types": ["node"]
   },
-  "include": ["scripts/**/*.ts"],
+  "include": ["automation/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }
