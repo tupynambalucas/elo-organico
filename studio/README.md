@@ -1,25 +1,23 @@
-# @elo-organico/studio - Design & Automation Hub
+# @elo-studio/assets - Design & Automation Hub
 
-This workspace centralizes brand identity management, design assets, and AI automation infrastructure for the **Elo Orgânico** project.
+This workspace centralizes brand identity management, design assets, and self-hosted collaborative design tools for the Elo Orgânico project.
 
-## 📖 Detailed Documentation
+## Detailed Documentation
 
-Technical documentation is centralized in our **[Knowledge Base](https://tupynambalucas.github.io/elo-organico)**:
+Technical documentation is centralized in our [Knowledge Base](https://elo-docs.pages.dev):
 
-- **[Studio Workspace Overview](https://tupynambalucas.github.io/elo-organico/studio)**: Strategy, visual language, and coded constants.
-- **[Design System & Tokens](https://tupynambalucas.github.io/elo-organico/docs/engineering/styleguide)**: Detailed specifications for colors, typography, and UI patterns.
-- **[Design Engineering](https://tupynambalucas.github.io/elo-organico/studio)**: Infrastructure, S3 configuration, and design workflows with Penpot.
+- [Studio Workspace Overview](https://elo-docs.pages.dev/studio): Strategy, visual language, and coded constants.
+- [Design System & Tokens](https://elo-docs.pages.dev/docs/engineering/styleguide): Detailed specifications for colors, typography, and UI patterns.
+- [Design Engineering](https://elo-docs.pages.dev/studio): Infrastructure, S3 configuration, and design workflows with Penpot.
 
-## ⚙️ Configuration
+## Configuration
 
-Before running the services, you must create a `.env` file in the `studio` directory (see `.env.example` if available):
+### Core Design Platform (Penpot)
+
+Before running the collaborative design services, you must create a `.env` file in the `studio` directory:
 
 ```bash
 # Path: studio/.env
-
-# MCP Infrastructure
-GITHUB_TOKEN=your_github_personal_access_token
-CONTEXT7_API_KEY=your_context7_api_key
 
 # PENPOT Main Configuration
 PENPOT_SECRET_KEY=generate_a_secure_random_string
@@ -33,27 +31,49 @@ PENPOT_BUCKET_ACCESS_ID=your_access_key_id
 PENPOT_BUCKET_SECRET_KEY=your_secret_access_key
 ```
 
-## 🚀 Quick Start (Operation Scripts)
+### R2 Asset Sync System (Bucket)
 
-Manage the Studio environment using standardized scripts from the project root or this directory:
+For synchronizing web-ready assets (e.g., icons, textures, images, and raw source archives) directly with Cloudflare R2, configure the environment variables in `studio/bucket/.env.studio.bucket`:
+
+```bash
+# Path: studio/bucket/.env.studio.bucket
+
+S3_API=https://your-cloudflare-r2-endpoint.r2.cloudflarestorage.com/your-bucket-name
+CLOUDFLARE_R2_ACCESS_KEY_ID=your_access_key_id
+CLOUDFLARE_R2_SECRET_ACCESS_KEY=your_secret_access_key
+CLOUDFLARE_R2_PUBLIC_URL=https://your-public-cdn-url.r2.dev
+```
+
+## Quick Start (Operation Scripts)
+
+Manage the Studio environment using standardized scripts from the project root:
 
 ### Core Studio Services (Penpot)
+
 ```bash
-pnpm penpot:up      # Launch the studio at http://localhost:9005
-pnpm penpot:down    # Shutdown core services
-pnpm penpot:update  # Pull latest images and restart
-pnpm penpot:reset   # Force container recreation
+pnpm penpot:up        # Launch Penpot collaborative editor at http://localhost:9005
+pnpm penpot:down      # Shutdown core docker containers
+pnpm penpot:update    # Pull latest images and restart
+pnpm penpot:reset     # Force complete container and volume recreation
 ```
 
 ### AI Automation & Helpers
+
 ```bash
-pnpm penpot:aide:up # Launch Penpot AI assistant (aide)
-pnpm penpot:aide:down # Stop the AI assistant
+pnpm penpot:aide:up   # Launch Penpot AI assistant (aide) integration
+pnpm penpot:aide:down # Stop the Penpot AI assistant container
 ```
 
-## 🏗️ Directory Structure
+### Cloudflare R2 Asset Sync
 
-- `studio/penpot/`: Docker orchestration for the self-hosted Penpot instance.
-- `studio/assets/sources/`: Raw design sources (Adobe Illustrator, Photoshop, etc.).
-- `studio/src/icons/`: Canonical SVG icon library (React wrapper).
-- `studio/src/tokens/`: Brand color and typography definitions.
+```bash
+pnpm studio:bucket      # Launch the interactive R2 synchronization menu (Push/Pull/Exit)
+```
+
+## Directory Structure
+
+- `studio/penpot/`: Docker orchestration and self-hosted Penpot setup.
+- `studio/bucket/`: Cloudflare R2 asset synchronization engine and S3 SDK integration.
+- `studio/assets/sources/`: Raw heavy design vector/binary archives.
+- `studio/src/icons/`: Scoped SVG canonical React icon wrappers.
+- `studio/src/tokens/`: Brand color, typography, and variable design token definitions.

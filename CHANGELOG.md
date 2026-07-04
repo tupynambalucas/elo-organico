@@ -1,36 +1,41 @@
 # Changelog
 
-Todas as atualizações, melhorias e novos recursos do Elo Orgânico documentados na Base de Conhecimento.
+All updates, improvements, and new features of Elo Orgânico documented in the Knowledge Base.
 
-## v0.1.0 - Gênese & Identidade Visual (2026-05-05)
+## v0.1.0 - Architecture Foundation & Monorepo Genesis (2026-05-05)
 
-É com muito orgulho que lançamos a versão fundacional do **Elo Orgânico** (v0.1.0)! 🎉
+The foundational release of Elo Orgânico (v0.1.0) establishes the core monorepo architecture, workspace isolation boundaries, and domain foundations for the local community shop and global platform hub.
 
-Esta versão não apenas estabelece nossa infraestrutura de conhecimento (Knowledge Base) e identidade visual, mas também consolida a arquitetura técnica robusta necessária para nossa jornada rumo a um ecossistema sustentável.
+{/_ truncate _/}
 
-{/* truncate */}
+### Monorepo Architecture & Bounded Contexts
 
-### ✨ Destaques de Produto
-- **Nova Homepage Interativa**: Uma *landing page* rica com renderização 3D do nosso mascote (o Abacate), utilizando WebGPU via `react-three-fiber` para máxima performance.
-- **Experiência Imersiva**: O modelo 3D agora acompanha o movimento do mouse globalmente e possui um efeito de flutuação orgânica.
-- **Sessão "Do Solo à Mesa"**: Integração fiel ao design do Penpot, com timeline visual responsiva e narrativa focada na transparência real do produtor ao consumidor.
-- **Internacionalização Nativa**: Interface preparada para o mercado global com suporte completo a Inglês e Português.
-- **Minimalismo Moderno**: Navegação otimizada com ícone de marca do GitHub integrado diretamente do nosso sistema de UI.
+- **Workspace Segregation**: Structured the monorepo using PNPM Workspaces v11 and Turborepo to segregate domains, local tooling, and design systems.
+- **Strict Bounded Contexts**: Enforced absolute separation of concerns between `instance` and `portal` code bases. Cross-workspace imports are restricted via static analysis (ESLint and TypeScript compiler constraints).
+- **Domain Core First**: Established `packages/core` within each context as the Single Source of Truth (SSOT) for data models, validation schemas, and interfaces, ensuring API and web interfaces compile against a shared type registry.
+- **Unified Dependency Management**: Implemented PNPM Catalogs to maintain version consistency for all third-party dependencies across the workspace packages.
 
-### 🏗️ Excelência em Engenharia
-- **Arquitetura de Monorepo Escalável**: Estrutura baseada em PNPM Workspaces, segregando domínios entre `instance/` (comunidades locais) e `portal/` (marketplace global).
-- **Bounded Contexts Estritos**: Implementação de isolamento de domínio via ESLint e TypeScript, garantindo que as regras de negócio do Portal e da Instância permaneçam desacopladas.
-- **Performance com Turborepo**: Orquestração de tarefas inteligente com cache remoto e execução paralela, otimizando o ciclo de desenvolvimento.
-- **Gestão de Dependências Unificada**: Adoção de **PNPM Catalogs** para garantir consistência de versões em todo o projeto.
-- **Estilização Atômica**: Uso de **CSS Modules** integrados a tokens de design centralizados no pacote `@elo-organico/studio`.
+### Instance Workspace (Community Shop)
 
-### 🤖 Ecossistema AI-Native
-- **Design Ops**: Deployment de instância própria do **Penpot** integrada ao fluxo de trabalho.
-- **Model Context Protocol (MCP)**: Integração de servidores de contexto (Context7, GitHub, Penpot) para permitir uma colaboração profunda entre IA e desenvolvedores, garantindo que a IA compreenda a arquitetura do projeto.
+- **Layered Backend Architecture**: Implemented the Fastify v5 API server (`@elo-instance/api`) leveraging a strict layered architecture (`Controller -> Service -> Repository -> Model`).
+- **Domain Implementation**: Completed initial modules for:
+  - `auth`: JWT-based session state and credential verification.
+  - `product`: Local catalog schema and inventories.
+  - `cycle`: Governance structures for community sharing/cooperative agricultural cycles.
+- **Frontend Workspace**: Created `@elo-instance/web` using React 19, featuring styled interfaces with CSS Modules, routing for client views, and integration with the backend API. It features modules for authentication, user dashboard, shop checkout, and local administration.
 
-Obrigado a todos por participarem do começo da nossa jornada de conectar produtores e consumidores de forma simples e transparente!
+### Portal Workspace (Global SaaS Hub)
 
----
+- **Base Infrastructure**: Structured the portal workspace skeleton (`@elo-portal/api`, `@elo-portal/web`, and `@elo-portal/core`).
+- **Authentication Skeleton**: Implemented the `auth` domain skeleton for portal accounts, establishing the architectural precedent for upcoming global SaaS modules.
 
----
+### Studio & Branding Assets
 
+- **Design Tokens**: Standardized colors, spacing, typography, and visual assets in `@elo-studio/assets` to export a unified theme.
+- **Design Ops Integration**: Deployed a self-hosted Penpot instance to maintain visual strategy designs and design-to-code asset generation.
+
+### Development Tooling & Context Gateways
+
+- **Orchestrated Environments**: Configured localized development stacks utilizing Docker Compose to provision services (Infra, API, and Web) cleanly with unified environment files.
+- **Model Context Protocol (MCP)**: Implemented an SSE-based Fastify gateway providing containerized LLM client integration with the workspace context, exposing GitHub API, Context7 documentation query, Playwright Browser automation, and Docker Hub registry interfaces.
+- **EloDocs Knowledge Base**: Configured Docusaurus as the central developer portal for architectural references, guides, and style guides.

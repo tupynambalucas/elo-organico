@@ -5,13 +5,14 @@ export const translations = {
       UNKNOWN_ERROR: 'Ocorreu um erro inesperado.',
       NETWORK_ERROR: 'Erro de conexão. Verifique sua internet.',
       VALIDATION_ERROR: 'Verifique os dados informados.',
-    }
+    },
   },
   auth: {
     errors: {
       USER_NOT_FOUND: 'Usuário incorreto.',
       INVALID_CREDENTIALS: 'Usuário ou senha inválidos.',
-      ACCOUNT_LOCKED: 'Conta temporariamente bloqueada por excesso de tentativas. Tente novamente mais tarde.',
+      ACCOUNT_LOCKED:
+        'Conta temporariamente bloqueada por excesso de tentativas. Tente novamente mais tarde.',
       BOT_DETECTION_FAILED: 'Falha na verificação de bot. Tente novamente.',
       BOT_DETECTION_ERROR: 'Erro ao verificar bot. Tente novamente mais tarde.',
       INVALID_PASSWORD: 'Senha incorreta.',
@@ -29,7 +30,7 @@ export const translations = {
     success: {
       USER_CREATED_SUCCESSFULLY: 'Conta criada com sucesso! Faça seu login.',
       LOGOUT_SUCCESSFUL: 'Sessão encerrada com sucesso.',
-    }
+    },
   },
   cycle: {
     errors: {
@@ -42,6 +43,6 @@ export const translations = {
     success: {
       CYCLE_CREATED: 'Ciclo iniciado com sucesso!',
       CYCLE_UPDATED: 'Ciclo atualizado com sucesso!',
-    }
-  }
+    },
+  },
 };

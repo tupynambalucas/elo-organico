@@ -2,73 +2,56 @@ name: Deploy Documentation
 
 on:
   push:
-    branches: [main]
+    branches: [develop]
     paths:
-      - 'knowledge-base/**'
+      - 'docs/**'
       - '.github/workflows/deploy-docs.yaml'
   workflow_dispatch:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
+  deployments: write
 
 concurrency:
   group: 'pages'
   cancel-in-progress: false
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v6
-
-      - name: Setup Node
-        uses: actions/setup-node@v6
+      - name: Setup PNPM Environment
+        uses: ./.github/actions/setup-pnpm-env
         with:
           node-version: 22
-          cache: 'pnpm'
+          frozen-lockfile: 'false'
 
-      - name: Install dependencies
-        run: pnpm install
+      - name: Generate Global Documents
+        run: |
+          pnpm docs:generate:changelog
+          pnpm docs:generate:roadmap
 
-      - name: Generate Global Changelog
-        run: pnpm docs:changelog
-
-      - name: Commit and Push CHANGELOG.md
+      - name: Commit and Push Compiled Documents
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add CHANGELOG.md
+          git add CHANGELOG.md ROADMAP.md
           if git diff --staged --quiet; then
-            echo "No changes to CHANGELOG.md"
+            echo "No changes to CHANGELOG.md or ROADMAP.md"
           else
-            git commit -m "docs: update root CHANGELOG.md [skip ci]"
+            git commit -m "docs: update root CHANGELOG.md and ROADMAP.md [skip ci]"
             git push
           fi
 
       - name: Build documentation
-        run: pnpm --filter @elo-organico/knowledge-base build
+        run: pnpm docs:build
+        env:
+          DOCUSAURUS_BUCKET_URL: ${{ secrets.DOCUSAURUS_BUCKET_URL }}
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v5
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
         with:
-          path: knowledge-base/build
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy docs/build --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT_DOCS }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}

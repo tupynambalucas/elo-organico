@@ -4,13 +4,15 @@ import { fileURLToPath } from 'node:url';
 import eslint from '@eslint/js';
 import type { Linter } from 'eslint';
 import { defineConfig } from 'eslint/config';
+import { fixupPluginRules } from '@eslint/compat';
 import importPlugin from 'eslint-plugin-import';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import reactRefreshPlugin from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
-
-type EslintPlugin = NonNullable<Linter.Config['plugins']>[string];
+import eslintPluginPrettier from 'eslint-plugin-prettier';
+import eslintConfigPrettier from 'eslint-config-prettier';
+import * as mdx from 'eslint-plugin-mdx';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,6 +28,7 @@ export default defineConfig([
   {
     name: 'monorepo/global-typescript-config',
     files: ['**/*.{js,mjs,ts,tsx}'],
+    ignores: ['**/*.md/**', '**/*.mdx/**'],
     languageOptions: {
       parserOptions: {
         projectService: {
@@ -48,12 +51,14 @@ export default defineConfig([
           alwaysTryTypes: true,
           project: [
             'tsconfig.json',
-            'instance/apps/*/tsconfig.json',
+            'docs/tsconfig.json',
+            'instance/services/*/tsconfig.json',
             'instance/packages/*/tsconfig.json',
-            'portal/apps/*/tsconfig.json',
+            'portal/services/*/tsconfig.json',
             'portal/packages/*/tsconfig.json',
             'shared/*/tsconfig.json',
-            'studio/tsconfig.json',
+            'studio/*/tsconfig.json',
+            'tools/*/tsconfig.json',
           ],
         },
         node: {
@@ -137,7 +142,24 @@ export default defineConfig([
   // ========================================================================
   {
     name: 'monorepo/root-config-files',
-    files: ['*.{js,mjs,ts}', '*.config.{js,mjs,ts}'],
+    files: [
+      '*.{js,mjs,ts}',
+      '*.config.{js,mjs,ts}',
+      '**/*.config.{js,mjs,cjs,ts}',
+      '**/postcss.config.{js,mjs,cjs,ts}',
+      'docs/loaders/**/*.js',
+      'docs/src/mock-asset.js',
+    ],
+    languageOptions: {
+      globals: {
+        module: 'writable',
+        require: 'readonly',
+        process: 'readonly',
+        __dirname: 'readonly',
+        exports: 'writable',
+        URLSearchParams: 'readonly',
+      },
+    },
     rules: {
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
@@ -192,6 +214,7 @@ export default defineConfig([
   {
     name: 'monorepo/domain-core',
     files: ['**/packages/core/**/*.{ts,tsx}'],
+    ignores: ['**/*.md/**', '**/*.mdx/**'],
     rules: {
       '@typescript-eslint/no-unused-vars': [
         'error',
@@ -208,11 +231,11 @@ export default defineConfig([
   },
 
   // ========================================================================
-  // 4. DOMAIN API - Regras para Backend (Fastify)
+  // 5. DOMAIN API - Regras para Backend (Fastify)
   // ========================================================================
   {
     name: 'monorepo/domain-api',
-    files: ['**/apps/api/**/*.{ts,tsx}'],
+    files: ['**/apps/api/**/*.{ts,tsx}', '**/services/api/**/*.{ts,tsx}'],
     rules: {
       '@typescript-eslint/no-misused-promises': [
         'error',
@@ -226,15 +249,18 @@ export default defineConfig([
   },
 
   // ========================================================================
-  // 5. DOMAIN WEB - Regras para Frontend (React/Vite)
+  // 6. DOMAIN WEB - Regras para Frontend (React/Vite)
   // ========================================================================
   {
     name: 'monorepo/domain-web',
-    files: ['**/apps/web/**/*.{ts,tsx}'],
+    files: ['**/apps/web/**/*.{ts,tsx}', '**/services/web/**/*.{ts,tsx}'],
+    ignores: ['**/*.md/**', '**/*.mdx/**'],
     plugins: {
-      react: reactPlugin,
-      'react-hooks': reactHooksPlugin as unknown as EslintPlugin,
-      'react-refresh': reactRefreshPlugin,
+      react: fixupPluginRules(reactPlugin),
+      'react-hooks': fixupPluginRules(
+        reactHooksPlugin as unknown as NonNullable<Linter.Config['plugins']>[string],
+      ),
+      'react-refresh': fixupPluginRules(reactRefreshPlugin),
     },
     settings: {
       react: {
@@ -260,7 +286,120 @@ export default defineConfig([
   },
 
   // ========================================================================
-  // 6. TEST FILES - Regras Relaxadas para Testes
+  // 7. TOOLS WORKSPACE - Strict TypeScript Rules for MCP Infrastructure
+  // ========================================================================
+  {
+    name: 'monorepo/tools-workspace',
+    files: ['tools/**/*.ts'],
+    ignores: ['**/*.md/**', '**/*.mdx/**'],
+    rules: {
+      // Server-side code may log to stdout/stderr for operational visibility
+      'no-console': ['warn', { allow: ['info', 'warn', 'error'] }],
+      // Enforce explicit return types on all exported functions for clarity
+      '@typescript-eslint/explicit-function-return-type': 'warn',
+      '@typescript-eslint/explicit-module-boundary-types': 'warn',
+      // Strict boolean expressions — no implicit truthiness checks
+      '@typescript-eslint/strict-boolean-expressions': 'error',
+      // Floating promise prevention is critical for Fastify async handlers
+      '@typescript-eslint/no-floating-promises': 'error',
+      '@typescript-eslint/no-misused-promises': [
+        'error',
+        {
+          checksVoidReturn: false,
+        },
+      ],
+      // Prevent implicit any types leaking into infrastructure code
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-unsafe-assignment': 'error',
+      '@typescript-eslint/no-unsafe-member-access': 'error',
+      '@typescript-eslint/no-unsafe-call': 'error',
+      '@typescript-eslint/no-unsafe-return': 'error',
+      // Enforce await correctness
+      '@typescript-eslint/await-thenable': 'error',
+      '@typescript-eslint/require-await': 'warn',
+    },
+  },
+
+  // ========================================================================
+  // 8. STUDIO WORKSPACE - Strict TypeScript Rules for Design System and Scripts
+  // ========================================================================
+  {
+    name: 'monorepo/studio-workspace',
+    files: ['studio/**/*.ts', 'studio/**/*.tsx'],
+    ignores: ['**/*.md/**', '**/*.mdx/**'],
+    rules: {
+      'no-console': ['warn', { allow: ['info', 'warn', 'error'] }],
+      '@typescript-eslint/explicit-function-return-type': 'warn',
+      '@typescript-eslint/explicit-module-boundary-types': 'warn',
+      '@typescript-eslint/strict-boolean-expressions': 'error',
+      '@typescript-eslint/no-floating-promises': 'error',
+      '@typescript-eslint/no-misused-promises': [
+        'error',
+        {
+          checksVoidReturn: false,
+        },
+      ],
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-unsafe-assignment': 'error',
+      '@typescript-eslint/no-unsafe-member-access': 'error',
+      '@typescript-eslint/no-unsafe-call': 'error',
+      '@typescript-eslint/no-unsafe-return': 'error',
+      '@typescript-eslint/await-thenable': 'error',
+      '@typescript-eslint/require-await': 'warn',
+    },
+  },
+
+  // ========================================================================
+  // 9. DOCS WORKSPACE & MDX CONFIGURATIONS
+  // ========================================================================
+  {
+    name: 'monorepo/docs-workspace',
+    files: ['docs/**/*.{ts,tsx,js,jsx}'],
+    rules: {
+      'no-console': ['warn', { allow: ['info', 'warn', 'error'] }],
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-require-imports': 'off',
+      '@typescript-eslint/no-unnecessary-type-assertion': 'off',
+      '@typescript-eslint/consistent-type-definitions': 'off',
+      '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/no-empty-object-type': 'off',
+      'import/no-unresolved': [
+        'error',
+        {
+          ignore: ['^@docusaurus/', '^@theme/', '^@site/'],
+        },
+      ],
+    },
+  },
+  {
+    ...mdx.flat,
+    name: 'monorepo/mdx-files',
+    files: ['**/*.mdx'],
+    processor: mdx.createRemarkProcessor({
+      lintCodeBlocks: false,
+    }),
+  },
+  {
+    name: 'monorepo/disable-typecheck-for-non-ts',
+    files: ['**/*.{js,cjs,mjs,jsx,mdx}'],
+    ...tseslint.configs.disableTypeChecked,
+  },
+  {
+    name: 'monorepo/mdx-prettier',
+    files: ['**/*.mdx'],
+    rules: {
+      'prettier/prettier': ['error', { parser: 'mdx' }],
+    },
+  },
+
+  // ========================================================================
+  // 10. TEST FILES - Regras Relaxadas para Testes
   // ========================================================================
   {
     name: 'monorepo/test-files',
@@ -277,12 +416,11 @@ export default defineConfig([
   },
 
   // ========================================================================
-  // 7. IGNORES GLOBAIS
+  // 11. IGNORES GLOBAIS
   // ========================================================================
   {
     name: 'monorepo/ignores',
     ignores: [
-      'knowledge-base/**',
       '**/dist/**',
       '**/node_modules/**',
       '**/build/**',
@@ -301,6 +439,21 @@ export default defineConfig([
       '**/types/**/*.d.ts',
       '**/*.d.ts',
       '**/vite-env.d.ts',
+      '**/.docusaurus/**',
     ],
   },
+
+  // ========================================================================
+  // 12. PRETTIER INTEGRATION
+  // ========================================================================
+  {
+    name: 'monorepo/prettier',
+    plugins: {
+      prettier: eslintPluginPrettier,
+    },
+    rules: {
+      'prettier/prettier': ['error', { endOfLine: 'auto' }],
+    },
+  },
+  eslintConfigPrettier,
 ]);

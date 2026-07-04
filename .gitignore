@@ -18,13 +18,14 @@ coverage/
 # --- Arquivos (Frontend) ---
 
 # --- Ambiente e Segredos (CRÍTICO) ---
-# Ignora todos os arquivos de env
+# Ignores all env files (any name/suffix variation)
 .env
+*.env.*
 .env.*
-# Exceções: Mantém arquivos de exemplo/template visíveis
+# Exceptions: Keep example/template files tracked
+!*.env.example*
 !.env.example
-!.env.prod.template
-!.env.dev.template
+!.env.*.example
 
 # Chaves e Certificados
 mongo-keyfile
@@ -55,3 +56,7 @@ gha-creds-*.json
 
 # Turborepo
 .turbo
+
+# --- Persistent runtime ---
+data/
+logs/
