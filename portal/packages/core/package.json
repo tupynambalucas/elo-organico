@@ -4,7 +4,8 @@
   "type": "module",
   "private": true,
   "author": "Tupynambá Lucas Varela Rodrigues <tupynambalucas.dev>",
-  "license": "CC-BY-NC-4.0",
+  "description": "Elo Orgânico Portal Core Package",
+  "license": "https://github.com/tupynambalucas/elo-organico/tree/main#license",
   "homepage": "https://github.com/tupynambalucas/elo-organico/tree/main/portal/packages/core#readme",
   "repository": {
     "type": "git",
@@ -28,8 +29,8 @@
     "clean": "rimraf dist tsconfig.tsbuildinfo",
     "build": "tsc -b",
     "dev": "pnpm clean && tsc -b -w",
-    "typecheck": "echo Skipping typecheck for @elo-portal/core...",
-    "lint": "echo Skipping lint for @elo-portal/core..."
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint ."
   },
   "dependencies": {
     "zod": "catalog:shared-stack"

@@ -12,7 +12,7 @@ minimumReleaseAgeExclude:
 packages:
   - 'instance/services/*'
   - 'instance/packages/*'
-  - 'portal/apps/*'
+  - 'portal/services/*'
   - 'portal/packages/*'
   - 'shared/*'
   - 'studio/*'
@@ -28,7 +28,6 @@ catalog:
   'kill-port': '^2.0.1'
   'husky': '^9.1.7'
   'lint-staged': '^15.4.3'
-  'cloudinary': '^2.5.1'
   'glob': '^11.0.1'
   '@types/glob': '^8.1.0'
   '@aws-sdk/client-s3': '^3.714.0'

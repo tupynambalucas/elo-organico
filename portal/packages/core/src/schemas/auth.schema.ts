@@ -8,11 +8,13 @@ export const RegisterDTOSchema = UserSchema.pick({
   icon: true,
 }).extend({
   password: z.string().min(AUTH_RULES.PASSWORD.MIN),
+  turnstileToken: z.string().min(1, 'Verification required'),
 });
 
 export const LoginDTOSchema = z.object({
   identifier: z.string(),
   password: z.string(),
+  turnstileToken: z.string().min(1, 'Verification required'),
 });
 
 export const LoginResponseSchema = z.object({

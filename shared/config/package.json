@@ -5,6 +5,7 @@
   "type": "module",
   "main": "./prettierrc.json",
   "exports": {
+    "./package.json": "./package.json",
     ".": "./prettierrc.json",
     "./tsconfig.base.json": "./tsconfig.base.json",
     "./prettierrc.json": "./prettierrc.json",

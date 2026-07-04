@@ -3,7 +3,7 @@ import { AUTH_RULES } from '../constants.js';
 
 export const UserSchema = z.object({
   _id: z.string().optional(),
-  email: z.string().email().max(AUTH_RULES.EMAIL.MAX),
+  email: z.email().max(AUTH_RULES.EMAIL.MAX),
   username: z.string().min(AUTH_RULES.USERNAME.MIN).max(AUTH_RULES.USERNAME.MAX),
   password: z.string().min(AUTH_RULES.PASSWORD.MIN).optional(),
   icon: z.string(),

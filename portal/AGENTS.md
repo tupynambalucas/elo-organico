@@ -1,31 +1,27 @@
-# Bounded Context Context: Portal (Platform Stack)
+# Bounded Context: Portal (Global Hub)
 
-This file defines the domain rules, local stack services, and workspace structure for the global platform-wide **Portal Bounded Context** (`portal/`).
+This file defines the domain rules, local stack services, and workspace structure for the platform-specific **Portal Bounded Context** (`portal/`).
 
 ---
 
 ## Bounded Context Navigation
 
-Before editing or analyzing code in this platform context, read the local rules for the specific workspace:
+Before editing or analyzing code in this context, read the local rules for the specific workspace:
 
-- **Core Library**: [packages/core/AGENTS.md](./packages/core/AGENTS.md) — Platform types, validation schemas, and contracts.
-- **REST API**: [apps/api/AGENTS.md](./apps/api/AGENTS.md) — Fastify platform endpoints, billing logic, and tenant registries.
-- **Web Client**: [apps/web/AGENTS.md](./apps/web/AGENTS.md) — React dashboard for global administration and user onboarding.
-- **Workspace Documentation**: Refer to the platform hub documentation in [docs/workspaces/portal/overview.mdx](../docs/workspaces/portal/overview.mdx).
-- **Workspace Roadmap**: Refer to the platform hub roadmap in [docs/roadmap/03-portal.md](../docs/roadmap/03-portal.md).
+- **Core Library**: [packages/core/AGENTS.md](./packages/core/AGENTS.md) — Shared types, Zod schemas, and data validation rules for the Portal domain.
+- **REST API**: [services/api/AGENTS.md](./services/api/AGENTS.md) — Fastify 5 route definitions, Mongoose models, and central orchestration logic.
+- **Web Client**: [services/web/AGENTS.md](./services/web/AGENTS.md) — React 19 visual client, Zustand state stores, and global dashboard interfaces.
+- **Workspace Roadmap**: Refer to the portal roadmap in [../docs/roadmap/03-portal.mdx](../docs/roadmap/03-portal.mdx).
 
 ---
 
 ## Bounded Context Architecture
 
-The Portal context represents the **Global Platform layer** (SaaS Hub) designed to manage multi-tenant community instances.
-
-> [!NOTE]
-> This context is currently in the **foundation/skeleton stage** of development. Our immediate strategic focus is "Single-Instance Mastery" (`instance/` stack). Portal features should remain foundational and not introduce runtime complex SaaS logic until instance stability is reached.
+The Portal context manages all global-level operations (platform hub, billing, supplier dashboards). It is architected for strict domain isolation and scalability.
 
 ```mermaid
 graph TD
-    subgraph Portal_Context
+    subgraph "Portal_Context"
         Web["@elo-portal/web (Vite/React)"]
         API["@elo-portal/api (Fastify 5)"]
         Core["@elo-portal/core (Zod library)"]
@@ -34,26 +30,22 @@ graph TD
     API --> Core
 ```
 
-- **Domain Scope**: Handles platform administration, SaaS subscription tiers, tenant registration, global authentication, and Stripe billing integrations.
-- **Infrastructure separation**: Boots database and caching services on distinct ports (`27018` for MongoDB, `6380` for Redis) to co-exist with the community development stack without conflicts.
+- **Canonical Database**: The database connection parses Mongoose connection strings for the global platform hub.
+- **State & Action Segregation**: State management in the client strictly separates properties from actions in Zustand stores, exporting atomic selectors.
 
 ---
 
 ## Context Isolation Guardrails
 
-1. **No Cross-Context Imports**: You MUST NEVER import modules, constants, validation schemas, or helper functions from the `instance/` directory. The portal and instance domains are strictly isolated to protect multi-tenant integrity.
-2. **Catalog Integrity**: Always declare dependencies using the workspace catalogs (`catalog:web-stack`, `catalog:api-stack`, etc.) defined in `pnpm-workspace.yaml`.
+1. **No Cross-Context Imports**: You MUST NEVER import modules, constants, validation schemas, or helper functions from the `instance/` directory. All shared utilities or assets must be locally duplicated or centralized in global tooling workspaces if permitted. You must strictly use `@elo-portal/core`.
+2. **Catalog Integrity**: All dependencies must declare versions using workspace catalogs defined in `pnpm-workspace.yaml`.
 
 ---
 
 ## Local Lifecycle Commands
 
-Run these commands from the monorepo root to manage the platform stack:
+Run these commands from the monorepo root to manage the portal stack:
 
-- `pnpm portal:dev`: Boots the local compose databases (MongoDB + Redis), builds `@elo-portal/core`, and runs `@elo-portal/api` and `@elo-portal/web` concurrently on the host.
-- `pnpm portal:up`: Boots only the Portal MongoDB (`elo-portal-db-dev`) and Redis (`elo-portal-redis-dev`) containers.
-- `pnpm portal:down`: Stops local Portal Docker containers and releases localhost ports 3001 and 5174.
-- `pnpm portal:prod`: Builds and launches the production platform stack using `.env.prod`.
-- `pnpm portal:prod:down`: Stops and tears down the production platform stack.
-- `pnpm portal:staging`: Builds and launches the staging platform stack using `.env.staging`.
-- `pnpm portal:staging:down`: Stops and tears down the staging platform stack.
+- `pnpm portal:dev`: Boots the local compose databases, builds `@elo-portal/core`, and runs `@elo-portal/api` and `@elo-portal/web` concurrently.
+- `pnpm portal:up`: Boots only the MongoDB and Redis containers for the portal.
+- `pnpm portal:down`: Stops local Docker containers and releases ports.
